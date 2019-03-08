@@ -48,7 +48,7 @@ Plug 'plasticboy/vim-markdown'
 " Various coding-related utils
 Plug 'scrooloose/nerdcommenter'
 Plug 'majutsushi/tagbar'
-Plug 'nathanaelkane/vim-indent-guides'
+Plug 'Yggdroot/indentLine'
 
 "Various utils
 Plug 'jiangmiao/auto-pairs'
@@ -134,11 +134,11 @@ let &t_EI.="\e[5 q"
 if has("autocmd")
     au VimEnter,InsertLeave * silent execute '!echo -ne "\e[1 q"' | redraw!
     au InsertEnter,InsertChange *
-          \ if v:insertmode == 'i' | 
-          \   silent execute '!echo -ne "\e[5 q"' | redraw! |
-          \ elseif v:insertmode == 'r' |
-          \   silent execute '!echo -ne "\e[3 q"' | redraw! |
-          \ endif
+           \ if v:insertmode == 'i' | 
+           \   silent execute '!echo -ne "\e[5 q"' | redraw! |
+           \ elseif v:insertmode == 'r' |
+           \   silent execute '!echo -ne "\e[3 q"' | redraw! |
+           \ endif
     au VimLeave * silent execute '!echo -ne "\e[ q"' | redraw!
 endif
 
@@ -156,6 +156,12 @@ let NERDTreeShowHidden=1
 let NERDTreeAutoDeleteBuffer=1
 let NERDTreeAutoDeleteBuffer=1
 
+" Speaking of NERDTree...
+" Let's exclude it from thet indent guides
+
+" And let's fix the indent char
+let g:indentLine_char = '|'
+
 " Multi-window nav
 map <C-j> <C-W>j
 map <C-k> <C-W>k
@@ -172,14 +178,14 @@ let g:UltiSnipsExpandTrigger="<c-<space>>"
 let g:UltiSnipsJumpForwardTrigger="<c-b>"
 let g:UltiSnipsJumpBackwardTrigger="<c-z>"
 
-inoremap <expr> <Tab> pumvisible() ? "\<C-n>" : "\<Tab>"
-inoremap <expr> <S-Tab> pumvisible() ? "\<C-p>" : "\<S-Tab>"
-inoremap <expr> <cr> pumvisible() ? "\<C-y>" : "\<cr>"
+nnoremap <expr> <Tab> pumvisible() ? "\<C-n>" : "\<Tab>"
+nnoremap <expr> <S-Tab> pumvisible() ? "\<C-p>" : "\<S-Tab>"
+nnoremap <expr> <cr> pumvisible() ? "\<C-y>" : "\<cr>"
 
 " Let all the thingz
 let g:completor_auto_trigger = 1
 let g:indent_guides_enable_on_vim_startup = 1
 let g:airline_powerline_fonts = 1
-
-
+let g:indentLine_enabled = 1
+let g:indentLine_setColors = 0
 
