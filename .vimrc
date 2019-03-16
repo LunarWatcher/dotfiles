@@ -11,7 +11,7 @@ nnoremap <F5> :NERDTreeRefreshRoot<cr>
 nnoremap <leader>pi <esc>:w<cr>:source ~/.vimrc<cr>:PlugInstall<cr>
 nnoremap <leader>pc <esc>:w<cr>:source ~/.vimrc<cr>:PlugClean<cr>
 nnoremap <leader>pu :PlugUpdate<cr>
-nnoremap <F8>:TagbarToggle<cr>
+nnoremap <F8> :TagbarToggle<cr>
 
 "General remapping
 
