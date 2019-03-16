@@ -11,11 +11,13 @@ nnoremap <F5> :NERDTreeRefreshRoot<cr>
 nnoremap <leader>pi <esc>:w<cr>:source ~/.vimrc<cr>:PlugInstall<cr>
 nnoremap <leader>pc <esc>:w<cr>:source ~/.vimrc<cr>:PlugClean<cr>
 nnoremap <leader>pu :PlugUpdate<cr>
-map <F8>:TagbarToggle<cr>
+nnoremap <F8>:TagbarToggle<cr>
 
 "General remapping
 
 map <C-a> <esc>ggVG"+y<CR>
+
+
 " Fix backspace issues
 set backspace=indent,eol,start " backspace over everything in insert mode"
 " Fix that horrid arrow nav issue
@@ -130,16 +132,6 @@ let &t_SI.="\e[5 q"
 let &t_SR.="\e[4 q" 
 let &t_EI.="\e[5 q" 
 
-if has("autocmd")
-    au VimEnter,InsertLeave * silent execute '!echo -ne "\e[1 q"' | redraw!
-    au InsertEnter,InsertChange *
-           \ if v:insertmode == 'i' | 
-           \   silent execute '!echo -ne "\e[5 q"' | redraw! |
-           \ elseif v:insertmode == 'r' |
-           \   silent execute '!echo -ne "\e[3 q"' | redraw! |
-           \ endif
-    au VimLeave * silent execute '!echo -ne "\e[ q"' | redraw!
-endif
 
 "Nerdtree config
 
@@ -148,7 +140,7 @@ autocmd StdinReadPre * let s:std_in=1
 autocmd VimEnter * if argc() == 0 && !exists("s:std_in") | NERDTree | endif
 
 
-map <F2> :NERDTreeToggle<CR>
+nnoremap <F2> :NERDTreeToggle<CR>
 let NERDTreeWinSize=32
 let NERDTreeWinPos="left"
 let NERDTreeShowHidden=1
@@ -157,6 +149,7 @@ let NERDTreeAutoDeleteBuffer=1
 
 " Speaking of NERDTree...
 " Let's exclude it from thet indent guides
+"
 
 " And let's fix the indent char
 let g:indentLine_char = '|'
@@ -177,9 +170,9 @@ let g:UltiSnipsExpandTrigger="<c-<space>>"
 let g:UltiSnipsJumpForwardTrigger="<c-b>"
 let g:UltiSnipsJumpBackwardTrigger="<c-z>"
 
-nnoremap <expr> <Tab> pumvisible() ? "\<C-n>" : "\<Tab>"
-nnoremap <expr> <S-Tab> pumvisible() ? "\<C-p>" : "\<S-Tab>"
-nnoremap <expr> <cr> pumvisible() ? "\<C-y>" : "\<cr>"
+"nnoremap <expr> <Tab> pumvisible() ? "\<C-n>" : "\<Tab>"
+"nnoremap <expr> <S-Tab> pumvisible() ? "\<C-p>" : "\<S-Tab>"
+"nnoremap <expr> <cr> pumvisible() ? "\<C-y>" : "\<cr>"
 
 " Let all the thingz
 let g:completor_auto_trigger = 1
