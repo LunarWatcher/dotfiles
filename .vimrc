@@ -144,7 +144,6 @@ let NERDTreeWinSize=32
 let NERDTreeWinPos="left"
 let NERDTreeShowHidden=1
 let NERDTreeAutoDeleteBuffer=1
-let NERDTreeAutoDeleteBuffer=1
 
 " Speaking of NERDTree...
 " Let's exclude it from thet indent guides
@@ -169,9 +168,9 @@ let g:UltiSnipsExpandTrigger="<c-<space>>"
 let g:UltiSnipsJumpForwardTrigger="<c-b>"
 let g:UltiSnipsJumpBackwardTrigger="<c-z>"
 
-"nnoremap <expr> <Tab> pumvisible() ? "\<C-n>" : "\<Tab>"
-"nnoremap <expr> <S-Tab> pumvisible() ? "\<C-p>" : "\<S-Tab>"
-"nnoremap <expr> <cr> pumvisible() ? "\<C-y>" : "\<cr>"
+nnoremap <expr> <Tab> pumvisible() ? "\<C-n>" : "\<Tab>"
+nnoremap <expr> <S-Tab> pumvisible() ? "\<C-p>" : "\<S-Tab>"
+nnoremap <expr> <cr> pumvisible() ? "\<C-y>" : "\<cr>"
 
 " Let all the thingz
 let g:completor_auto_trigger = 1
