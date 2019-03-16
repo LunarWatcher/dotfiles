@@ -25,7 +25,6 @@ set whichwrap+=<,>,h,l,[,]
 
 " Basics
 
-Plug 'VundleVim/Vundle.vim'
 Plug 'christoomey/vim-tmux-navigator'
 Plug 'scrooloose/nerdtree'
 
@@ -84,8 +83,7 @@ au Syntax * RainbowParenthesesLoadSquare
 au Syntax * RainbowParenthesesLoadBraces
 
 " Autocomplete config
-" NOTE: You need to configure these manually. These are designed for the setup
-" on my Raspberry Pi, and may not follow standards
+
 let g:completor_clang_binary = '/usr/bin/clang'
 let g:completor_python_binary = '/usr/local/bin/python3'
 
@@ -160,10 +158,6 @@ map <C-j> <C-W>j
 map <C-k> <C-W>k
 map <C-h> <C-W>h
 map <C-l> <C-W>l
-
-" NOTE: You need to create these dirs manually. Otherwise you will get various
-" seemingly weird errors in various plugins that actually have nothing to do
-" with the plugin. 
 
 set backupdir=~/.vim/backup//
 set directory=~/.vim/swap//
