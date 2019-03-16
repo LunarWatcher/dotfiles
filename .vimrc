@@ -1,7 +1,6 @@
 set nocompatible              " be iMproved, required
 filetype off                  " required
 
-set rtp+=~/.vim/bundle/Vundle.vim
 call plug#begin('~/.vim/plugged')
 
 " Refresh the root like a browser uwu
@@ -9,10 +8,10 @@ nnoremap <F5> :NERDTreeRefreshRoot<cr>
 
 " Various update utils
 
-nnoremap <leader>pi <esc>:w<cr>:source ~/.vimrc<cr>:PluginInstall<cr>
-nnoremap <leader>pc <esc>:w<cr>:source ~/.vimrc<cr>:PluginClean<cr>
-nnoremap <leader>pu :PluginUpdate<cr>
-nnoremap <F8>:TagbarToggle<cr>
+nnoremap <leader>pi <esc>:w<cr>:source ~/.vimrc<cr>:PlugInstall<cr>
+nnoremap <leader>pc <esc>:w<cr>:source ~/.vimrc<cr>:PlugClean<cr>
+nnoremap <leader>pu :PlugUpdate<cr>
+map <F8>:TagbarToggle<cr>
 
 "General remapping
 
@@ -188,4 +187,6 @@ let g:indent_guides_enable_on_vim_startup = 1
 let g:airline_powerline_fonts = 1
 let g:indentLine_enabled = 1
 let g:indentLine_setColors = 0
+let g:airline#extensions#ale#enabled = 1       " Ale integration. Tavern's open y'all!
+
 
