@@ -3,14 +3,8 @@ filetype off                  " required
 
 call plug#begin('~/.vim/plugged')
 
-" Refresh the root like a browser uwu
+" F<N> remapping
 nnoremap <F5> :NERDTreeRefreshRoot<cr>
-
-" Various update utils
-
-nnoremap <leader>pi <esc>:w<cr>:source ~/.vimrc<cr>:PlugInstall<cr>
-nnoremap <leader>pc <esc>:w<cr>:source ~/.vimrc<cr>:PlugClean<cr>
-nnoremap <leader>pu :PlugUpdate<cr>
 nnoremap <F8> :TagbarToggle<cr>
 
 "General remapping
@@ -28,13 +22,11 @@ set whichwrap+=<,>,h,l,[,]
 Plug 'christoomey/vim-tmux-navigator'
 Plug 'scrooloose/nerdtree'
 
-
 " Utils
 
 " Themes & colors
 Plug 'NLKNguyen/papercolor-theme'
 Plug 'pboettch/vim-cmake-syntax'
-Plug 'kien/rainbow_parentheses.vim'
 Plug 'flazz/vim-colorschemes'         " I can't believe this is a thing >.>
 Plug 'vim-airline/vim-airline-themes'
 
@@ -51,9 +43,8 @@ Plug 'majutsushi/tagbar'
 Plug 'Yggdroot/indentLine'
 
 "Various utils
-Plug 'jiangmiao/auto-pairs'
+Plug 'cohama/lexima.vim'
 Plug 'alvan/vim-closetag'
-Plug 'roxma/vim-paste-easy'
 Plug 'junegunn/goyo.vim'
 Plug 'tpope/vim-surround'
 
@@ -65,7 +56,6 @@ Plug 'w0rp/ale'                        " Well, this is linting, but still closel
 
 " Airline (TL;DR: contains info at the bottom of the screen)
 Plug 'vim-airline/vim-airline'
-Plug 'vim-syntastic/syntastic'
 
 " Integrations
 Plug 'tpope/vim-fugitive'
@@ -73,14 +63,6 @@ Plug 'tpope/vim-fugitive'
 " Clean up Plug
 
 call plug#end()
-
-
-" Rainbow parentheses
-
-au VimEnter * RainbowParenthesesToggle
-au Syntax * RainbowParethesesLoadRound
-au Syntax * RainbowParenthesesLoadSquare
-au Syntax * RainbowParenthesesLoadBraces
 
 " Autocomplete config
 
@@ -113,9 +95,8 @@ colorscheme PaperColor    " Color scheme
 set number                " Line numbers
 set laststatus=2
 set cursorline            " Active line highlighting - because it's nice 
-set clipboard+=unnamedplus
+set cursorcolumn          " The column highlighting is also incredibly nice
 
-let guifont='Source\ Code\ Pro\ for\ Powerline:h15:cANSI' " Source Code Pro <3
 let g:airline_theme='tomorrow'
 
 " Bloody tabs >.>
@@ -131,10 +112,13 @@ let &t_SI.="\e[5 q"
 let &t_SR.="\e[4 q" 
 let &t_EI.="\e[5 q" 
 
+" Quickly time out on keycodes, but never time out on mappings
+set notimeout ttimeout ttimeoutlen=200
 
 "Nerdtree config
 
 " Auto-show NERD tree
+
 autocmd StdinReadPre * let s:std_in=1
 autocmd VimEnter * if argc() == 0 && !exists("s:std_in") | NERDTree | endif
 
@@ -164,12 +148,12 @@ set undodir=~/.vim/undo//
 
 " Remap tab to autocompletion
 
-let g:UltiSnipsExpandTrigger="<c-<space>>"
+let g:UltiSnipsExpandTrigger="<c-n>"
 let g:UltiSnipsJumpForwardTrigger="<c-b>"
 let g:UltiSnipsJumpBackwardTrigger="<c-z>"
 
-nnoremap <expr> <Tab> pumvisible() ? "\<C-n>" : "\<Tab>"
-nnoremap <expr> <S-Tab> pumvisible() ? "\<C-p>" : "\<S-Tab>"
+" nnoremap <expr> <Tab> pumvisible() ? "\<C-n>" : "\<Tab>"
+" nnoremap <expr> <S-Tab> pumvisible() ? "\<C-p>" : "\<S-Tab>"
 nnoremap <expr> <cr> pumvisible() ? "\<C-y>" : "\<cr>"
 
 " Let all the thingz
@@ -179,5 +163,4 @@ let g:airline_powerline_fonts = 1
 let g:indentLine_enabled = 1
 let g:indentLine_setColors = 0
 let g:airline#extensions#ale#enabled = 1       " Ale integration. Tavern's open y'all!
-
 
