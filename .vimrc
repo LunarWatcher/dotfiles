@@ -1,11 +1,11 @@
-set nocompatible              " be iMproved, required
-filetype off                  " required
-
-# Encoding. Required for powerline fonts (at least with gVim: https://vi.stackexchange.com/q/20136/21251)
-# Might be dependent on window-specific overrides. 
+" Encoding. Required for powerline fonts (at least with gVim: https://vi.stackexchange.com/q/20136/21251)
+" Might be dependent on window-specific overrides. 
 set encoding=utf-8
 set fileencoding=utf-8
 set termencoding=utf-8
+
+set nocompatible              " be iMproved, required
+filetype off                  " required
 
 call plug#begin('~/.vim/plugged')
 
