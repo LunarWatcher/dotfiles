@@ -152,7 +152,6 @@ let NERDTreeWinSize=32
 let NERDTreeWinPos="left"
 let NERDTreeShowHidden=1
 let NERDTreeAutoDeleteBuffer=1
-let NERDTreeAutoDeleteBuffer=1
 
 " Speaking of NERDTree...
 " Let's exclude it from thet indent guides
