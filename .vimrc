@@ -13,10 +13,16 @@ call plug#begin('~/.vim/plugged')
 nnoremap <F5> :NERDTreeRefreshRoot<cr>
 
 " Various update utils
-nnoremap <leader>pi <esc>:w<cr>:source ~/.vimrc<cr>:PlugInstall<cr>
-nnoremap <leader>pc <esc>:w<cr>:source ~/.vimrc<cr>:PlugClean<cr>
-nnoremap <leader>pu :PluginUpdate<cr>
+nnoremap <leader>pi <esc>:PlugInstall<cr>
+nnoremap <leader>pc <esc>:PlugClean<cr>
+nnoremap <leader>pu :PlugUpdate<cr>
 nnoremap <F8> :TagbarToggle<cr>
+
+" LanguageClient
+
+noremap <silent> K :call LanguageClient#textDocument_hover()<CR>
+nnoremap <silent> gd :call LanguageClient#textDocument_definition()<CR>
+nnoremap <silent> <F2> :call LanguageClient#textDocument_rename()<CR>
 
 "General remapping
 
@@ -52,6 +58,9 @@ Plug 'scrooloose/nerdcommenter'
 Plug 'majutsushi/tagbar'
 Plug 'Yggdroot/indentLine'
 
+" Formatting 
+Plug 'rhysd/vim-clang-format'
+
 "Various utils
 Plug 'jiangmiao/auto-pairs'
 Plug 'alvan/vim-closetag'
@@ -59,14 +68,29 @@ Plug 'junegunn/goyo.vim'
 Plug 'tpope/vim-surround'
 
 " Autocomplete (yes, that again >.>)
+if has('win32')
+    Plug 'autozimu/LanguageClient-neovim', {
+        \ 'branch': 'next',
+        \ 'do': 'ps install.ps1',
+        \ }
+else
+    Plug 'autozimu/LanguageClient-neovim', {
+        \ 'branch': 'next',
+        \ 'do': 'bash install.sh',
+        \ }
+endif
+
+Plug 'junegunn/fzf'
 Plug 'maralla/completor.vim'
-Plug 'kyouryuukunn/completor-necovim'
-Plug 'SirVer/ultisnips'
+
+" Plug 'xavierd/clang_complete'
+
+let g:deoplete#enable_at_startup = 1
+
 Plug 'w0rp/ale'                        " Well, this is linting, but still closely related
 
 " Airline (TL;DR: contains info at the bottom of the screen)
 Plug 'vim-airline/vim-airline'
-Plug 'vim-syntastic/syntastic'
 
 " Integrations
 Plug 'tpope/vim-fugitive'
@@ -82,7 +106,6 @@ Plug 'ananagame/vimsence'
 
 call plug#end()
 
-
 " Rainbow parentheses
 
 au VimEnter * RainbowParenthesesToggle
@@ -92,8 +115,8 @@ au Syntax * RainbowParenthesesLoadBraces
 
 " Autocomplete config
 
-let g:completor_clang_binary = '<insert path to clang here>'
-let g:completor_python_binary = '<insert path to python here>'
+let g:completor_clang_binary = 'C:/Program Files/LLVM/bin/clang.exe'
+let g:completor_python_binary = 'C:/Users/LunarWatcher/AppData/Local/Programs/Python/Python37/python.exe'
 
 " Anyone want some ale?
 let g:ale_linters = { 'cpp': [ 'clang'  ] }
@@ -108,7 +131,7 @@ syntax enable
 " Set all teh stuffs
 set hidden 
 set autoindent
-
+set showcmd
 
 "General config
 
@@ -146,11 +169,14 @@ let &t_EI.="\e[5 q"
 autocmd StdinReadPre * let s:std_in=1
 autocmd VimEnter * if argc() == 0 && !exists("s:std_in") | NERDTree | endif
 
+" Auto-save
+autocmd BufLeave,FocusLost * silent! wall
 
 map <F2> :NERDTreeToggle<CR>
 let NERDTreeWinSize=32
 let NERDTreeWinPos="left"
 let NERDTreeShowHidden=1
+let NERDTreeAutoDeleteBuffer=1
 let NERDTreeAutoDeleteBuffer=1
 
 " Speaking of NERDTree...
@@ -169,16 +195,6 @@ set backupdir=~/.vim/backup//
 set directory=~/.vim/swap//
 set undodir=~/.vim/undo//
 
-" Remap tab to autocompletion
-
-let g:UltiSnipsExpandTrigger="<c-<space>>"
-let g:UltiSnipsJumpForwardTrigger="<c-b>"
-let g:UltiSnipsJumpBackwardTrigger="<c-z>"
-
-nnoremap <expr> <Tab> pumvisible() ? "\<C-n>" : "\<Tab>"
-nnoremap <expr> <S-Tab> pumvisible() ? "\<C-p>" : "\<S-Tab>"
-nnoremap <expr> <cr> pumvisible() ? "\<C-y>" : "\<cr>"
-
 " Let all the thingz
 let g:completor_auto_trigger = 1
 let g:indent_guides_enable_on_vim_startup = 1
@@ -190,12 +206,41 @@ let g:local_vimrc = ['.vim', 'project.vim']
 
 " Functions
 
-" Super cd - runs both cd and changes the NERDTree root
 function! Scd(location)
     execute 'cd '.a:location
     execute 'NERDTree '.a:location
 endfunction
 
+function SetLSPShortcuts()
+  nnoremap <leader>ld :call LanguageClient#textDocument_definition()<CR>
+  nnoremap <leader>lr :call LanguageClient#textDocument_rename()<CR>
+  nnoremap <leader>lf :call LanguageClient#textDocument_formatting()<CR>
+  nnoremap <leader>lt :call LanguageClient#textDocument_typeDefinition()<CR>
+  nnoremap <leader>lx :call LanguageClient#textDocument_references()<CR>
+  nnoremap <leader>la :call LanguageClient_workspace_applyEdit()<CR>
+  nnoremap <leader>lc :call LanguageClient#textDocument_completion()<CR>
+  nnoremap <leader>lh :call LanguageClient#textDocument_hover()<CR>
+  nnoremap <leader>ls :call LanguageClient_textDocument_documentSymbol()<CR>
+  nnoremap <leader>lm :call LanguageClient_contextMenu()<CR>
+endfunction()
 
+augroup LSP
+  autocmd!
+  autocmd FileType cpp,c,python call SetLSPShortcuts()
+  
+augroup END
+
+" Commands
 command! -nargs=1 Scd call Scd(<f-args>)
 
+
+" Language server
+let g:LanguageClient_serverCommands = {
+  \ 'cpp': ['clangd'],
+  \ 'python': ['jedi'],
+  \ }
+
+let g:completor_refresh_always = 0 "avoid flickering
+let g:completor_python_omni_trigger = ".*"
+set formatexpr=LanguageClient_textDocument_rangeFormatting()
+set omnifunc=LanguageClient#complete
