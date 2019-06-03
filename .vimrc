@@ -37,6 +37,7 @@ nnoremap <F5> :NERDTreeRefreshRoot<cr>
 
 " Themes & colors {{{
 Plug 'NLKNguyen/papercolor-theme'
+
 Plug 'pboettch/vim-cmake-syntax'
 Plug 'kien/rainbow_parentheses.vim'
 Plug 'flazz/vim-colorschemes'         " I can't believe this is a thing >.>
@@ -48,6 +49,10 @@ Plug 'RRethy/vim-illuminate'
 
 let g:Illuminate_ftblacklist = ['nerdtree', 'md', 'json', 'markdown', 'text', 'txt']
 
+nnoremap <leader>csp :colorscheme papercolor<cr>:let g:airline_theme='papercolor'<cr>
+
+nnoremap <leader>csmd :set background=dark<cr>
+nnoremap <leader>csml :set background=light<cr>
 
 " }}}
 
@@ -55,8 +60,12 @@ let g:Illuminate_ftblacklist = ['nerdtree', 'md', 'json', 'markdown', 'text', 't
 
 Plug 'octol/vim-cpp-enhanced-highlight'
 Plug 'plasticboy/vim-markdown'
+Plug 'godlygeek/tabular'
 
-" }}}i
+set concealcursor=nc
+set conceallevel=2
+
+" }}}
 
 " Various coding-related utils {{{
 Plug 'scrooloose/nerdcommenter'
@@ -70,7 +79,7 @@ let g:indentLine_enabled = 1
 let g:indentLine_setColors = 0
 
 let g:indentLine_char = '|'
-let g:indent_guides_enable_on_vim_startup = 1
+let g:indent_guides_enable_on_vim_startup = 1 
 autocmd FileType json :IndentLinesDisable
 nnoremap <leader>it :IndentLinesToggle<cr>
 
@@ -90,79 +99,105 @@ Plug 'itchyny/calendar.vim'
 
 Plug 'vimwiki/vimwiki'
 
+let g:vimwiki_conceallevel = 0
+
 let g:vimwiki_list = [{'path': '~/.wiki/', 'syntax': 'markdown', 'ext': '.md'},
-    \ {'path': '~/.personal/', 'syntax': 'markdown', 'ext': '.md'}]
-    
-" TODO: header colors
-" From the docs:
-"  :hi VimwikiHeader1 guifg=#FF0000
-"  :hi VimwikiHeader2 guifg=#00FF00
-"  :hi VimwikiHeader3 guifg=#0000FF
-"  :hi VimwikiHeader4 guifg=#FF00FF
-"  :hi VimwikiHeader5 guifg=#00FFFF
-"  :hi VimwikiHeader6 guifg=#FFFF00
+            \ {'path': '~/.personal/', 'syntax': 'markdown', 'ext': '.md'}]
+
 
 nnoremap <leader>go :Goyo 65%x95%<cr>
 nnoremap <leader>ll :Limelight0.6<cr>
 nnoremap <leader>c :Calendar<cr>
+
+let g:vimwiki_hl_headers = 1
+let g:vimwiki_hl_cb_checked = 1
+
+augroup calendar-mappings
+    autocmd!
+    " unmap <C-n>, <C-p> for other plugins
+    autocmd FileType calendar nunmap <buffer> <C-n>
+    autocmd FileType calendar nunmap <buffer> <C-p>
+
+    " Re-map <C-N> to creating a new calendar
+    autocmd FileType calendar nmap <buffer> <C-M>n <Plug>(calendar_add)
+augroup END
 " }}}
 
 " Autocomplete {{{
-if has('win32')
-    Plug 'autozimu/LanguageClient-neovim', {
-        \ 'branch': 'next',
-        \ 'do': 'powershell install.ps1',
-        \ }
+
+" Fuzzy finder
+Plug 'junegunn/fzf'
+Plug 'junegunn/fzf.vim'
+
+
+" The actual autocomplete
+if has('nvim')
+  Plug 'Shougo/deoplete.nvim', { 'do': ':UpdateRemotePlugins' }
 else
-    Plug 'autozimu/LanguageClient-neovim', {
-        \ 'branch': 'next',
-        \ 'do': 'bash install.sh',
-        \ }
+  Plug 'Shougo/deoplete.nvim'
+  Plug 'roxma/nvim-yarp'
+  Plug 'roxma/vim-hug-neovim-rpc'
 endif
 
-Plug 'junegunn/fzf'
-Plug 'maralla/completor.vim'
+let g:deoplete#enable_at_startup = 1
+let g:python3_host_prog = 'python'
 
-let g:completor_clang_binary = 'C:/Program Files/LLVM/bin/clang.exe'
-let g:completor_python_binary = 'C:/Users/LunarWatcher/AppData/Local/Programs/Python/Python37/python.exe'
-let g:completor_auto_trigger = 1
 
-" Language server
+" Extensions {{{
+Plug 'Shougo/neco-vim'
+
+" }}}
+
+" Language server {{{
+
+if has('win32')
+    Plug 'autozimu/LanguageClient-neovim', {
+                \ 'branch': 'next',
+                \ 'do': 'powershell install.ps1',
+                \ }
+else
+    Plug 'autozimu/LanguageClient-neovim', {
+                \ 'branch': 'next',
+                \ 'do': 'bash install.sh',
+                \ }
+endif
+
 let g:LanguageClient_serverCommands = {
-  \ 'cpp': ['clangd'],
-  \ 'python': ['jedi'],
-  \ }
+            \ 'cpp': ['clangd'],
+            \ 'python': ['jedi'],
+            \ }
 
-let g:completor_refresh_always = 0 " avoid flickering
-let g:completor_python_omni_trigger = ".*"
-set formatexpr=LanguageClient_textDocument_rangeFormatting()
-set omnifunc=LanguageClient#complete
+" Integration
+
+call deoplete#custom#source('LanguageClient',
+            \ 'min_pattern_length',
+            \ 2)
+
 
 " LanguageClient mapping 
 
 function SetLSPShortcuts()
-  nnoremap <leader>ld :call LanguageClient#textDocument_definition()<CR>
-  nnoremap <leader>lr :call LanguageClient#textDocument_rename()<CR>
-  nnoremap <silent> <F3> :call LanguageClient#textDocument_rename()<CR>       
-  nnoremap <leader>lf :call LanguageClient#textDocument_formatting()<CR>
-  nnoremap <leader>lt :call LanguageClient#textDocument_typeDefinition()<CR>
-  nnoremap <leader>lx :call LanguageClient#textDocument_references()<CR>
-  nnoremap <leader>la :call LanguageClient_workspace_applyEdit()<CR>
-  nnoremap <leader>lc :call LanguageClient#textDocument_completion()<CR>
-  nnoremap <leader>lh :call LanguageClient#textDocument_hover()<CR>
-  nnoremap <leader>ls :call LanguageClient_textDocument_documentSymbol()<CR>
-  nnoremap <leader>lm :call LanguageClient_contextMenu()<CR>
+    " Shortcuts
+    nnoremap <leader>ld :call LanguageClient#textDocument_definition()<CR>
+    nnoremap <leader>lr :call LanguageClient#textDocument_rename()<CR>
+    nnoremap <silent> <F3> :call LanguageClient#textDocument_rename()<CR>       
+    nnoremap <leader>lf :call LanguageClient#textDocument_formatting()<CR>
+    nnoremap <leader>lt :call LanguageClient#textDocument_typeDefinition()<CR>
+    nnoremap <leader>lx :call LanguageClient#textDocument_references()<CR>
+    nnoremap <leader>la :call LanguageClient_workspace_applyEdit()<CR>
+    nnoremap <leader>lc :call LanguageClient#textDocument_completion()<CR>
+    nnoremap <leader>lh :call LanguageClient#textDocument_hover()<CR>
+    nnoremap <leader>ls :call LanguageClient_textDocument_documentSymbol()<CR>
+    nnoremap <leader>lm :call LanguageClient_contextMenu()<CR>
 endfunction()
 
 augroup LSP
-  autocmd!
-  autocmd FileType cpp,c,python call SetLSPShortcuts()
-  
+    autocmd!
+    autocmd FileType cpp,c,python call SetLSPShortcuts()
 augroup END
+imap <expr> <C-space> deoplete#mappings#manual_complete()
 
-" Re-map CTRL+space to auto-complete. IDEA-inspired
-inoremap <C-Space> <C-x><C-o>
-
+" }}}
 
 " }}}
 
@@ -187,10 +222,18 @@ let g:localvimrc_sandbox = 0
 " General every-day use {{{
 Plug 'scy/vim-mkdir-on-write'
 Plug 'tpope/vim-surround'
+
+Plug 'mbbill/undotree'
+nnoremap <leader>ut :UndotreeToggle<cr>
+
 " }}}
 
 " Discord integration {{{
 Plug 'ananagame/vimsence'
+" }}}
+
+" Start screen {{{
+Plug 'mhinz/vim-startify'
 " }}}
 
 call plug#end() 
@@ -299,6 +342,6 @@ function! ToggleAutoSave()
 endfunction
 nnoremap <leader>as :call ToggleAutoSave()<cr>
 
-
+nnoremap <leader>rel :source ~/.vimrc<cr>
 
 " }}}
