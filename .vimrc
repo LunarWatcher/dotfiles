@@ -18,10 +18,6 @@ Plug 'scrooloose/nerdtree'
 
 "Nerdtree config
 
-" Auto-show NERD tree
-autocmd StdinReadPre * let s:std_in=1
-autocmd VimEnter * if argc() == 0 && !exists("s:std_in") | NERDTree | endif
-
 let NERDTreeWinSize=32
 let NERDTreeWinPos="left"
 let NERDTreeShowHidden=1
@@ -80,7 +76,7 @@ let g:indentLine_setColors = 0
 
 let g:indentLine_char = '|'
 let g:indent_guides_enable_on_vim_startup = 1 
-autocmd FileType json :IndentLinesDisable
+autocmd FileType json,startify,calendar :IndentLinesDisable
 nnoremap <leader>it :IndentLinesToggle<cr>
 
 " }}}
@@ -153,49 +149,19 @@ Plug 'Shougo/neco-vim'
 if has('win32')
     Plug 'autozimu/LanguageClient-neovim', {
                 \ 'branch': 'next',
-                \ 'do': 'powershell install.ps1',
+                \ 'do': 'powershell ./install.ps1'
                 \ }
 else
     Plug 'autozimu/LanguageClient-neovim', {
                 \ 'branch': 'next',
-                \ 'do': 'bash install.sh',
+                \ 'do': 'bash install.sh'
                 \ }
 endif
 
 let g:LanguageClient_serverCommands = {
             \ 'cpp': ['clangd'],
-            \ 'python': ['jedi'],
+            \ 'python': ['jedi']
             \ }
-
-" Integration
-
-call deoplete#custom#source('LanguageClient',
-            \ 'min_pattern_length',
-            \ 2)
-
-
-" LanguageClient mapping 
-
-function SetLSPShortcuts()
-    " Shortcuts
-    nnoremap <leader>ld :call LanguageClient#textDocument_definition()<CR>
-    nnoremap <leader>lr :call LanguageClient#textDocument_rename()<CR>
-    nnoremap <silent> <F3> :call LanguageClient#textDocument_rename()<CR>       
-    nnoremap <leader>lf :call LanguageClient#textDocument_formatting()<CR>
-    nnoremap <leader>lt :call LanguageClient#textDocument_typeDefinition()<CR>
-    nnoremap <leader>lx :call LanguageClient#textDocument_references()<CR>
-    nnoremap <leader>la :call LanguageClient_workspace_applyEdit()<CR>
-    nnoremap <leader>lc :call LanguageClient#textDocument_completion()<CR>
-    nnoremap <leader>lh :call LanguageClient#textDocument_hover()<CR>
-    nnoremap <leader>ls :call LanguageClient_textDocument_documentSymbol()<CR>
-    nnoremap <leader>lm :call LanguageClient_contextMenu()<CR>
-endfunction()
-
-augroup LSP
-    autocmd!
-    autocmd FileType cpp,c,python call SetLSPShortcuts()
-augroup END
-imap <expr> <C-space> deoplete#mappings#manual_complete()
 
 " }}}
 
@@ -234,9 +200,73 @@ Plug 'ananagame/vimsence'
 
 " Start screen {{{
 Plug 'mhinz/vim-startify'
+
+let g:startify_lists = [
+        \ { 'type': 'files', 'header': ['    MRU'] },
+        \ { 'type': 'dir', 'header': ['    MRU ' . getcwd()] },
+        \ { 'type': 'sessions', 'header': ['    Sessions'] },
+        \ { 'type': 'bookmarks', 'header': ['    Bookmarks'] },
+        \ { 'type': 'commands', 'header': ['    Commands'] },
+        \ ]
+
+let g:startify_files_number = 10
+
+let g:startify_bookmarks = [
+        \ '~/.vimrc',
+        \ 'D:/programming/SE-Api-Cpp'
+        \ ]
 " }}}
 
 call plug#end() 
+
+" Delayed config {{{
+
+" Start screen config {{{
+function! s:center(lines) abort
+    let longest_line   = max(map(copy(a:lines), 'strwidth(v:val)'))
+    let centered_lines = map(copy(a:lines),
+            \ 'repeat(" ", (&columns / 2) - (longest_line / 2)) . v:val')
+    return centered_lines
+endfunction
+
+let g:startify_custom_header = s:center(startify#fortune#boxed())
+
+" }}}
+" Language server config {{{
+
+
+
+" Integration
+
+call deoplete#custom#source('LanguageClient', 'min_pattern_length', 2)
+
+
+" LanguageClient mapping 
+
+function SetLSPShortcuts()
+    " Shortcuts
+    nnoremap <leader>ld :call LanguageClient#textDocument_definition()<CR>
+    nnoremap <leader>lr :call LanguageClient#textDocument_rename()<CR>
+    nnoremap <silent> <F3> :call LanguageClient#textDocument_rename()<CR>       
+    nnoremap <leader>lf :call LanguageClient#textDocument_formatting()<CR>
+    nnoremap <leader>lt :call LanguageClient#textDocument_typeDefinition()<CR>
+    nnoremap <leader>lx :call LanguageClient#textDocument_references()<CR>
+    nnoremap <leader>la :call LanguageClient_workspace_applyEdit()<CR>
+    nnoremap <leader>lc :call LanguageClient#textDocument_completion()<CR>
+    nnoremap <leader>lh :call LanguageClient#textDocument_hover()<CR>
+    nnoremap <leader>ls :call LanguageClient_textDocument_documentSymbol()<CR>
+    nnoremap <leader>lm :call LanguageClient_contextMenu()<CR>
+endfunction()
+
+augroup LSP
+    autocmd!
+    autocmd FileType cpp,c,python call SetLSPShortcuts()
+augroup END
+imap <expr> <C-space> deoplete#mappings#manual_complete()
+
+" }}}
+
+" }}}
 
 " Basic enabling {{{ 
 
