@@ -8,13 +8,39 @@ set nocompatible              " be iMproved, required
 filetype off                  " required
 
 set foldmethod=marker
-
+let g:fzf_colors =
+\ { 'fg':      ['fg', 'Normal'],
+  \ 'bg':      ['bg', 'Normal'],
+  \ 'hl':      ['fg', 'Comment'],
+  \ 'fg+':     ['fg', 'CursorLine', 'CursorColumn', 'Normal'],
+  \ 'bg+':     ['bg', 'CursorLine', 'CursorColumn'],
+  \ 'hl+':     ['fg', 'Statement'],
+  \ 'info':    ['fg', 'PreProc'],
+  \ 'border':  ['fg', 'Ignore'],
+  \ 'prompt':  ['fg', 'Conditional'],
+  \ 'pointer': ['fg', 'Exception'],
+  \ 'marker':  ['fg', 'Keyword'],
+  \ 'spinner': ['fg', 'Label'],
+  \ 'header':  ['fg', 'Comment'] }
 call plug#begin('~/.vim/plugged')
 
 " Navigation {{{
 
 Plug 'christoomey/vim-tmux-navigator'
 Plug 'scrooloose/nerdtree'
+Plug 'anschnapp/move-less'
+Plug 'yuttie/comfortable-motion.vim'
+
+" Fuzzy finder
+Plug 'junegunn/fzf'
+Plug 'junegunn/fzf.vim'
+command! -bang -nargs=? -complete=dir HFiles
+  \ call fzf#vim#files(<q-args>, {'source': 'ag --hidden --ignore .git -g ""'}, <bang>0)
+nnoremap <leader>zx :HFiles<cr>
+command! -bang -nargs=? -complete=dir HNGFiles
+  \ call fzf#vim#files(<q-args>, {'source': 'ag --hidden --skip-vcs-ignores --ignore .git -g ""'}, <bang>0)
+nnoremap <leader>zX :HNGFiles<cr>
+
 
 "Nerdtree config
 
@@ -22,6 +48,8 @@ let NERDTreeWinSize=32
 let NERDTreeWinPos="left"
 let NERDTreeShowHidden=1
 let NERDTreeAutoDeleteBuffer=1
+let NERDTreeMinimalUI = 1
+let NERDTreeDirArrows = 1
 Plug 'terryma/vim-expand-region'
 
 " Toggle the tree with F2 
@@ -97,8 +125,10 @@ Plug 'vimwiki/vimwiki'
 
 let g:vimwiki_conceallevel = 0
 
-let g:vimwiki_list = [{'path': '~/.wiki/', 'syntax': 'markdown', 'ext': '.md'},
-            \ {'path': '~/.personal/', 'syntax': 'markdown', 'ext': '.md'}]
+" Augmented in an attempt to avoid Vim registering regular .md files as
+" vimwiki files
+let g:vimwiki_list = [{'path': '~/.wiki/', 'syntax': 'markdown', 'ext': '.mdvw'},
+            \ {'path': '~/.personal/', 'syntax': 'markdown', 'ext': '.mdvw'}]
 
 
 nnoremap <leader>go :Goyo 65%x95%<cr>
@@ -121,12 +151,6 @@ augroup END
 
 " Autocomplete {{{
 
-" Fuzzy finder
-Plug 'junegunn/fzf'
-Plug 'junegunn/fzf.vim'
-
-
-" The actual autocomplete
 if has('nvim')
   Plug 'Shougo/deoplete.nvim', { 'do': ':UpdateRemotePlugins' }
 else
@@ -268,6 +292,8 @@ imap <expr> <C-space> deoplete#mappings#manual_complete()
 
 " }}}
 
+" Config {{{
+
 " Basic enabling {{{ 
 
 
@@ -329,6 +355,8 @@ set directory=~/.vim/swap//
 set undodir=~/.vim/undo//
 " }}}
 
+" }}}
+
 " Super-cd {{{
 " Super cd - changes the current working directory, as well as changing the NERDTree root
 function! Scd(location)
@@ -372,6 +400,12 @@ function! ToggleAutoSave()
 endfunction
 nnoremap <leader>as :call ToggleAutoSave()<cr>
 
-nnoremap <leader>rel :source ~/.vimrc<cr>
+if empty($MYVIMRC)
+  let $MYVIMRC = "~/.vimrc"
+endif
+nnoremap <leader>ve :split $MYVIMRC<cr>
+nnoremap <leader>vE :e $MYVIMRC<cr>
+nnoremap <leader>rel :source $MYVIMRC<cr>
 
 " }}}
+"
