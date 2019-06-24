@@ -7,6 +7,9 @@ set termencoding=utf-8
 set nocompatible              " be iMproved, required
 filetype off                  " required
 
+language messages English_United States
+set langmenu=en_US.UTF-8  
+
 set foldmethod=marker
 let g:fzf_colors =
 \ { 'fg':      ['fg', 'Normal'],
@@ -41,7 +44,6 @@ command! -bang -nargs=? -complete=dir HNGFiles
   \ call fzf#vim#files(<q-args>, {'source': 'ag --hidden --skip-vcs-ignores --ignore .git -g ""'}, <bang>0)
 nnoremap <leader>zX :HNGFiles<cr>
 
-
 "Nerdtree config
 
 let NERDTreeWinSize=32
@@ -60,11 +62,25 @@ nnoremap <F5> :NERDTreeRefreshRoot<cr>
 " }}}
 
 " Themes & colors {{{
+
 Plug 'NLKNguyen/papercolor-theme'
+Plug 'junegunn/seoul256.vim'
+Plug 'sonph/onehalf', {'rtp': 'vim/'}
+Plug 'rakr/vim-one'
 
 Plug 'pboettch/vim-cmake-syntax'
-Plug 'kien/rainbow_parentheses.vim'
-Plug 'flazz/vim-colorschemes'         " I can't believe this is a thing >.>
+Plug 'junegunn/rainbow_parentheses.vim'
+"" Rainbows {{{
+augroup RainbowLangs
+    autocmd!
+    autocmd FileType cpp,java,javascript RainbowParentheses
+augroup end
+let g:rainbow#pairs = [ ['(', ')'], ['[', ']'], ['{','}'], ['<','>'] ]
+" }}}
+" Old {{{
+" Archived for future use 
+" Plug 'flazz/vim-colorschemes'         " I can't believe this is a thing >.>
+" }}}
 Plug 'vim-airline/vim-airline-themes'
 
 Plug 'RRethy/vim-illuminate'
@@ -72,11 +88,6 @@ Plug 'RRethy/vim-illuminate'
 " Disable highlighting in some files
 
 let g:Illuminate_ftblacklist = ['nerdtree', 'md', 'json', 'markdown', 'text', 'txt']
-
-nnoremap <leader>csp :colorscheme papercolor<cr>:let g:airline_theme='papercolor'<cr>
-
-nnoremap <leader>csmd :set background=dark<cr>
-nnoremap <leader>csml :set background=light<cr>
 
 " }}}
 
@@ -95,12 +106,13 @@ set conceallevel=2
 Plug 'scrooloose/nerdcommenter'
 Plug 'majutsushi/tagbar'
 Plug 'alvan/vim-closetag'
+Plug 'seletskiy/vim-autosurround'
 
 Plug 'Yggdroot/indentLine'
 
 " And let's fix the indent char
 let g:indentLine_enabled = 1
-let g:indentLine_setColors = 0
+let g:indentLine_setColors = 1
 
 let g:indentLine_char = '|'
 let g:indent_guides_enable_on_vim_startup = 1 
@@ -132,7 +144,7 @@ let g:vimwiki_list = [{'path': '~/.wiki/', 'syntax': 'markdown', 'ext': '.mdvw'}
 
 
 nnoremap <leader>go :Goyo 65%x95%<cr>
-nnoremap <leader>ll :Limelight0.6<cr>
+nnoremap <leader>ll :Limelight!! 0.6<cr>
 nnoremap <leader>c :Calendar<cr>
 
 let g:vimwiki_hl_headers = 1
@@ -220,6 +232,10 @@ nnoremap <leader>ut :UndotreeToggle<cr>
 
 " Discord integration {{{
 Plug 'ananagame/vimsence'
+" Dev variant 
+" Plug 'D:/programming/vimsence'
+let g:vimsence_ignored_directories = [ '~/', 'C:\Users\LunarWatcher' ]
+let g:vimsence_ignored_file_types = [ 'vimwiki' ]
 " }}}
 
 " Start screen {{{
@@ -237,7 +253,6 @@ let g:startify_files_number = 10
 
 let g:startify_bookmarks = [
         \ '~/.vimrc',
-        \ 'D:/programming/SE-Api-Cpp'
         \ ]
 " }}}
 
@@ -257,8 +272,6 @@ let g:startify_custom_header = s:center(startify#fortune#boxed())
 
 " }}}
 " Language server config {{{
-
-
 
 " Integration
 
@@ -292,11 +305,11 @@ imap <expr> <C-space> deoplete#mappings#manual_complete()
 
 " }}}
 
-" Config {{{
+" Config {{{ 
 
 " Basic enabling {{{ 
 
-
+set nowrap                " Soft wrapping is annoying
 filetype plugin indent on
 filetype plugin on
 filetype on
@@ -324,7 +337,15 @@ set whichwrap+=<,>,h,l,[,]
 
 " Themes and visual configurations {{{
 set background=light      " Color scheme variant
-colorscheme PaperColor    " Color scheme
+" Colorschemes + alternate variants
+" =================================
+" colorscheme PaperColor    " Color scheme
+" colorscheme one
+" colorscheme onedark
+" colorscheme onehalfdark
+" colorscheme onehalflight
+colorscheme seoul256-light
+" =================================
 set number                " Line numbers
 set laststatus=2
 set cursorline            " Active line highlighting - because it's nice 
@@ -364,7 +385,7 @@ function! Scd(location)
     execute 'NERDTree '.a:location
 endfunction
 
-command! -nargs=1 Scd call Scd(<f-args>)
+command! -nargs=1 -complete=dir Scd call Scd(<f-args>)
 
 " }}}
 
