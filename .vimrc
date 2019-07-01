@@ -26,7 +26,6 @@ let g:fzf_colors =
   \ 'spinner': ['fg', 'Label'],
   \ 'header':  ['fg', 'Comment'] }
 call plug#begin('~/.vim/plugged')
-
 " Navigation {{{
 
 Plug 'christoomey/vim-tmux-navigator'
@@ -35,7 +34,15 @@ Plug 'anschnapp/move-less'
 Plug 'yuttie/comfortable-motion.vim'
 
 " Fuzzy finder
-Plug 'junegunn/fzf'
+if has('win32')
+    " Windows note: Some Assembly Required:tm:
+    " Install FZF manually. This can be done with either
+    " `go get -u github.com/junegunn/fzf`, or by installing 
+    " one of the pre-built binaries manually. 
+    Plug 'junegunn/fzf'  
+else
+    Plug 'junegunn/fzf', { 'dir': '~/.fzf', 'do': './install --all' } 
+endif
 Plug 'junegunn/fzf.vim'
 command! -bang -nargs=? -complete=dir HFiles
   \ call fzf#vim#files(<q-args>, {'source': 'ag --hidden --ignore .git -g ""'}, <bang>0)
@@ -106,9 +113,14 @@ set conceallevel=2
 Plug 'scrooloose/nerdcommenter'
 Plug 'majutsushi/tagbar'
 Plug 'alvan/vim-closetag'
-Plug 'seletskiy/vim-autosurround'
+" Plug 'seletskiy/vim-autosurround'
 
 Plug 'Yggdroot/indentLine'
+
+" Codi isn't supported by Windows. TODO: Revisit this later
+if !has("win32") && (!has("nvim") && has('job') && has('channel') || has('nvim'))
+    Plug 'metakirby5/codi.vim'
+endif
 
 " And let's fix the indent char
 let g:indentLine_enabled = 1
@@ -172,8 +184,8 @@ else
 endif
 
 let g:deoplete#enable_at_startup = 1
-let g:python3_host_prog = 'python'
-
+let g:python3_host_prog = 'python3'
+let g:python_host_prog = 'python2'
 
 " Extensions {{{
 Plug 'Shougo/neco-vim'
@@ -280,7 +292,7 @@ call deoplete#custom#source('LanguageClient', 'min_pattern_length', 2)
 
 " LanguageClient mapping 
 
-function SetLSPShortcuts()
+function! SetLSPShortcuts()
     " Shortcuts
     nnoremap <leader>ld :call LanguageClient#textDocument_definition()<CR>
     nnoremap <leader>lr :call LanguageClient#textDocument_rename()<CR>
