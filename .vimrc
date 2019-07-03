@@ -7,25 +7,37 @@ set termencoding=utf-8
 set nocompatible              " be iMproved, required
 filetype off                  " required
 
-language messages English_United States
-set langmenu=en_US.UTF-8  
-
+" Folding {{{
 set foldmethod=marker
-let g:fzf_colors =
-\ { 'fg':      ['fg', 'Normal'],
-  \ 'bg':      ['bg', 'Normal'],
-  \ 'hl':      ['fg', 'Comment'],
-  \ 'fg+':     ['fg', 'CursorLine', 'CursorColumn', 'Normal'],
-  \ 'bg+':     ['bg', 'CursorLine', 'CursorColumn'],
-  \ 'hl+':     ['fg', 'Statement'],
-  \ 'info':    ['fg', 'PreProc'],
-  \ 'border':  ['fg', 'Ignore'],
-  \ 'prompt':  ['fg', 'Conditional'],
-  \ 'pointer': ['fg', 'Exception'],
-  \ 'marker':  ['fg', 'Keyword'],
-  \ 'spinner': ['fg', 'Label'],
-  \ 'header':  ['fg', 'Comment'] }
+set nofoldenable
+
+nnoremap <leader>ft :set foldenable!
+nnoremap <leader>fe :set foldenable
+nnoremap <leader>fd :set nofoldenable
+
+augroup folding
+    autocmd FileType vim setlocal foldenable
+    autocmd FileType cpp,java setlocal foldmethod=indent
+    autocmd FileType markdown setlocal foldmethod=manual
+augroup END
+" }}}
+
+"let g:fzf_colors =
+"\ { 'fg':      ['fg', 'Normal'],
+  "\ 'bg':      ['bg', 'Normal'],
+  "\ 'hl':      ['fg', 'Comment'],
+  "\ 'fg+':     ['fg', 'CursorLine', 'CursorColumn', 'Normal'],
+  "\ 'bg+':     ['bg', 'CursorLine', 'CursorColumn'],
+  "\ 'hl+':     ['fg', 'Statement'],
+  "\ 'info':    ['fg', 'PreProc'],
+  "\ 'border':  ['fg', 'Ignore'],
+  "\ 'prompt':  ['fg', 'Conditional'],
+  "\ 'pointer': ['fg', 'Exception'],
+  "\ 'marker':  ['fg', 'Keyword'],
+  "\ 'spinner': ['fg', 'Label'],
+  "\ 'header':  ['fg', 'Comment'] }
 call plug#begin('~/.vim/plugged')
+
 " Navigation {{{
 
 Plug 'christoomey/vim-tmux-navigator'
@@ -91,6 +103,7 @@ let g:rainbow#pairs = [ ['(', ')'], ['[', ']'], ['{','}'], ['<','>'] ]
 Plug 'vim-airline/vim-airline-themes'
 
 Plug 'RRethy/vim-illuminate'
+Plug 'markonm/traces.vim'
 
 " Disable highlighting in some files
 
@@ -264,8 +277,36 @@ let g:startify_lists = [
 let g:startify_files_number = 10
 
 let g:startify_bookmarks = [
-        \ '~/.vimrc',
+        \ {'c': '~/.vimrc'},
         \ ]
+" }}}
+
+" Font and font-related plugins {{{
+
+"set guifont=Source\ Code\ Pro\ for\ Powerline:h11:cANSI " Source Code Pro <3
+"set guifontwide=Source\ Code\ Pro\ for\ Powerline:h11:cANSI " gvim
+" Sauce Code Pro is Source Code Pro, but with added symbols (compared to the
+" powerline variant as well)
+" 
+try
+    if has("win32")
+        " The Nerd Fonts are broken on windows.
+        " https://github.com/ryanoasis/nerd-fonts/issues/269
+        " Up since 2018, no patch in sight.
+        " set guifont=SauceCodePro\ Nerd\ Font:h11
+        set guifont=Source\ Code\ Pro\ for\ Powerline:h11:cANSI
+    elseif has("unix")
+        set guifont=SauceCodePro\ Nerd\ Font\ 11
+        Plug 'ryanoasis/vim-devicons'
+    endif
+catch
+    echo "Failed to find SauceCodePro - falling back to SourceCodePro, and disabling devicons"
+    if has("win32")
+        set guifont=Source\ Code\ Pro\ for\ Powerline:h11:cANSI
+    elseif has("unix")
+        set guifont=Source\ Code\ Pro\ for\ Powerline\ 11
+    endif
+endtry
 " }}}
 
 call plug#end() 
@@ -322,10 +363,15 @@ imap <expr> <C-space> deoplete#mappings#manual_complete()
 " Basic enabling {{{ 
 
 set nowrap                " Soft wrapping is annoying
+set smartcase             " Search enhancements
 filetype plugin indent on
 filetype plugin on
 filetype on
 syntax enable
+
+set incsearch             " Along withsearch highlighting, it shows search results while typing
+set hlsearch              " Search highlighting 
+set splitright
 " }}}
 
 " Basic settings {{{
@@ -360,11 +406,14 @@ colorscheme seoul256-light
 " =================================
 set number                " Line numbers
 set laststatus=2
-set cursorline            " Active line highlighting - because it's nice 
-set clipboard=unnamed
-
-set guifont=Source\ Code\ Pro\ for\ Powerline:h11:cANSI " Source Code Pro <3
-set guifontwide=Source\ Code\ Pro\ for\ Powerline:h11:cANSI " gvim
+set cursorline            " Active line highlighting - because it's nice
+" clipboard=unnamed == evil. Yanking internally in vim (or i.e. deleting text)
+" causes the system clipboard to be overridden. CTRL+Ins/Shift+Ins in Vim/gVim
+" still enables system clipboard interaction without "+p
+" Additionally, deleting text using the delete key in visual mode can override
+" the system clipboard if this option is set 
+" set clipboard=unnamed
+ 
 " }}}
 
 " Anti-tab squad {{{
@@ -386,6 +435,15 @@ let &t_EI.="\e[5 q"
 set backupdir=~/.vim/backup//
 set directory=~/.vim/swap//
 set undodir=~/.vim/undo//
+if !isdirectory($HOME."/.vim/backup")
+    call mkdir($HOME."/.vim/backup", "p")
+endif
+if !isdirectory($HOME."/.vim/swap")
+    call mkdir($HOME."/.vim/swap", "p")
+endif
+if !isdirectory($HOME."/.vim/undo")
+    call mkdir($HOME."/.vim/undo", "p")
+endif
 " }}}
 
 " }}}
@@ -440,5 +498,49 @@ nnoremap <leader>ve :split $MYVIMRC<cr>
 nnoremap <leader>vE :e $MYVIMRC<cr>
 nnoremap <leader>rel :source $MYVIMRC<cr>
 
+" Clears search highlighting without disabling it in general
+nnoremap <leader>chl :noh<cr>             
 " }}}
-"
+
+" Other remapping {{{
+
+" This needs to be remapped on keyboards without a bracket button (i.e. on
+" scandinavian or german keyboards)
+autocmd FileType help nnoremap <C-t> <C-]>
+" }}}
+
+" {{{ gVim
+" has("gvim") isn't a thing - use has("gui_running") to check if gVim is
+" running.
+if has("gui_running")
+    " Disable the GUI toolbars (they're noisy)
+    " Note to self: there cannot be a space between the = and letter.
+    " Otherwise, it thinks i.e. " m" is the option, not just "m". 
+    set guioptions -=m
+    set guioptions -=T
+
+    " Set the language to English
+    language messages English_United States
+    set langmenu=en_US.UTF-8  
+endif
+" }}}
+
+" External config {{{
+
+" This enables system-specific configurations that don't make sense to keep in
+" .vimrc (i.e. sensitive config), or config that is system-specific (i.e.
+" startify bookmarks). 
+if !isdirectory($HOME."/.vim-extern/")
+    " Create the directory 
+    mkdir($HOME."/.vim-extern")
+    
+else 
+    if filereadable($HOME."/.vim-extern/.systemrc") 
+        source $HOME/.vim-extern/.systemrc
+    endif
+endif
+
+
+
+" }}}
+
