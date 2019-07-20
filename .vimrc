@@ -3,7 +3,6 @@
 set encoding=utf-8
 set fileencoding=utf-8
 set termencoding=utf-8
-
 set nocompatible              " be iMproved, required
 filetype off                  " required
 
@@ -36,6 +35,10 @@ augroup END
   "\ 'marker':  ['fg', 'Keyword'],
   "\ 'spinner': ['fg', 'Label'],
   "\ 'header':  ['fg', 'Comment'] }
+
+let g:python3_host_prog = 'python3'
+let g:python_host_prog = 'python2'
+
 call plug#begin('~/.vim/plugged')
 
 " Navigation {{{
@@ -186,43 +189,17 @@ augroup calendar-mappings
 augroup END
 " }}}
 
-" Autocomplete {{{
+" Language server/autocomplete/utils {{{
 
-if has('nvim')
-  Plug 'Shougo/deoplete.nvim', { 'do': ':UpdateRemotePlugins' }
-else
-  Plug 'Shougo/deoplete.nvim'
-  Plug 'roxma/nvim-yarp'
-  Plug 'roxma/vim-hug-neovim-rpc'
-endif
+Plug 'ycm-core/YouCompleteMe'
+Plug 'machakann/vim-Verdin'
 
-let g:deoplete#enable_at_startup = 1
-let g:python3_host_prog = 'python3'
-let g:python_host_prog = 'python2'
+Plug 'SirVer/ultisnips'
+Plug 'honza/vim-snippets'
 
-" Extensions {{{
-Plug 'Shougo/neco-vim'
-
-" }}}
-
-" Language server {{{
-
-if has('win32')
-    Plug 'autozimu/LanguageClient-neovim', {
-                \ 'branch': 'next',
-                \ 'do': 'powershell ./install.ps1'
-                \ }
-else
-    Plug 'autozimu/LanguageClient-neovim', {
-                \ 'branch': 'next',
-                \ 'do': 'bash install.sh'
-                \ }
-endif
-
-let g:LanguageClient_serverCommands = {
-            \ 'cpp': ['clangd'],
-            \ 'python': ['jedi']
-            \ }
+let g:UltiSnipsExpandTrigger="<C-l>"
+let g:UltiSnipsJumpForwardTrigger="<tab>"
+let g:UltiSnipsJumpBackwardTrigger="<s-tab>"
 
 " }}}
 
@@ -249,10 +226,19 @@ let g:localvimrc_sandbox = 0
 " General every-day use {{{
 Plug 'scy/vim-mkdir-on-write'
 Plug 'tpope/vim-surround'
+Plug 'haya14busa/incsearch.vim'
 
 Plug 'mbbill/undotree'
 nnoremap <leader>ut :UndotreeToggle<cr>
 
+let g:incsearch#auto_nohlsearch=1
+
+map n  <Plug>(incsearch-nohl-n)
+map N  <Plug>(incsearch-nohl-N)
+map *  <Plug>(incsearch-nohl-*)
+map #  <Plug>(incsearch-nohl-#)
+map g* <Plug>(incsearch-nohl-g*)
+map g# <Plug>(incsearch-nohl-g#)
 " }}}
 
 " Discord integration {{{
@@ -324,35 +310,14 @@ endfunction
 let g:startify_custom_header = s:center(startify#fortune#boxed())
 
 " }}}
-" Language server config {{{
 
-" Integration
+" YCM {{{
+let g:Verdin#cooperativemode=1
+let g:Verdin#autocomplete=0
 
-call deoplete#custom#source('LanguageClient', 'min_pattern_length', 2)
-
-
-" LanguageClient mapping 
-
-function! SetLSPShortcuts()
-    " Shortcuts
-    nnoremap <leader>ld :call LanguageClient#textDocument_definition()<CR>
-    nnoremap <leader>lr :call LanguageClient#textDocument_rename()<CR>
-    nnoremap <silent> <F3> :call LanguageClient#textDocument_rename()<CR>       
-    nnoremap <leader>lf :call LanguageClient#textDocument_formatting()<CR>
-    nnoremap <leader>lt :call LanguageClient#textDocument_typeDefinition()<CR>
-    nnoremap <leader>lx :call LanguageClient#textDocument_references()<CR>
-    nnoremap <leader>la :call LanguageClient_workspace_applyEdit()<CR>
-    nnoremap <leader>lc :call LanguageClient#textDocument_completion()<CR>
-    nnoremap <leader>lh :call LanguageClient#textDocument_hover()<CR>
-    nnoremap <leader>ls :call LanguageClient_textDocument_documentSymbol()<CR>
-    nnoremap <leader>lm :call LanguageClient_contextMenu()<CR>
-endfunction()
-
-augroup LSP
-    autocmd!
-    autocmd FileType cpp,c,python call SetLSPShortcuts()
-augroup END
-imap <expr> <C-space> deoplete#mappings#manual_complete()
+let g:ycm_semantic_triggers = { 
+    \ 'vim': ['#', ':']
+    \ }
 
 " }}}
 
@@ -372,6 +337,13 @@ syntax enable
 set incsearch             " Along withsearch highlighting, it shows search results while typing
 set hlsearch              " Search highlighting 
 set splitright
+" }}}
+
+" Filetypes {{{
+
+autocmd BufRead,BufNewfile conanfile.txt set filetype=dosini
+autocmd BufRead,BufNewFile SConstruct set filetype=python
+
 " }}}
 
 " Basic settings {{{
