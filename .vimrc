@@ -48,6 +48,12 @@ Plug 'scrooloose/nerdtree'
 Plug 'anschnapp/move-less'
 Plug 'yuttie/comfortable-motion.vim'
 
+
+
+Plug 'zefei/vim-wintabs'
+Plug 'zefei/vim-wintabs-powerline' " Powerline rendering 
+
+
 " Fuzzy finder
 if has('win32')
     " Windows note: Some Assembly Required:tm:
@@ -81,6 +87,13 @@ map <F2> :NERDTreeToggle<CR>
 " Remap the refresh to F5 (browser-style refreshing) 
 nnoremap <F5> :NERDTreeRefreshRoot<cr>
 
+" Comfortable motion config
+" Enable mousewheel
+noremap <silent> <ScrollWheelDown> :call comfortable_motion#flick(40)<CR>
+noremap <silent> <ScrollWheelUp>   :call comfortable_motion#flick(-40)<CR>
+" Consistency with Vim 
+let g:comfortable_motion_scroll_down_key = "j"
+let g:comfortable_motion_scroll_up_key = "k"
 " }}}
 
 " Themes & colors {{{
@@ -91,13 +104,15 @@ Plug 'sonph/onehalf', {'rtp': 'vim/'}
 Plug 'rakr/vim-one'
 
 Plug 'pboettch/vim-cmake-syntax'
-Plug 'junegunn/rainbow_parentheses.vim'
-"" Rainbows {{{
+Plug 'luochen1990/rainbow'
+" Rainbows {{{
 augroup RainbowLangs
     autocmd!
-    autocmd FileType cpp,java,javascript RainbowParentheses
+    " Enables rainbow parentheses for some specific filetypes
+    autocmd FileType cpp,java,javascript RainbowToggle
 augroup end
-let g:rainbow#pairs = [ ['(', ')'], ['[', ']'], ['{','}'], ['<','>'] ]
+" Disables the rainbow parentheses globally
+let g:rainbow_active = 0 
 " }}}
 " Old {{{
 " Archived for future use 
@@ -129,6 +144,9 @@ set conceallevel=2
 Plug 'scrooloose/nerdcommenter'
 Plug 'majutsushi/tagbar'
 Plug 'alvan/vim-closetag'
+Plug 'wsdjeg/vim-todo/'
+
+Plug 'tpope/vim-surround'
 " Plug 'seletskiy/vim-autosurround'
 
 Plug 'Yggdroot/indentLine'
@@ -225,20 +243,32 @@ let g:localvimrc_sandbox = 0
 
 " General every-day use {{{
 Plug 'scy/vim-mkdir-on-write'
-Plug 'tpope/vim-surround'
+" Plug 'tpope/vim-surround'
+Plug 'jiangmiao/auto-pairs' " Automatic 
+
 Plug 'haya14busa/incsearch.vim'
 
 Plug 'mbbill/undotree'
 nnoremap <leader>ut :UndotreeToggle<cr>
-
+" Auto-disables highlighting 
 let g:incsearch#auto_nohlsearch=1
 
+" Search remapping
+map /  <Plug>(incsearch-forward)
+map ?  <Plug>(incsearch-backward)
+map g/ <Plug>(incsearch-stay)
+
+" Highlight remapping
 map n  <Plug>(incsearch-nohl-n)
 map N  <Plug>(incsearch-nohl-N)
 map *  <Plug>(incsearch-nohl-*)
 map #  <Plug>(incsearch-nohl-#)
 map g* <Plug>(incsearch-nohl-g*)
 map g# <Plug>(incsearch-nohl-g#)
+
+" Disable BS for pair deletion 
+let g:AutoPairsMapBS = 0
+
 " }}}
 
 " Discord integration {{{
@@ -472,6 +502,13 @@ nnoremap <leader>rel :source $MYVIMRC<cr>
 
 " Clears search highlighting without disabling it in general
 nnoremap <leader>chl :noh<cr>             
+
+" Remaps <leader>q to closing a single tab. Using :q closes the entire buffer,
+" including all other tabs nested within it. :WintabsClose closes one. All the
+" buffers live on if :q is used instead of <leader>q, but they're not nested
+" in the same way. 
+nnoremap <leader>q :WintabsClose<cr> 
+
 " }}}
 
 " Other remapping {{{
