@@ -102,6 +102,7 @@ Plug 'NLKNguyen/papercolor-theme'
 Plug 'junegunn/seoul256.vim'
 Plug 'sonph/onehalf', {'rtp': 'vim/'}
 Plug 'rakr/vim-one'
+Plug 'rakr/vim-two-firewatch'
 
 Plug 'pboettch/vim-cmake-syntax'
 Plug 'luochen1990/rainbow'
@@ -130,7 +131,7 @@ let g:Illuminate_ftblacklist = ['nerdtree', 'md', 'json', 'markdown', 'text', 't
 " }}}
 
 " Language highlighting {{{
-
+Plug 'sheerun/vim-polyglot'
 Plug 'octol/vim-cpp-enhanced-highlight'
 Plug 'plasticboy/vim-markdown'
 Plug 'godlygeek/tabular'
@@ -185,8 +186,8 @@ let g:vimwiki_conceallevel = 0
 
 " Augmented in an attempt to avoid Vim registering regular .md files as
 " vimwiki files
-let g:vimwiki_list = [{'path': '~/.wiki/', 'syntax': 'markdown', 'ext': '.mdvw'},
-            \ {'path': '~/.personal/', 'syntax': 'markdown', 'ext': '.mdvw'}]
+let g:vimwiki_list = [{'path': '~/.wiki/', 'syntax': 'default', 'ext': '.mdvw'},
+            \ {'path': '~/.personal/', 'syntax': 'default', 'ext': '.mdvw'}]
 
 
 nnoremap <leader>go :Goyo 65%x95%<cr>
@@ -221,12 +222,10 @@ let g:UltiSnipsJumpBackwardTrigger="<s-tab>"
 
 " }}}
 
-" }}}
-
 " Airline (TL;DR: contains info at the bottom of the screen) {{{
 Plug 'vim-airline/vim-airline'
 
-let g:airline_theme='papercolor'
+let g:airline_theme='onehalflight'
 let g:airline_powerline_fonts = 1
 
 " Integrations 
@@ -275,7 +274,7 @@ let g:AutoPairsMapBS = 0
 Plug 'ananagame/vimsence'
 " Dev variant 
 " Plug 'D:/programming/vimsence'
-let g:vimsence_ignored_directories = [ '~/', 'C:\Users\LunarWatcher' ]
+let g:vimsence_ignored_directories = [ '~/', 'C:/Users/LunarWatcher' ]
 let g:vimsence_ignored_file_types = [ 'vimwiki' ]
 " }}}
 
@@ -405,6 +404,7 @@ set background=light      " Color scheme variant
 " colorscheme onehalfdark
 " colorscheme onehalflight
 colorscheme seoul256-light
+" colorscheme two-firewatch
 " =================================
 set number                " Line numbers
 set laststatus=2
@@ -516,6 +516,25 @@ nnoremap <leader>q :WintabsClose<cr>
 " This needs to be remapped on keyboards without a bracket button (i.e. on
 " scandinavian or german keyboards)
 autocmd FileType help nnoremap <C-t> <C-]>
+
+" Comfortable motion remapping {{{
+nmap <PageUp> :call comfortable_motion#flick(-100)<cr>
+nmap <PageDown> :call comfortable_motion#flick(100)<cr>
+" }}}
+
+" Wintabs remapping {{{ 
+nnoremap <M-1> :WintabsGo 1<cr>
+nnoremap <M-2> :WintabsGo 2<cr>
+nnoremap <M-3> :WintabsGo 3<cr>
+nnoremap <M-4> :WintabsGo 4<cr>
+nnoremap <M-5> :WintabsGo 5<cr>
+nnoremap <M-6> :WintabsGo 6<cr>
+nnoremap <M-7> :WintabsGo 7<cr>
+nnoremap <M-8> :WintabsGo 8<cr>
+nnoremap <M-9> :WintabsGo 9<cr>
+nnoremap <M-0> :WintabsLast<cr>
+nnoremap <C-PageUp> :WintabsPrevious<cr>
+nnoremap <C-PageDown> :WintabsNext<cr>
 " }}}
 
 " {{{ gVim
