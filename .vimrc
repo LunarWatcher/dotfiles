@@ -197,15 +197,6 @@ nnoremap <leader>c :Calendar<cr>
 let g:vimwiki_hl_headers = 1
 let g:vimwiki_hl_cb_checked = 1
 
-augroup calendar-mappings
-    autocmd!
-    " unmap <C-n>, <C-p> for other plugins
-    autocmd FileType calendar nunmap <buffer> <C-n>
-    autocmd FileType calendar nunmap <buffer> <C-p>
-
-    " Re-map <C-N> to creating a new calendar
-    autocmd FileType calendar nmap <buffer> <C-M>n <Plug>(calendar_add)
-augroup END
 " }}}
 
 " Language server/autocomplete/utils {{{
@@ -241,6 +232,9 @@ let g:localvimrc_sandbox = 0
 " }}}
 
 " General every-day use {{{
+Plug 'jceb/vim-orgmode'
+
+Plug 'tpope/vim-speeddating'
 Plug 'scy/vim-mkdir-on-write'
 " Plug 'tpope/vim-surround'
 Plug 'jiangmiao/auto-pairs' " Automatic 
@@ -509,6 +503,9 @@ nnoremap <leader>chl :noh<cr>
 " in the same way. 
 nnoremap <leader>q :WintabsClose<cr> 
 
+" Todo tracking
+nnoremap <leader>t :Ag \(FIXME\)\\|\(TODO\)<cr>
+nnoremap <leader>u :OrgCheckBoxUpdate<cr>
 " }}}
 
 " Other remapping {{{
@@ -541,6 +538,7 @@ nnoremap <C-PageDown> :WintabsNext<cr>
 " has("gvim") isn't a thing - use has("gui_running") to check if gVim is
 " running.
 if has("gui_running")
+    set wak=no
     " Disable the GUI toolbars (they're noisy)
     " Note to self: there cannot be a space between the = and letter.
     " Otherwise, it thinks i.e. " m" is the option, not just "m". 
@@ -560,7 +558,7 @@ endif
 " startify bookmarks). 
 if !isdirectory($HOME."/.vim-extern/")
     " Create the directory 
-    mkdir($HOME."/.vim-extern")
+    call mkdir($HOME."/.vim-extern")
     
 else 
     if filereadable($HOME."/.vim-extern/.systemrc") 
