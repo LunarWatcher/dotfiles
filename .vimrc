@@ -8,7 +8,7 @@ filetype off                  " required
 
 " Folding {{{
 set foldmethod=marker
-set nofoldenable
+" set nofoldenable
 
 nnoremap <leader>ft :set foldenable!
 nnoremap <leader>fe :set foldenable
@@ -16,8 +16,11 @@ nnoremap <leader>fd :set nofoldenable
 
 augroup folding
     autocmd FileType vim setlocal foldenable
-    autocmd FileType cpp,java setlocal foldmethod=indent
-    autocmd FileType markdown setlocal foldmethod=manual
+    autocmd FileType markdown,vimwiki setlocal nofoldenable
+augroup END
+augroup config 
+    autocmd FileType markdown,vimwiki setlocal wrap
+    autocmd FileType markdown,vimwiki setlocal conceallevel=0 
 augroup END
 " }}}
 
@@ -41,14 +44,13 @@ let g:python_host_prog = 'python2'
 
 call plug#begin('~/.vim/plugged')
 
+
 " Navigation {{{
 
 Plug 'christoomey/vim-tmux-navigator'
 Plug 'scrooloose/nerdtree'
 Plug 'anschnapp/move-less'
 Plug 'yuttie/comfortable-motion.vim'
-
-
 
 Plug 'zefei/vim-wintabs'
 Plug 'zefei/vim-wintabs-powerline' " Powerline rendering 
@@ -232,6 +234,7 @@ let g:localvimrc_sandbox = 0
 " }}}
 
 " General every-day use {{{
+Plug 'codeape2/vim-multiple-monitors'
 Plug 'jceb/vim-orgmode'
 
 Plug 'tpope/vim-speeddating'
@@ -318,6 +321,7 @@ catch
 endtry
 " }}}
 
+let g:AutoPairsShortcutFastWrap = "<C-f>"
 call plug#end() 
 
 " Delayed config {{{
@@ -390,16 +394,42 @@ set whichwrap+=<,>,h,l,[,]
 
 " Themes and visual configurations {{{
 set background=light      " Color scheme variant
+
+let g:PaperColor_Theme_Options = {
+            \ 'language': {
+            \     'cpp': { 'highlight_standard_library': 1 }
+            \ },
+            \ 'theme': { 'default': { 'transparent_background': 1 } }
+  \ }
+
 " Colorschemes + alternate variants
 " =================================
-" colorscheme PaperColor    " Color scheme
-" colorscheme one
+"colorscheme PaperColor    " Color scheme
+colorscheme one
 " colorscheme onedark
 " colorscheme onehalfdark
 " colorscheme onehalflight
-colorscheme seoul256-light
+" colorscheme seoul256-light
 " colorscheme two-firewatch
 " =================================
+
+" Mods {{{
+" Paper {{{
+" hi Function guifg='#005faf' ctermfg='25'
+
+"}}}
+
+" General light, not paper {{{
+
+let g:terminal_ansi_colors = ['#eeeeee', '#af0000', '#008700', '#5f8700',
+            \ '#0087af', '#878787', '#005f87',
+            \ '#444444', '#bcbcbc', '#d70000', '#d70087', '#8700af',
+            \ '#d75f00', '#d75f00', '#005faf', '#005f87']
+
+" }}}
+
+"}}}
+
 set number                " Line numbers
 set laststatus=2
 set cursorline            " Active line highlighting - because it's nice
@@ -547,7 +577,8 @@ if has("gui_running")
 
     " Set the language to English
     language messages English_United States
-    set langmenu=en_US.UTF-8  
+    set langmenu=en_US.UTF-8 
+    autocmd GUIEnter * set vb t_vb=
 endif
 " }}}
 
