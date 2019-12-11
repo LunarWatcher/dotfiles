@@ -19,8 +19,9 @@ augroup folding
     autocmd FileType markdown,vimwiki setlocal nofoldenable
 augroup END
 augroup config 
-    autocmd FileType markdown,vimwiki setlocal wrap
+    autocmd FileType markdown,vimwiki,txt setlocal wrap
     autocmd FileType markdown,vimwiki setlocal conceallevel=0 
+    autocmd FileType markdown let g:indentLine_enabled=0
 augroup END
 " }}}
 
@@ -364,6 +365,13 @@ syntax enable
 set incsearch             " Along withsearch highlighting, it shows search results while typing
 set hlsearch              " Search highlighting 
 set splitright
+" }}}
+
+" Configure indents {{{
+
+set cindent
+set cino=N-s
+set cino+=g0
 " }}}
 
 " Filetypes {{{
