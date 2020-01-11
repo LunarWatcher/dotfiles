@@ -19,7 +19,7 @@ augroup folding
     autocmd FileType markdown,vimwiki setlocal nofoldenable
 augroup END
 augroup config 
-    autocmd FileType markdown,vimwiki,txt setlocal wrap
+    autocmd FileType markdown,vimwiki,text setlocal wrap
     autocmd FileType markdown,vimwiki setlocal conceallevel=0 
     autocmd FileType markdown let g:indentLine_enabled=0
 augroup END
@@ -45,7 +45,7 @@ let g:python_host_prog = 'python2'
 
 call plug#begin('~/.vim/plugged')
 
-
+"Plug 'vim/killersheep' 
 " Navigation {{{
 
 Plug 'christoomey/vim-tmux-navigator'
@@ -68,14 +68,22 @@ else
     Plug 'junegunn/fzf', { 'dir': '~/.fzf', 'do': './install --all' } 
 endif
 Plug 'junegunn/fzf.vim'
-command! -bang -nargs=? -complete=dir HFiles
-  \ call fzf#vim#files(<q-args>, {'source': 'ag --hidden --ignore .git -g ""'}, <bang>0)
-nnoremap <leader>zx :HFiles<cr>
-command! -bang -nargs=? -complete=dir HNGFiles
-  \ call fzf#vim#files(<q-args>, {'source': 'ag --hidden --skip-vcs-ignores --ignore .git -g ""'}, <bang>0)
-nnoremap <leader>zX :HNGFiles<cr>
+Plug 'liuchengxu/vim-clap', { 'do': ':Clap install-binary' }
 
-"Nerdtree config
+command! -bang -nargs=? -complete=dir HFiles call fzf#run(fzf#vim#with_preview({
+        \ 'source': 'ag --hidden --ignore .git -g ""', 
+        \ 'sink':'tabedit', 
+        \ 'down': '40%'
+        \ }))
+
+command! -bang -nargs=? -complete=dir HNGFiles call fzf#run(fzf#vim#with_preview({
+        \ 'source': 'ag --hidden --skip-vcs-ignores --ignore .git -g ""', 
+        \ 'sink':'tabedit', 
+        \ 'down': '40%'
+        \ }))
+
+nnoremap <leader>zx :HFiles<cr>
+nnoremap <leader>zX :HNGFiles<cr>
 
 let NERDTreeWinSize=32
 let NERDTreeWinPos="left"
@@ -113,7 +121,7 @@ Plug 'luochen1990/rainbow'
 augroup RainbowLangs
     autocmd!
     " Enables rainbow parentheses for some specific filetypes
-    autocmd FileType cpp,java,javascript RainbowToggle
+    autocmd FileType cpp,java,javascript RainbowToggleOn
 augroup end
 " Disables the rainbow parentheses globally
 let g:rainbow_active = 0 
@@ -140,13 +148,14 @@ Plug 'plasticboy/vim-markdown'
 Plug 'godlygeek/tabular'
 
 set concealcursor=nc
-set conceallevel=2
+set conceallevel=0
 
 " }}}
 
 " Various coding-related utils {{{
 Plug 'scrooloose/nerdcommenter'
-Plug 'majutsushi/tagbar'
+"Plug 'majutsushi/tagbar'
+Plug 'liuchengxu/vista.vim'
 Plug 'alvan/vim-closetag'
 Plug 'wsdjeg/vim-todo/'
 
@@ -359,8 +368,8 @@ set nowrap                " Soft wrapping is annoying
 set smartcase             " Search enhancements
 filetype plugin indent on
 filetype plugin on
-filetype on
-syntax enable
+"filetype on
+syntax enable 
 
 set incsearch             " Along withsearch highlighting, it shows search results while typing
 set hlsearch              " Search highlighting 
@@ -497,7 +506,15 @@ command! -nargs=1 -complete=dir Scd call Scd(<f-args>)
 nnoremap <leader>pi <esc>:PlugInstall<cr>
 nnoremap <leader>pc <esc>:PlugClean<cr>
 nnoremap <leader>pu :PlugUpdate<cr>
-nnoremap <F8> :TagbarToggle<cr>
+nnoremap <F8> :Vista!!<cr>
+" }}}
+
+" General mapping {{{
+inoremap <leader>fi <esc>:YcmCompleter FixIt<cr>i
+inoremap <leader>w <esc>:w<cr>i
+
+nnoremap <leader>x viw
+
 " }}}
 
 " Multi-window nav {{{
@@ -508,7 +525,7 @@ map <C-l> <C-W>l
 
 " }}}
 
-" Leader re-mapping {{{
+" Leader remapping {{{
 
 " Adapted from https://github.com/towc/dotfiles/blob/master/.vimrc#L462-L475
 let g:autoSave = 0
@@ -582,7 +599,7 @@ if has("gui_running")
     " Otherwise, it thinks i.e. " m" is the option, not just "m". 
     set guioptions -=m
     set guioptions -=T
-
+    set guioptions +=k
     " Set the language to English
     language messages English_United States
     set langmenu=en_US.UTF-8 
