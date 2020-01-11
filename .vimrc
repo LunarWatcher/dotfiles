@@ -72,13 +72,13 @@ Plug 'liuchengxu/vim-clap', { 'do': ':Clap install-binary' }
 
 command! -bang -nargs=? -complete=dir HFiles call fzf#run(fzf#vim#with_preview({
         \ 'source': 'ag --hidden --ignore .git -g ""', 
-        \ 'sink':'tabedit', 
+        \ 'sink': 'e', 
         \ 'down': '40%'
         \ }))
 
 command! -bang -nargs=? -complete=dir HNGFiles call fzf#run(fzf#vim#with_preview({
         \ 'source': 'ag --hidden --skip-vcs-ignores --ignore .git -g ""', 
-        \ 'sink':'tabedit', 
+        \ 'sink': 'e', 
         \ 'down': '40%'
         \ }))
 
@@ -244,7 +244,8 @@ let g:localvimrc_sandbox = 0
 " }}}
 
 " General every-day use {{{
-Plug 'codeape2/vim-multiple-monitors'
+" Plug 'codeape2/vim-multiple-monitors'
+Plug 'D:/programming/projects/vim/vim-multiple-monitors/'
 Plug 'jceb/vim-orgmode'
 
 Plug 'tpope/vim-speeddating'
