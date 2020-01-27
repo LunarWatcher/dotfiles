@@ -245,7 +245,8 @@ let g:localvimrc_sandbox = 0
 
 " General every-day use {{{
 " Plug 'codeape2/vim-multiple-monitors'
-Plug 'D:/programming/projects/vim/vim-multiple-monitors/'
+Plug 'LunarWatcher/vim-multiple-monitors'
+
 Plug 'jceb/vim-orgmode'
 
 Plug 'tpope/vim-speeddating'

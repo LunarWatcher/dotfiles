@@ -1,5 +1,9 @@
 # dotfiles
 
+# Note: 
+
+This project is actively being rebuilt due to real Linux installs that've caused me to get annoyed at certain setup actions. Further changes and documentation coming soon.
+
 ## .vimrc
 
 ### Notes
