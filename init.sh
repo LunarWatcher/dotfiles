@@ -14,6 +14,8 @@ read -p "${GREEN}Install packages? (Assumes apt is present)${NC} " -n 1;
 echo "";
 
 if [[ $REPLY =~ ^[Yy]$ ]]; then
+    sudo apt-add-repository universe
+    sudo apt update
     sudo apt install -y thefuck curl python3-pip python-pkg-resources
 fi;
 
@@ -21,8 +23,8 @@ read -p "${GREEN}Build Vim? (Assumes apt, git, and a properly linked compiler ar
 echo "";
 
 if [[ $REPLY =~ ^[Yy]$ ]]; then 
-    echo -e "${GREEM}Installing vim build deps...${NC}"
-
+    echo -e "${GREEN}Installing vim build deps...${NC}"
+    sudo apt install -y libncurses5-dev libgnome2-dev libgnomeui-dev \
         libgtk2.0-dev libatk1.0-dev libbonoboui2-dev \
         libcairo2-dev libx11-dev libxpm-dev libxt-dev python-dev \
         python3-dev ruby-dev lua5.1 liblua5.1-dev libperl-dev
@@ -44,6 +46,23 @@ if [[ $REPLY =~ ^[Yy]$ ]]; then
     echo -e "${GREEN}Vim installed.${NC}"
 fi;
 
+read -p "${GREEN}Build polybar?$NC " -n 1;
+echo ""
+
+if [[ $REPLY =~ ^[Yy]$ ]]; then
+    sudo apt install -y libxcb-xkb-dev libxcb-xrm-dev libxcb-cursor-dev libasound2-dev libpulse-dev i3-wm libjsoncpp-dev libmpdclient-dev libcurl4-openssl-dev libnl-genl-3-dev
+    git clone --recursive https://github.com/polybar/polybar
+    cd polybar 
+
+    mkdir build && cd build
+    cmake ..
+    make -j 8
+    sudo make install 
+
+    cd ../..
+    rm -rf polybar
+fi;
+
 echo -e "${RED}WARNING:${NC} Proceeding with the dotfiles copy will overwrite your local dotfiles, if present. Copy any dotfiles you'd like to keep before running this. Skipping is also an option if this isn't what you signed up for. "
 read -p "Continue? " -n 1;
 echo "";
@@ -54,7 +73,7 @@ if [[ $REPLY =~ ^[Yy]$ ]]; then
     cp .vimrc ~/
     echo "bashrc...";
     cp .bashrc ~/
-
+    cp -r config/* ~/.config/
     echo -e "${GREEN}Done. Enjoy your install!${NC} 💜";
 fi;
 
