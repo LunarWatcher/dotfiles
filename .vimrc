@@ -374,8 +374,10 @@ filetype plugin on
 syntax enable 
 
 set incsearch             " Along withsearch highlighting, it shows search results while typing
-set hlsearch              " Search highlighting 
+set hlsearch              " Search highlighting
 set splitright
+
+set wildmenu              " GUI popup for command autocomplete options 
 " }}}
 
 " Configure indents {{{
@@ -602,9 +604,11 @@ if has("gui_running")
     set guioptions -=m
     set guioptions -=T
     set guioptions +=k
-    " Set the language to English
-    language messages English_United States
-    set langmenu=en_US.UTF-8 
+    if has("win32")
+        " Set the language to English
+        language messages English_United States
+        set langmenu=en_US.UTF-8
+    endif
     autocmd GUIEnter * set vb t_vb=
 endif
 " }}}
