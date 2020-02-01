@@ -70,6 +70,9 @@ if [[ $packages == 1 ]]; then
     sudo apt-add-repository universe
     sudo apt update
     sudo apt install -y thefuck curl python3-pip python-pkg-resources cmake build-essential
+    # Lolcat is borked from apt. Use the ruby version instead 
+    sudo apt remove -y lolcat
+    sudo gem install lolcat 
     echo -e "${GREEN}Done.${NC}";
 fi;
 
