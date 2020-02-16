@@ -24,7 +24,7 @@ echo -e "${PINK}Welcome to Olivia's system initializer."
 echo "This bash script initializes a system with my standards and dotfiles."
 echo "The purpose of this script is simply to let me not have to bother with manual installs of stuff whenever I start a new system."
 echo "The end of this script also copies the dotfiles over, so if you'd just like a dotfile install, this script also does that."
-echo "Reading the script first is highly encouraged, because there's not a lot of prompts. Check what stuff does before you agree to it."
+echo "Reading the script first is highly encouraged, because there's not a lot of prompts asking about specific packages. Check what stuff does before you agree to it."
 echo -e "${NC}"
 
 has "--help"
@@ -39,13 +39,13 @@ if [[ $hr == 1 ]];
 then
     echo "Usage: ./init.sh flags"
     echo "At least one flag is required to take any action. 0 flags prints this message. Several flags can be used together. "
-    echo "  --packages   - installs standard packages"
-    echo "  --vim        - Builds Vim from source"
-    echo "  --polybar    - Builds polybar from source"
-    echo "  --dotfiles   - Installs dotfiles"
-    echo "  --autokey    - Installs autokey + config (Note: config set up for a Scandinavian keyboard)"
-    echo "  --vim-plug   - Bootstraps vim-plug and runs PlugInstall afterwards. This option assumes you have Vim already."
-    echo "  --nerdfonts  - Installs nerdfonts. WARNING: This has a download size of 5.37 GB (27.01.20) and will take a while to complete, but is also run last, so it doesn't block the other actions."
+    echo "  --packages    - installs standard packages"
+    echo "  --vim         - Builds Vim from source"
+    echo "  --polybar     - Builds polybar from source"
+    echo "  --dotfiles    - Installs dotfiles"
+    echo "  --autokey     - Installs autokey + config (Note: config set up for a Scandinavian keyboard)"
+    echo "  --vim-plug    - Bootstraps vim-plug and runs PlugInstall afterwards. This option assumes you have Vim already."
+    echo "  --nerdfonts   - Installs nerdfonts. WARNING: This has a download size of 5.37 GB (27.01.20) and will take a while to complete, but is also run last, so it doesn't block the other actions."
     exit;
 fi;
 
@@ -64,15 +64,17 @@ vimplug=$?
 has "--nerdfonts"
 nerdfonts=$?
 
+
 ### Install standard packages ###
 if [[ $packages == 1 ]]; then
     echo -e "${GREEN}Installing packages...${NC}"
     sudo apt-add-repository universe
     sudo apt update
-    sudo apt install -y thefuck curl python3-pip python-pkg-resources cmake build-essential
+    sudo apt install -y thefuck curl python3-pip python-pkg-resources cmake build-essential libssl-dev
+
     # Lolcat is borked from apt. Use the ruby version instead 
     sudo apt remove -y lolcat
-    sudo gem install lolcat 
+    sudo gem install -y lolcat 
     echo -e "${GREEN}Done.${NC}";
 fi;
 
