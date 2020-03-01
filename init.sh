@@ -40,6 +40,7 @@ then
     echo "Usage: ./init.sh flags"
     echo "At least one flag is required to take any action. 0 flags prints this message. Several flags can be used together. "
     echo "  --packages   - installs standard packages"
+    echo "  --zsh        - prefer zsh over bash. This copies .zshrc if --dotfiles is set, and installs zsh and oh-my-zsh if --packages is defined."
     echo "  --vim        - Builds Vim from source"
     echo "  --polybar    - Builds polybar from source"
     echo "  --dotfiles   - Installs dotfiles"
@@ -70,8 +71,17 @@ if [[ $packages == 1 ]]; then
     sudo apt-add-repository universe
     sudo apt update
     sudo apt install -y thefuck curl python3-pip python-pkg-resources cmake build-essential
+
+    if [[ $zsh == 1 ]]; then
+        echo -e "${GREEN}Installing zsh and oh-my-zsh...${NC}"
+        sudo apt install zsh
+        sh -c "$(curl -fsSL https://raw.github.com/ohmyzsh/ohmyzsh/master/tools/install.sh)"
+        echo -e "${GREEN}Done.${NC}";
+    fi;
+
     echo -e "${GREEN}Done.${NC}";
 fi;
+
 
 ### Build and install Vim ###
 if [[ $vim == 1 ]]; then 
@@ -121,8 +131,16 @@ if [[ $dotfiles == 1 ]]; then
     echo -e "${GREEN}Copying Linux dotfiles...${NC}";
     echo "vimrc...";
     cp .vimrc ~/
-    echo "bashrc...";
-    cp .bashrc ~/
+    
+    if [[ $zsh == 0 ]]; then
+        echo "bashrc...";
+        cp .bashrc ~/
+    else
+        echo "zshrc and dependencies..."
+        zsh -c "git clone --depth=1 https://github.com/romkatv/powerlevel10k.git $ZSH_CUSTOM/themes/powerlevel10k"
+        cp .zshrc ~/
+    fi;  
+
     if [[ $autokey == 1 ]]; then
         sudo apt install -y autokey-gtk
         rsync -av --progress config ~/.config/
@@ -141,7 +159,6 @@ if [[ $vimplug == 1 ]]; then
     echo "vim-plug bootstrapped. Running PlugInstall now for your convenience...";
     vim +PlugInstall
 
-    
     echo -e "${GREEN}Done.${NC}";
 
 fi;
