@@ -1,3 +1,6 @@
+#!/bin/bash
+# Verbose all teh commandz 
+
 NC='[0m'
 GREEN='[1;32m'
 RED='[1;31m'
@@ -52,6 +55,8 @@ fi;
 
 has "--packages"
 packages=$?
+has "--zsh"
+zsh=$?
 has "--vim"
 vim=$?
 has "--polybar"
@@ -65,6 +70,7 @@ vimplug=$?
 has "--nerdfonts"
 nerdfonts=$?
 
+set -v
 
 ### Install standard packages ###
 if [[ $packages == 1 ]]; then
@@ -75,12 +81,15 @@ if [[ $packages == 1 ]]; then
     sudo apt install -y thefuck curl python3-pip python-pkg-resources cmake build-essential libssl-dev 
     # lolcat is borked from apt. Use gem instead. 
     sudo apt remove -y lolcat 
-    sudo gem install -y lolcat 
+    sudo gem install lolcat 
 
     if [[ $zsh == 1 ]]; then
-        echo -e "${GREEN}Installing zsh and oh-my-zsh...${NC}"
+        echo -e "${GREEN}Installing zsh, oh-my-zsh, and powerlevel10k...${NC}"
         sudo apt install zsh
-        sh -c "$(curl -fsSL https://raw.github.com/ohmyzsh/ohmyzsh/master/tools/install.sh)"
+        sh -c "$(curl -fsSL https://raw.github.com/ohmyzsh/ohmyzsh/master/tools/install.sh)" 
+        # Sourcing is a required step to load the $ZSH_CUSTOM. This is a system bootstrapper, so the current shell is most likely bash
+        zsh -c 'source ~/.zshrc; git clone --depth=1 https://github.com/romkatv/powerlevel10k.git $ZSH_CUSTOM/themes/powerlevel10k'
+        
         echo -e "${GREEN}Done.${NC}";
     fi;
 
@@ -142,9 +151,10 @@ if [[ $dotfiles == 1 ]]; then
         echo "bashrc...";
         cp .bashrc ~/
     else
-        echo "zshrc and dependencies..."
-        zsh -c "git clone --depth=1 https://github.com/romkatv/powerlevel10k.git $ZSH_CUSTOM/themes/powerlevel10k"
+        echo "zshrc and zsh config..."
+        
         cp .zshrc ~/
+        cp .p10k.zsh ~/
     fi;  
 
     if [[ $autokey == 1 ]]; then
@@ -180,3 +190,4 @@ if [[ $nerdfonts == 1 ]]; then
 fi;
 
 echo -e "${PINK}Bootstrapper run. Enjoy your system!${NC}";
+set +v 
