@@ -24,7 +24,7 @@ echo -e "${PINK}Welcome to Olivia's system initializer."
 echo "This bash script initializes a system with my standards and dotfiles."
 echo "The purpose of this script is simply to let me not have to bother with manual installs of stuff whenever I start a new system."
 echo "The end of this script also copies the dotfiles over, so if you'd just like a dotfile install, this script also does that."
-echo "Reading the script first is highly encouraged, because there's not a lot of prompts. Check what stuff does before you agree to it."
+echo "Reading the script first is highly encouraged, because there's not a lot of prompts asking about specific packages. Check what stuff does before you agree to it."
 echo -e "${NC}"
 
 has "--help"
@@ -65,12 +65,17 @@ vimplug=$?
 has "--nerdfonts"
 nerdfonts=$?
 
+
 ### Install standard packages ###
 if [[ $packages == 1 ]]; then
     echo -e "${GREEN}Installing packages...${NC}"
     sudo apt-add-repository universe
     sudo apt update
-    sudo apt install -y thefuck curl python3-pip python-pkg-resources cmake build-essential
+
+    sudo apt install -y thefuck curl python3-pip python-pkg-resources cmake build-essential libssl-dev 
+    # lolcat is borked from apt. Use gem instead. 
+    sudo apt remove -y lolcat 
+    sudo gem install -y lolcat 
 
     if [[ $zsh == 1 ]]; then
         echo -e "${GREEN}Installing zsh and oh-my-zsh...${NC}"
@@ -78,6 +83,7 @@ if [[ $packages == 1 ]]; then
         sh -c "$(curl -fsSL https://raw.github.com/ohmyzsh/ohmyzsh/master/tools/install.sh)"
         echo -e "${GREEN}Done.${NC}";
     fi;
+
 
     echo -e "${GREEN}Done.${NC}";
 fi;
