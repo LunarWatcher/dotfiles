@@ -17,6 +17,13 @@ Init.sh is a bootstrapping script, and configures entire installs. Dotfiles can 
 
 But beware; this script has very few prompts. Read over it and understand it before you run it. You might end up with behavior you didn't expect. If in doubt, you can always copy the files manually, or just parts if that's more your thing. 
 
+# TODO
+
+* [x] Split init.sh into manageable chunks
+* [ ] Split dotfiles into variants (desktop, RPi...)
+* [ ] Better structure?
+* [ ] Utilities for updating dotfiles (to and from the repo)
+
 # License 
 
 See the LICENSE file for the full details. The project is licensed under the Unlicense. 
