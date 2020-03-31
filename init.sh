@@ -1,5 +1,4 @@
 #!/bin/bash
-# Verbose all teh commandz 
 
 NC='[0m'
 GREEN='[1;32m'
@@ -50,6 +49,7 @@ then
     echo "  --autokey    - Installs autokey + config (Note: config set up for a Scandinavian keyboard)"
     echo "  --vim-plug   - Bootstraps vim-plug and runs PlugInstall afterwards. This option assumes you have Vim already."
     echo "  --nerdfonts  - Installs nerdfonts. WARNING: This has a download size of 5.37 GB (27.01.20) and will take a while to complete, but is also run last, so it doesn't block the other actions."
+    echo "  --autodeps   - Whether or not to automatically install necessary dependencies. These can be left out, of course."
     exit;
 fi;
 
@@ -69,125 +69,44 @@ has "--vim-plug"
 vimplug=$?
 has "--nerdfonts"
 nerdfonts=$?
+has "--autodeps"
+autodeps=$?
 
+# Verbose all teh commandz 
 set -v
 
 ### Install standard packages ###
 if [[ $packages == 1 ]]; then
-    echo -e "${GREEN}Installing packages...${NC}"
-    sudo apt-add-repository universe
-    sudo apt update
-
-    sudo apt install -y thefuck curl python3-pip python-pkg-resources cmake build-essential libssl-dev 
-    # lolcat is borked from apt. Use gem instead. 
-    sudo apt remove -y lolcat 
-    sudo gem install lolcat 
-
-    if [[ $zsh == 1 ]]; then
-        echo -e "${GREEN}Installing zsh, oh-my-zsh, and powerlevel10k...${NC}"
-        sudo apt install zsh
-        sh -c "$(curl -fsSL https://raw.github.com/ohmyzsh/ohmyzsh/master/tools/install.sh)" 
-        # Sourcing is a required step to load the $ZSH_CUSTOM. This is a system bootstrapper, so the current shell is most likely bash
-        zsh -c 'source ~/.zshrc; git clone --depth=1 https://github.com/romkatv/powerlevel10k.git $ZSH_CUSTOM/themes/powerlevel10k'
-        
-        echo -e "${GREEN}Done.${NC}";
-    fi;
-
-
-    echo -e "${GREEN}Done.${NC}";
+    ./install/packages.sh
 fi;
 
 
 ### Build and install Vim ###
-if [[ $vim == 1 ]]; then 
-    echo -e "${GREEN}Installing vim build deps...${NC}";
-    sudo apt install -y libncurses5-dev libgnome2-dev libgnomeui-dev \
-        libgtk2.0-dev libatk1.0-dev libbonoboui2-dev \
-        libcairo2-dev libx11-dev libxpm-dev libxt-dev python-dev \
-        python3-dev ruby-dev lua5.1 liblua5.1-dev libperl-dev
-    git clone https://github.com/vim/vim.git
-    cd vim
-    cd src
-    echo -e "${GREEN}Done. Building vim...${NC}";
-    # gVim
-    ./configure --enable-gui=gtk2 --with-features=huge --enable-multibyte \
-        --enable-rubyinterp=yes --enable-python3interp=yes \
-        --enable-perlinterp=yes --enable-luainterp=yes \ 
-        --enable-gui=gtk2 --enable-cscipe --prefix=/usr/local 
-    make -j 8
-    sudo make install
+if [[ $vim == 1 ]]; then
+    ./install/buildvim.sh
 
-    cd ../../
-    rm -rf vim
-
-    echo -e "${GREEN}Vim installed.${NC}"
 fi;
 
 ### Install polybar ###
 if [[ $polybar == 1 ]]; then
-    echo -e "${GREEN}Building polybar...${NC}"
-    sudo apt install -y cmake-data libcairo2-dev libxcb1-dev libxcb-ewmh-dev libxcb-icccm4-dev libxcb-image0-dev libxcb-randr0-dev libxcb-util0-dev libxcb-xkb-dev pkg-config python-xcbgen xcb-proto libxcb-xrm-dev i3-wm libasound2-dev libmpdclient-dev libiw-dev libcurl4-openssl-dev libpulse-dev libxcb-composite0-dev xcb libxcb-ewmh2
-    git clone --recursive https://github.com/polybar/polybar
-    cd polybar 
-
-    mkdir build && cd build
-    cmake ..
-    make -j 8
-    sudo make install 
-
-    cd ../..
-    rm -rf polybar
-    
-    echo -e "${GREEN}Done.${NC}"
+    ./install/buildpolybar.sh
 fi;
 
 ### Copy dotfiles ###
-if [[ $dotfiles == 1 ]]; then 
-    echo -e "${GREEN}Copying Linux dotfiles...${NC}";
-    echo "vimrc...";
-    cp .vimrc ~/
-    
-    if [[ $zsh == 0 ]]; then
-        echo "bashrc...";
-        cp .bashrc ~/
-    else
-        echo "zshrc and zsh config..."
-        
-        cp .zshrc ~/
-        cp .p10k.zsh ~/
-    fi;  
-
-    if [[ $autokey == 1 ]]; then
-        sudo apt install -y autokey-gtk
-        rsync -av --progress config ~/.config/
-    else
-        rsync -av --progress config/ ~/.config/ --exclude "autokey" 
-    fi;
-    echo -e "${GREEN}Done. Enjoy your install!${NC} 💜";
+if [[ $dotfiles == 1 ]]; then
+    ./install/dotfiles.sh
 fi;
 
 ### Bootstrap vim-plug ###
 if [[ $vimplug == 1 ]]; then
-    echo -e "${GREEN}Installing vim-plug...${NC}";
-    
-    curl -fLo ~/.vim/autoload/plug.vim --create-dirs \
-        https://raw.githubusercontent.com/junegunn/vim-plug/master/plug.vim
-    echo "vim-plug bootstrapped. Running PlugInstall now for your convenience...";
-    vim +PlugInstall
-
-    echo -e "${GREEN}Done.${NC}";
-
+    ./install/vimplug.sh
 fi;
 
 ### Install nerd-fonts ###
 if [[ $nerdfonts == 1 ]]; then
-    echo -e "${GREEN}Installing ryanoasis/nerd-fonts. This will take a while, depending on your internet speed.${NC}";
-
-    git clone https://github.com/ryanoasis/nerd-fonts
-
-    cd nerd-fonts && ./install.sh
-    echo -e "${GREEN}Done. The nerd-fonts folder has also been preserved due to its download size. If you don't need it, you can remove it manually.${NC}";
+    ./install/nerdfonts.sh
 fi;
 
 echo -e "${PINK}Bootstrapper run. Enjoy your system!${NC}";
-set +v 
+set +v
+

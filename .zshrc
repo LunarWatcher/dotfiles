@@ -32,3 +32,32 @@ eval $(thefuck --alias)
 
 # Aliases
 
+# Variables (modification + new)
+export PATH="/home/${USER}/.local/bin:$PATH"
+# export PATH="/home/lunarwatcher/anaconda3/bin:$PATH"  # commented out by conda initialize
+
+export CXX=clang++
+export CC=clang
+# Fix with some OpenSSL-based apps 
+export SSL_CERT_FILE=/etc/ssl/certs/ca-certificates.crt
+
+export NVM_DIR=~/.nvm
+ [ -s "$NVM_DIR/nvm.sh" ] && . "$NVM_DIR/nvm.sh"
+
+
+# >>> conda initialize >>>
+# !! Contents within this block are managed by 'conda init' !!
+__conda_setup="$('/home/lunarwatcher/anaconda3/bin/conda' 'shell.zsh' 'hook' 2> /dev/null)"
+if [ $? -eq 0 ]; then
+    eval "$__conda_setup"
+else
+    if [ -f "/home/lunarwatcher/anaconda3/etc/profile.d/conda.sh" ]; then
+        . "/home/lunarwatcher/anaconda3/etc/profile.d/conda.sh"
+    else
+        export PATH="/home/lunarwatcher/anaconda3/bin:$PATH"
+    fi
+fi
+unset __conda_setup
+# <<< conda initialize <<<
+
+[ -f ~/.fzf.zsh ] && source ~/.fzf.zsh
