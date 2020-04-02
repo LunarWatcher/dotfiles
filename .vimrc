@@ -213,7 +213,9 @@ let g:vimwiki_hl_cb_checked = 1
 
 " Language server/autocomplete/utils {{{
 
-Plug 'ycm-core/YouCompleteMe'
+
+
+Plug 'ycm-core/YouCompleteMe', { 'do': 'python3 install.py --clangd-completer' }
 Plug 'machakann/vim-Verdin'
 
 Plug 'SirVer/ultisnips'
