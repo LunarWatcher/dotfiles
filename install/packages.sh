@@ -3,7 +3,7 @@ echo -e "${GREEN}Installing packages...${NC}"
 sudo apt-add-repository universe
 sudo apt update
 
-sudo apt install -y thefuck curl python3-pip python-pkg-resources cmake build-essential libssl-dev autoconf automake 
+sudo apt install -y thefuck curl python3-pip python-pkg-resources cmake build-essential libssl-dev autoconf automake silversearcher-ag 
 # lolcat is borked from apt. Use gem instead. 
 sudo apt remove -y lolcat 
 sudo gem install lolcat 

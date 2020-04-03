@@ -70,16 +70,18 @@ endif
 Plug 'junegunn/fzf.vim'
 Plug 'liuchengxu/vim-clap', { 'do': ':Clap install-binary' }
 
+let g:fzf_layout = { 'window': { 'width': 0.9, 'height': 0.6, 'highlight': 'Todo', 'border': 'sharp' } }
+
 command! -bang -nargs=? -complete=dir HFiles call fzf#run(fzf#vim#with_preview({
         \ 'source': 'ag --hidden --ignore .git -g ""', 
         \ 'sink': 'e', 
-        \ 'down': '40%'
+        \ 'window': { 'width': 0.9, 'height': 0.6, 'highlight': 'Todo', 'border': 'sharp' }
         \ }))
 
 command! -bang -nargs=? -complete=dir HNGFiles call fzf#run(fzf#vim#with_preview({
         \ 'source': 'ag --hidden --skip-vcs-ignores --ignore .git -g ""', 
-        \ 'sink': 'e', 
-        \ 'down': '40%'
+        \ 'sink': 'e',
+        \ 'window': { 'width': 0.9, 'height': 0.6, 'highlight': 'Todo', 'border': 'sharp' }
         \ }))
 
 nnoremap <leader>zx :HFiles<cr>
@@ -432,7 +434,7 @@ colorscheme one
 " colorscheme onedark
 " colorscheme onehalfdark
 " colorscheme onehalflight
-" colorscheme seoul256-light
+"colorscheme seoul256-light
 " colorscheme two-firewatch
 " =================================
 
