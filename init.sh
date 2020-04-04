@@ -20,6 +20,7 @@ function has() {
     case "${POSITIONAL[@]}" in *"$1"*)
         return 1;
     esac;
+    return 0;
 }
 
 echo -e "${PINK}Welcome to Olivia's system initializer."
@@ -77,34 +78,34 @@ set -v
 
 ### Install standard packages ###
 if [[ $packages == 1 ]]; then
-    ./install/packages.sh
+    . ./install/packages.sh
 fi;
 
 
 ### Build and install Vim ###
 if [[ $vim == 1 ]]; then
-    ./install/buildvim.sh
+    . ./install/buildvim.sh
 
 fi;
 
 ### Install polybar ###
 if [[ $polybar == 1 ]]; then
-    ./install/buildpolybar.sh
+    . ./install/buildpolybar.sh
 fi;
 
 ### Copy dotfiles ###
 if [[ $dotfiles == 1 ]]; then
-    ./install/dotfiles.sh
+    . ./install/dotfiles.sh
 fi;
 
 ### Bootstrap vim-plug ###
 if [[ $vimplug == 1 ]]; then
-    ./install/vimplug.sh
+    . ./install/vimplug.sh
 fi;
 
 ### Install nerd-fonts ###
 if [[ $nerdfonts == 1 ]]; then
-    ./install/nerdfonts.sh
+    . ./install/nerdfonts.sh
 fi;
 
 echo -e "${PINK}Bootstrapper run. Enjoy your system!${NC}";

@@ -1,10 +1,12 @@
 # Raw dotfile installer. This does NOT have any prompts
 
+echo $autokey
+
 echo -e "${GREEN}Copying Linux dotfiles...${NC}";
 echo "vimrc...";
 cp .vimrc ~/
 # Let's avoid pushing packages
-if [[ $packages == 1 ]]; then 
+if [[ $autodeps == 1 ]]; then 
 
     echo "Installing external plugin dependencies..."
     # Required for running. The build will otherwise fail. These are installed alongside packages, but these are enforced here
@@ -30,12 +32,13 @@ else
     cp .zshrc ~/
     cp .p10k.zsh ~/
 fi;  
-cp "taskrc..."
+
+echo "taskrc..."
 cp .taskrc ~/ 
 
 if [[ $autokey == 1 ]]; then
     sudo apt install -y autokey-gtk
-    rsync -av --progress config ~/.config/
+    rsync -av --progress config/ ~/.config/
 else
     rsync -av --progress config/ ~/.config/ --exclude "autokey" 
 fi;
