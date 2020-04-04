@@ -110,7 +110,7 @@ let g:comfortable_motion_scroll_up_key = "k"
 " }}}
 
 " Themes & colors {{{
-
+Plug '~/programming/vim/vim-light-pastel'
 Plug 'NLKNguyen/papercolor-theme'
 Plug 'junegunn/seoul256.vim'
 Plug 'sonph/onehalf', {'rtp': 'vim/'}
@@ -287,7 +287,7 @@ let g:AutoPairsMapBS = 0
 Plug 'ananagame/vimsence'
 " Dev variant 
 " Plug 'D:/programming/vimsence'
-let g:vimsence_ignored_directories = [ '~/', 'C:/Users/LunarWatcher' ]
+let g:vimsence_ignored_directories = [ '~/', 'C:/Users/LunarWatcher', "/home/lunarwatcher" ]
 let g:vimsence_ignored_file_types = [ 'vimwiki' ]
 " }}}
 
@@ -407,6 +407,7 @@ set showcmd               " Helps managing leader timeout
 
 set mouse=a
 set t_Co=256
+set termguicolors
 
 set exrc                  " Local vimrc
 
@@ -430,12 +431,13 @@ let g:PaperColor_Theme_Options = {
 " Colorschemes + alternate variants
 " =================================
 "colorscheme PaperColor    " Color scheme
-colorscheme one
+"colorscheme one
 " colorscheme onedark
 " colorscheme onehalfdark
 " colorscheme onehalflight
 "colorscheme seoul256-light
 " colorscheme two-firewatch
+colorscheme LightPastel
 " =================================
 
 " Mods {{{
@@ -446,10 +448,10 @@ colorscheme one
 
 " General light, not paper {{{
 
-let g:terminal_ansi_colors = ['#eeeeee', '#af0000', '#008700', '#5f8700',
-            \ '#0087af', '#878787', '#005f87',
-            \ '#444444', '#bcbcbc', '#d70000', '#d70087', '#8700af',
-            \ '#d75f00', '#d75f00', '#005faf', '#005f87']
+"let g:terminal_ansi_colors = ['#eeeeee', '#af0000', '#008700', '#5f8700',
+            "\ '#0087af', '#878787', '#005f87',
+            "\ '#444444', '#bcbcbc', '#d70000', '#d70087', '#8700af',
+            "\ '#d75f00', '#d75f00', '#005faf', '#005f87']
 
 " }}}
 
