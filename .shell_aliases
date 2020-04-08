@@ -1,0 +1,3 @@
+alias gi="git init"
+alias subclone="git submodule update --init --recursive"
+

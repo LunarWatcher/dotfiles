@@ -17,6 +17,7 @@ HIST_STAMPS="dd.mm.yyyy"
 # Plugins 
 plugins=(
     git
+    wd
 )
 
 source $ZSH/oh-my-zsh.sh
@@ -31,6 +32,8 @@ eval $(thefuck --alias)
 [[ ! -f ~/.p10k.zsh ]] || source ~/.p10k.zsh
 
 # Aliases
+
+source ~/.shell_aliases
 
 # Variables (modification + new)
 export PATH="/home/${USER}/.local/bin:$PATH"

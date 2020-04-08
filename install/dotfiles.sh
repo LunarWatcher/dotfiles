@@ -14,10 +14,10 @@ if [[ $autodeps == 1 ]]; then
     sudo apt install -y autotools autoconf libjansson-dev 
 
     git clone https://github.com/universal-ctags/ctags.git --depth=1
-    cd ctags 
-    ./autogen.sh 
-    ./configure 
-    make 
+    cd ctags
+    ./autogen.sh
+    ./configure
+    make
     sudo make install
     echo "Dependencies installed"
     cd ..
@@ -28,13 +28,16 @@ if [[ $zsh == 0 ]]; then
     cp .bashrc ~/
 else
     echo "zshrc and zsh config..."
-    
+
     cp .zshrc ~/
     cp .p10k.zsh ~/
-fi;  
+fi;
+
+echo "Aliases..."
+cp .shell_aliases ~/
 
 echo "taskrc..."
-cp .taskrc ~/ 
+cp .taskrc ~/
 
 if [[ $autokey == 1 ]]; then
     sudo apt install -y autokey-gtk
