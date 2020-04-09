@@ -1,5 +1,5 @@
 " Encoding. Required for powerline fonts (at least with gVim: https://vi.stackexchange.com/q/20136/21251)
-" Might be dependent on window-specific overrides. 
+" Might be dependent on window-specific overrides.
 set encoding=utf-8
 set fileencoding=utf-8
 set termencoding=utf-8
@@ -18,9 +18,9 @@ augroup folding
     autocmd FileType vim setlocal foldenable
     autocmd FileType markdown,vimwiki setlocal nofoldenable
 augroup END
-augroup config 
+augroup config
     autocmd FileType markdown,vimwiki,text setlocal wrap
-    autocmd FileType markdown,vimwiki setlocal conceallevel=0 
+    autocmd FileType markdown,vimwiki setlocal conceallevel=0
     autocmd FileType markdown let g:indentLine_enabled=0
 augroup END
 " }}}
@@ -45,7 +45,7 @@ let g:python_host_prog = 'python2'
 
 call plug#begin('~/.vim/plugged')
 
-"Plug 'vim/killersheep' 
+"Plug 'vim/killersheep'
 " Navigation {{{
 
 Plug 'christoomey/vim-tmux-navigator'
@@ -54,18 +54,18 @@ Plug 'anschnapp/move-less'
 Plug 'yuttie/comfortable-motion.vim'
 
 Plug 'zefei/vim-wintabs'
-Plug 'zefei/vim-wintabs-powerline' " Powerline rendering 
+Plug 'zefei/vim-wintabs-powerline' " Powerline rendering
 
 
 " Fuzzy finder
 if has('win32')
     " Windows note: Some Assembly Required:tm:
     " Install FZF manually. This can be done with either
-    " `go get -u github.com/junegunn/fzf`, or by installing 
-    " one of the pre-built binaries manually. 
-    Plug 'junegunn/fzf'  
+    " `go get -u github.com/junegunn/fzf`, or by installing
+    " one of the pre-built binaries manually.
+    Plug 'junegunn/fzf'
 else
-    Plug 'junegunn/fzf', { 'dir': '~/.fzf', 'do': './install --all' } 
+    Plug 'junegunn/fzf', { 'dir': '~/.fzf', 'do': './install --all' }
 endif
 Plug 'junegunn/fzf.vim'
 Plug 'liuchengxu/vim-clap', { 'do': ':Clap install-binary' }
@@ -73,13 +73,13 @@ Plug 'liuchengxu/vim-clap', { 'do': ':Clap install-binary' }
 let g:fzf_layout = { 'window': { 'width': 0.9, 'height': 0.6, 'highlight': 'Todo', 'border': 'sharp' } }
 
 command! -bang -nargs=? -complete=dir HFiles call fzf#run(fzf#vim#with_preview({
-        \ 'source': 'ag --hidden --ignore .git -g ""', 
-        \ 'sink': 'e', 
+        \ 'source': 'ag --hidden --ignore .git -g ""',
+        \ 'sink': 'e',
         \ 'window': { 'width': 0.9, 'height': 0.6, 'highlight': 'Todo', 'border': 'sharp' }
         \ }))
 
 command! -bang -nargs=? -complete=dir HNGFiles call fzf#run(fzf#vim#with_preview({
-        \ 'source': 'ag --hidden --skip-vcs-ignores --ignore .git -g ""', 
+        \ 'source': 'ag --hidden --skip-vcs-ignores --ignore .git -g ""',
         \ 'sink': 'e',
         \ 'window': { 'width': 0.9, 'height': 0.6, 'highlight': 'Todo', 'border': 'sharp' }
         \ }))
@@ -95,22 +95,21 @@ let NERDTreeMinimalUI = 1
 let NERDTreeDirArrows = 1
 Plug 'terryma/vim-expand-region'
 
-" Toggle the tree with F2 
+" Toggle the tree with F2
 map <F2> :NERDTreeToggle<CR>
-" Remap the refresh to F5 (browser-style refreshing) 
+" Remap the refresh to F5 (browser-style refreshing)
 nnoremap <F5> :NERDTreeRefreshRoot<cr>
 
 " Comfortable motion config
 " Enable mousewheel
 noremap <silent> <ScrollWheelDown> :call comfortable_motion#flick(40)<CR>
 noremap <silent> <ScrollWheelUp>   :call comfortable_motion#flick(-40)<CR>
-" Consistency with Vim 
+" Consistency with Vim
 let g:comfortable_motion_scroll_down_key = "j"
 let g:comfortable_motion_scroll_up_key = "k"
 " }}}
 
 " Themes & colors {{{
-Plug '~/programming/vim/vim-light-pastel'
 Plug 'NLKNguyen/papercolor-theme'
 Plug 'junegunn/seoul256.vim'
 Plug 'sonph/onehalf', {'rtp': 'vim/'}
@@ -126,10 +125,10 @@ augroup RainbowLangs
     autocmd FileType cpp,java,javascript RainbowToggleOn
 augroup end
 " Disables the rainbow parentheses globally
-let g:rainbow_active = 0 
+let g:rainbow_active = 0
 " }}}
 " Old {{{
-" Archived for future use 
+" Archived for future use
 " Plug 'flazz/vim-colorschemes'         " I can't believe this is a thing >.>
 " }}}
 Plug 'vim-airline/vim-airline-themes'
@@ -176,7 +175,7 @@ let g:indentLine_enabled = 1
 let g:indentLine_setColors = 1
 
 let g:indentLine_char = '|'
-let g:indent_guides_enable_on_vim_startup = 1 
+let g:indent_guides_enable_on_vim_startup = 1
 autocmd FileType json,startify,calendar :IndentLinesDisable
 nnoremap <leader>it :IndentLinesToggle<cr>
 
@@ -235,7 +234,7 @@ Plug 'vim-airline/vim-airline'
 let g:airline_theme='onehalflight'
 let g:airline_powerline_fonts = 1
 
-" Integrations 
+" Integrations
 Plug 'tpope/vim-fugitive'
 " }}}
 
@@ -256,13 +255,13 @@ Plug 'jceb/vim-orgmode'
 Plug 'tpope/vim-speeddating'
 Plug 'scy/vim-mkdir-on-write'
 " Plug 'tpope/vim-surround'
-Plug 'jiangmiao/auto-pairs' " Automatic 
+Plug 'jiangmiao/auto-pairs' " Automatic
 
 Plug 'haya14busa/incsearch.vim'
 
 Plug 'mbbill/undotree'
-nnoremap <leader>ut :UndotreeToggle<cr>
-" Auto-disables highlighting 
+nnoremap <F9> :UndotreeToggle<cr>
+" Auto-disables highlighting
 let g:incsearch#auto_nohlsearch=1
 
 " Search remapping
@@ -278,14 +277,14 @@ map #  <Plug>(incsearch-nohl-#)
 map g* <Plug>(incsearch-nohl-g*)
 map g# <Plug>(incsearch-nohl-g#)
 
-" Disable BS for pair deletion 
+" Disable BS for pair deletion
 let g:AutoPairsMapBS = 0
 
 " }}}
 
 " Discord integration {{{
 Plug 'ananagame/vimsence'
-" Dev variant 
+" Dev variant
 " Plug 'D:/programming/vimsence'
 let g:vimsence_ignored_directories = [ '~/', 'C:/Users/LunarWatcher', "/home/lunarwatcher" ]
 let g:vimsence_ignored_file_types = [ 'vimwiki' ]
@@ -315,7 +314,7 @@ let g:startify_bookmarks = [
 "set guifontwide=Source\ Code\ Pro\ for\ Powerline:h11:cANSI " gvim
 " Sauce Code Pro is Source Code Pro, but with added symbols (compared to the
 " powerline variant as well)
-" 
+"
 try
     if has("win32")
         " The Nerd Fonts are broken on windows.
@@ -338,7 +337,7 @@ endtry
 " }}}
 
 let g:AutoPairsShortcutFastWrap = "<C-f>"
-call plug#end() 
+call plug#end()
 
 " Delayed config {{{
 
@@ -358,7 +357,7 @@ let g:startify_custom_header = s:center(startify#fortune#boxed())
 let g:Verdin#cooperativemode=1
 let g:Verdin#autocomplete=0
 
-let g:ycm_semantic_triggers = { 
+let g:ycm_semantic_triggers = {
     \ 'vim': ['#', ':']
     \ }
 
@@ -366,22 +365,22 @@ let g:ycm_semantic_triggers = {
 
 " }}}
 
-" Config {{{ 
+" Config {{{
 
-" Basic enabling {{{ 
+" Basic enabling {{{
 
 set nowrap                " Soft wrapping is annoying
 set smartcase             " Search enhancements
 filetype plugin indent on
 filetype plugin on
 "filetype on
-syntax enable 
+syntax enable
 
 set incsearch             " Along withsearch highlighting, it shows search results while typing
 set hlsearch              " Search highlighting
 set splitright
 
-set wildmenu              " GUI popup for command autocomplete options 
+set wildmenu              " GUI popup for command autocomplete options
 " }}}
 
 " Configure indents {{{
@@ -399,15 +398,17 @@ autocmd BufRead,BufNewFile SConstruct set filetype=python
 " }}}
 
 " Basic settings {{{
-set hidden 
+set hidden
 set autoindent
-set showcmd               " Helps managing leader timeout 
+set showcmd               " Helps managing leader timeout
 
 "General config
 
 set mouse=a
 set t_Co=256
-set termguicolors
+if has("termguicolors")
+    set termguicolors         " Required for true color terminals. If statement for compat
+endif
 
 set exrc                  " Local vimrc
 
@@ -431,13 +432,13 @@ let g:PaperColor_Theme_Options = {
 " Colorschemes + alternate variants
 " =================================
 "colorscheme PaperColor    " Color scheme
-"colorscheme one
+colorscheme one
 " colorscheme onedark
 " colorscheme onehalfdark
 " colorscheme onehalflight
 "colorscheme seoul256-light
 " colorscheme two-firewatch
-colorscheme LightPastel
+
 " =================================
 
 " Mods {{{
@@ -464,9 +465,9 @@ set cursorline            " Active line highlighting - because it's nice
 " causes the system clipboard to be overridden. CTRL+Ins/Shift+Ins in Vim/gVim
 " still enables system clipboard interaction without "+p
 " Additionally, deleting text using the delete key in visual mode can override
-" the system clipboard if this option is set 
+" the system clipboard if this option is set
 " set clipboard=unnamed
- 
+
 " }}}
 
 " Anti-tab squad {{{
@@ -479,8 +480,8 @@ set smartindent
 
 " Cursor config {{{
 
-let &t_SI.="\e[5 q" 
-let &t_SR.="\e[4 q" 
+let &t_SI.="\e[5 q"
+let &t_SR.="\e[4 q"
 let &t_EI.="\e[5 q"
 " }}}
 
@@ -545,7 +546,7 @@ function! ToggleAutoSave()
         augroup AutoSaveAu
             au TextChanged,TextChangedI <buffer> silent write
         augroup END
-    else 
+    else
         let g:autoSave = 0
         au! AutoSaveAu
     endif
@@ -560,17 +561,17 @@ nnoremap <leader>vE :e $MYVIMRC<cr>
 nnoremap <leader>rel :source $MYVIMRC<cr>
 
 " Clears search highlighting without disabling it in general
-nnoremap <leader>chl :noh<cr>             
-
+nnoremap <leader>chl :noh<cr>
+nnoremap <leader>ts :%s/ \+$//g
 " Remaps <leader>q to closing a single tab. Using :q closes the entire buffer,
 " including all other tabs nested within it. :WintabsClose closes one. All the
 " buffers live on if :q is used instead of <leader>q, but they're not nested
-" in the same way. 
-nnoremap <leader>q :WintabsClose<cr> 
+" in the same way.
+nnoremap <leader>q :WintabsClose<cr>
 
 " Todo tracking
 nnoremap <leader>t :Ag \(FIXME\)\\|\(TODO\)<cr>
-nnoremap <leader>u :OrgCheckBoxUpdate<cr>
+
 " }}}
 
 " Other remapping {{{
@@ -584,7 +585,7 @@ nmap <PageUp> :call comfortable_motion#flick(-100)<cr>
 nmap <PageDown> :call comfortable_motion#flick(100)<cr>
 " }}}
 
-" Wintabs remapping {{{ 
+" Wintabs remapping {{{
 nnoremap <M-1> :WintabsGo 1<cr>
 nnoremap <M-2> :WintabsGo 2<cr>
 nnoremap <M-3> :WintabsGo 3<cr>
@@ -606,7 +607,7 @@ if has("gui_running")
     set wak=no
     " Disable the GUI toolbars (they're noisy)
     " Note to self: there cannot be a space between the = and letter.
-    " Otherwise, it thinks i.e. " m" is the option, not just "m". 
+    " Otherwise, it thinks i.e. " m" is the option, not just "m".
     set guioptions -=m
     set guioptions -=T
     set guioptions +=k
@@ -616,6 +617,10 @@ if has("gui_running")
         set langmenu=en_US.UTF-8
     endif
     autocmd GUIEnter * set vb t_vb=
+
+    " This mapping only works in Vim. The alleged workarounds on the wiki do
+    " not work
+    imap <C-BS> <C-w>
 endif
 " }}}
 
@@ -623,13 +628,13 @@ endif
 
 " This enables system-specific configurations that don't make sense to keep in
 " .vimrc (i.e. sensitive config), or config that is system-specific (i.e.
-" startify bookmarks). 
+" startify bookmarks).
 if !isdirectory($HOME."/.vim-extern/")
-    " Create the directory 
+    " Create the directory
     call mkdir($HOME."/.vim-extern")
-    
-else 
-    if filereadable($HOME."/.vim-extern/.systemrc") 
+
+else
+    if filereadable($HOME."/.vim-extern/.systemrc")
         source $HOME/.vim-extern/.systemrc
     endif
 endif
