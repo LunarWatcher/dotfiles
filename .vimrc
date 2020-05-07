@@ -285,9 +285,10 @@ let g:AutoPairsMapBS = 0
 " Discord integration {{{
 Plug 'hugolgst/vimsence'
 " Dev variant
-" Plug 'D:/programming/vimsence'
+"Plug '/mnt/LinuxData/programming/vim/vimsence'
 let g:vimsence_ignored_directories = [ '~/', 'C:/Users/LunarWatcher', "/home/lunarwatcher" ]
 let g:vimsence_ignored_file_types = [ 'vimwiki' ]
+let g:vimsence_discord_flatpak = 1
 " }}}
 
 " Start screen {{{
