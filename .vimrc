@@ -283,7 +283,7 @@ let g:AutoPairsMapBS = 0
 " }}}
 
 " Discord integration {{{
-Plug 'ananagame/vimsence'
+Plug 'hugolgst/vimsence'
 " Dev variant
 " Plug 'D:/programming/vimsence'
 let g:vimsence_ignored_directories = [ '~/', 'C:/Users/LunarWatcher', "/home/lunarwatcher" ]
@@ -394,7 +394,7 @@ set cino+=g0
 
 autocmd BufRead,BufNewfile conanfile.txt set filetype=dosini
 autocmd BufRead,BufNewFile SConstruct set filetype=python
-
+autocmd Bufread,BufNewFile SConscript set filetype=python
 " }}}
 
 " Basic settings {{{
@@ -405,9 +405,10 @@ set showcmd               " Helps managing leader timeout
 "General config
 
 set mouse=a
-set t_Co=256
 if has("termguicolors")
     set termguicolors         " Required for true color terminals. If statement for compat
+else
+    set t_Co=256
 endif
 
 set exrc                  " Local vimrc
@@ -431,8 +432,8 @@ let g:PaperColor_Theme_Options = {
 
 " Colorschemes + alternate variants
 " =================================
-"colorscheme PaperColor    " Color scheme
-colorscheme one
+colorscheme PaperColor    " Color scheme
+"colorscheme one
 " colorscheme onedark
 " colorscheme onehalfdark
 " colorscheme onehalflight
@@ -562,7 +563,7 @@ nnoremap <leader>rel :source $MYVIMRC<cr>
 
 " Clears search highlighting without disabling it in general
 nnoremap <leader>chl :noh<cr>
-nnoremap <leader>ts :%s/ \+$//g
+nnoremap <leader>ts :%s/ \+$//g<cr>
 " Remaps <leader>q to closing a single tab. Using :q closes the entire buffer,
 " including all other tabs nested within it. :WintabsClose closes one. All the
 " buffers live on if :q is used instead of <leader>q, but they're not nested
