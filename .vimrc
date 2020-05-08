@@ -32,7 +32,7 @@ augroup END
   "\ 'fg+':     ['fg', 'CursorLine', 'CursorColumn', 'Normal'],
   "\ 'bg+':     ['bg', 'CursorLine', 'CursorColumn'],
   "\ 'hl+':     ['fg', 'Statement'],
-  "\ 'info':    ['fg', 'PreProc'],
+  "\ 'info':    ['fg', 'PreProc']/
   "\ 'border':  ['fg', 'Ignore'],
   "\ 'prompt':  ['fg', 'Conditional'],
   "\ 'pointer': ['fg', 'Exception'],
@@ -178,6 +178,14 @@ let g:indentLine_char = '|'
 let g:indent_guides_enable_on_vim_startup = 1
 autocmd FileType json,startify,calendar :IndentLinesDisable
 nnoremap <leader>it :IndentLinesToggle<cr>
+
+let g:vista_fzf_preview = ['right:50%']
+let g:vista#renderer#enable_icon = 1
+let g:vista#renderer#icons = {
+\   "function": "\uf794",
+\   "variable": "\uf71b",
+\  }
+
 
 " }}}
 
