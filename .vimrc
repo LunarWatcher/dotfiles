@@ -370,6 +370,18 @@ let g:ycm_semantic_triggers = {
     \ 'vim': ['#', ':']
     \ }
 
+" Disable re-asking
+let g:ycm_confirm_extra_conf=0
+
+augroup YcmAUConfig
+    autocmd!
+    autocmd FileType c,cpp let b:ycm_hover = {
+        \ 'command': 'GetDoc',
+        \ 'syntax': &filetype
+        \ }
+augroup END
+
+
 " }}}
 
 " }}}
