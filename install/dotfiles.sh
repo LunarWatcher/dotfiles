@@ -11,7 +11,7 @@ if [[ $autodeps == 1 ]]; then
     echo "Installing external plugin dependencies..."
     # Required for running. The build will otherwise fail. These are installed alongside packages, but these are enforced here
     # to make sure they aren't excluded 
-    sudo apt install -y autotools autoconf libjansson-dev 
+    sudo apt install -y automake autotools-dev autoconf libjansson-dev  
 
     git clone https://github.com/universal-ctags/ctags.git --depth=1
     cd ctags
