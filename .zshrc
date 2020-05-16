@@ -36,7 +36,7 @@ eval $(thefuck --alias)
 source ~/.shell_aliases
 
 # Variables (modification + new)
-export PATH="/home/${USER}/.local/bin:$PATH"
+export PATH="/home/${USER}/.local/bin:/home/${USER}/go/bin:$PATH"
 # export PATH="/home/lunarwatcher/anaconda3/bin:$PATH"  # commented out by conda initialize
 
 export CXX=clang++
