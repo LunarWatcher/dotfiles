@@ -4,7 +4,7 @@ update:
 build-deps:
 	@echo "Installing general build dependencies..."
 	sudo apt install -y autoconf automake autotools-dev build-essential \
-		libjansson-dev
+		libjansson-dev libtool
 	@echo "Done."
 
 vim-build-deps: # Grabs Vim build dependencies
