@@ -42,7 +42,6 @@ augroup END
 
 let g:python3_host_prog = 'python3'
 let g:python_host_prog = 'python2'
-
 call plug#begin('~/.vim/plugged')
 
 "Plug 'vim/killersheep'
@@ -222,8 +221,6 @@ let g:vimwiki_hl_cb_checked = 1
 
 " Language server/autocomplete/utils {{{
 
-
-
 Plug 'ycm-core/YouCompleteMe', { 'do': 'python3 install.py --clangd-completer' }
 Plug 'machakann/vim-Verdin'
 
@@ -231,8 +228,8 @@ Plug 'SirVer/ultisnips'
 Plug 'honza/vim-snippets'
 
 let g:UltiSnipsExpandTrigger="<C-l>"
-let g:UltiSnipsJumpForwardTrigger="<tab>"
-let g:UltiSnipsJumpBackwardTrigger="<s-tab>"
+let g:UltiSnipsJumpForwardTrigger="<C-l>"
+let g:UltiSnipsJumpBackwardTrigger="<C-k>"
 
 " }}}
 
@@ -372,6 +369,7 @@ let g:ycm_semantic_triggers = {
 
 " Disable re-asking
 let g:ycm_confirm_extra_conf=0
+let g:ycm_clangd_args=['-cross-file-rename']
 
 augroup YcmAUConfig
     autocmd!
