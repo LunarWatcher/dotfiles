@@ -70,7 +70,7 @@ zsh: # Installs zsh and oh-my-zsh
 	# Install the shell
 	sudo apt install -y zsh
 	
-	curl -fsSL https://rago get -u github.com/boyter/scc/w.github.com/ohmyzsh/ohmyzsh/master/tools/install.sh | bash
+	curl -fsSL https://raw.github.com/ohmyzsh/ohmyzsh/master/tools/install.sh | bash
 	# Sourcing is a required step to load the $ZSH_CUSTOM. This is a system bootstrapper, so the current shell is most likely bash
 	zsh -c "source ~/.zshrc; git clone --depth=1 https://github.com/romkatv/powerlevel10k.git $ZSH_CUSTOM/themes/powerlevel10k"
 
