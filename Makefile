@@ -20,7 +20,6 @@ packages: # Install base packages
 	@echo "Installing packages..."
 	sudo apt update && sudo apt install -y software-properties-common
 	sudo apt-add-repository universe && sudo apt update
-	
 	# Fix lolcat (the apt version is broken)
 	sudo apt remove -y lolcat
 	sudo gem install lolcat
@@ -110,7 +109,9 @@ vim-plugin-dependencies:
 	git clone https://github.com/universal-ctags/ctags.git --depth=1
 	cd ctags && ./autogen.sh && ./configure && make -j 4 && sudo make install
 	
-	rm -rf ctags	
+	rm -rf ctags
+	# Required for the latex plugin
+	sudo apt install latexmk
 	echo "External for vim plugins installed"
 
 # This task has to be .PHONY.
@@ -125,7 +126,6 @@ dotfiles:
 
 config:
 	rsync -av --progress config/ ~/.config/
-	
 
 nerdfonts:
 	@echo "Installing nerdfonts. Note that this can take a _long_ time, depending on your connection."
