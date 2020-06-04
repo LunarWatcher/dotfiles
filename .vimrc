@@ -633,7 +633,13 @@ command! -nargs=1 SetTerm let g:BuildTerminal=<f-args>
 nnoremap <leader>sco :call RunBuild('scons', 0, '-j 6')<cr>
 nnoremap <leader>scot :call RunBuild('scons', 0, 'test -j 6')<cr>
 " }}}
-
+" Utilities {{{
+fun! IDeleteThis()
+    silent !rm %
+    :WintabsClose
+endfun
+command! DeleteThis call IDeleteThis()
+" }}}
 
 " }}}
 " gVim config {{{
