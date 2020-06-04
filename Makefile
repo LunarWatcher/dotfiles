@@ -26,7 +26,7 @@ packages: # Install base packages
 	
 	# Install general stuff
 	sudo apt install -y git thefuck curl python3-pip python-pkg-resources libssl-dev \
-		wget nano
+		wget nano xclip
 	
 	# C++ dev stuff
 	sudo apt install clang-9
@@ -34,6 +34,10 @@ packages: # Install base packages
 	make build-deps
 	
 	@echo "Done".
+
+tmux:
+	mkdir -p ~/.tmux
+	git clone https://github.com/tmux-plugins/tpm ~/.tmux/plugins/tpm
 
 home-packages:
 	# Installs home packages.
@@ -123,6 +127,7 @@ dotfiles:
 	ln -s -f ${PWD}/.zshrc /home/${USER}/.zshrc
 	ln -s -f ${PWD}/.shell_aliases /home/${USER}/.shell_aliases
 	ln -s -f ${PWD}/.p10k.zsh /home/${USER}/.p10k.zsh
+	ln -s -f ${PWD}/.tmux.conf /home/${USER}/.tmux.conf
 
 config:
 	rsync -av --progress config/ ~/.config/
@@ -134,7 +139,7 @@ nerdfonts:
 	cd nerd-fonts && ./install.sh
 	@echo "Done"
 
-all: update packages zsh vim fat-dotfiles pythoninstall goinstall
+all: update packages zsh vim tmux fat-dotfiles pythoninstall goinstall
 
 .PHONY = all fat-dotfiles
 # vim:autoindent:noexpandtab:tabstop=4:shiftwidth=4

@@ -64,3 +64,11 @@ unset __conda_setup
 # <<< conda initialize <<<
 
 [ -f ~/.fzf.zsh ] && source ~/.fzf.zsh
+
+# Virtualenv with Vim hack
+
+if [[ -n $VIRTUAL_ENV && -e "${VIRTUAL_ENV}/bin/activate" ]]; then
+  source "${VIRTUAL_ENV}/bin/activate"
+fi
+
+

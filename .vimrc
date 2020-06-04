@@ -211,13 +211,13 @@ let g:ycm_confirm_extra_conf=0
 let g:ycm_clangd_args=['-cross-file-rename']
 
 augroup YcmAUConfig
-autocmd!
-autocmd FileType c,cpp let b:ycm_hover = {
-    \ 'command': 'GetDoc',
-    \ 'syntax': &filetype
-    \ }
+    autocmd!
+    autocmd FileType c,cpp let b:ycm_hover = {
+        \ 'command': 'GetDoc',
+        \ 'syntax': &filetype
+        \ }
 augroup END
-nnoremap <leader>fi <esc>:YcmCompleter FixIt<cr>i
+nnoremap <leader>fix <esc>:YcmCompleter FixIt<cr>
 " }}}
 " Autopairs {{{
 
@@ -532,6 +532,108 @@ endfunction
 
 command! -nargs=1 -complete=dir Scd call Scd(<f-args>)
 " }}}
+" Compiler {{{
+
+if !exists('g:BuildTerminal')
+    let g:BuildTerminal = -1
+endif
+
+if !exists('g:BuildTmux')
+    if has("gui_running")
+        let g:BuildTmux = 1
+    else
+        let g:BuildTmux = 0
+    endif
+endif
+
+fun! RunBuild(buildSys, allowEmpty, ...)
+    " buildSys: the command to use
+    " allowEmpty: whether to allow the output to be inside vim. This will
+    " block.
+
+    " Runs a build command for a provided buildSys, channels into a provided
+    " pipe, with optional args
+    let args = ""
+    if a:0 != 0
+        let args = join(a:000)
+    endif
+
+    let pipe = g:BuildTerminal
+    if g:BuildTmux == 0
+        if pipe == -1 && a:allowEmpty != 1
+            echoerr 'No output terminal set'
+            return
+        elseif pipe != -1
+            " Validate the pipe
+            silent execute '!(ls /dev/pts/' . pipe . ' && exit 0) || exit 1'
+            if v:shell_error != 0
+                echoerr 'Shell not found. If it has been deleted, please reconfigure it now'
+                let g:BuildTerminal = -1
+                return
+            endif
+        endif
+    else
+        if (pipe == -1)
+            echoerr "Specify the tmux session name"
+            return
+        endif
+    endif
+
+    let base = a:buildSys . ' ' . args
+
+    if (g:BuildTmux == 0)
+        if (pipe != -1)
+            " Disown if we can output elsewhere
+            let output = base
+            let base .= ' > /dev/pts/' . pipe . ' 2>&1'
+
+            silent execute '!echo "-------------------------------------------------\n\n" > /dev/pts/' . pipe
+            silent execute '!echo "              New build started                  \n\n" > /dev/pts/' . pipe
+            silent execute '!echo "'                . output .                     '" > /dev/pts/' . pipe
+            silent execute '!echo "-------------------------------------------------" > /dev/pts/' . pipe
+        endif
+
+
+        if 1 || !has("gui_running")
+            " For some reason, disowning in gvim breaks with guioption+=!
+            let base .= " & disown"
+        endif
+
+        silent exec '!' . base
+        " The GUI needs to be redrawn in Vim, for whatever reason
+        redraw!
+    else
+        silent exec '!tmux send-keys -t ' . pipe . '.0 "' . base . '" ENTER'
+        redraw!
+    endif
+endfun
+
+fun! SetVEnv(...)
+    let env = "env"
+    if a:0 != 0
+        let env = a:1
+    endif
+    let venv_load_script = getcwd() . '/' . env
+    " Using python alters the current process, which is what we want.
+    " Using `:!source <path>` doesn't work, because it spawns a new subprocess
+    " that doesn't alter the parent. Python is a nice hack for fixing this,
+    " and sourcing in the virtualenv
+    python3 << EOF
+import vim
+activateThis = vim.eval('l:venv_load_script') + "/bin/activate_this.py"
+if activateThis:
+    exec(open(activateThis).read(), { "__file__": activateThis })
+EOF
+endfun
+
+command! -nargs=* SCons call RunBuild('scons', 0, '-j 6' <f-args>)
+command! -nargs=? SetVEnv call SetVEnv(<f-args>)
+
+command! -nargs=1 SetTerm let g:BuildTerminal=<f-args>
+nnoremap <leader>sco :call RunBuild('scons', 0, '-j 6')<cr>
+nnoremap <leader>scot :call RunBuild('scons', 0, 'test -j 6')<cr>
+" }}}
+
 
 " }}}
 " gVim config {{{
@@ -545,6 +647,7 @@ if has("gui_running")
     set guioptions -=m
     set guioptions -=T
     set guioptions +=k
+
     if has("win32")
         " Set the language to English
         language messages English_United States
