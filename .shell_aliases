@@ -1,6 +1,28 @@
+# Git
 alias gi="git init"
 alias subclone="git submodule update --init --recursive"
+alias gitdeep="git clone --recursive"
 
-alias noiturbo='echo "1" | sudo tee /sys/devices/system/cpu/intel_pstate/no_turbo'
-alias iturbo='echo "0" | sudo tee /sys/devices/system/cpu/intel_pstate/no_turbo'
+# Hardware
+alias noiturbo="echo '1' | sudo tee /sys/devices/system/cpu/intel_pstate/no_turbo"
+alias iturbo="echo '0' | sudo tee /sys/devices/system/cpu/intel_pstate/no_turbo"
 
+# Pyenv
+alias pyenv="source ./env/bin/activate"
+alias newpyenv="virtualenv env && source ./env/bin/activate"
+
+# Vim
+# Hack for gvim: source the pyenv so gvim can access it.
+# Workaround in my current dotfiles: :SetVEnv in gvim
+# All output is then piped into good 'ol /dev/null because it
+# usually spews out bullshit anyway
+alias pgvim="source ./env/bin/activate && gvim . > /dev/null 2>&1"
+
+# System
+alias sysupdate="sudo apt update && sudo apt upgrade && flatpak update"
+
+# Tmux
+# **tmux n**ame
+alias tmuxn="tmux new-session -t"
+
+# vim:ft=sh
