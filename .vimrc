@@ -106,6 +106,8 @@ Plug 'machakann/vim-Verdin'
 Plug 'SirVer/ultisnips'
 Plug 'honza/vim-snippets'
 
+"Plug '/mnt/LinuxData/programming/vim/tmux-multiterm.vim'
+Plug 'LunarWatcher/tmux-multiterm.vim'
 " }}}
 
 " Airline {{{
@@ -534,19 +536,11 @@ command! -nargs=1 -complete=dir Scd call Scd(<f-args>)
 " }}}
 " Compiler {{{
 
-if !exists('g:BuildTerminal')
-    let g:BuildTerminal = -1
-endif
+augroup Multiterm
+    autocmd FileType cpp let g:tmux_multiterm_session = "cpp.0"
+augroup END
 
-if !exists('g:BuildTmux')
-    if has("gui_running")
-        let g:BuildTmux = 1
-    else
-        let g:BuildTmux = 0
-    endif
-endif
-
-fun! RunBuild(buildSys, allowEmpty, ...)
+fun! RunBuild(buildSys, allowEmpty, pane, ...)
     " buildSys: the command to use
     " allowEmpty: whether to allow the output to be inside vim. This will
     " block.
@@ -558,54 +552,17 @@ fun! RunBuild(buildSys, allowEmpty, ...)
         let args = join(a:000)
     endif
 
-    let pipe = g:BuildTerminal
-    if g:BuildTmux == 0
-        if pipe == -1 && a:allowEmpty != 1
-            echoerr 'No output terminal set'
-            return
-        elseif pipe != -1
-            " Validate the pipe
-            silent execute '!(ls /dev/pts/' . pipe . ' && exit 0) || exit 1'
-            if v:shell_error != 0
-                echoerr 'Shell not found. If it has been deleted, please reconfigure it now'
-                let g:BuildTerminal = -1
-                return
-            endif
-        endif
-    else
-        if (pipe == -1)
-            echoerr "Specify the tmux session name"
-            return
-        endif
-    endif
-
     let base = a:buildSys . ' ' . args
+    call TmuxSendKeys(a:pane, -1, base)
+endfun
 
-    if (g:BuildTmux == 0)
-        if (pipe != -1)
-            " Disown if we can output elsewhere
-            let output = base
-            let base .= ' > /dev/pts/' . pipe . ' 2>&1'
-
-            silent execute '!echo "-------------------------------------------------\n\n" > /dev/pts/' . pipe
-            silent execute '!echo "              New build started                  \n\n" > /dev/pts/' . pipe
-            silent execute '!echo "'                . output .                     '" > /dev/pts/' . pipe
-            silent execute '!echo "-------------------------------------------------" > /dev/pts/' . pipe
-        endif
-
-
-        if 1 || !has("gui_running")
-            " For some reason, disowning in gvim breaks with guioption+=!
-            let base .= " & disown"
-        endif
-
-        silent exec '!' . base
-        " The GUI needs to be redrawn in Vim, for whatever reason
-        redraw!
-    else
-        silent exec '!tmux send-keys -t ' . pipe . '.0 "' . base . '" ENTER'
-        redraw!
+fun! RunBinary(buff, sess, ...)
+    if a:0 == 0
+        echo "Run what? (Supply a binary name)"
+        return
     endif
+
+    call TmuxSendKeys(a:buff, a:sess, './' . join(a:000, ' '))
 endfun
 
 fun! SetVEnv(...)
@@ -626,12 +583,18 @@ if activateThis:
 EOF
 endfun
 
-command! -nargs=* SCons call RunBuild('scons', 0, '-j 6' <f-args>)
+command! -nargs=* SCons call RunBuild('scons', 0, 0, '-j 6', <f-args>)
+command! -nargs=* SConsTest call RunBuild('scons', 0, 1, 'test -j 6', <f-args>)
+
 command! -nargs=? SetVEnv call SetVEnv(<f-args>)
 
-command! -nargs=1 SetTerm let g:BuildTerminal=<f-args>
-nnoremap <leader>sco :call RunBuild('scons', 0, '-j 6')<cr>
-nnoremap <leader>scot :call RunBuild('scons', 0, 'test -j 6')<cr>
+nnoremap <leader>sco :SCons<cr>
+nnoremap <leader>scot :SConsTest<cr>
+
+command! -nargs=* Run call RunBinary(1, -1, <f-args>)
+
+command! TmuxCpp let g:tmux_multiterm_session = 'cpp.0'
+
 " }}}
 " Utilities {{{
 fun! IDeleteThis()
