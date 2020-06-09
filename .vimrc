@@ -117,6 +117,7 @@ Plug 'vim-airline/vim-airline-themes'
 
 " Git integration {{{
 Plug 'tpope/vim-fugitive'
+Plug 'rbong/vim-flog'
 " }}}
 
 " Project config {{{
