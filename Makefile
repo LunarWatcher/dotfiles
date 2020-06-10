@@ -19,7 +19,7 @@ vim-build-deps: # Grabs Vim build dependencies
 packages: # Install base packages
 	@echo "Installing packages..."
 	sudo apt update && sudo apt install -y software-properties-common
-	sudo apt-add-repository universe && sudo apt update
+	-sudo apt-add-repository universe && sudo apt update
 	# Fix lolcat (the apt version is broken)
 	sudo apt remove -y lolcat
 	sudo gem install lolcat
