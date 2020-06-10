@@ -61,10 +61,11 @@ home-packages:
 	flatpak install flathub com.uploadedlobster.peek
 
 pythoninstall:
+	python3 -m pip install --upgrade pip
 	# Required for thefuck
-	python3 -m pip install traitlets
+	python3 -m pip install --user traitlets
 	# Used by my own C++ projects
-	python3 -m pip install virtualenv
+	python3 -m pip install --user virtualenv
 
 goinstall:
 	sudo apt install -y golang
@@ -139,6 +140,10 @@ nerdfonts:
 	git clone https://github.com/ryanoasis/nerd-fonts
 	cd nerd-fonts && ./install.sh
 	@echo "Done"
+
+cleanup:
+	@echo "Cleaning up..."
+	sudo apt autoremove -y
 
 all: update packages zsh vim tmux fat-dotfiles pythoninstall goinstall
 
