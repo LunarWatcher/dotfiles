@@ -116,7 +116,7 @@ vim-plugin-dependencies:
 	
 	rm -rf ctags
 	# Required for the latex plugin
-	sudo apt install latexmk
+	sudo apt install -y latexmk
 	echo "External for vim plugins installed"
 
 # This task has to be .PHONY.
