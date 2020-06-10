@@ -279,6 +279,7 @@ let g:vimwiki_hl_cb_checked = 1
 " vimwiki files
 let g:vimwiki_list = [{'path': '~/.wiki/', 'syntax': 'default', 'ext': '.mdvw'},
             \ {'path': '~/.personal/', 'syntax': 'default', 'ext': '.mdvw'}]
+let g:vimwiki_ext2syntax = {'.mdvw': 'media'}
 " }}}
 " Junegunn plugins {{{
 
