@@ -30,7 +30,7 @@ packages: # Install base packages
 		wget nano xclip
 	
 	# C++ dev stuff
-	sudo apt install clang-9
+	sudo apt install -y clang-9
 	# Install build dependencies
 	make build-deps
 	
@@ -52,7 +52,7 @@ home-packages:
 	flatpak install flathub com.discordapp.Discord
 
 	# Installs Steam
-	wget https://steamcdn-a.akamaihd.net/client/installer/steam.deb && sudo apt install ./steam.deb
+	wget https://steamcdn-a.akamaihd.net/client/installer/steam.deb && sudo apt install -y ./steam.deb
 	
 	# Installs bitwarden (password manager)
 	snap install bitwarden
