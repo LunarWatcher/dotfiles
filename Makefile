@@ -22,6 +22,7 @@ packages: # Install base packages
 	-sudo apt-add-repository universe && sudo apt update
 	# Fix lolcat (the apt version is broken)
 	sudo apt remove -y lolcat
+	sudo apt install -y ruby
 	sudo gem install lolcat
 	
 	# Install general stuff
