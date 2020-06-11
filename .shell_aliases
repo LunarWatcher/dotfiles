@@ -2,7 +2,7 @@
 alias gi="git init"
 alias subclone="git submodule update --init --recursive"
 alias gitdeep="git clone --recursive"
-alias gitgraph="git log --graph --abbrev-commit --decorate --format=format:'%C(bold blue)%h%C(reset) - %C(bold cyan)%aD%C(reset) %C(bold green)(%ar)%C(reset)%C(bold yellow)%d%C(reset)%n''          %C(white)%s%C(reset) %C(dim white)- %an%C(reset)' --all"
+alias gitgraph="git log --graph --abbrev-commit --decorate --format=format:'%C(bold blue)%h%C(reset) - %C(bold cyan)%aD%C(reset) %C(bold green)(%ar)%C(reset)%C(bold yellow)%d%C(reset)%n'' %C(white)%s%C(reset) %C(dim white)- %an%C(reset)' --all"
 
 # Hardware
 alias noiturbo="echo '1' | sudo tee /sys/devices/system/cpu/intel_pstate/no_turbo"
