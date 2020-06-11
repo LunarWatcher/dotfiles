@@ -20,6 +20,9 @@ plugins=(
     wd
 )
 
+# Prevent wd from converting paths (https://github.com/ohmyzsh/ohmyzsh/issues/8996#issuecomment-640512998)
+export WD_SKIP_EXPORT=1
+
 source $ZSH/oh-my-zsh.sh
 
 # Config 
