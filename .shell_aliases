@@ -7,6 +7,7 @@ alias gitgraph="git log --graph --abbrev-commit --decorate --format=format:'%C(b
 # Hardware
 alias noiturbo="echo '1' | sudo tee /sys/devices/system/cpu/intel_pstate/no_turbo"
 alias iturbo="echo '0' | sudo tee /sys/devices/system/cpu/intel_pstate/no_turbo"
+alias pulsenodio="pulseaudio -k && sudo alsa force-reload"
 
 # Pyenv
 alias pyenv="source ./env/bin/activate"
