@@ -25,6 +25,8 @@ augroup config
     autocmd FileType markdown,vimwiki,text setlocal wrap
     autocmd FileType markdown,vimwiki setlocal conceallevel=0
 augroup END
+set linebreak
+
 " }}}
 " Plugins {{{
 call plug#begin('~/.vim/plugged')
@@ -134,7 +136,8 @@ Plug 'mbbill/undotree'
 " }}}
 
 " Discord integration {{{
-Plug 'hugolgst/vimsence'
+"Plug 'hugolgst/vimsence'
+"Plug '/mnt/LinuxData/programming/vim/vimsence'
 " }}}
 
 " Start screen {{{
@@ -385,6 +388,10 @@ nnoremap <C-PageDown> :WintabsNext<cr>
 " in the same way.
 nnoremap <leader>q :WintabsClose<cr>
 " }}}
+" Plasticboy markdown {{{
+let g:vim_markdown_conceal = 0
+let g:vim_markdown_conceal_code_blocks = 0
+" }}} "
 " }}}
 " Config {{{
 " Basic enabling {{{
