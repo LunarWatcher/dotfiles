@@ -13,7 +13,13 @@ vim-build-deps: # Grabs Vim build dependencies
 	sudo apt install -y libncurses5-dev \
 		libgtk2.0-dev libatk1.0-dev \
 		libcairo2-dev libx11-dev libxpm-dev libxt-dev python-dev \
-		python3-dev ruby-dev lua5.1 liblua5.1-dev libperl-dev
+		python3.8-dev ruby-dev lua5.3 liblua5.3-dev luajit libperl-dev
+	# Caveat; if Vim still fails to compile lua, run:
+	# cd /usr/include && ln -s lua5.1 lua
+	# Vim is very specific about the file location :rolling_eyes:
+	# --with-lua-prefix doesn't work without a few hacks with symlinks,
+	#  because it's a prefix and not a location.
+	#  It searches in include/ and include/lua in the path supplied
 	@echo "Done"
 
 packages: # Install base packages
@@ -26,7 +32,7 @@ packages: # Install base packages
 	sudo gem install lolcat
 	
 	# Install general stuff
-	sudo apt install -y git thefuck curl python3-pip python-pkg-resources libssl-dev \
+	sudo apt install -y git thefuck curl python-pkg-resources libssl-dev \
 		wget nano xclip
 	
 	# C++ dev stuff
@@ -61,11 +67,14 @@ home-packages:
 	flatpak install flathub com.uploadedlobster.peek
 
 pythoninstall:
-	sudo python3 -m pip install --upgrade pip
+	sudo apt install python3.8-dev python3.8
+	sudo python3.8 -m pip install --upgrade pip
 	# Required for thefuck
-	python3 -m pip install --user traitlets
-	# Used by my own C++ projects
-	python3 -m pip install --user virtualenv
+	python3.8 -m pip install --user traitlets
+	# Prereq for virtualenv (and has to be installed separately, because python :facepaw:)
+	python3.8 -m pip install --user wheel
+	# Used for my own C++ projects
+	python3.8 -m pip install --user virtualenv
 
 goinstall:
 	sudo apt install -y golang
@@ -84,12 +93,14 @@ powerlevel:
 vim:
 	@echo "Building Vim..."
 	make vim-build-deps
-	git clone https://github.com/vim/vim.git
+	-git clone https://github.com/vim/vim.git
 	cd vim/src && \
 		./configure --enable-gui=gtk2 --with-features=huge --enable-multibyte \
 			--enable-rubyinterp=yes --enable-python3interp=yes \
-			--enable-perlinterp=yes --enable-luainterp=yes \
-			--enable-gui=gtk2 --enable-cscope --prefix=/usr/local && \
+			--enable-perlinterp=yes --enable-luainterp=yes --with-luajit=yes \
+			--enable-gui=gtk2 --enable-cscope --prefix=/usr/local \
+			--with-python3-config-dir=$$(python3.8-config --configdir) --with-python3-command=python3.8 \
+			--enable-largefile --enable-fail-if-missing && \
 		make -j 8 && \
 		sudo make install
 	rm -rf vim
