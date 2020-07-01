@@ -27,4 +27,23 @@ alias sysupdate="sudo apt update && sudo apt upgrade && flatpak update"
 # **tmux n**ame
 alias tmuxn="tmux new-session -t"
 
+# Docker
+# Start and stop the service
+alias rdocker="sudo systemctl start docker"
+alias sdocker="sudo systemctl stop docker"
+
+# Temporary docker container (deletes itself)
+alias dockertmp="docker run --rm -ti"
+
+# Permanent, named docker container without disconnect
+alias dockern="docker run -di --name"
+
+# Shortcut to interactive session
+alias dex="docker exec -ti"
+alias dstart="docker start"
+alias dstop="docker stop"
+alias drm="docker rm"
+
+alias powershelldocker="docker run -ti --rm mcr.microsoft.com/powershell:latest"
+
 # vim:ft=sh
