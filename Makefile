@@ -4,7 +4,7 @@ update:
 build-deps:
 	@echo "Installing general build dependencies..."
 	sudo apt install -y autoconf automake autotools-dev build-essential \
-		libjansson-dev libtool libtool-bin
+		libjansson-dev libtool libtool-bin cmake
 	@echo "Done."
 
 vim-build-deps: # Grabs Vim build dependencies
@@ -13,7 +13,7 @@ vim-build-deps: # Grabs Vim build dependencies
 	sudo apt install -y libncurses5-dev \
 		libgtk2.0-dev libatk1.0-dev \
 		libcairo2-dev libx11-dev libxpm-dev libxt-dev \
-		python3.8-dev ruby-dev lua5.3 liblua5.3-dev luajit libperl-dev
+		python3.8-dev ruby-dev lua5.3 liblua5.3-dev luajit libluajit-5.1-dev libperl-dev
 	# Caveat; if Vim still fails to compile lua, run:
 	# cd /usr/include && ln -s lua5.1 lua
 	# Vim is very specific about the file location :rolling_eyes:
@@ -36,11 +36,15 @@ packages: # Install base packages
 		wget nano xclip
 	
 	# C++ dev stuff
-	sudo apt install -y clang-9
+	sudo apt install -y clang-10 clang-format-10
 	# Install build dependencies
 	make build-deps
-	
+
 	@echo "Done".
+
+theming:
+	sudo add-apt-repository ppa:papirus/papirus
+	sudo apt update && sudo apt install papirus-icon-theme
 
 tmux:
 	mkdir -p ~/.tmux
@@ -53,21 +57,21 @@ home-packages:
 	# is officially endorsed, it's a _lot_ newer, a lot faster, and a lot prettier
 	sudo apt purge libreoffice && sudo apt autoremove
 	flatpak install flathub org.libreoffice.LibreOffice
-	
-	# Flatpak Discord doesn't fuck up and block libc++
-	flatpak install flathub com.discordapp.Discord
 
 	# Installs Steam
 	wget https://steamcdn-a.akamaihd.net/client/installer/steam.deb && sudo apt install -y ./steam.deb
 	
-	# Installs bitwarden (password manager)
-	snap install bitwarden
-	
+additional-packages:
 	# installs peek (gif screen recorder)
 	flatpak install flathub com.uploadedlobster.peek
 
+	flatpak install flathub com.bitwarden.desktop
+
+	# Installs ksnip for its editing capabilities
+	wget https://github.com/ksnip/ksnip/releases/download/v1.7.1/ksnip-1.7.1.deb && sudo apt install -y ./ksnip-1.7.1.deb
+
 pythoninstall:
-	sudo apt install python3.8-dev python3.8
+	sudo apt install python3.8-dev python3.8 python3-pip
 	sudo python3.8 -m pip install --upgrade pip
 	# Required for thefuck
 	python3.8 -m pip install --user traitlets
@@ -110,6 +114,7 @@ install-vim-plug: # Installs junegunn/vim-plug
 	@echo "Installing vim-plug"
 	curl -fLo ~/.vim/autoload/plug.vim --create-dirs \
 		https://raw.githubusercontent.com/junegunn/vim-plug/master/plug.vim
+	sudo apt install silversearcher-ag
 	@echo "vim-plug bootstrapped. Running PlugInstall now for your convenience...";
 	vim +PlugInstall +qa
 	@echo "Done"
