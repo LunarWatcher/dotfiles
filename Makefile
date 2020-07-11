@@ -12,7 +12,7 @@ vim-build-deps: # Grabs Vim build dependencies
 	# This contains potentially redundant packages
 	sudo apt install -y libncurses5-dev \
 		libgtk2.0-dev libatk1.0-dev \
-		libcairo2-dev libx11-dev libxpm-dev libxt-dev python-dev \
+		libcairo2-dev libx11-dev libxpm-dev libxt-dev \
 		python3.8-dev ruby-dev lua5.3 liblua5.3-dev luajit libperl-dev
 	# Caveat; if Vim still fails to compile lua, run:
 	# cd /usr/include && ln -s lua5.1 lua
