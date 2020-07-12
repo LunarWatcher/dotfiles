@@ -33,7 +33,7 @@ packages: # Install base packages
 	
 	# Install general stuff
 	sudo apt install -y git thefuck curl python-pkg-resources libssl-dev \
-		wget nano xclip
+		wget nano xclip tmux
 	
 	# C++ dev stuff
 	sudo apt install -y clang-10 clang-format-10
