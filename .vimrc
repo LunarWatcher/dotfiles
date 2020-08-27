@@ -269,9 +269,9 @@ let g:airline_theme = 'papercolor'
 let g:airline_powerline_fonts = 1
 " }}}
 " Ultisnips {{{
-let g:UltiSnipsExpandTrigger="<C-l>"
-let g:UltiSnipsJumpForwardTrigger="<C-l>"
-let g:UltiSnipsJumpBackwardTrigger="<C-k>"
+let g:UltiSnipsExpandTrigger="<C-E>"
+let g:UltiSnipsJumpForwardTrigger="<C-b>"
+let g:UltiSnipsJumpBackwardTrigger="<C-z>"
 " }}}
 " Vimwiki {{{
 let g:vimwiki_conceallevel = 0
@@ -391,7 +391,22 @@ nnoremap <leader>q :WintabsClose<cr>
 " Plasticboy markdown {{{
 let g:vim_markdown_conceal = 0
 let g:vim_markdown_conceal_code_blocks = 0
-" }}} "
+" }}}
+" Indentline {{{
+" Fix retarded issue with auto-conceal to 2
+let g:indentLine_setConceal = 0
+" }}}
+" Vimtex {{{
+let g:tex_flavor = "latex"
+" }}}
+" Codi {{{
+let g:codi#interpreters = {
+    \ 'python': {
+        \ 'bin': 'python3',
+        \ 'prompt': '^\(>>>\|\.\.\.\) ',
+    \ },
+\ }
+" }}}
 " }}}
 " Config {{{
 " Basic enabling {{{
@@ -530,6 +545,10 @@ nnoremap <leader>ts :%s/ \+$//g<cr>
 " This needs to be remapped on keyboards without a bracket button (i.e. on
 " scandinavian or german keyboards)
 autocmd FileType help nnoremap <C-t> <C-]>
+
+" Trick for remapping escape to terminal normal. Very useful on keyboards
+" without a dedicated \ button
+tnoremap <Esc> <C-\><C-n>
 " }}}
 " }}}
 " Custom functions and commands {{{
