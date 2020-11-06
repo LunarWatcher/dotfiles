@@ -130,7 +130,8 @@ Plug 'embear/vim-localvimrc'
 Plug 'LunarWatcher/vim-multiple-monitors'
 Plug 'tpope/vim-speeddating'
 Plug 'scy/vim-mkdir-on-write'
-Plug 'Krasjet/auto.pairs'
+"Plug 'Krasjet/auto.pairs'
+Plug 'tmsvg/pear-tree'
 Plug 'haya14busa/incsearch.vim'
 Plug 'mbbill/undotree'
 " }}}
@@ -227,9 +228,12 @@ nnoremap <leader>fix <esc>:YcmCompleter FixIt<cr>
 " }}}
 " Autopairs {{{
 
-let g:AutoPairsShortcutFastWrap = "<C-f>"
+"let g:AutoPairsShortcutFastWrap = "<C-f>"
 " Disable BS for pair deletion
-let g:AutoPairsMapBS = 0
+"let g:AutoPairsMapBS = 0
+let g:pear_tree_smart_openers = 1
+let g:pear_tree_smart_closers = 1
+let g:pear_tree_repeatable_expand = 0
 " }}}
 " Vimsence {{{
 let g:vimsence_ignored_directories = [ '~/', 'C:/Users/LunarWatcher', "/home/lunarwatcher" ]
@@ -269,7 +273,7 @@ let g:airline_theme = 'papercolor'
 let g:airline_powerline_fonts = 1
 " }}}
 " Ultisnips {{{
-let g:UltiSnipsExpandTrigger="<C-E>"
+let g:UltiSnipsExpandTrigger="<C-e>"
 let g:UltiSnipsJumpForwardTrigger="<C-b>"
 let g:UltiSnipsJumpBackwardTrigger="<C-z>"
 " }}}
@@ -415,6 +419,8 @@ set smartcase             " Search enhancements
 filetype plugin indent on
 filetype plugin on
 syntax enable
+
+set linespace=2           " BREATHE!
 
 set incsearch             " Along withsearch highlighting, it shows search results while typing
 set hlsearch              " Search highlighting
