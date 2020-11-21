@@ -64,7 +64,7 @@ Plug 'rakr/vim-one'
 Plug 'rakr/vim-two-firewatch'
 
 Plug 'pboettch/vim-cmake-syntax'
-Plug 'luochen1990/rainbow'
+Plug 'LunarWatcher/rainbow'
 
 Plug 'RRethy/vim-illuminate'
 Plug 'markonm/traces.vim'
@@ -320,13 +320,10 @@ nnoremap <leader>it :IndentLinesToggle<cr>
 let g:Illuminate_ftblacklist = ['nerdtree', 'md', 'json', 'markdown', 'text', 'txt']
 " }}} Vim illuminate "
 " Rainbows {{{
-augroup RainbowLangs
-    autocmd!
-    " Enables rainbow parentheses for some specific filetypes
-    autocmd FileType cpp,java,javascript :RainbowToggleOn
-augroup end
-" Disables the rainbow parentheses globally
-let g:rainbow_active = 0
+
+" The autocmd enabling this for some files failed.
+let g:rainbow_active = 1
+let g:rainbow_list = ['vim', 'javascript', 'java', 'python', 'cpp']
 " }}}
 " FZF {{{ "
 let g:fzf_layout = { 'window': { 'width': 0.9, 'height': 0.6, 'highlight': 'Todo', 'border': 'sharp' } }
