@@ -49,10 +49,16 @@ if has('win32')
     " one of the pre-built binaries manually.
     Plug 'junegunn/fzf'
 else
-    Plug 'junegunn/fzf', { 'dir': '~/.fzf', 'do': './install --all' }
+    Plug 'junegunn/fzf', { 'do': './install --all' }
 endif
 Plug 'junegunn/fzf.vim'
-Plug 'liuchengxu/vim-clap', { 'do': ':Clap install-binary' }
+
+fun! s:installClap()
+    :Clap install-binary
+    call clap#installer#build_maple()
+endfun
+
+Plug 'liuchengxu/vim-clap', { 'do': { -> s:installClap() } }
 Plug 'terryma/vim-expand-region'
 " }}}
 
@@ -130,8 +136,9 @@ Plug 'embear/vim-localvimrc'
 Plug 'LunarWatcher/vim-multiple-monitors'
 Plug 'tpope/vim-speeddating'
 Plug 'scy/vim-mkdir-on-write'
-"Plug 'Krasjet/auto.pairs'
-Plug 'tmsvg/pear-tree'
+Plug 'LunarWatcher/auto.pairs'
+"Plug 'tmsvg/pear-tree'
+"Plug 'jiangmiao/auto-pairs'
 Plug 'haya14busa/incsearch.vim'
 Plug 'mbbill/undotree'
 " }}}
@@ -215,7 +222,11 @@ let g:ycm_semantic_triggers = {
 
 " Disable re-asking
 let g:ycm_confirm_extra_conf=0
-let g:ycm_clangd_args=['-cross-file-rename']
+let g:ycm_clangd_args=['-cross-file-rename', '--completion-style=detailed']
+
+let g:ycm_semantic_triggers =  {
+  \   'c,cpp,objc': [ 're!\w{3}', '_' ],
+  \ }
 
 augroup YcmAUConfig
     autocmd!
@@ -230,10 +241,8 @@ nnoremap <leader>fix <esc>:YcmCompleter FixIt<cr>
 
 "let g:AutoPairsShortcutFastWrap = "<C-f>"
 " Disable BS for pair deletion
-"let g:AutoPairsMapBS = 0
-let g:pear_tree_smart_openers = 1
-let g:pear_tree_smart_closers = 1
-let g:pear_tree_repeatable_expand = 0
+let g:AutoPairsMapBS = 0
+
 " }}}
 " Vimsence {{{
 let g:vimsence_ignored_directories = [ '~/', 'C:/Users/LunarWatcher', "/home/lunarwatcher" ]
@@ -551,7 +560,7 @@ autocmd FileType help nnoremap <C-t> <C-]>
 
 " Trick for remapping escape to terminal normal. Very useful on keyboards
 " without a dedicated \ button
-tnoremap <Esc> <C-\><C-n>
+tnoremap <C-å> <C-\>
 " }}}
 " }}}
 " Custom functions and commands {{{
