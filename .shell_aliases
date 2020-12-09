@@ -11,8 +11,8 @@ alias iturbo="echo '0' | sudo tee /sys/devices/system/cpu/intel_pstate/no_turbo"
 alias pulsenodio="pulseaudio -k && sudo alsa force-reload"
 
 # Pyenv
-alias pyenv="source ./env/bin/activate"
-alias newpyenv="virtualenv env && source ./env/bin/activate"
+#alias pyenv="source ./env/bin/activate"
+#alias newpyenv="virtualenv env && source ./env/bin/activate"
 
 # Vim
 # Hack for gvim: source the pyenv so gvim can access it.

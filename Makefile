@@ -39,7 +39,7 @@ packages: # Install base packages
 	sudo apt install -y clang-10 clang-format-10
 	# Install build dependencies
 	make build-deps
-
+	
 	@echo "Done".
 
 theming:
@@ -71,14 +71,7 @@ additional-packages:
 	wget https://github.com/ksnip/ksnip/releases/download/v1.7.1/ksnip-1.7.1.deb && sudo apt install -y ./ksnip-1.7.1.deb
 
 pythoninstall:
-	sudo apt install python3.8-dev python3.8 python3-pip
-	sudo python3.8 -m pip install --upgrade pip
-	# Required for thefuck
-	python3.8 -m pip install --user traitlets
-	# Prereq for virtualenv (and has to be installed separately, because python :facepaw:)
-	python3.8 -m pip install --user wheel
-	# Used for my own C++ projects
-	python3.8 -m pip install --user virtualenv
+	-[ ! -d "$${HOME}/.pyenv" ] && curl -L https://github.com/pyenv/pyenv-installer/raw/master/bin/pyenv-installer | bash
 
 goinstall:
 	sudo apt install -y golang

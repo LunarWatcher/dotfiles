@@ -18,6 +18,7 @@ HIST_STAMPS="dd.mm.yyyy"
 plugins=(
     git
     wd
+    pyenv
 )
 
 # Prevent wd from converting paths (https://github.com/ohmyzsh/ohmyzsh/issues/8996#issuecomment-640512998)
@@ -28,8 +29,6 @@ source $ZSH/oh-my-zsh.sh
 # Config 
 export LANG=en_US.UTF-8
 export EDITOR='vim'
-
-eval $(thefuck --alias)
 
 # To customize prompt, run `p10k configure` or edit ~/.p10k.zsh.
 [[ ! -f ~/.p10k.zsh ]] || source ~/.p10k.zsh
@@ -73,4 +72,7 @@ unset __conda_setup
 if [[ -n $VIRTUAL_ENV && -e "${VIRTUAL_ENV}/bin/activate" ]]; then
   source "${VIRTUAL_ENV}/bin/activate"
 fi
-
+export PYENV_VIRTUALENV_DISABLE_PROMPT=1
+export PATH="${HOME}/.pyenv/bin:$PATH"
+eval "$(pyenv init -)"
+eval "$(pyenv virtualenv-init -)"
