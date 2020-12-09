@@ -3,6 +3,7 @@ alias gi="git init"
 alias subclone="git submodule update --init --recursive"
 alias gitdeep="git clone --recursive"
 alias gitgraph="git log --graph --abbrev-commit --decorate --format=format:'%C(bold blue)%h%C(reset) - %C(bold cyan)%aD%C(reset) %C(bold green)(%ar)%C(reset)%C(bold yellow)%d%C(reset)%n'' %C(white)%s%C(reset) %C(dim white)- %an%C(reset)' --all"
+alias gitsign="git config commit.gpgsign true"
 
 # Hardware
 alias noiturbo="echo '1' | sudo tee /sys/devices/system/cpu/intel_pstate/no_turbo"
@@ -22,6 +23,19 @@ alias pygvim="source ./env/bin/activate && gvim . > /dev/null 2>&1"
 
 # System
 alias sysupdate="sudo apt update && sudo apt upgrade && flatpak update"
+
+# Updates various packages that aren't managed by apt or flatpak.
+# This can include stuff _completely_ excluded from other package managers,
+# package managers for different programs, or second-class package managers
+# (like pip).
+function updatePackages() {
+    set -x
+    go get -v -u github.com/boyter/scc/
+    git -C ${ZSH_CUSTOM:-$HOME/.oh-my-zsh/custom}/themes/powerlevel10k pull
+    # Not quitting afterwards in the event something goes wrong
+    gvim +PlugUpdate
+    set +x
+}
 
 # Tmux
 # **tmux n**ame
@@ -45,5 +59,8 @@ alias dstop="docker stop"
 alias drm="docker rm"
 
 alias powershelldocker="docker run -ti --rm mcr.microsoft.com/powershell:latest"
+
+# ffmpeg (convert standalone MP3s to spotify-compatible audio levels)
+alias normalize-audio="ffmpeg-normalize *.mp3 -c:a libmp3lame -ext mp3 -b:a 320k -f -t -14"
 
 # vim:ft=sh

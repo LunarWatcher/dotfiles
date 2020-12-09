@@ -224,10 +224,6 @@ let g:ycm_semantic_triggers = {
 let g:ycm_confirm_extra_conf=0
 let g:ycm_clangd_args=['-cross-file-rename', '--completion-style=detailed']
 
-let g:ycm_semantic_triggers =  {
-  \   'c,cpp,objc': [ 're!\w{3}', '_' ],
-  \ }
-
 augroup YcmAUConfig
     autocmd!
     autocmd FileType c,cpp let b:ycm_hover = {
@@ -442,6 +438,9 @@ set hidden
 set autoindent
 set showcmd               " Helps managing leader timeout
 
+set list
+set listchars=tab:→\ ,nbsp:•
+
 " Deals with annoying editing conceal
 set concealcursor=
 set conceallevel=0
@@ -467,9 +466,15 @@ set cino=N-s
 set cino+=g0
 " }}}
 " Add non-standard filetypes {{{
-autocmd BufRead,BufNewfile conanfile.txt set filetype=dosini
-autocmd BufRead,BufNewFile SConstruct set filetype=python
-autocmd Bufread,BufNewFile SConscript set filetype=python
+augroup Filetypes
+    au!
+    
+    autocmd BufRead,BufNewfile conanfile.txt set filetype=dosini
+    autocmd BufRead,BufNewFile SConstruct set filetype=python
+    autocmd Bufread,BufNewFile SConscript set filetype=python
+
+    autocmd Bufread,BufNewFile *.trconf set ft=json
+augroup END
 " }}}
 " Themes and visual configurations {{{
 set background=light      " Color scheme variant
