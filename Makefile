@@ -30,11 +30,16 @@ packages: # Install base packages
 	sudo apt remove -y lolcat
 	sudo apt install -y ruby
 	sudo gem install lolcat
+	# My condolences future me, I tried to avoid it.
+	# But turns out CoC is actually good now, and that requires node, soooo
+	# Don't get rekt in the future pl0x
+	sudo apt install -y npm nodejs
 	
 	# Install general stuff
 	sudo apt install -y git thefuck curl python-pkg-resources libssl-dev \
 		wget nano xclip tmux cargo
 	
+	# TODO: clang 12
 	# C++ dev stuff
 	sudo apt install -y clang-10 clang-format-10
 	# Install build dependencies
@@ -127,6 +132,8 @@ vim-plugin-dependencies:
 	rm -rf ctags
 	# Required for the latex plugin
 	sudo apt install -y latexmk
+	# Required for CoC (C++)
+	sudo apt install -y ccls
 	echo "External for vim plugins installed"
 
 # This task has to be .PHONY.
@@ -134,6 +141,8 @@ vim-plugin-dependencies:
 fat-dotfiles: vim-plugin-dependencies install-vim-plug dotfiles
 
 dotfiles:
+	mkdir -p ~/.vim
+	ln -s -f ${PWD}/.vim/coc-settings.json /home/${USER}/.vim/coc-settings.json
 	ln -s -f ${PWD}/.vimrc /home/${USER}/.vimrc
 	ln -s -f ${PWD}/.zshrc /home/${USER}/.zshrc
 	ln -s -f ${PWD}/.shell_aliases /home/${USER}/.shell_aliases

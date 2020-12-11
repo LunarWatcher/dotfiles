@@ -5,6 +5,9 @@
 This project is actively being rebuilt due to real Linux installs that've caused me to get annoyed at certain setup actions. Further changes and documentation coming soon:tm:.
 
 ## .vimrc
+Compatibility: assume latest Vim. 
+
+As you can see, my Makefile has a target for vim that compiles Vim, so I have no reason to stay backwards-compatible. I'll update if I have to, and I can do it in 2 minutes or less on my current hardware.
 
 ### Notes
 

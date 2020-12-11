@@ -35,7 +35,7 @@ call plug#begin('~/.vim/plugged')
 Plug 'christoomey/vim-tmux-navigator'
 Plug 'scrooloose/nerdtree'
 Plug 'anschnapp/move-less'
-Plug 'yuttie/comfortable-motion.vim'
+"Plug 'yuttie/comfortable-motion.vim'
 
 Plug 'zefei/vim-wintabs'
 Plug 'zefei/vim-wintabs-powerline' " Powerline rendering
@@ -91,6 +91,8 @@ Plug 'alvan/vim-closetag'
 Plug 'tpope/vim-surround'
 
 Plug 'Yggdroot/indentLine'
+Plug 'mg979/vim-visual-multi'
+Plug 'Elive/vim-bling'
 
 " Codi isn't supported by Windows.
 if !has("win32") && (!has("nvim") && has('job') && has('channel') || has('nvim'))
@@ -108,8 +110,9 @@ Plug 'vimwiki/vimwiki'
 " Coding utilities {{{
 Plug 'rhysd/vim-clang-format'
 
-Plug 'ycm-core/YouCompleteMe', { 'do': 'python3 install.py --clangd-completer' }
+Plug 'neoclide/coc.nvim', { 'branch': 'release' }
 Plug 'machakann/vim-Verdin'
+Plug 'tenfyzhong/CompleteParameter.vim'
 
 Plug 'SirVer/ultisnips'
 Plug 'honza/vim-snippets'
@@ -144,7 +147,7 @@ Plug 'mbbill/undotree'
 " }}}
 
 " Discord integration {{{
-"Plug 'hugolgst/vimsence'
+Plug 'hugolgst/vimsence'
 "Plug '/mnt/LinuxData/programming/vim/vimsence'
 " }}}
 
@@ -212,26 +215,18 @@ let g:startify_bookmarks = [
     \ {'c': '~/.vimrc'},
     \ ]
 " }}}
-" YCM {{{
-let g:Verdin#cooperativemode=1
-let g:Verdin#autocomplete=0
+" Autocomplete {{{
+" TODO: clean up this mess
+let g:Verdin#autocomplete = 1
 
-let g:ycm_semantic_triggers = {
-\ 'vim': ['#', ':']
-\ }
+set shortmess+=c
+set signcolumn=number
+set updatetime=300
 
-" Disable re-asking
-let g:ycm_confirm_extra_conf=0
-let g:ycm_clangd_args=['-cross-file-rename', '--completion-style=detailed']
 
-augroup YcmAUConfig
-    autocmd!
-    autocmd FileType c,cpp let b:ycm_hover = {
-        \ 'command': 'GetDoc',
-        \ 'syntax': &filetype
-        \ }
-augroup END
-nnoremap <leader>fix <esc>:YcmCompleter FixIt<cr>
+nmap <leader>qf  <Plug>(coc-fix-current)
+inoremap <silent><expr> <c-space> coc#refresh()
+
 " }}}
 " Autopairs {{{
 
@@ -281,6 +276,7 @@ let g:airline_powerline_fonts = 1
 let g:UltiSnipsExpandTrigger="<C-e>"
 let g:UltiSnipsJumpForwardTrigger="<C-b>"
 let g:UltiSnipsJumpBackwardTrigger="<C-z>"
+let g:UltiSnipsListSnippets="<C-u>"
 " }}}
 " Vimwiki {{{
 let g:vimwiki_conceallevel = 0
@@ -309,6 +305,7 @@ let g:vista#renderer#icons = {
 \   "function": "\uf794",
 \   "variable": "\uf71b",
 \  }
+
 " }}} Vista "
 " IndentLine {{{ "
 " And let's fix the indent char
@@ -331,7 +328,15 @@ let g:rainbow_active = 1
 let g:rainbow_list = ['vim', 'javascript', 'java', 'python', 'cpp']
 " }}}
 " FZF {{{ "
-let g:fzf_layout = { 'window': { 'width': 0.9, 'height': 0.6, 'highlight': 'Todo', 'border': 'sharp' } }
+let g:fzf_layout = { 
+    \ 'window': 
+    \     { 
+    \         'width': 0.9, 
+    \         'height': 0.6, 
+    \         'highlight': 'Todo', 
+    \         'border': 'sharp' 
+    \     }
+    \ }
 
 command! -bang -nargs=? -complete=dir HFiles call fzf#run(fzf#vim#with_preview({
         \ 'source': 'ag --hidden --ignore .git -g ""',
@@ -361,19 +366,6 @@ map <F2> :NERDTreeToggle<CR>
 " Remap the refresh to F5 (browser-style refreshing)
 nnoremap <F5> :NERDTreeRefreshRoot<cr>
 " }}} NERDTree "
-" Comfortable motion {{{ "
-" Enable mousewheel in normal mode
-noremap <silent> <ScrollWheelDown> :call comfortable_motion#flick(40)<CR>
-noremap <silent> <ScrollWheelUp>   :call comfortable_motion#flick(-40)<CR>
-
-nmap <PageUp> :call comfortable_motion#flick(-100)<cr>
-nmap <PageDown> :call comfortable_motion#flick(100)<cr>
-
-" Consistency with Vim
-let g:comfortable_motion_scroll_down_key = "j"
-let g:comfortable_motion_scroll_up_key = "k"
-
-" }}} Comfortable motion "
 " Wintabs {{{
 nnoremap <M-1> :WintabsGo 1<cr>
 nnoremap <M-2> :WintabsGo 2<cr>
@@ -437,6 +429,8 @@ set cursorline            " Active line highlighting - because it's nice
 set hidden
 set autoindent
 set showcmd               " Helps managing leader timeout
+
+set scrolloff=5           " Lines over and under the cursor when scrolling 
 
 set list
 set listchars=tab:→\ ,nbsp:•
