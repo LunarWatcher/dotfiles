@@ -7,6 +7,11 @@ set termencoding=utf-8
 set nocompatible              " be iMproved, required
 filetype off                  " required
 
+if has('nvim')
+    echoerr "Neovim isn't supported."
+    exit
+endif
+
 let g:python3_host_prog = 'python3'
 " }}}
 " Folding {{{
@@ -35,7 +40,9 @@ call plug#begin('~/.vim/plugged')
 Plug 'christoomey/vim-tmux-navigator'
 Plug 'scrooloose/nerdtree'
 Plug 'anschnapp/move-less'
-"Plug 'yuttie/comfortable-motion.vim'
+
+Plug 'xolox/vim-session'
+Plug 'xolox/vim-misc'
 
 Plug 'zefei/vim-wintabs'
 Plug 'zefei/vim-wintabs-powerline' " Powerline rendering
@@ -70,7 +77,7 @@ Plug 'rakr/vim-one'
 Plug 'rakr/vim-two-firewatch'
 
 Plug 'pboettch/vim-cmake-syntax'
-Plug 'LunarWatcher/rainbow'
+"Plug 'LunarWatcher/rainbow'
 
 Plug 'RRethy/vim-illuminate'
 Plug 'markonm/traces.vim'
@@ -110,9 +117,8 @@ Plug 'vimwiki/vimwiki'
 " Coding utilities {{{
 Plug 'rhysd/vim-clang-format'
 
-Plug 'neoclide/coc.nvim', { 'branch': 'release' }
+Plug 'neoclide/coc.nvim', {'branch': 'release'}
 Plug 'machakann/vim-Verdin'
-Plug 'tenfyzhong/CompleteParameter.vim'
 
 Plug 'SirVer/ultisnips'
 Plug 'honza/vim-snippets'
@@ -147,7 +153,7 @@ Plug 'mbbill/undotree'
 " }}}
 
 " Discord integration {{{
-Plug 'hugolgst/vimsence'
+"Plug 'hugolgst/vimsence'
 "Plug '/mnt/LinuxData/programming/vim/vimsence'
 " }}}
 
@@ -192,11 +198,11 @@ nnoremap <leader>pu :PlugUpdate<cr>
 nnoremap <F8> :Vista!!<cr>
 " }}}
 " Start screen config {{{
-function! s:center(lines) abort
-let longest_line   = max(map(copy(a:lines), 'strwidth(v:val)'))
-let centered_lines = map(copy(a:lines),
-        \ 'repeat(" ", (&columns / 2) - (longest_line / 2)) . v:val')
-return centered_lines
+function! s:center(lines)
+    let longest_line   = max(map(copy(a:lines), 'strwidth(v:val)'))
+    let centered_lines = map(copy(a:lines),
+            \ 'repeat(" ", (&columns / 2) - (longest_line / 2)) . v:val')
+    return centered_lines
 endfunction
 
 let g:startify_custom_header = s:center(startify#fortune#boxed())
@@ -216,7 +222,7 @@ let g:startify_bookmarks = [
     \ ]
 " }}}
 " Autocomplete {{{
-" TODO: clean up this mess
+
 let g:Verdin#autocomplete = 1
 
 set shortmess+=c
@@ -226,6 +232,25 @@ set updatetime=300
 
 nmap <leader>qf  <Plug>(coc-fix-current)
 inoremap <silent><expr> <c-space> coc#refresh()
+
+" Fix scrolling in popups
+nnoremap <silent><nowait><expr> <C-f> coc#float#has_scroll() ? coc#float#scroll(1) : "\<C-f>"
+nnoremap <silent><nowait><expr> <C-b> coc#float#has_scroll() ? coc#float#scroll(0) : "\<C-b>"
+inoremap <silent><nowait><expr> <C-f> coc#float#has_scroll() ? "\<c-r>=coc#float#scroll(1)\<cr>" : "\<Right>"
+inoremap <silent><nowait><expr> <C-b> coc#float#has_scroll() ? "\<c-r>=coc#float#scroll(0)\<cr>" : "\<Left>"
+vnoremap <silent><nowait><expr> <C-f> coc#float#has_scroll() ? coc#float#scroll(1) : "\<C-f>"
+vnoremap <silent><nowait><expr> <C-b> coc#float#has_scroll() ? coc#float#scroll(0) : "\<C-b>"
+
+" Show docs
+" I also like that this doesn't show up automatically. YCM was wayyyyyyyy too
+" aggressive in showing documentation.
+nnoremap <silent> K :call CocActionAsync('doHover')<cr>
+
+" Restarting is the only way to fix an issue with some popups not
+" disappearing. Focusing and quitting the popup could also be an option, but
+" fuuuuuuuck that
+nnoremap <silent> <leader>rc :call CocRestart<cr>
+nnoremap <silent> <leader>hp :call coc#util#float_hide()<cr>
 
 " }}}
 " Autopairs {{{
@@ -294,6 +319,16 @@ let g:vimwiki_ext2syntax = {'.mdvw': 'media'}
 nnoremap <leader>go :Goyo 65%x95%<cr>
 nnoremap <leader>ll :Limelight!! 0.6<cr>
 " }}}
+" Sessions {{{
+let g:session_autosave = 'no'
+let g:session_autoload = 'no'
+
+nnoremap <leader>ss :SaveSession<cr>
+nnoremap <leader>sl :LoadSession<cr>
+
+set sessionoptions-=help
+
+" }}}
 " Vim clang-format {{{
 
 nnoremap <leader>cf :ClangFormat<cr>
@@ -328,13 +363,13 @@ let g:rainbow_active = 1
 let g:rainbow_list = ['vim', 'javascript', 'java', 'python', 'cpp']
 " }}}
 " FZF {{{ "
-let g:fzf_layout = { 
-    \ 'window': 
-    \     { 
-    \         'width': 0.9, 
-    \         'height': 0.6, 
-    \         'highlight': 'Todo', 
-    \         'border': 'sharp' 
+let g:fzf_layout = {
+    \ 'window':
+    \     {
+    \         'width': 0.9,
+    \         'height': 0.6,
+    \         'highlight': 'Todo',
+    \         'border': 'sharp'
     \     }
     \ }
 
@@ -430,7 +465,7 @@ set hidden
 set autoindent
 set showcmd               " Helps managing leader timeout
 
-set scrolloff=5           " Lines over and under the cursor when scrolling 
+set scrolloff=5           " Lines over and under the cursor when scrolling
 
 set list
 set listchars=tab:→\ ,nbsp:•
@@ -454,6 +489,13 @@ set backspace=indent,eol,start " backspace over everything in insert mode"
 " Fix that horrid arrow nav issue
 set whichwrap+=<,>,h,l,[,]
 " }}}
+" Configure wrapping {{{
+augroup CustomWrap
+    au!
+    autocmd FileType text,markdown setlocal wrap
+
+augroup END
+" }}}
 " Configure indents {{{
 set cindent
 set cino=N-s
@@ -462,7 +504,7 @@ set cino+=g0
 " Add non-standard filetypes {{{
 augroup Filetypes
     au!
-    
+
     autocmd BufRead,BufNewfile conanfile.txt set filetype=dosini
     autocmd BufRead,BufNewFile SConstruct set filetype=python
     autocmd Bufread,BufNewFile SConscript set filetype=python
@@ -507,6 +549,15 @@ set shiftwidth=4
 set softtabstop=4
 set expandtab
 set smartindent
+
+augroup TabConf
+    au!
+    " Make is specific about using tabs
+    autocmd FileType make setlocal noexpandtab
+    autocmd FileType yaml setlocal tabstop=2 shiftwidth=2 softtabstop=2
+
+augroup END
+
 " }}}
 " Cursor config {{{
 let &t_SI.="\e[5 q"
@@ -641,6 +692,7 @@ fun! IDeleteThis()
     :WintabsClose
 endfun
 command! DeleteThis call IDeleteThis()
+
 " }}}
 
 " }}}
@@ -694,6 +746,10 @@ endif
 set backupdir=~/.vim/backup//
 set directory=~/.vim/swap//
 set undodir=~/.vim/undo//
+
+" Persistent undo
+set undofile
+
 if !isdirectory($HOME."/.vim/backup")
     call mkdir($HOME."/.vim/backup", "p")
 endif
