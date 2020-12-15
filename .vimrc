@@ -123,6 +123,8 @@ Plug 'machakann/vim-Verdin'
 Plug 'SirVer/ultisnips'
 Plug 'honza/vim-snippets'
 
+Plug 'airblade/vim-gitgutter'
+
 "Plug '/mnt/LinuxData/programming/vim/tmux-multiterm.vim'
 Plug 'LunarWatcher/tmux-multiterm.vim'
 " }}}
@@ -232,6 +234,7 @@ set updatetime=300
 
 nmap <leader>qf  <Plug>(coc-fix-current)
 inoremap <silent><expr> <c-space> coc#refresh()
+nmap <leader>rn <Plug>(coc-rename) 
 
 " Fix scrolling in popups
 nnoremap <silent><nowait><expr> <C-f> coc#float#has_scroll() ? coc#float#scroll(1) : "\<C-f>"
@@ -250,7 +253,7 @@ nnoremap <silent> K :call CocActionAsync('doHover')<cr>
 " disappearing. Focusing and quitting the popup could also be an option, but
 " fuuuuuuuck that
 nnoremap <silent> <leader>rc :call CocRestart<cr>
-nnoremap <silent> <leader>hp :call coc#util#float_hide()<cr>
+nnoremap <silent> <leader>hp :call coc#util#close_all()<cr>
 
 " }}}
 " Autopairs {{{
