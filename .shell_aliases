@@ -20,6 +20,7 @@ alias pulsenodio="pulseaudio -k && sudo alsa force-reload"
 # All output is then piped into good 'ol /dev/null because it
 # usually spews out bullshit anyway
 alias pygvim="source ./env/bin/activate && gvim . > /dev/null 2>&1"
+alias pyenv="source ./env/bin/activate"
 
 # System
 alias sysupdate="sudo apt update && sudo apt upgrade && flatpak update"

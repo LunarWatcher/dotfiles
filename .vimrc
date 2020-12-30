@@ -60,12 +60,14 @@ else
 endif
 Plug 'junegunn/fzf.vim'
 
-fun! s:installClap()
-    :Clap install-binary
-    call clap#installer#build_maple()
+fun! InstallClap(info)
+    if a:info.status == "installed" || a:info.force
+        :Clap install-binary
+        call clap#installer#build_maple()
+    endif
 endfun
 
-Plug 'liuchengxu/vim-clap', { 'do': { -> s:installClap() } }
+Plug 'liuchengxu/vim-clap', { 'do': function('InstallClap')}
 Plug 'terryma/vim-expand-region'
 " }}}
 
@@ -123,7 +125,7 @@ Plug 'machakann/vim-Verdin'
 Plug 'SirVer/ultisnips'
 Plug 'honza/vim-snippets'
 
-Plug 'airblade/vim-gitgutter'
+"Plug 'airblade/vim-gitgutter'
 
 "Plug '/mnt/LinuxData/programming/vim/tmux-multiterm.vim'
 Plug 'LunarWatcher/tmux-multiterm.vim'
@@ -147,9 +149,8 @@ Plug 'embear/vim-localvimrc'
 Plug 'LunarWatcher/vim-multiple-monitors'
 Plug 'tpope/vim-speeddating'
 Plug 'scy/vim-mkdir-on-write'
-Plug 'LunarWatcher/auto.pairs'
-"Plug 'tmsvg/pear-tree'
-"Plug 'jiangmiao/auto-pairs'
+Plug 'LunarWatcher/auto-pairs'
+"Plug '/mnt/LinuxData/programming/vim/auto-pairs'
 Plug 'haya14busa/incsearch.vim'
 Plug 'mbbill/undotree'
 " }}}
@@ -253,15 +254,15 @@ nnoremap <silent> K :call CocActionAsync('doHover')<cr>
 " disappearing. Focusing and quitting the popup could also be an option, but
 " fuuuuuuuck that
 nnoremap <silent> <leader>rc :call CocRestart<cr>
-nnoremap <silent> <leader>hp :call coc#util#close_all()<cr>
+nnoremap <silent> <leader>hp :call coc#float#close_all()<cr>
 
 " }}}
 " Autopairs {{{
 
-"let g:AutoPairsShortcutFastWrap = "<C-f>"
+let g:AutoPairsShortcutFastWrap = "<C-f>"
 " Disable BS for pair deletion
 let g:AutoPairsMapBS = 0
-
+let g:AutoPairsMapCh = 0
 " }}}
 " Vimsence {{{
 let g:vimsence_ignored_directories = [ '~/', 'C:/Users/LunarWatcher', "/home/lunarwatcher" ]
@@ -427,6 +428,7 @@ nnoremap <leader>q :WintabsClose<cr>
 " Plasticboy markdown {{{
 let g:vim_markdown_conceal = 0
 let g:vim_markdown_conceal_code_blocks = 0
+let g:vim_markdown_folding_disabled = 1
 " }}}
 " Indentline {{{
 " Fix retarded issue with auto-conceal to 2
@@ -563,9 +565,13 @@ augroup END
 
 " }}}
 " Cursor config {{{
-let &t_SI.="\e[5 q"
-let &t_SR.="\e[4 q"
-let &t_EI.="\e[5 q"
+if has("gvim")
+    " TODO: Fix this for terminal vim and remove the
+    " if clause
+    let &t_SI.="\e[5 q"
+    let &t_SR.="\e[4 q"
+    let &t_EI.="\e[5 q"
+endif
 " }}}
 " }}}
 " Mappings {{{
@@ -687,6 +693,21 @@ nnoremap <leader>scot :SConsTest<cr>
 command! -nargs=* Run call RunBinary(1, -1, <f-args>)
 
 command! TmuxCpp let g:tmux_multiterm_session = 'cpp.0'
+
+" }}}
+" Profiling {{{
+fun! s:profileStart()
+    profile start profile.log
+    profile func *
+    profile file *
+endfun
+fun! s:profileStop()
+    profile pause
+    noautocmd qall!
+endfun
+
+command! StartProfile call s:profileStart()
+command! StopProfile call s:profileStop()
 
 " }}}
 " Utilities {{{
