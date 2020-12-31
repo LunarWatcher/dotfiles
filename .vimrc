@@ -149,8 +149,8 @@ Plug 'embear/vim-localvimrc'
 Plug 'LunarWatcher/vim-multiple-monitors'
 Plug 'tpope/vim-speeddating'
 Plug 'scy/vim-mkdir-on-write'
-Plug 'LunarWatcher/auto-pairs'
-"Plug '/mnt/LinuxData/programming/vim/auto-pairs'
+"Plug 'LunarWatcher/auto-pairs'
+Plug '/mnt/LinuxData/programming/vim/auto-pairs'
 Plug 'haya14busa/incsearch.vim'
 Plug 'mbbill/undotree'
 " }}}
@@ -235,7 +235,7 @@ set updatetime=300
 
 nmap <leader>qf  <Plug>(coc-fix-current)
 inoremap <silent><expr> <c-space> coc#refresh()
-nmap <leader>rn <Plug>(coc-rename) 
+nmap <leader>rn <Plug>(coc-rename)
 
 " Fix scrolling in popups
 nnoremap <silent><nowait><expr> <C-f> coc#float#has_scroll() ? coc#float#scroll(1) : "\<C-f>"
@@ -262,7 +262,7 @@ nnoremap <silent> <leader>hp :call coc#float#close_all()<cr>
 let g:AutoPairsShortcutFastWrap = "<C-f>"
 " Disable BS for pair deletion
 let g:AutoPairsMapBS = 0
-let g:AutoPairsMapCh = 0
+
 " }}}
 " Vimsence {{{
 let g:vimsence_ignored_directories = [ '~/', 'C:/Users/LunarWatcher', "/home/lunarwatcher" ]
