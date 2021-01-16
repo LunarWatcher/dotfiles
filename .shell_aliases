@@ -64,4 +64,14 @@ alias powershelldocker="docker run -ti --rm mcr.microsoft.com/powershell:latest"
 # ffmpeg (convert standalone MP3s to spotify-compatible audio levels)
 alias normalize-audio="ffmpeg-normalize *.mp3 -c:a libmp3lame -ext mp3 -b:a 320k -f -t -14"
 
+# asciinema extensions
+
+function asciinemaProfile() {
+    if [[ -n "$1" ]]; then
+        ln -sf $HOME/.config/asciinema/install-id-$1 $HOME/.config/asciinema/install-id
+    else
+        echo "Specify which profile to use"
+    fi
+}
+
 # vim:ft=sh

@@ -87,16 +87,16 @@ Plug 'markonm/traces.vim'
 
 " Language highlighting {{{
 Plug 'sheerun/vim-polyglot'
-Plug 'octol/vim-cpp-enhanced-highlight'
+Plug 'octol/vim-cpp-enhanced-highlight', {'for': 'cpp'}
 Plug 'plasticboy/vim-markdown'
 Plug 'godlygeek/tabular'
-Plug 'lervag/vimtex'
+Plug 'lervag/vimtex', {'for': 'tex'}
 " }}}
 
 " Various coding-related utils {{{
 Plug 'scrooloose/nerdcommenter'
 Plug 'liuchengxu/vista.vim'
-Plug 'alvan/vim-closetag'
+Plug 'alvan/vim-closetag', {'for': ['markdown', 'html']}
 Plug 'tpope/vim-surround'
 
 Plug 'Yggdroot/indentLine'
@@ -200,6 +200,12 @@ nnoremap <leader>pc <esc>:PlugClean<cr>
 nnoremap <leader>pu :PlugUpdate<cr>
 nnoremap <F8> :Vista!!<cr>
 " }}}
+" vim-visual-multi config {{{
+
+nmap   <C-LeftMouse>         <Plug>(VM-Mouse-Cursor)
+nmap   <C-RightMouse>        <Plug>(VM-Mouse-Word)
+nmap   <M-C-RightMouse>      <Plug>(VM-Mouse-Column)
+" }}}
 " Start screen config {{{
 function! s:center(lines)
     let longest_line   = max(map(copy(a:lines), 'strwidth(v:val)'))
@@ -257,11 +263,13 @@ nnoremap <silent> <leader>rc :call CocRestart<cr>
 nnoremap <silent> <leader>hp :call coc#float#close_all()<cr>
 
 " }}}
-" Autopairs {{{
+" Autopair config {{{
 
 let g:AutoPairsShortcutFastWrap = "<C-f>"
 " Disable BS for pair deletion
 let g:AutoPairsMapBS = 0
+let g:AutoPairsMapCR = 1
+let g:AutoPairsMultilineFastWrap = 1
 
 " }}}
 " Vimsence {{{
@@ -504,7 +512,9 @@ augroup END
 " Configure indents {{{
 set cindent
 set cino=N-s
-set cino+=g0
+set cino+=g0,l1
+set cino+=(0
+set cino+=k4,m1
 " }}}
 " Add non-standard filetypes {{{
 augroup Filetypes
