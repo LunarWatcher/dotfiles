@@ -91,6 +91,7 @@ zsh: # Installs zsh and oh-my-zsh
 
 powerlevel:
 	zsh -c 'source ~/.zshrc; git clone --depth=1 https://github.com/romkatv/powerlevel10k.git $${ZSH_CUSTOM}/themes/powerlevel10k'
+	zsh -c 'source ~/.zshrc; git clone --depth=1 https://github.com/zsh-users/zsh-autosuggestions $${ZSH_CUSTOM}/plugins/zsh-autosuggestions'
 
 vim:
 	@echo "Building Vim..."
