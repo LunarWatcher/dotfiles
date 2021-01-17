@@ -91,7 +91,6 @@ zsh: # Installs zsh and oh-my-zsh
 
 powerlevel:
 	zsh -c 'source ~/.zshrc; git clone --depth=1 https://github.com/romkatv/powerlevel10k.git $${ZSH_CUSTOM}/themes/powerlevel10k'
-	zsh -c 'source ~/.zshrc; git clone --depth=1 https://github.com/zsh-users/zsh-autosuggestions $${ZSH_CUSTOM}/plugins/zsh-autosuggestions'
 
 vim:
 	@echo "Building Vim..."
@@ -119,14 +118,14 @@ install-vim-plug: # Installs junegunn/vim-plug
 	@echo "Done"
 
 vim-plugin-dependencies:
-	# Vim plugins some times have external dependencies. 
+	# Vim plugins some times have external dependencies.
 	
 	echo "Installing external plugin dependencies..."
 	# This task relies on the build deps
 	make build-deps
 	
 	# Dependency: universal-ctags
-	# Used for: vim-vista 
+	# Used for: vim-vista
 	git clone https://github.com/universal-ctags/ctags.git --depth=1
 	cd ctags && ./autogen.sh && ./configure && make -j 4 && sudo make install
 	

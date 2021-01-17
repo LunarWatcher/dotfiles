@@ -8,18 +8,17 @@ fi
 # Path to your oh-my-zsh installation.
 export ZSH="/home/${USER}/.oh-my-zsh"
 
-# Theming 
+# Theming
 ZSH_THEME="powerlevel10k/powerlevel10k"
 
-# Use a sensible date format 
+# Use a sensible date format
 HIST_STAMPS="dd.mm.yyyy"
 
-# Plugins 
+# Plugins
 plugins=(
     git
     wd
     pyenv
-    zsh-autosuggestions
 )
 
 # Prevent wd from converting paths (https://github.com/ohmyzsh/ohmyzsh/issues/8996#issuecomment-640512998)
@@ -27,7 +26,7 @@ export WD_SKIP_EXPORT=1
 
 source $ZSH/oh-my-zsh.sh
 
-# Config 
+# Config
 export LANG=en_US.UTF-8
 export EDITOR='vim'
 
@@ -44,7 +43,7 @@ export PATH="/home/${USER}/.local/bin:/home/${USER}/go/bin:$PATH"
 
 export CXX=clang++
 export CC=clang
-# Fix with some OpenSSL-based apps 
+# Fix with some OpenSSL-based apps
 export SSL_CERT_FILE=/etc/ssl/certs/ca-certificates.crt
 
 export NVM_DIR=~/.nvm
