@@ -149,8 +149,11 @@ Plug 'embear/vim-localvimrc'
 Plug 'LunarWatcher/vim-multiple-monitors'
 Plug 'tpope/vim-speeddating'
 Plug 'scy/vim-mkdir-on-write'
-Plug 'LunarWatcher/auto-pairs'
-"Plug '/mnt/LinuxData/programming/vim/auto-pairs'
+if !isdirectory('/mnt/LinuxData/programming/vim/auto-pairs') 
+    Plug 'LunarWatcher/auto-pairs'
+else
+    Plug '/mnt/LinuxData/programming/vim/auto-pairs'
+endif
 Plug 'haya14busa/incsearch.vim'
 Plug 'mbbill/undotree'
 " }}}
@@ -178,7 +181,7 @@ try
         " set guifont=SauceCodePro\ Nerd\ Font:h11
         set guifont=Source\ Code\ Pro\ for\ Powerline:h11:cANSI
     elseif has("unix")
-        set guifont=SauceCodePro\ Nerd\ Font\ 11
+        set guifont=SauceCodePro\ Nerd\ Font\ 13
         Plug 'ryanoasis/vim-devicons'
     endif
 catch
@@ -270,7 +273,12 @@ let g:AutoPairsShortcutFastWrap = "<C-f>"
 let g:AutoPairsMapBS = 0
 let g:AutoPairsMapCR = 1
 let g:AutoPairsMultilineFastWrap = 1
+let g:AutoPairsMultilineClose = 0
 
+call autopairs#AutoPairsScriptInit()
+let g:AutoPairsLanguagePairs['tex'] = { '$': '$', '\\left(': '\right)' }
+let g:AutoPairsLanguagePairs['cpp'] = { '\vclass .{-} (: (.{-}[ ,])+)? ?\{': '};' }
+let g:AutoPairs = autopairs#AutoPairsDefine({'\w\zs<': '>'})
 " }}}
 " Vimsence {{{
 let g:vimsence_ignored_directories = [ '~/', 'C:/Users/LunarWatcher', "/home/lunarwatcher" ]
@@ -310,7 +318,7 @@ let g:airline_theme = 'papercolor'
 let g:airline_powerline_fonts = 1
 " }}}
 " Ultisnips {{{
-let g:UltiSnipsExpandTrigger="<C-e>"
+let g:UltiSnipsExpandTrigger="<C-t>"
 let g:UltiSnipsJumpForwardTrigger="<C-b>"
 let g:UltiSnipsJumpBackwardTrigger="<C-z>"
 let g:UltiSnipsListSnippets="<C-u>"
@@ -431,7 +439,7 @@ nnoremap <C-PageDown> :WintabsNext<cr>
 " including all other tabs nested within it. :WintabsClose closes one. All the
 " buffers live on if :q is used instead of <leader>q, but they're not nested
 " in the same way.
-nnoremap <leader>q :WintabsClose<cr>
+nnoremap <leader>qt :WintabsClose<cr>
 " }}}
 " Plasticboy markdown {{{
 let g:vim_markdown_conceal = 0
@@ -591,6 +599,15 @@ map <C-k> <C-W>k
 map <C-h> <C-W>h
 map <C-l> <C-W>l
 " }}}
+" Make esc slightly more sane {{{
+
+" This makes <esc> close popups first, then esc out.
+" This is largely to make it slightly easier to close popups.
+" Forcibly going to insert mode can be done with <C-esc>
+" without anoy remapping in gvim
+inoremap <expr> <esc> pumvisible() ? "<C-o>:pclose<CR>" : "\<esc>"
+
+" }}}
 " Autosave {{{
 " Adapted from https://github.com/towc/dotfiles/blob/master/.vimrc#L462-L475
 let g:autoSave = 0
@@ -627,9 +644,6 @@ nnoremap <leader>ts :%s/ \+$//g<cr>
 " scandinavian or german keyboards)
 autocmd FileType help nnoremap <C-t> <C-]>
 
-" Trick for remapping escape to terminal normal. Very useful on keyboards
-" without a dedicated \ button
-tnoremap <C-å> <C-\>
 " }}}
 " }}}
 " Custom functions and commands {{{
