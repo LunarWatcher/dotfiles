@@ -9,7 +9,6 @@ filetype off                  " required
 
 if has('nvim')
     echoerr "Neovim isn't supported."
-    exit
 endif
 
 let g:python3_host_prog = 'python3'
@@ -104,7 +103,7 @@ Plug 'mg979/vim-visual-multi'
 Plug 'Elive/vim-bling'
 
 " Codi isn't supported by Windows.
-if !has("win32") && (!has("nvim") && has('job') && has('channel') || has('nvim'))
+if !has("win32") && (has('job') && has('channel'))
     Plug 'metakirby5/codi.vim'
 endif
 
@@ -120,7 +119,7 @@ Plug 'vimwiki/vimwiki'
 Plug 'rhysd/vim-clang-format'
 
 Plug 'neoclide/coc.nvim', {'branch': 'release'}
-Plug 'machakann/vim-Verdin'
+"Plug 'machakann/vim-Verdin'
 
 Plug 'SirVer/ultisnips'
 Plug 'honza/vim-snippets'
@@ -149,13 +148,14 @@ Plug 'embear/vim-localvimrc'
 Plug 'LunarWatcher/vim-multiple-monitors'
 Plug 'tpope/vim-speeddating'
 Plug 'scy/vim-mkdir-on-write'
-if !isdirectory('/mnt/LinuxData/programming/vim/auto-pairs') 
+if !isdirectory('/mnt/LinuxData/programming/vim/auto-pairs')
     Plug 'LunarWatcher/auto-pairs'
 else
     Plug '/mnt/LinuxData/programming/vim/auto-pairs'
 endif
 Plug 'haya14busa/incsearch.vim'
 Plug 'mbbill/undotree'
+
 " }}}
 
 " Discord integration {{{
@@ -274,6 +274,7 @@ let g:AutoPairsMapBS = 0
 let g:AutoPairsMapCR = 1
 let g:AutoPairsMultilineFastWrap = 1
 let g:AutoPairsMultilineClose = 0
+let g:AutoPairsCompatibleMaps = 0
 
 call autopairs#AutoPairsScriptInit()
 let g:AutoPairsLanguagePairs['tex'] = { '$': '$', '\\left(': '\right)' }
@@ -601,12 +602,13 @@ map <C-l> <C-W>l
 " }}}
 " Make esc slightly more sane {{{
 
-" This makes <esc> close popups first, then esc out.
-" This is largely to make it slightly easier to close popups.
-" Forcibly going to insert mode can be done with <C-esc>
-" without anoy remapping in gvim
-inoremap <expr> <esc> pumvisible() ? "<C-o>:pclose<CR>" : "\<esc>"
-
+if has("gui_running")
+    " This makes <esc> close popups first, then esc out.
+    " This is largely to make it slightly easier to close popups.
+    " Forcibly going to insert mode can be done with <C-esc>
+    " without anoy remapping in gvim
+    inoremap <expr> <esc> pumvisible() ? "<C-o>:pclose<CR>" : "\<esc>"
+endif
 " }}}
 " Autosave {{{
 " Adapted from https://github.com/towc/dotfiles/blob/master/.vimrc#L462-L475
@@ -644,6 +646,65 @@ nnoremap <leader>ts :%s/ \+$//g<cr>
 " scandinavian or german keyboards)
 autocmd FileType help nnoremap <C-t> <C-]>
 
+" }}}
+" LaTeX {{{
+fun! TexMaps()
+    if !has("gui_running")
+        echoerr "LaTeX-maps are gvim-specific, and aren't compatible with terminal vim"
+        return
+    endif
+    " Map frac (because it's annoying to rewrite)
+    imap <buffer> <C-l><C-f> \frac{}{}<left><left><left>
+
+    " Matrix helpers
+    " .<bs> is a trick for forcing <cr> to work at the end of a map with no
+    " delay (might be a consequence of a <cr> map, but iDunno
+    imap <buffer> <C-CR> <space>\\<cr>.<bs>
+    imap <buffer> <S-CR> <C-o>$<space>\\<CR>.<bs>
+    imap <buffer> <C-Tab> <space>&<space>
+    imap <buffer> <S-Tab> <C-o>$<space>&<space>
+    imap <buffer> <C-e><C-e> <space>\\<space>
+
+    " Icon helpers
+    imap <buffer> <C-l><C-b> \mathbb{}<left>
+    imap <buffer> <C-l><C-l> \mathcal<space>
+    imap <buffer> <C-l><C-.> \cdot
+    imap <buffer> <C-l><C-s> _{}<left>
+    " Various alignments
+    imap <buffer> <C-l><C-a> \begin{align*}<CR>.<CR>\end{align*}<up><C-o>$<BS>
+    imap <buffer> <C-l><C-m> \begin{bmatrix}\end{bmatrix}<C-o>14<left><C-o>:call search('\\end')<cr>
+    imap <buffer> <C-l><C-t> \begin{tmatrix}{}\end{tmatrix}<C-o>16<Left><C-o>:call search('{')<cr><right>
+    imap <buffer> <C-l><C-o> \begin{oppgave}<CR>\begin{punkt}<CR>.<CR>\end{punkt}<cr>\end{oppgave}<up><up><C-o>$<BS>
+    imap <buffer> <C-l><C-p> \begin{punkt}<CR>.<CR>\end{punkt}<up><C-o>$<BS>
+
+    imap <buffer> <C-e>2 ^2
+    imap <buffer> <C-e>g ^{}<left>
+    " Expressions
+    imap <buffer> <C-e><C-s> Sp\left\{\right\}<left><C-o>%<C-o>7<right>
+    imap <buffer> <C-e><C-t> <C-o>$<space>\text{} \\<left><left><left><left>
+    " Expand inside a block
+    " Indentation preservation works by making sure the line has been edited.
+    " Prevents vim from removing whitespace for some reason.
+    imap <buffer> <C-l><C-e> <CR>.<bs><CR><up><tab><C-o>$
+
+    " Default matrices
+    imap <buffer> <C-m>2 \begin{bmatrix} x \\ y \end{bmatrix}
+    imap <buffer> <C-m>3 \begin{bmatrix} x \\ y \\ z \end{bmatrix}
+    imap <buffer> <C-m>4 \begin{bmatrix} x \\ y \\ z \\ w \end{bmatrix}
+    " Default numeric matrices
+    imap <buffer> <C-m>n2 \begin{bmatrix} 0 \\ 0  \end{bmatrix}
+    imap <buffer> <C-m>n3 \begin{bmatrix} 0 \\ 0  \\ 0 \end{bmatrix}
+    imap <buffer> <C-m>n4 \begin{bmatrix} 0 \\ 0  \\ 0 \\ 0 \end{bmatrix}
+
+endfun
+
+
+" }}}
+" Filetype maps {{{
+augroup FileMaps
+    au!
+    autocmd FileType tex call TexMaps()
+augroup END
 " }}}
 " }}}
 " Custom functions and commands {{{
@@ -761,7 +822,7 @@ if has("gui_running")
         language messages English_United States
         set langmenu=en_US.UTF-8
     endif
-    " Bels are the _worst_
+    " Bells are the _worst_
     autocmd GUIEnter * set vb t_vb=
 
     " This mapping only works in Vim. The alleged workarounds on the wiki do
