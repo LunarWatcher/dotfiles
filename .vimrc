@@ -26,10 +26,8 @@ augroup folding
     autocmd FileType markdown,vimwiki setlocal nofoldenable
 augroup END
 augroup config
-    autocmd FileType markdown,vimwiki,text setlocal wrap
     autocmd FileType markdown,vimwiki setlocal conceallevel=0
 augroup END
-set linebreak
 
 " }}}
 " Plugins {{{
@@ -127,7 +125,9 @@ Plug 'honza/vim-snippets'
 "Plug 'airblade/vim-gitgutter'
 
 "Plug '/mnt/LinuxData/programming/vim/tmux-multiterm.vim'
-Plug 'LunarWatcher/tmux-multiterm.vim'
+if !has("nvim")
+    Plug 'LunarWatcher/tmux-multiterm.vim'
+endif
 " }}}
 
 " Airline {{{
@@ -192,6 +192,10 @@ catch
         set guifont=Source\ Code\ Pro\ for\ Powerline\ 11
     endif
 endtry
+" }}}
+
+" Meta plugins {{{
+Plug 'thinca/vim-themis'
 " }}}
 
 call plug#end()
@@ -276,10 +280,13 @@ let g:AutoPairsMultilineFastWrap = 1
 let g:AutoPairsMultilineClose = 0
 let g:AutoPairsCompatibleMaps = 0
 
-call autopairs#AutoPairsScriptInit()
-let g:AutoPairsLanguagePairs['tex'] = { '$': '$', '\\left(': '\right)' }
-let g:AutoPairsLanguagePairs['cpp'] = { '\vclass .{-} (: (.{-}[ ,])+)? ?\{': '};' }
-let g:AutoPairs = autopairs#AutoPairsDefine({'\w\zs<': '>'})
+
+let g:AutoPairs = autopairs#AutoPairsDefine([
+            \ {"open": '\w\zs<', "close": '>'},
+            \ {"open": "$", "close": "$", "filetype": "tex"},
+            \ {"open": '\\left(', 'close': '\right)', "filetype": "tex"},
+            \ {"open": '\vclass .{-} (: (.{-}[ ,])+)? ?\{', 'close': '};', 'filetype': 'cpp'}
+    \ ])
 " }}}
 " Vimsence {{{
 let g:vimsence_ignored_directories = [ '~/', 'C:/Users/LunarWatcher', "/home/lunarwatcher" ]
@@ -512,11 +519,25 @@ set backspace=indent,eol,start " backspace over everything in insert mode"
 set whichwrap+=<,>,h,l,[,]
 " }}}
 " Configure wrapping {{{
+" Wrapping is disabled by default, but it's still used in a few places because
+" it does have practical uses.
+" Of course, though, there's config to make it less crap :D
 augroup CustomWrap
     au!
-    autocmd FileType text,markdown setlocal wrap
-
+    autocmd FileType text,markdown,vimwiki,tex setlocal wrap
 augroup END
+" I don't remember what this is for
+set linebreak
+" Indent broken lines
+set breakindent
+" Highlight broken lines
+set showbreak=>>
+" Remove @ on wrapped lines
+set display=lastline
+
+" Wrap maps
+inoremap <C-up> <C-o>g<up>
+inoremap <C-down> <C-o>g<down>
 " }}}
 " Configure indents {{{
 set cindent
@@ -584,13 +605,18 @@ augroup END
 
 " }}}
 " Cursor config {{{
-if has("gvim")
-    " TODO: Fix this for terminal vim and remove the
-    " if clause
-    let &t_SI.="\e[5 q"
-    let &t_SR.="\e[4 q"
-    let &t_EI.="\e[5 q"
+if has("gui_running")
+    hi iCursor guibg=#e00d93
+    hi Cursor  guibg=purple
+    hi Visual  guibg=#b19cd9
+    set guicursor=n-v-c:block-Cursor
+    set guicursor+=i:ver20-iCursor-blinkon530-blinkwait530-blinkoff530
 endif
+" This is meant to be terminal-compatible
+" Doesn't work, though
+"let &t_SI="\e[5 q"
+"let &t_SR="\e[4 q"
+"let &t_EI="\e[5 q"
 " }}}
 " }}}
 " Mappings {{{
