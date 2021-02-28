@@ -1,0 +1,65 @@
+priority 40
+
+global !p
+import os
+
+def getPackage(path, snip):
+    path = path.replace("\\", "/") # Fuck Windows
+    if '/' not in path and '\\' not in path:
+        return ""
+    split = path.split("/")
+    if len(split) == 0:
+        return ""
+    srcIdx = next((i for i, v in enumerate(split) if v == "src"))
+    if ("src/main/java/" in path or "src/test/java" in path) and len(split) != 4:
+        snip.rv = "package " + ".".join(split[srcIdx + 3:-1]) + ";"
+        return
+    elif (srcIdx >= 0):
+        if (len(split) == 2):
+            return
+        snip.rv = "package " + ".".join(split[srcIdx + 1:-1]) + ";"
+        return
+    # Unknown scheme; let's init relative to the current directory
+    snip.rv = "package " + ".".join(split[0:-1]) + ";"
+
+def getArgs(group):
+    import re
+    word = re.compile('[a-zA-Z0-9<>.]+ \w+')
+    return [i.split(" ") for i in word.findall(group) ]
+
+def camelCase(word):
+    if not word: return ''
+    return word[0].upper() + word[1:]
+endglobal
+
+snippet inif "Initializes a file"
+`!p getPackage(path, snip)`
+
+public class `!p
+snip.rv = snip.basename or "untitled"` {
+`!p
+args = getArgs(t[1])
+if len(args) == 0: snip.rv = ""
+for i in args:
+    snip.rv += "\n\tprivate " + i[0] + " " + i[1]+ ";"
+if len(args) > 0:
+    snip.rv += "\n"`
+    public `!p snip.rv = snip.basename or "unknown"`($1) {`!p
+args = getArgs(t[1])
+for i in args:
+    snip.rv += "\n\t\tthis." + i[1] + " = " + i[1] + ";"
+if len(args) == 0:
+    snip.rv += "\n"`
+    }$0
+`!p
+args = getArgs(t[1])
+if len(args) == 0: snip.rv = ""
+for i in args:
+    snip.rv += "\n\tpublic void set" + camelCase(i[1]) + "(" + i[0] + " " + i[1] + ") {\n" + "\
+    \tthis." + i[1] + " = " + i[1] + ";\n\t}\n"
+    snip.rv += "\n\tpublic " + i[0] + " get" + camelCase(i[1]) + "() {\n\
+    \treturn " + i[1] + ";\n\t}\n"
+`
+}
+endsnippet
+# vim:expandtab

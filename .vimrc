@@ -285,7 +285,7 @@ let g:AutoPairs = autopairs#AutoPairsDefine([
             \ {"open": '\w\zs<', "close": '>'},
             \ {"open": "$", "close": "$", "filetype": "tex"},
             \ {"open": '\\left(', 'close': '\right)', "filetype": "tex"},
-            \ {"open": '\vclass .{-} (: (.{-}[ ,])+)? ?\{', 'close': '};', 'filetype': 'cpp'}
+            \ {"open": '\vclass .{-} (: (.{-}[ ,])+)? ?\{', 'close': '};', 'mapopen': '{', 'filetype': 'cpp'},
     \ ])
 " }}}
 " Vimsence {{{
@@ -326,9 +326,10 @@ let g:airline_theme = 'papercolor'
 let g:airline_powerline_fonts = 1
 " }}}
 " Ultisnips {{{
+let g:UltiSnipsSnippetDirectories = ["UltiSnips", "CustomSnippets"]
 let g:UltiSnipsExpandTrigger="<C-t>"
-let g:UltiSnipsJumpForwardTrigger="<C-b>"
-let g:UltiSnipsJumpBackwardTrigger="<C-z>"
+let g:UltiSnipsJumpForwardTrigger="<C-j>"
+let g:UltiSnipsJumpBackwardTrigger="<C-k>"
 let g:UltiSnipsListSnippets="<C-u>"
 " }}}
 " Vimwiki {{{
@@ -538,6 +539,10 @@ set display=lastline
 " Wrap maps
 inoremap <C-up> <C-o>g<up>
 inoremap <C-down> <C-o>g<down>
+
+nnoremap <Up> gk
+nnoremap <Down> gj
+
 " }}}
 " Configure indents {{{
 set cindent
@@ -671,6 +676,10 @@ nnoremap <leader>ts :%s/ \+$//g<cr>
 " This needs to be remapped on keyboards without a bracket button (i.e. on
 " scandinavian or german keyboards)
 autocmd FileType help nnoremap <C-t> <C-]>
+
+" Get tab maps on the mouse in normal mode
+nmap <X2Mouse> <C-PageDown>
+nmap <X1Mouse> <C-PageUp>
 
 " }}}
 " LaTeX {{{
