@@ -88,6 +88,8 @@ zsh: # Installs zsh and oh-my-zsh
 	
 	curl -fsSL https://raw.github.com/ohmyzsh/ohmyzsh/master/tools/install.sh | bash
 	make powerlevel
+	# Install zsh syntax highlighting
+	zsh -c 'source ~/.zshrc; git clone https://github.com/zsh-users/zsh-syntax-highlighting.git $${ZSH_CUSTOM:-~/.oh-my-zsh/custom}/plugins/zsh-syntax-highlighting'
 
 powerlevel:
 	zsh -c 'source ~/.zshrc; git clone --depth=1 https://github.com/romkatv/powerlevel10k.git $${ZSH_CUSTOM}/themes/powerlevel10k'
