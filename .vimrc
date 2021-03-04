@@ -449,6 +449,8 @@ nnoremap <C-PageDown> :WintabsNext<cr>
 " buffers live on if :q is used instead of <leader>q, but they're not nested
 " in the same way.
 nnoremap <leader>qt :WintabsClose<cr>
+
+let g:wintabs_ui_vimtab_name_format = ' %n %t '
 " }}}
 " Plasticboy markdown {{{
 let g:vim_markdown_conceal = 0
@@ -614,7 +616,7 @@ if has("gui_running")
     hi iCursor guibg=#e00d93
     hi Cursor  guibg=purple
     hi Visual  guibg=#b19cd9
-    set guicursor=n-v-c:block-Cursor
+    set guicursor=n-v-c:block-Cursor-blinkon530-blinkwait530-blinkoff530
     set guicursor+=i:ver20-iCursor-blinkon530-blinkwait530-blinkoff530
 endif
 " This is meant to be terminal-compatible
@@ -630,16 +632,6 @@ map <C-j> <C-W>j
 map <C-k> <C-W>k
 map <C-h> <C-W>h
 map <C-l> <C-W>l
-" }}}
-" Make esc slightly more sane {{{
-
-if has("gui_running")
-    " This makes <esc> close popups first, then esc out.
-    " This is largely to make it slightly easier to close popups.
-    " Forcibly going to insert mode can be done with <C-esc>
-    " without anoy remapping in gvim
-    inoremap <expr> <esc> pumvisible() ? "<C-o>:pclose<CR>" : "\<esc>"
-endif
 " }}}
 " Autosave {{{
 " Adapted from https://github.com/towc/dotfiles/blob/master/.vimrc#L462-L475
@@ -689,7 +681,7 @@ fun! TexMaps()
         return
     endif
     " Map frac (because it's annoying to rewrite)
-    imap <buffer> <C-l><C-f> \frac{}{}<left><left><left>
+    imap <buffer> <C-l><C-f> \frac{<CR>.<bs><Down><C-o>${<CR>.<BS><up><C-o>$<Left><Left><BS><up><C-o>$
 
     " Matrix helpers
     " .<bs> is a trick for forcing <cr> to work at the end of a map with no
@@ -705,6 +697,7 @@ fun! TexMaps()
     imap <buffer> <C-l><C-l> \mathcal<space>
     imap <buffer> <C-l><C-.> \cdot
     imap <buffer> <C-l><C-s> _{}<left>
+    imap <buffer> <C-l><C-r> \sqrt{}<left>
     " Various alignments
     imap <buffer> <C-l><C-a> \begin{align*}<CR>.<CR>\end{align*}<up><C-o>$<BS>
     imap <buffer> <C-l><C-m> \begin{bmatrix}\end{bmatrix}<C-o>14<left><C-o>:call search('\\end')<cr>
@@ -730,9 +723,20 @@ fun! TexMaps()
     imap <buffer> <C-m>n2 \begin{bmatrix} 0 \\ 0  \end{bmatrix}
     imap <buffer> <C-m>n3 \begin{bmatrix} 0 \\ 0  \\ 0 \end{bmatrix}
     imap <buffer> <C-m>n4 \begin{bmatrix} 0 \\ 0  \\ 0 \\ 0 \end{bmatrix}
-
-endfun
-
+    " Basis for R^2
+    imap <buffer> <C-m>x2 \begin{bmatrix} 1 \\ 0 \end{bmatrix}
+    imap <buffer> <C-m>y2 \begin{bmatrix} 0 \\ 1 \end{bmatrix}
+    " Basis for R^3
+    imap <buffer> <C-m>x3 \begin{bmatrix} 1 \\ 0 \\ 0 \end{bmatrix}
+    imap <buffer> <C-m>y3 \begin{bmatrix} 0 \\ 1 \\ 0 \end{bmatrix}
+    imap <buffer> <C-m>z3 \begin{bmatrix} 0 \\ 0 \\ 1 \end{bmatrix}
+    " Basis for R^4
+    imap <buffer> <C-m>x4 \begin{bmatrix} 1 \\ 0 \\ 0 \\ 0 \end{bmatrix}
+    imap <buffer> <C-m>y4 \begin{bmatrix} 0 \\ 1 \\ 0 \\ 0 \end{bmatrix}
+    imap <buffer> <C-m>z4 \begin{bmatrix} 0 \\ 0 \\ 1 \\ 0 \end{bmatrix}
+    imap <buffer> <C-m>w4 \begin{bmatrix} 0 \\ 0 \\ 0 \\ 1 \end{bmatrix}
+endfun  
+  
 
 " }}}
 " Filetype maps {{{
@@ -743,6 +747,17 @@ augroup END
 " }}}
 " }}}
 " Custom functions and commands {{{
+
+" Renaming tabs {{{
+fun! RenameTab(newName) 
+    " This is compatible with the buffertab plugin I use.
+    " It's perfectly possible to set other variables for custom use, but the
+    " plugin uses t:label.
+    " Seems awfully prone to conflicts though.
+    let t:label = a:newName
+endfun
+command! -nargs=1 RenameTab call RenameTab(<f-args>)
+" }}}
 
 " Super-cd {{{
 " Super cd - changes the current working directory, as well as changing the NERDTree root
