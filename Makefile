@@ -150,7 +150,14 @@ dotfiles:
 	ln -s -f ${PWD}/.shell_aliases /home/${USER}/.shell_aliases
 	ln -s -f ${PWD}/.p10k.zsh /home/${USER}/.p10k.zsh
 	ln -s -f ${PWD}/.tmux.conf /home/${USER}/.tmux.conf
-	ln -s -f ${PWD}/VimSnippets /home/${USER}/.vim/CustomSnippets
+	ln -sTf ${PWD}/VimSnippets /home/${USER}/.vim/CustomSnippets
+	# Make sure the submodules are initialized.
+	git pull --recurse-submodules
+	ln -s -f ${PWD}/gdb-dashboard/.gdbinit /home/${USER}/.gdbinit
+
+update-repo:
+	git pull
+	git pull --recurse-submodules
 
 config:
 	rsync -av --progress config/ ~/.config/

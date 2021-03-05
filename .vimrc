@@ -181,7 +181,8 @@ try
         " set guifont=SauceCodePro\ Nerd\ Font:h11
         set guifont=Source\ Code\ Pro\ for\ Powerline:h11:cANSI
     elseif has("unix")
-        set guifont=SauceCodePro\ Nerd\ Font\ 13
+
+        set guifont=SauceCodePro\ Nerd\ Font\ 12
         Plug 'ryanoasis/vim-devicons'
     endif
 catch
@@ -735,8 +736,8 @@ fun! TexMaps()
     imap <buffer> <C-m>y4 \begin{bmatrix} 0 \\ 1 \\ 0 \\ 0 \end{bmatrix}
     imap <buffer> <C-m>z4 \begin{bmatrix} 0 \\ 0 \\ 1 \\ 0 \end{bmatrix}
     imap <buffer> <C-m>w4 \begin{bmatrix} 0 \\ 0 \\ 0 \\ 1 \end{bmatrix}
-endfun  
-  
+endfun
+
 
 " }}}
 " Filetype maps {{{
@@ -749,7 +750,7 @@ augroup END
 " Custom functions and commands {{{
 
 " Renaming tabs {{{
-fun! RenameTab(newName) 
+fun! RenameTab(newName)
     " This is compatible with the buffertab plugin I use.
     " It's perfectly possible to set other variables for custom use, but the
     " plugin uses t:label.
