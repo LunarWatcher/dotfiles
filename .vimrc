@@ -7,10 +7,6 @@ set termencoding=utf-8
 set nocompatible              " be iMproved, required
 filetype off                  " required
 
-if has('nvim')
-    echoerr "Neovim isn't supported."
-endif
-
 let g:python3_host_prog = 'python3'
 " }}}
 " Folding {{{
@@ -681,8 +677,6 @@ fun! TexMaps()
         echoerr "LaTeX-maps are gvim-specific, and aren't compatible with terminal vim"
         return
     endif
-    " Map frac (because it's annoying to rewrite)
-    imap <buffer> <C-l><C-f> \frac{<CR>.<bs><Down><C-o>${<CR>.<BS><up><C-o>$<Left><Left><BS><up><C-o>$
 
     " Matrix helpers
     " .<bs> is a trick for forcing <cr> to work at the end of a map with no

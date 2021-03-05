@@ -1,0 +1,35 @@
+priority 9001
+
+# Note to self: i after the snippet means "in word". 
+snippet "limi?t?" "\int\limits_{}^{}" wr
+\int\limits_{$1}^{$2} $3 dx
+endsnippet
+
+snippet "ilimi?t?" "Indefinite integral" wr
+\int $1 dx
+endsnippet
+
+snippet "rlimi?t?" "\int = []" wr
+\left[$3\right]^{$1}_{$2}$0
+endsnippet
+
+snippet "irlimi?t?" "[] but indefinite" wr
+\left[$1\right]$0
+endsnippet
+
+snippet frac "\frac{}{}" w
+\frac{$1}{$2}$0
+endsnippet
+
+snippet bfrac "frac but big" w
+\frac{
+	$1
+}{
+	$2
+}$0
+endsnippet
+
+snippet ibegin "inline begin" w
+\begin{$1}$2\end{$1}
+endsnippet
+
