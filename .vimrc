@@ -283,7 +283,7 @@ let g:AutoPairs = autopairs#AutoPairsDefine([
             \ {"open": "$", "close": "$", "filetype": "tex"},
             \ {"open": '\\left(', 'close': '\right)', "filetype": "tex"},
             \ {"open": '\vclass .{-} (: (.{-}[ ,])+)? ?\{', 'close': '};', 'mapopen': '{', 'filetype': 'cpp'},
-            \ {"open": "*", "close": "*", "filetype": ["markdown", "help"]},
+            \ {"open": "*", "close": "*", "filetype": ["help"]},
             \ {"open": "|", "close": "|", "filetype": "help"}
     \ ])
 let g:AutoPairsExperimentalAutocmd = 1
