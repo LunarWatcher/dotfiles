@@ -2,4 +2,6 @@ vim
 nerd-fonts
 ctags
 *.deb
+neovim
+neovim-qt
 

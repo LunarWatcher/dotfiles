@@ -144,12 +144,14 @@ fat-dotfiles: vim-plugin-dependencies install-vim-plug dotfiles
 
 dotfiles:
 	mkdir -p ~/.vim
+	mkdir -p ~/.config/nvim
 	ln -s -f ${PWD}/.vim/coc-settings.json /home/${USER}/.vim/coc-settings.json
 	ln -s -f ${PWD}/.vimrc /home/${USER}/.vimrc
 	ln -s -f ${PWD}/.zshrc /home/${USER}/.zshrc
 	ln -s -f ${PWD}/.shell_aliases /home/${USER}/.shell_aliases
 	ln -s -f ${PWD}/.p10k.zsh /home/${USER}/.p10k.zsh
 	ln -s -f ${PWD}/.tmux.conf /home/${USER}/.tmux.conf
+	ln -s -f ${PWD}/.config/nvim/init.vim /home/${USER}/.config/nvim/init.vim
 	ln -sTf ${PWD}/VimSnippets /home/${USER}/.vim/CustomSnippets
 	# Make sure the submodules are initialized.
 	git pull --recurse-submodules

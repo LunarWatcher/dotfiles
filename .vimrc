@@ -7,6 +7,8 @@ set termencoding=utf-8
 set nocompatible              " be iMproved, required
 filetype off                  " required
 
+" Neovim doesn't export a GUI variable
+let g:GuiRunning = has("gui_running") || $TERM == "" 
 let g:python3_host_prog = 'python3'
 " }}}
 " Folding {{{
@@ -153,6 +155,11 @@ if !isdirectory('/mnt/LinuxData/programming/vim/Dawn')
 else
     Plug '/mnt/LinuxData/programming/vim/Dawn'
 endif
+if !isdirectory('/mnt/LinuxData/programming/vim/Amber')
+    Plug 'LunarWatcher/Amber'
+else
+    Plug '/mnt/LinuxData/programming/vim/Amber'
+endif
 Plug 'haya14busa/incsearch.vim'
 Plug 'mbbill/undotree'
 
@@ -181,18 +188,25 @@ try
         " https://github.com/ryanoasis/nerd-fonts/issues/269
         " Up since 2018, no patch in sight.
         " set guifont=SauceCodePro\ Nerd\ Font:h11
-        set guifont=Source\ Code\ Pro\ for\ Powerline:h11:cANSI
+        set guifont=Source\ Code\ Pro\ for\ Powerline:h12:cANSI
     elseif has("unix")
-
-        set guifont=SauceCodePro\ Nerd\ Font\ 12
+        if has("nvim") && g:GuiRunning
+            set guifont=SauceCodePro\ Nerd\ Font:h12
+        else
+            set guifont=SauceCodePro\ Nerd\ Font\ 12
+        endif
         Plug 'ryanoasis/vim-devicons'
     endif
 catch
     echo "Failed to find SauceCodePro - falling back to SourceCodePro, and disabling devicons"
     if has("win32")
-        set guifont=Source\ Code\ Pro\ for\ Powerline:h11:cANSI
+        set guifont=Source\ Code\ Pro\ for\ Powerline:h12:cANSI
     elseif has("unix")
-        set guifont=Source\ Code\ Pro\ for\ Powerline\ 11
+        if !has("nvim") || !g:GuiRunning
+            set guifont=Source\ Code\ Pro\ for\ Powerline\ 12
+        else
+            set guifont=Source\ Code\ Pro\ for\ Powerline:h12
+        endif
     endif
 endtry
 " }}}
@@ -636,7 +650,7 @@ augroup VimPatch
 augroup END
 " }}}
 " Cursor config {{{
-if has("gui_running")
+if g:GuiRunning
     hi iCursor guibg=#e00d93
     hi Cursor  guibg=purple
     hi Visual  guibg=#b19cd9
@@ -674,8 +688,8 @@ endfunction
 nnoremap <leader>as :call ToggleAutoSave()<cr>
 " }}}
 " Vimrc {{{
-if empty($MYVIMRC)
-  let $MYVIMRC = "~/.vimrc"
+if empty($MYVIMRC) || has("nvim")
+    let $MYVIMRC = "~/.vimrc"
 endif
 nnoremap <leader>ve :split $MYVIMRC<cr>
 nnoremap <leader>vE :e $MYVIMRC<cr>
@@ -700,7 +714,7 @@ nmap <X1Mouse> <C-PageUp>
 " }}}
 " LaTeX {{{
 fun! TexMaps()
-    if !has("gui_running")
+    if !g:GuiRunning
         echoerr "LaTeX-maps are gvim-specific, and aren't compatible with terminal vim"
         return
     endif
@@ -878,17 +892,17 @@ command! DeleteThis call IDeleteThis()
 
 " }}}
 " gVim config {{{
-" has("gvim") isn't a thing - use has("gui_running") to check if gVim is
-" running.
-if has("gui_running")
+
+if g:GuiRunning
     set wak=no
     " Disable the GUI toolbars (they're noisy)
     " Note to self: there cannot be a space between the = and letter.
     " Otherwise, it thinks i.e. " m" is the option, not just "m".
-    set guioptions -=m
-    set guioptions -=T
-    set guioptions +=k
-
+    if !has("nvim") 
+        set guioptions -=m
+        set guioptions -=T
+        set guioptions +=k
+    endif
     if has("win32")
         " Set the language to English
         language messages English_United States
@@ -908,6 +922,10 @@ if has("gui_running")
     imap <S-Insert> <Esc>"+p
     map <C-Insert> "+y
     imap <C-Insert> <Esc>"+y
+
+    if has("nvim")
+        autocmd UIEnter * :GuiTabline 0
+    endif
 endif
 " }}}
 " External config {{{
@@ -926,10 +944,6 @@ endif
 " Paths for Vim-generated files {{{
 set backupdir=~/.vim/backup//
 set directory=~/.vim/swap//
-set undodir=~/.vim/undo//
-
-" Persistent undo
-set undofile
 
 if !isdirectory($HOME."/.vim/backup")
     call mkdir($HOME."/.vim/backup", "p")
@@ -937,7 +951,5 @@ endif
 if !isdirectory($HOME."/.vim/swap")
     call mkdir($HOME."/.vim/swap", "p")
 endif
-if !isdirectory($HOME."/.vim/undo")
-    call mkdir($HOME."/.vim/undo", "p")
-endif
 " }}}
+" vim:sw=4
