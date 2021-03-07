@@ -1,3 +1,5 @@
+# Fix neovim stupidity
+alias nvim-qt="FORCEGUI=1 nvim-qt"
 # Builtins
 # ls without colors for dipshit 777 disks
 alias lsn="ls --color=no"

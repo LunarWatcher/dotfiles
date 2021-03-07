@@ -8,7 +8,7 @@ set nocompatible              " be iMproved, required
 filetype off                  " required
 
 " Neovim doesn't export a GUI variable
-let g:GuiRunning = has("gui_running") || $TERM == "" 
+let g:GuiRunning = has("gui_running") || $TERM == "" || $FORCEGUI != "" 
 let g:python3_host_prog = 'python3'
 " }}}
 " Folding {{{
