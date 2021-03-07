@@ -72,7 +72,6 @@ Plug 'rakr/vim-one'
 Plug 'rakr/vim-two-firewatch'
 
 Plug 'pboettch/vim-cmake-syntax'
-"Plug 'LunarWatcher/rainbow'
 
 Plug 'RRethy/vim-illuminate'
 Plug 'markonm/traces.vim'
@@ -149,8 +148,15 @@ if !isdirectory('/mnt/LinuxData/programming/vim/auto-pairs')
 else
     Plug '/mnt/LinuxData/programming/vim/auto-pairs'
 endif
+if !isdirectory('/mnt/LinuxData/programming/vim/Dawn')
+    Plug 'LunarWatcher/Dawn'
+else
+    Plug '/mnt/LinuxData/programming/vim/Dawn'
+endif
 Plug 'haya14busa/incsearch.vim'
 Plug 'mbbill/undotree'
+
+Plug 'puremourning/vimspector'
 
 " }}}
 
@@ -265,6 +271,17 @@ nnoremap <silent> K :call CocActionAsync('doHover')<cr>
 " fuuuuuuuck that
 nnoremap <silent> <leader>rc :call CocRestart<cr>
 nnoremap <silent> <leader>hp :call coc#float#close_all()<cr>
+
+" }}}
+" Vimspector {{{
+
+let g:vimspector_enable_mappings = ''
+
+nnoremap <M-d>c <Plug>VimspectorContinue
+nnoremap <M-d>s <Plug>VimspectorStop
+nnoremap <M-d>r <Plug>VimspectorRestart
+nnoremap <M-d>p <Plug>VimspectorPause
+nnoremap <leader>b <Plug>VimspectorAddFunctionBreakpoint
 
 " }}}
 " Autopair config {{{
@@ -611,6 +628,12 @@ augroup TabConf
 
 augroup END
 
+" }}}
+" Patch weird user command string behavior (#6587) {{{
+augroup VimPatch
+    au!
+    autocmd Syntax vim syn match vimUsrCmd '^\s*\zs\u\%(\w*\)\@>(\@!'
+augroup END
 " }}}
 " Cursor config {{{
 if has("gui_running")
