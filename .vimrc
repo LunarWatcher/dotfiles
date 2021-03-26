@@ -66,7 +66,7 @@ Plug 'liuchengxu/vim-clap', { 'do': function('InstallClap')}
 Plug 'terryma/vim-expand-region'
 " }}}
 
-" Themes & colors {{{
+" Themes and colors {{{
 Plug 'NLKNguyen/papercolor-theme'
 Plug 'junegunn/seoul256.vim'
 Plug 'sonph/onehalf', {'rtp': 'vim/'}
@@ -77,6 +77,8 @@ Plug 'pboettch/vim-cmake-syntax'
 
 Plug 'RRethy/vim-illuminate'
 Plug 'markonm/traces.vim'
+
+Plug 'rhysd/conflict-marker.vim'
 " }}}
 
 " Language highlighting {{{
@@ -108,6 +110,7 @@ endif
 Plug 'junegunn/goyo.vim'
 Plug 'junegunn/limelight.vim'
 Plug 'vimwiki/vimwiki'
+Plug 'https://gitlab.com/dbeniamine/todo.txt-vim'
 " }}}
 
 " Coding utilities {{{
@@ -266,6 +269,7 @@ set updatetime=300
 nmap <leader>qf  <Plug>(coc-fix-current)
 inoremap <silent><expr> <c-space> coc#refresh()
 nmap <leader>rn <Plug>(coc-rename)
+nmap <silent> gd <Plug>(coc-definition)
 
 " Fix scrolling in popups
 nnoremap <silent><nowait><expr> <C-f> coc#float#has_scroll() ? coc#float#scroll(1) : "\<C-f>"
@@ -307,7 +311,7 @@ let g:AutoPairsMapCR = 1
 let g:AutoPairsMultilineFastWrap = 1
 let g:AutoPairsMultilineClose = 0
 let g:AutoPairsCompatibleMaps = 0
-
+let g:AutoPairsStringHandlingMode = 1
 
 let g:AutoPairs = autopairs#AutoPairsDefine([
             \ {"open": '\w\zs<', "close": '>'},
@@ -576,6 +580,8 @@ inoremap <C-down> <C-o>g<down>
 
 nnoremap <Up> gk
 nnoremap <Down> gj
+vnoremap <Up> gk
+vnoremap <Down> gj
 
 " }}}
 " Configure indents {{{
@@ -594,6 +600,7 @@ augroup Filetypes
     autocmd Bufread,BufNewFile SConscript set filetype=python
 
     autocmd Bufread,BufNewFile *.trconf set ft=json
+    autocmd BufRead,BufNewFile *.frag set ft=glsl
 augroup END
 " }}}
 " Themes and visual configurations {{{
@@ -734,6 +741,7 @@ fun! TexMaps()
     imap <buffer> <C-l><C-.> \cdot
     imap <buffer> <C-l><C-s> _{}<left>
     imap <buffer> <C-l><C-r> \sqrt{}<left>
+    imap <buffer> <C-l><C-l> \lambda
     " Various alignments
     imap <buffer> <C-l><C-a> \begin{align*}<CR>.<CR>\end{align*}<up><C-o>$<BS>
     imap <buffer> <C-l><C-m> \begin{bmatrix}\end{bmatrix}<C-o>14<left><C-o>:call search('\\end')<cr>
@@ -771,6 +779,10 @@ fun! TexMaps()
     imap <buffer> <C-m>y4 \begin{bmatrix} 0 \\ 1 \\ 0 \\ 0 \end{bmatrix}
     imap <buffer> <C-m>z4 \begin{bmatrix} 0 \\ 0 \\ 1 \\ 0 \end{bmatrix}
     imap <buffer> <C-m>w4 \begin{bmatrix} 0 \\ 0 \\ 0 \\ 1 \end{bmatrix}
+
+    imap <buffer> <C-m>02 0 & 0
+    imap <buffer> <C-m>03 0 & 0 & 0
+    imap <buffer> <C-m>04 0 & 0 & 0 & 0
 endfun
 
 
@@ -783,7 +795,9 @@ augroup END
 " }}}
 " }}}
 " Custom functions and commands {{{
-
+" Fancy editing {{{
+command! -nargs=1 E :e %:h/<args>
+" }}}
 " Renaming tabs {{{
 fun! RenameTab(newName)
     " This is compatible with the buffertab plugin I use.
@@ -855,6 +869,7 @@ endfun
 
 command! -nargs=* SCons call RunBuild('scons', 0, 0, '-j 6', <f-args>)
 command! -nargs=* SConsTest call RunBuild('scons', 0, 1, 'test -j 6', <f-args>)
+command! -nargs=* TMake call RunBuild('make', 0, 0, '-j 12', <f-args>)
 
 command! -nargs=? SetVEnv call SetVEnv(<f-args>)
 
