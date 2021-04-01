@@ -312,6 +312,7 @@ let g:AutoPairsMultilineFastWrap = 1
 let g:AutoPairsMultilineClose = 0
 let g:AutoPairsCompatibleMaps = 0
 let g:AutoPairsStringHandlingMode = 1
+"let g:AutoPairsEnableMove = 1
 
 let g:AutoPairs = autopairs#AutoPairsDefine([
             \ {"open": '\w\zs<', "close": '>'},
@@ -600,7 +601,7 @@ augroup Filetypes
     autocmd Bufread,BufNewFile SConscript set filetype=python
 
     autocmd Bufread,BufNewFile *.trconf set ft=json
-    autocmd BufRead,BufNewFile *.frag set ft=glsl
+    autocmd BufRead,BufNewFile *.frag,*.vert set ft=glsl
 augroup END
 " }}}
 " Themes and visual configurations {{{
@@ -669,6 +670,10 @@ endif
 "let &t_SI="\e[5 q"
 "let &t_SR="\e[4 q"
 "let &t_EI="\e[5 q"
+" }}}
+" Visual {{{
+
+set fillchars+=vert:\│
 " }}}
 " }}}
 " Mappings {{{
