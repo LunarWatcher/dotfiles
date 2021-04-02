@@ -8,7 +8,7 @@ set nocompatible              " be iMproved, required
 filetype off                  " required
 
 " Neovim doesn't export a GUI variable
-let g:GuiRunning = has("gui_running") || $TERM == "" || $FORCEGUI != "" 
+let g:GuiRunning = has("gui_running") || $TERM == "" || $FORCEGUI != ""
 let g:python3_host_prog = 'python3'
 " }}}
 " Folding {{{
@@ -84,7 +84,7 @@ Plug 'rhysd/conflict-marker.vim'
 " Language highlighting {{{
 Plug 'sheerun/vim-polyglot'
 Plug 'octol/vim-cpp-enhanced-highlight', {'for': 'cpp'}
-Plug 'plasticboy/vim-markdown'
+Plug 'plasticboy/vim-markdown', { 'for': 'markdown' }
 Plug 'godlygeek/tabular'
 Plug 'lervag/vimtex', {'for': 'tex'}
 " }}}
@@ -104,6 +104,8 @@ if !has("win32") && (has('job') && has('channel'))
     Plug 'metakirby5/codi.vim'
 endif
 
+Plug 'skywind3000/asyncrun.vim'
+Plug 'skywind3000/asynctasks.vim'
 " }}}
 
 " Text extensions {{{
@@ -289,6 +291,29 @@ nnoremap <silent> K :call CocActionAsync('doHover')<cr>
 " fuuuuuuuck that
 nnoremap <silent> <leader>rc :call CocRestart<cr>
 nnoremap <silent> <leader>hp :call coc#float#close_all()<cr>
+
+" }}}
+" {{{
+let g:asyncrun_open = 6
+let g:asyncrun_bell = 0     " Fuck bells
+
+nnoremap <F7> :call asyncrun#quickfix_toggle(6)<cr>
+
+" AsyncTask global config claims to be stored in ~/.vim, but in neovim,
+" there's a different config location.
+" That's a strong indicator vim on Windoze may resort to a different
+" location, which would be a problem.
+" So force compatibility by setting a custom config home.
+" Admittedly, this is in parallel to the default one, but an attempt
+" was made.
+let g:asynctasks_extra_config = [ $HOME . "/.vim/asynctasks.ini" ]
+
+" Generic makefile tasks
+nnoremap <leader>rbc :AsyncTask cppbuild<cr>
+nnoremap <leader>rrc :AsyncTask cpprun<cr>
+
+" Java
+nnoremap <leader>rbjm :AsyncTask mavenbuild<cr>
 
 " }}}
 " Vimspector {{{
@@ -918,7 +943,7 @@ if g:GuiRunning
     " Disable the GUI toolbars (they're noisy)
     " Note to self: there cannot be a space between the = and letter.
     " Otherwise, it thinks i.e. " m" is the option, not just "m".
-    if !has("nvim") 
+    if !has("nvim")
         set guioptions -=m
         set guioptions -=T
         set guioptions +=k

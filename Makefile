@@ -156,6 +156,8 @@ dotfiles:
 	# Make sure the submodules are initialized.
 	git pull --recurse-submodules
 	ln -s -f ${PWD}/gdb-dashboard/.gdbinit /home/${USER}/.gdbinit
+	# Additional vim config
+	ln -s -f ${PWD}/.vim/asynctasks.ini /home/${USER}/.vim/asynctasks.ini
 
 update-repo:
 	git pull
