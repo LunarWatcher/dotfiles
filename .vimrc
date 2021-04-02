@@ -8,7 +8,6 @@ set nocompatible              " be iMproved, required
 filetype off                  " required
 
 " Neovim doesn't export a GUI variable
-let g:GuiRunning = has("gui_running") || $TERM == "" || $FORCEGUI != ""
 let g:python3_host_prog = 'python3'
 " }}}
 " Folding {{{
@@ -26,11 +25,9 @@ augroup END
 augroup config
     autocmd FileType markdown,vimwiki setlocal conceallevel=0
 augroup END
-
 " }}}
 " Plugins {{{
 call plug#begin('~/.vim/plugged')
-
 " Navigation {{{
 Plug 'christoomey/vim-tmux-navigator'
 Plug 'scrooloose/nerdtree'
@@ -42,7 +39,6 @@ Plug 'xolox/vim-misc'
 Plug 'zefei/vim-wintabs'
 Plug 'zefei/vim-wintabs-powerline' " Powerline rendering
 " }}}
-
 " Fuzzy finder {{{
 if has('win32')
     " Windows note: Some Assembly Required:tm:
@@ -65,13 +61,15 @@ endfun
 Plug 'liuchengxu/vim-clap', { 'do': function('InstallClap')}
 Plug 'terryma/vim-expand-region'
 " }}}
-
 " Themes and colors {{{
 Plug 'NLKNguyen/papercolor-theme'
 Plug 'junegunn/seoul256.vim'
 Plug 'sonph/onehalf', {'rtp': 'vim/'}
 Plug 'rakr/vim-one'
 Plug 'rakr/vim-two-firewatch'
+
+" Show hex colors
+Plug 'gko/vim-coloresque'
 
 Plug 'pboettch/vim-cmake-syntax'
 
@@ -80,15 +78,16 @@ Plug 'markonm/traces.vim'
 
 Plug 'rhysd/conflict-marker.vim'
 " }}}
-
 " Language highlighting {{{
+" Speed up load
+let g:loaded_sensible = 1
 Plug 'sheerun/vim-polyglot'
+
 Plug 'octol/vim-cpp-enhanced-highlight', {'for': 'cpp'}
 Plug 'plasticboy/vim-markdown', { 'for': 'markdown' }
 Plug 'godlygeek/tabular'
 Plug 'lervag/vimtex', {'for': 'tex'}
 " }}}
-
 " Various coding-related utils {{{
 Plug 'scrooloose/nerdcommenter'
 Plug 'liuchengxu/vista.vim'
@@ -107,45 +106,36 @@ endif
 Plug 'skywind3000/asyncrun.vim'
 Plug 'skywind3000/asynctasks.vim'
 " }}}
-
 " Text extensions {{{
 Plug 'junegunn/goyo.vim'
 Plug 'junegunn/limelight.vim'
 Plug 'vimwiki/vimwiki'
 Plug 'https://gitlab.com/dbeniamine/todo.txt-vim'
 " }}}
-
 " Coding utilities {{{
+" Extended % matching
+Plug 'chrisbra/matchit'
+
 Plug 'rhysd/vim-clang-format'
 
 Plug 'neoclide/coc.nvim', {'branch': 'release'}
-"Plug 'machakann/vim-Verdin'
 
 Plug 'SirVer/ultisnips'
 Plug 'honza/vim-snippets'
 
-"Plug 'airblade/vim-gitgutter'
-
-"Plug '/mnt/LinuxData/programming/vim/tmux-multiterm.vim'
-if !has("nvim")
-    Plug 'LunarWatcher/tmux-multiterm.vim'
-endif
+Plug 'LunarWatcher/tmux-multiterm.vim'
 " }}}
-
 " Airline {{{
 Plug 'vim-airline/vim-airline'
 Plug 'vim-airline/vim-airline-themes'
 " }}}
-
 " Git integration {{{
 Plug 'tpope/vim-fugitive'
 Plug 'rbong/vim-flog'
 " }}}
-
 " Project config {{{
 Plug 'embear/vim-localvimrc'
 " }}}
-
 " General every-day use {{{
 Plug 'LunarWatcher/vim-multiple-monitors'
 Plug 'tpope/vim-speeddating'
@@ -171,16 +161,9 @@ Plug 'mbbill/undotree'
 Plug 'puremourning/vimspector'
 
 " }}}
-
-" Discord integration {{{
-"Plug 'hugolgst/vimsence'
-"Plug '/mnt/LinuxData/programming/vim/vimsence'
-" }}}
-
 " Start screen {{{
 Plug 'mhinz/vim-startify'
 " }}}
-
 " Font-related stuff {{{
 "set guifont=Source\ Code\ Pro\ for\ Powerline:h11:cANSI " Source Code Pro <3
 "set guifontwide=Source\ Code\ Pro\ for\ Powerline:h11:cANSI " gvim
@@ -195,11 +178,7 @@ try
         " set guifont=SauceCodePro\ Nerd\ Font:h11
         set guifont=Source\ Code\ Pro\ for\ Powerline:h12:cANSI
     elseif has("unix")
-        if has("nvim") && g:GuiRunning
-            set guifont=SauceCodePro\ Nerd\ Font:h12
-        else
-            set guifont=SauceCodePro\ Nerd\ Font\ 12
-        endif
+        set guifont=SauceCodePro\ Nerd\ Font\ 12
         Plug 'ryanoasis/vim-devicons'
     endif
 catch
@@ -207,7 +186,7 @@ catch
     if has("win32")
         set guifont=Source\ Code\ Pro\ for\ Powerline:h12:cANSI
     elseif has("unix")
-        if !has("nvim") || !g:GuiRunning
+        if !has("gui_running")
             set guifont=Source\ Code\ Pro\ for\ Powerline\ 12
         else
             set guifont=Source\ Code\ Pro\ for\ Powerline:h12
@@ -215,11 +194,10 @@ catch
     endif
 endtry
 " }}}
-
 " Meta plugins {{{
+Plug 'tweekmonster/startuptime.vim'
 Plug 'thinca/vim-themis'
 " }}}
-
 call plug#end()
 " }}}
 " Plugin config {{{
@@ -293,7 +271,7 @@ nnoremap <silent> <leader>rc :call CocRestart<cr>
 nnoremap <silent> <leader>hp :call coc#float#close_all()<cr>
 
 " }}}
-" {{{
+" asyncrun and asynctask {{{
 let g:asyncrun_open = 6
 let g:asyncrun_bell = 0     " Fuck bells
 
@@ -308,12 +286,52 @@ nnoremap <F7> :call asyncrun#quickfix_toggle(6)<cr>
 " was made.
 let g:asynctasks_extra_config = [ $HOME . "/.vim/asynctasks.ini" ]
 
-" Generic makefile tasks
+" Shortcut mnemonic expander
+" <leader>      prefix
+"         r     namespace
+"          b    build
+"          r    run
+" ------ Begin task list ------
+"           c   C/C++ through make
+"           jm  Java  through Maven
 nnoremap <leader>rbc :AsyncTask cppbuild<cr>
 nnoremap <leader>rrc :AsyncTask cpprun<cr>
 
 " Java
 nnoremap <leader>rbjm :AsyncTask mavenbuild<cr>
+
+" Fuzzy finder integration
+fun! s:FzfTaskSink(what)
+    let p1 = stridx(a:what, '<')
+    if p1 > -1
+        let name = strpart(a:what, 0, p1)
+        let name = substitute(name, '\v^\s*(.{-})\s*$', '\1', '')
+        if name != ""
+            exec "AsyncTask " . fnameescape(name)
+        endif
+    endif
+endfun
+
+fun! s:FzfAsyncTasks()
+    let rows = asynctasks#source(&columns * 48 / 100)
+    let source = []
+    for row in rows
+        let name = row[0]
+        let source += [ name . ' ' . row[1] . ': ' . row[2] ]
+    endfor
+    let opts = {
+        \ 'source': source,
+        \ 'sink': function('s:FzfTaskSink'),
+        \ 'options': '+m --nth 1 --inline-info --tac'
+    \ }
+    for key in keys(g:fzf_layout)
+        let opts[key] = deepcopy(g:fzf_layout[key])
+    endfor
+    call fzf#run(opts)
+endfun
+
+command! -nargs=0 AsyncTaskFzf call s:FzfAsyncTasks()
+nnoremap <leader>zt :AsyncTaskFzf<cr>
 
 " }}}
 " Vimspector {{{
@@ -330,8 +348,8 @@ nnoremap <leader>b <Plug>VimspectorAddFunctionBreakpoint
 " Autopair config {{{
 
 let g:AutoPairsShortcutFastWrap = "<C-f>"
-" Disable BS for pair deletion
-let g:AutoPairsMapBS = 0
+
+let g:AutoPairsMapBS = 1
 let g:AutoPairsMapCR = 1
 let g:AutoPairsMultilineFastWrap = 1
 let g:AutoPairsMultilineClose = 0
@@ -349,11 +367,6 @@ let g:AutoPairs = autopairs#AutoPairsDefine([
     \ ])
 let g:AutoPairsExperimentalAutocmd = 1
 
-" }}}
-" Vimsence {{{
-let g:vimsence_ignored_directories = [ '~/', 'C:/Users/LunarWatcher', "/home/lunarwatcher" ]
-let g:vimsence_ignored_file_types = [ 'vimwiki' ]
-let g:vimsence_discord_flatpak = 1
 " }}}
 " Undotree {{{
 nnoremap <F9> :UndotreeToggle<cr>
@@ -386,6 +399,21 @@ set exrc
 " Airline {{{
 let g:airline_theme = 'papercolor'
 let g:airline_powerline_fonts = 1
+
+let g:airline#extensions#xkblayout#enabled   = 0
+" Whitespace detection is nice, but meh
+" I'll leave <leader>ts and pre-commit to purge it
+let g:airline#extensions#whitespace#enabled  = 0
+" I love coc.nvim (whenever node doesn't do a dumb anyway),
+" but the airlien integration sucks!
+" It's unnecessarily aggressive and doesn't really do anything than add a
+" visual indicator that coc is running. Also doesn't resize well
+let g:airline#extensions#coc#enabled         = 0
+let g:airline#extensions#cursormode#enabled  = 0
+" iDunno
+let g:airline#extensions#vimtex#enabled      = 0
+let g:airline#extensions#vista#enabled       = 0
+
 " }}}
 " Ultisnips {{{
 let g:UltiSnipsSnippetDirectories = ["UltiSnips", "CustomSnippets"]
@@ -457,23 +485,30 @@ let g:rainbow_list = ['vim', 'javascript', 'java', 'python', 'cpp']
 let g:fzf_layout = {
     \ 'window':
     \     {
-    \         'width': 0.9,
-    \         'height': 0.6,
-    \         'highlight': 'Todo',
-    \         'border': 'sharp'
+    \         'width': 0.7,
+    \         'height': 0.7,
+    \         'highlight': 'Type',
+    \         'border': 'rounded'
     \     }
     \ }
+let g:CopyPastaTemplate = g:fzf_layout["window"]
+let g:fzf_action = {
+    \ 'ctrl-t': 'tab split',
+    \ 'ctrl-s': 'split',
+    \ 'ctrl-v': 'vsplit',
+    \ 'ctrl-o': 'tabe'
+\ }
 
-command! -bang -nargs=? -complete=dir HFiles call fzf#run(fzf#vim#with_preview({
+command! -bang -nargs=? -complete=dir HFiles call fzf#run(fzf#wrap({
         \ 'source': 'ag --hidden --ignore .git -g ""',
-        \ 'sink': 'e',
-        \ 'window': { 'width': 0.9, 'height': 0.6, 'highlight': 'Todo', 'border': 'sharp' }
+        \ 'options': ['--layout=reverse'],
+        \ 'window': g:CopyPastaTemplate
         \ }))
 
-command! -bang -nargs=? -complete=dir HNGFiles call fzf#run(fzf#vim#with_preview({
+command! -bang -nargs=? -complete=dir HNGFiles call fzf#run(fzf#wrap({
         \ 'source': 'ag --hidden --skip-vcs-ignores --ignore .git -g ""',
-        \ 'sink': 'e',
-        \ 'window': { 'width': 0.9, 'height': 0.6, 'highlight': 'Todo', 'border': 'sharp' }
+        \ 'options': ['--layout=reverse']
+        \ 'window': g:CopyPastaTemplate
         \ }))
 
 nnoremap <leader>zx :HFiles<cr>
@@ -518,10 +553,6 @@ let g:wintabs_ui_vimtab_name_format = ' %n %t '
 let g:vim_markdown_conceal = 0
 let g:vim_markdown_conceal_code_blocks = 0
 let g:vim_markdown_folding_disabled = 1
-" }}}
-" Indentline {{{
-" Fix retarded issue with auto-conceal to 2
-let g:indentLine_setConceal = 0
 " }}}
 " Vimtex {{{
 let g:tex_flavor = "latex"
@@ -680,10 +711,11 @@ augroup END
 augroup VimPatch
     au!
     autocmd Syntax vim syn match vimUsrCmd '^\s*\zs\u\%(\w*\)\@>(\@!'
+    hi link vimUsrCmd String
 augroup END
 " }}}
 " Cursor config {{{
-if g:GuiRunning
+if has("gui_running")
     hi iCursor guibg=#e00d93
     hi Cursor  guibg=purple
     hi Visual  guibg=#b19cd9
@@ -724,8 +756,17 @@ function! ToggleAutoSave()
 endfunction
 nnoremap <leader>as :call ToggleAutoSave()<cr>
 " }}}
+" Terminal {{{
+tnoremap <C-n> <C-w>N
+if has("gui_running")
+    " Forward basic keys
+    "https://old.reddit.com/r/vim/comments/cxhi7p/ctrlw_to_delete_word_in_terminal_window/
+    tnoremap <C-BS> <C-w>.
+    tnoremap <S-Space> <Space>
+endif
+"}}}
 " Vimrc {{{
-if empty($MYVIMRC) || has("nvim")
+if empty($MYVIMRC)
     let $MYVIMRC = "~/.vimrc"
 endif
 nnoremap <leader>ve :split $MYVIMRC<cr>
@@ -751,7 +792,7 @@ nmap <X1Mouse> <C-PageUp>
 " }}}
 " LaTeX {{{
 fun! TexMaps()
-    if !g:GuiRunning
+    if !has("gui_running")
         echoerr "LaTeX-maps are gvim-specific, and aren't compatible with terminal vim"
         return
     endif
@@ -938,16 +979,14 @@ command! DeleteThis call IDeleteThis()
 " }}}
 " gVim config {{{
 
-if g:GuiRunning
+if has("gui_running")
     set wak=no
     " Disable the GUI toolbars (they're noisy)
     " Note to self: there cannot be a space between the = and letter.
     " Otherwise, it thinks i.e. " m" is the option, not just "m".
-    if !has("nvim")
-        set guioptions -=m
-        set guioptions -=T
-        set guioptions +=k
-    endif
+    set guioptions -=m
+    set guioptions -=T
+    set guioptions +=k
     if has("win32")
         " Set the language to English
         language messages English_United States
@@ -968,9 +1007,6 @@ if g:GuiRunning
     map <C-Insert> "+y
     imap <C-Insert> <Esc>"+y
 
-    if has("nvim")
-        autocmd UIEnter * :GuiTabline 0
-    endif
 endif
 " }}}
 " External config {{{
