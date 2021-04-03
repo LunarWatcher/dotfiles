@@ -73,7 +73,6 @@ Plug 'gko/vim-coloresque'
 
 Plug 'pboettch/vim-cmake-syntax'
 
-Plug 'RRethy/vim-illuminate'
 Plug 'markonm/traces.vim'
 
 Plug 'rhysd/conflict-marker.vim'
