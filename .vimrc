@@ -348,13 +348,12 @@ nnoremap <leader>b <Plug>VimspectorAddFunctionBreakpoint
 
 let g:AutoPairsShortcutFastWrap = "<C-f>"
 
-let g:AutoPairsMapBS = 1
+let g:AutoPairsMapBS = 0
 let g:AutoPairsMapCR = 1
 let g:AutoPairsMultilineFastWrap = 1
 let g:AutoPairsMultilineClose = 0
 let g:AutoPairsCompatibleMaps = 0
 let g:AutoPairsStringHandlingMode = 1
-"let g:AutoPairsEnableMove = 1
 
 let g:AutoPairs = autopairs#AutoPairsDefine([
             \ {"open": '\w\zs<', "close": '>'},
@@ -705,13 +704,6 @@ augroup TabConf
 
 augroup END
 
-" }}}
-" Patch weird user command string behavior (#6587) {{{
-augroup VimPatch
-    au!
-    autocmd Syntax vim syn match vimUsrCmd '^\s*\zs\u\%(\w*\)\@>(\@!'
-    hi link vimUsrCmd String
-augroup END
 " }}}
 " Cursor config {{{
 if has("gui_running")
