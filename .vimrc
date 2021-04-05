@@ -111,14 +111,25 @@ Plug 'junegunn/limelight.vim'
 Plug 'vimwiki/vimwiki'
 Plug 'https://gitlab.com/dbeniamine/todo.txt-vim'
 " }}}
+" Asyncomplete {{{
+Plug 'prabirshrestha/asyncomplete.vim'
+Plug 'prabirshrestha/asyncomplete-lsp.vim'
+Plug 'prabirshrestha/vim-lsp'
+Plug 'mattn/vim-lsp-settings'
+
+" Snippet support
+Plug 'prabirshrestha/asyncomplete-ultisnips.vim'
+
+" Files
+Plug 'prabirshrestha/asyncomplete-file.vim'
+" }}}
 " Coding utilities {{{
 " Extended % matching
 Plug 'chrisbra/matchit'
 
 Plug 'rhysd/vim-clang-format'
 
-Plug 'neoclide/coc.nvim', {'branch': 'release'}
-
+" Snippets
 Plug 'SirVer/ultisnips'
 Plug 'honza/vim-snippets'
 
@@ -238,36 +249,61 @@ let g:startify_bookmarks = [
 " }}}
 " Autocomplete {{{
 
-let g:Verdin#autocomplete = 1
+fun! s:InitServers()
+    call lsp#register_server({ 
+        \ 'name': 'ccls',
+        \ 'cmd': { server_info -> ['ccls'] },
+        \ 'root_uri': { server_info -> lsp#utils#path_to_uri(lsp#utils#find_nearest_parent_file_directory(lsp#utils#get_buffer_path(), 'compile_commands.json')) },
+        \ 'initialization_options': {},
+        \ 'allowlist': ['c', 'cpp']
+    \ })
+    call lsp#register_server({ 
+        \ 'name': 'clangd',
+        \ 'cmd': { server_info -> ['clangd', '-background-index'] },
+        \ 'allowlist': ['c', 'cpp']
+    \ })
+endfun
+
+call asyncomplete#register_source(asyncomplete#sources#ultisnips#get_source_options({
+    \ 'name': 'ultisnips',
+    \ 'allowlist': ['*'],
+    \ 'completor': function('asyncomplete#sources#ultisnips#completor'),
+    \ }))
+
+call asyncomplete#register_source(asyncomplete#sources#file#get_source_options({
+    \ 'name': 'file',
+    \ 'allowlist': ['*'],
+    \ 'priority': 10,
+    \ 'completor': function('asyncomplete#sources#file#completor')
+    \ }))
 
 set shortmess+=c
 set signcolumn=number
 set updatetime=300
 
+imap <c-space> <Plug>(asyncomplete_force_refresh)
 
-nmap <leader>qf  <Plug>(coc-fix-current)
-inoremap <silent><expr> <c-space> coc#refresh()
-nmap <leader>rn <Plug>(coc-rename)
-nmap <silent> gd <Plug>(coc-definition)
+function! s:LspBuffEnabled() abort
+    nmap <buffer> gd <plug>(lsp-definition)
+    nmap <buffer> gs <plug>(lsp-document-symbol-search)
+    nmap <buffer> gS <plug>(lsp-workspace-symbol-search)
+    nmap <buffer> gr <plug>(lsp-references)
+    nmap <buffer> gi <plug>(lsp-implementation)
+    nmap <buffer> gt <plug>(lsp-type-definition)
+    nmap <buffer> <leader>rn <plug>(lsp-rename)
+    nmap <buffer> [g <plug>(lsp-previous-diagnostic)
+    nmap <buffer> ]g <plug>(lsp-next-diagnostic)
+    nmap <buffer> K <plug>(lsp-hover)
 
-" Fix scrolling in popups
-nnoremap <silent><nowait><expr> <C-f> coc#float#has_scroll() ? coc#float#scroll(1) : "\<C-f>"
-nnoremap <silent><nowait><expr> <C-b> coc#float#has_scroll() ? coc#float#scroll(0) : "\<C-b>"
-inoremap <silent><nowait><expr> <C-f> coc#float#has_scroll() ? "\<c-r>=coc#float#scroll(1)\<cr>" : "\<Right>"
-inoremap <silent><nowait><expr> <C-b> coc#float#has_scroll() ? "\<c-r>=coc#float#scroll(0)\<cr>" : "\<Left>"
-vnoremap <silent><nowait><expr> <C-f> coc#float#has_scroll() ? coc#float#scroll(1) : "\<C-f>"
-vnoremap <silent><nowait><expr> <C-b> coc#float#has_scroll() ? coc#float#scroll(0) : "\<C-b>"
+    let g:lsp_format_sync_timeout = 1000
+endfunction
 
-" Show docs
-" I also like that this doesn't show up automatically. YCM was wayyyyyyyy too
-" aggressive in showing documentation.
-nnoremap <silent> K :call CocActionAsync('doHover')<cr>
-
-" Restarting is the only way to fix an issue with some popups not
-" disappearing. Focusing and quitting the popup could also be an option, but
-" fuuuuuuuck that
-nnoremap <silent> <leader>rc :call CocRestart<cr>
-nnoremap <silent> <leader>hp :call coc#float#close_all()<cr>
+augroup LspConfig
+    au!
+    " call s:on_lsp_buffer_enabled only for languages that has the server registered.
+    au User lsp_buffer_enabled call s:LspBuffEnabled()
+    au User lsp_setup call s:InitServers()
+augroup END
 
 " }}}
 " asyncrun and asynctask {{{
@@ -402,10 +438,6 @@ let g:airline#extensions#xkblayout#enabled   = 0
 " Whitespace detection is nice, but meh
 " I'll leave <leader>ts and pre-commit to purge it
 let g:airline#extensions#whitespace#enabled  = 0
-" I love coc.nvim (whenever node doesn't do a dumb anyway),
-" but the airlien integration sucks!
-" It's unnecessarily aggressive and doesn't really do anything than add a
-" visual indicator that coc is running. Also doesn't resize well
 let g:airline#extensions#coc#enabled         = 0
 let g:airline#extensions#cursormode#enabled  = 0
 " iDunno
