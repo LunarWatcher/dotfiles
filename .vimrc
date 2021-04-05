@@ -91,6 +91,7 @@ Plug 'lervag/vimtex', {'for': 'tex'}
 Plug 'scrooloose/nerdcommenter'
 Plug 'liuchengxu/vista.vim'
 Plug 'alvan/vim-closetag', {'for': ['markdown', 'html']}
+Plug 'AndrewRadev/tagalong.vim', {'for': ['xml', 'html', 'xhtml', 'markdown']}
 Plug 'tpope/vim-surround'
 
 Plug 'mg979/vim-visual-multi'
