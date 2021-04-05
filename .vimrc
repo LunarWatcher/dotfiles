@@ -238,12 +238,9 @@ let g:startify_bookmarks = [
 " }}}
 " Autocomplete {{{
 
-let g:Verdin#autocomplete = 1
-
 set shortmess+=c
 set signcolumn=number
 set updatetime=300
-
 
 nmap <leader>qf  <Plug>(coc-fix-current)
 inoremap <silent><expr> <c-space> coc#refresh()
