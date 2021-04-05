@@ -93,7 +93,6 @@ Plug 'liuchengxu/vista.vim'
 Plug 'alvan/vim-closetag', {'for': ['markdown', 'html']}
 Plug 'tpope/vim-surround'
 
-Plug 'Yggdroot/indentLine'
 Plug 'mg979/vim-visual-multi'
 Plug 'Elive/vim-bling'
 
@@ -456,16 +455,6 @@ let g:vista#renderer#icons = {
 \  }
 
 " }}} Vista "
-" IndentLine {{{ "
-" And let's fix the indent char
-let g:indentLine_enabled = 1
-let g:indentLine_setColors = 1
-
-let g:indentLine_char = '|'
-let g:indent_guides_enable_on_vim_startup = 1
-autocmd FileType json,startify,calendar :IndentLinesDisable
-nnoremap <leader>it :IndentLinesToggle<cr>
-" }}} IndentLine "
 " Vim illuminate {{{ "
 " Disable highlighting in some files
 let g:Illuminate_ftblacklist = ['nerdtree', 'md', 'json', 'markdown', 'text', 'txt']
