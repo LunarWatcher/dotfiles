@@ -20,14 +20,15 @@ nnoremap <leader>fd :set nofoldenable
 
 augroup folding
     autocmd FileType vim setlocal foldenable
-    autocmd FileType markdown,vimwiki setlocal nofoldenable
+    autocmd FileType markdown setlocal nofoldenable
 augroup END
 augroup config
-    autocmd FileType markdown,vimwiki setlocal conceallevel=0
+    autocmd FileType markdown setlocal conceallevel=0
 augroup END
 " }}}
 " Plugins {{{
 call plug#begin('~/.vim/plugged')
+"a
 " Navigation {{{
 Plug 'christoomey/vim-tmux-navigator'
 Plug 'scrooloose/nerdtree'
@@ -51,14 +52,6 @@ else
 endif
 Plug 'junegunn/fzf.vim'
 
-fun! InstallClap(info)
-    if a:info.status == "installed" || a:info.force
-        :Clap install-binary
-        call clap#installer#build_maple()
-    endif
-endfun
-
-Plug 'liuchengxu/vim-clap', { 'do': function('InstallClap')}
 Plug 'terryma/vim-expand-region'
 " }}}
 " Themes and colors {{{
@@ -108,7 +101,6 @@ Plug 'skywind3000/asynctasks.vim'
 " Text extensions {{{
 Plug 'junegunn/goyo.vim'
 Plug 'junegunn/limelight.vim'
-Plug 'vimwiki/vimwiki'
 Plug 'https://gitlab.com/dbeniamine/todo.txt-vim'
 " }}}
 " Coding utilities {{{
@@ -417,17 +409,6 @@ let g:UltiSnipsJumpForwardTrigger="<C-j>"
 let g:UltiSnipsJumpBackwardTrigger="<C-k>"
 let g:UltiSnipsListSnippets="<C-u>"
 " }}}
-" Vimwiki {{{
-let g:vimwiki_conceallevel = 0
-let g:vimwiki_hl_headers = 1
-let g:vimwiki_hl_cb_checked = 1
-
-" Augmented in an attempt to avoid Vim registering regular .md files as
-" vimwiki files
-let g:vimwiki_list = [{'path': '~/.wiki/', 'syntax': 'default', 'ext': '.mdvw'},
-            \ {'path': '~/.personal/', 'syntax': 'default', 'ext': '.mdvw'}]
-let g:vimwiki_ext2syntax = {'.mdvw': 'media'}
-" }}}
 " Junegunn plugins {{{
 
 nnoremap <leader>go :Goyo 65%x95%<cr>
@@ -605,7 +586,7 @@ set whichwrap+=<,>,h,l,[,]
 " Of course, though, there's config to make it less crap :D
 augroup CustomWrap
     au!
-    autocmd FileType text,markdown,vimwiki,tex setlocal wrap
+    autocmd FileType text,markdown,tex setlocal wrap
 augroup END
 " I don't remember what this is for
 set linebreak
