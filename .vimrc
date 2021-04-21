@@ -26,16 +26,45 @@ augroup config
     autocmd FileType markdown setlocal conceallevel=0
 augroup END
 " }}}
+" System compatibility {{{
+" Root code location
+let g:ODevDir = 0
+" Root 
+let g:OVimDevDir = 0
+
+if isdirectory("/mnt/LinuxData")
+    let g:ODevDir = "/mnt/LinuxData/"
+endif
+
+if type(g:OVimDevDir) == v:t_number && type(g:ODevDir) == v:t_string
+    " Assuming the general directory scheme is maintained anyway
+    " Can be customized separately though.
+    let g:OVimDevDir = g:ODevDir . 'programming/vim/'
+endif
+
+let g:Print = "Vimrc messages:\n"
+fun! s:SilentPrint(message)
+    let g:Print .= "\n" . a:message
+endfun
+command! Messages echo g:Print
+
+fun! s:LocalOption(localPath, remotePath)
+    if (type(g:OVimDevDir) == v:t_number || !isdirectory(g:OVimDevDir . a:localPath))
+        exec "Plug '" . a:remotePath . "'"
+        call s:SilentPrint("Using remote path: " . a:remotePath)
+    else
+        exec "Plug '" . g:OVimDevDir . a:localPath . "'"
+        call s:SilentPrint("Using local path: " . g:OVimDevDir . a:localPath)
+    endif
+endfun
+
+" }}}
 " Plugins {{{
 call plug#begin('~/.vim/plugged')
-"a
 " Navigation {{{
 Plug 'christoomey/vim-tmux-navigator'
-Plug 'scrooloose/nerdtree'
+Plug 'preservim/nerdtree'
 Plug 'anschnapp/move-less'
-
-Plug 'xolox/vim-session'
-Plug 'xolox/vim-misc'
 
 Plug 'zefei/vim-wintabs'
 Plug 'zefei/vim-wintabs-powerline' " Powerline rendering
@@ -57,9 +86,13 @@ Plug 'terryma/vim-expand-region'
 " Themes and colors {{{
 Plug 'NLKNguyen/papercolor-theme'
 Plug 'junegunn/seoul256.vim'
-Plug 'sonph/onehalf', {'rtp': 'vim/'}
+Plug 'sonph/onehalf'
+call s:LocalOption('Aurora', 'LunarWatcher/Aurora')
 Plug 'rakr/vim-one'
 Plug 'rakr/vim-two-firewatch'
+
+" Colorscheme designer
+call s:LocalOption('Amber', 'LunarWatcher/Amber')
 
 " Show hex colors
 Plug 'gko/vim-coloresque'
@@ -116,9 +149,8 @@ Plug 'honza/vim-snippets'
 
 Plug 'LunarWatcher/tmux-multiterm.vim'
 " }}}
-" Airline {{{
-Plug 'vim-airline/vim-airline'
-Plug 'vim-airline/vim-airline-themes'
+" Lightline {{{
+Plug 'itchyny/lightline.vim'
 " }}}
 " Git integration {{{
 Plug 'tpope/vim-fugitive'
@@ -131,26 +163,22 @@ Plug 'embear/vim-localvimrc'
 Plug 'LunarWatcher/vim-multiple-monitors'
 Plug 'tpope/vim-speeddating'
 Plug 'scy/vim-mkdir-on-write'
-if !isdirectory('/mnt/LinuxData/programming/vim/auto-pairs')
-    Plug 'LunarWatcher/auto-pairs'
-else
-    Plug '/mnt/LinuxData/programming/vim/auto-pairs'
-endif
-if !isdirectory('/mnt/LinuxData/programming/vim/Dawn')
-    Plug 'LunarWatcher/Dawn'
-else
-    Plug '/mnt/LinuxData/programming/vim/Dawn'
-endif
-if !isdirectory('/mnt/LinuxData/programming/vim/Amber')
-    Plug 'LunarWatcher/Amber'
-else
-    Plug '/mnt/LinuxData/programming/vim/Amber'
-endif
-Plug 'haya14busa/incsearch.vim'
+
+call s:LocalOption('auto-pairs', 'LunarWatcher/auto-pairs')
+call s:LocalOption('Dawn',       'LunarWatcher/Dawn')
+call s:LocalOption('Pandora',    'LunarWatcher/Pandora')
+
 Plug 'mbbill/undotree'
 
 Plug 'puremourning/vimspector'
 
+" }}}
+" Search {{{
+" This won't integrate with search preview
+"Plug 'google/vim-searchindex'
+Plug 'obcat/vim-hitspop'
+Plug 'haya14busa/incsearch.vim'
+Plug 'haya14busa/is.vim'
 " }}}
 " Start screen {{{
 Plug 'mhinz/vim-startify'
@@ -215,9 +243,6 @@ endfunction
 let g:startify_custom_header = s:center(startify#fortune#boxed())
 
 let g:startify_lists = [
-    \ { 'type': 'files', 'header': ['    MRU'] },
-    \ { 'type': 'dir', 'header': ['    MRU ' . getcwd()] },
-    \ { 'type': 'sessions', 'header': ['    Sessions'] },
     \ { 'type': 'bookmarks', 'header': ['    Bookmarks'] },
     \ { 'type': 'commands', 'header': ['    Commands'] },
     \ ]
@@ -265,8 +290,6 @@ let g:asyncrun_bell = 0     " Fuck bells
 
 nnoremap <F7> :call asyncrun#quickfix_toggle(6)<cr>
 
-" AsyncTask global config claims to be stored in ~/.vim, but in neovim,
-" there's a different config location.
 " That's a strong indicator vim on Windoze may resort to a different
 " location, which would be a problem.
 " So force compatibility by setting a custom config home.
@@ -383,24 +406,10 @@ let g:localvimrc_sandbox = 0
 
 set exrc
 " }}}
-" Airline {{{
-let g:airline_theme = 'papercolor'
-let g:airline_powerline_fonts = 1
-
-let g:airline#extensions#xkblayout#enabled   = 0
-" Whitespace detection is nice, but meh
-" I'll leave <leader>ts and pre-commit to purge it
-let g:airline#extensions#whitespace#enabled  = 0
-" I love coc.nvim (whenever node doesn't do a dumb anyway),
-" but the airlien integration sucks!
-" It's unnecessarily aggressive and doesn't really do anything than add a
-" visual indicator that coc is running. Also doesn't resize well
-let g:airline#extensions#coc#enabled         = 0
-let g:airline#extensions#cursormode#enabled  = 0
-" iDunno
-let g:airline#extensions#vimtex#enabled      = 0
-let g:airline#extensions#vista#enabled       = 0
-
+" Lightline {{{
+let g:lightline = {
+            \ 'colorscheme': 'one'
+            \ }
 " }}}
 " Ultisnips {{{
 let g:UltiSnipsSnippetDirectories = ["UltiSnips", "CustomSnippets"]
@@ -413,16 +422,6 @@ let g:UltiSnipsListSnippets="<C-u>"
 
 nnoremap <leader>go :Goyo 65%x95%<cr>
 nnoremap <leader>ll :Limelight!! 0.6<cr>
-" }}}
-" Sessions {{{
-let g:session_autosave = 'no'
-let g:session_autoload = 'no'
-
-nnoremap <leader>ss :SaveSession<cr>
-nnoremap <leader>sl :LoadSession<cr>
-
-set sessionoptions-=help
-
 " }}}
 " Vim clang-format {{{
 
@@ -567,6 +566,9 @@ set conceallevel=0
 
 " Enable the mouse
 set mouse=a
+
+" Show a search count
+set shortmess-=S
 
 " Look at all the pretty colors
 if has("termguicolors")
@@ -823,6 +825,10 @@ augroup FileMaps
     autocmd FileType tex call TexMaps()
 augroup END
 " }}}
+" Custom movements {{{
+" Delete Around Argument delete in word delete to find space
+nnoremap daa diwdf<space>
+" }}} 
 " }}}
 " Custom functions and commands {{{
 " Fancy editing {{{

@@ -20,6 +20,7 @@ plugins=(
     wd
     pyenv
     zsh-syntax-highlighting
+    vi-mode
 )
 
 # Prevent wd from converting paths (https://github.com/ohmyzsh/ohmyzsh/issues/8996#issuecomment-640512998)
