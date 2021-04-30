@@ -94,13 +94,6 @@ Plug 'rakr/vim-two-firewatch'
 " Colorscheme designer
 call s:LocalOption('Amber', 'LunarWatcher/Amber')
 
-" Show hex colors
-Plug 'gko/vim-coloresque'
-
-Plug 'pboettch/vim-cmake-syntax'
-
-Plug 'markonm/traces.vim'
-
 Plug 'rhysd/conflict-marker.vim'
 " }}}
 " Language highlighting {{{
@@ -109,6 +102,7 @@ let g:loaded_sensible = 1
 Plug 'sheerun/vim-polyglot'
 
 Plug 'octol/vim-cpp-enhanced-highlight', {'for': 'cpp'}
+Plug 'pboettch/vim-cmake-syntax'
 Plug 'plasticboy/vim-markdown', { 'for': 'markdown' }
 Plug 'godlygeek/tabular'
 Plug 'lervag/vimtex', {'for': 'tex'}
@@ -121,7 +115,6 @@ Plug 'AndrewRadev/tagalong.vim', {'for': ['xml', 'html', 'xhtml', 'markdown']}
 Plug 'tpope/vim-surround'
 
 Plug 'mg979/vim-visual-multi'
-Plug 'Elive/vim-bling'
 
 " Codi isn't supported by Windows.
 if !has("win32") && (has('job') && has('channel'))
@@ -178,6 +171,7 @@ Plug 'puremourning/vimspector'
 "Plug 'google/vim-searchindex'
 Plug 'obcat/vim-hitspop'
 Plug 'haya14busa/incsearch.vim'
+Plug 'markonm/traces.vim'
 Plug 'haya14busa/is.vim'
 " }}}
 " Start screen {{{
@@ -216,6 +210,8 @@ endtry
 " Meta plugins {{{
 Plug 'tweekmonster/startuptime.vim'
 Plug 'thinca/vim-themis'
+
+Plug 'tpope/vim-repeat'
 " }}}
 call plug#end()
 " }}}
@@ -539,8 +535,6 @@ filetype plugin indent on
 filetype plugin on
 syntax enable
 
-set linespace=2           " BREATHE!
-
 set incsearch             " Along withsearch highlighting, it shows search results while typing
 set hlsearch              " Search highlighting
 set splitright
@@ -829,6 +823,13 @@ augroup END
 " Delete Around Argument delete in word delete to find space
 nnoremap daa diwdf<space>
 " }}} 
+" Copy-pasta {{{
+command! -nargs=0 CopyLastCommand let @+ = @:
+command! -nargs=+ -complete=command CopyCommandOutput redir @+ | <args> | redir END 
+
+nnoremap <leader>ccp :CopyLastCommand<cr>
+nnoremap <leader>csc q:
+" }}}
 " }}}
 " Custom functions and commands {{{
 " Fancy editing {{{
