@@ -189,20 +189,20 @@ try
         " https://github.com/ryanoasis/nerd-fonts/issues/269
         " Up since 2018, no patch in sight.
         " set guifont=SauceCodePro\ Nerd\ Font:h11
-        set guifont=Source\ Code\ Pro\ for\ Powerline:h12:cANSI
+        set guifont=Source\ Code\ Pro\ for\ Powerline:h11:cANSI
     elseif has("unix")
-        set guifont=SauceCodePro\ Nerd\ Font\ 12
+        set guifont=SauceCodePro\ Nerd\ Font\ 11
         Plug 'ryanoasis/vim-devicons'
     endif
 catch
     echo "Failed to find SauceCodePro - falling back to SourceCodePro, and disabling devicons"
     if has("win32")
-        set guifont=Source\ Code\ Pro\ for\ Powerline:h12:cANSI
+        set guifont=Source\ Code\ Pro\ for\ Powerline:h11:cANSI
     elseif has("unix")
         if !has("gui_running")
-            set guifont=Source\ Code\ Pro\ for\ Powerline\ 12
+            set guifont=Source\ Code\ Pro\ for\ Powerline\ 11
         else
-            set guifont=Source\ Code\ Pro\ for\ Powerline:h12
+            set guifont=Source\ Code\ Pro\ for\ Powerline:h11
         endif
     endif
 endtry
@@ -468,12 +468,15 @@ command! -bang -nargs=? -complete=dir HFiles call fzf#run(fzf#wrap({
 
 command! -bang -nargs=? -complete=dir HNGFiles call fzf#run(fzf#wrap({
         \ 'source': 'ag --hidden --skip-vcs-ignores --ignore .git -g ""',
-        \ 'options': ['--layout=reverse']
+        \ 'options': ['--layout=reverse'],
         \ 'window': g:CopyPastaTemplate
         \ }))
 
+command! -bang -nargs=? -bang -complete=dir TODO call fzf#vim#ag("(TODO|FIXME):", {'options': ['--layout=reverse'], 'down': "30%"}, <bang>0)
+
 nnoremap <leader>zx :HFiles<cr>
 nnoremap <leader>zX :HNGFiles<cr>
+nnoremap <leader>zb :TODO<cr>
 " }}} FZF "
 " NERDTree {{{ "
 let NERDTreeWinSize=32
@@ -726,6 +729,8 @@ if empty($MYVIMRC)
 endif
 nnoremap <leader>ve :split $MYVIMRC<cr>
 nnoremap <leader>vE :e $MYVIMRC<cr>
+nnoremap <leader>vt :tabe $MYVIMRC<cr>
+
 nnoremap <leader>rel :source $MYVIMRC<cr>
 " }}}
 " Uncategorized mapping {{{
@@ -822,6 +827,10 @@ augroup END
 " Custom movements {{{
 " Delete Around Argument delete in word delete to find space
 nnoremap daa diwdf<space>
+" Not directly a movement, but close enough
+
+nnoremap ø 0i
+nnoremap æ ^i
 " }}} 
 " Copy-pasta {{{
 command! -nargs=0 CopyLastCommand let @+ = @:
