@@ -698,7 +698,7 @@ if has("linux") && (has("gui_running") || $SSH_TTY == "")
     augroup Filetypes
         au!
         
-        autocmd BufRead *.png,*.jpg,*.jpeg call system('xdg-open ' . expand('%:p')) | bn | bd #
+        autocmd BufRead *.png,*.jpg,*.jpeg call system('xdg-open ' . expand('%:p'))
     augroup END
 endif
 " }}}
