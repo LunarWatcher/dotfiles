@@ -96,6 +96,9 @@ call s:LocalOption('Amber', 'LunarWatcher/Amber')
 
 Plug 'rhysd/conflict-marker.vim'
 " }}}
+" GitHub integration {{{
+call s:LocalOption('Skye', 'LunarWatcher/Skye.vim')
+" }}}
 " Language highlighting {{{
 " Speed up load
 let g:loaded_sensible = 1
@@ -689,6 +692,15 @@ endif
 " Visual {{{
 
 set fillchars+=vert:\│
+" }}}
+" Filetype overrides {{{
+if has("linux") && (has("gui_running") || $SSH_TTY == "")
+    augroup Filetypes
+        au!
+        
+        autocmd BufRead *.png,*.jpg,*.jpeg call system('xdg-open ' . expand('%:p')) | bn | bd #
+    augroup END
+endif
 " }}}
 " }}}
 " Mappings {{{
