@@ -367,13 +367,18 @@ let g:AutoPairsCompatibleMaps = 0
 let g:AutoPairsStringHandlingMode = 1
 
 let g:AutoPairs = autopairs#AutoPairsDefine([
-            \ {"open": '\w\zs<', "close": '>'},
+            \ {"open": '\w\zs<', "close": '>', "filetype": ["cpp", "java"]},
             \ {"open": "$", "close": "$", "filetype": "tex"},
             \ {"open": '\\left(', 'close': '\right)', "filetype": "tex"},
             \ {"open": '\vclass .{-} (: (.{-}[ ,])+)? ?\{', 'close': '};', 'mapopen': '{', 'filetype': 'cpp'},
             \ {"open": "*", "close": "*", "filetype": ["help"]},
             \ {"open": "|", "close": "|", "filetype": "help"}
     \ ])
+
+if has_key(g:AutoPairsLanguagePairs["html"], "<")
+    unlet g:AutoPairsLanguagePairs["html"]["<"]
+endif
+
 let g:AutoPairsExperimentalAutocmd = 1
 
 " }}}
@@ -617,7 +622,7 @@ set cino+=(0
 set cino+=k4,m1
 " }}}
 " Add non-standard filetypes {{{
-augroup Filetypes
+augroup ZoeFiletypes
     au!
 
     autocmd BufRead,BufNewfile conanfile.txt set filetype=dosini
@@ -625,7 +630,7 @@ augroup Filetypes
     autocmd Bufread,BufNewFile SConscript set filetype=python
 
     autocmd Bufread,BufNewFile *.trconf set ft=json
-    autocmd BufRead,BufNewFile *.frag,*.vert set ft=glsl
+    autocmd BufRead,BufNewFile *.vert,*.frag set ft=glsl
 augroup END
 " }}}
 " Themes and visual configurations {{{
@@ -695,7 +700,7 @@ set fillchars+=vert:\│
 " }}}
 " Filetype overrides {{{
 if has("linux") && (has("gui_running") || $SSH_TTY == "")
-    augroup Filetypes
+    augroup ZoeGUIFiletypes
         au!
         
         autocmd BufRead *.png,*.jpg,*.jpeg call system('xdg-open ' . expand('%:p'))
