@@ -177,6 +177,11 @@ cleanup:
 	@echo "Cleaning up..."
 	sudo apt autoremove -y
 
+uncrustify:
+	-git clone https://github.com/uncrustify/uncrustify
+	cd uncrustify && mkdir -p build && cd build && cmake .. \
+				&& make -j 8 && sudo make install
+
 all: update packages zsh vim tmux fat-dotfiles pythoninstall goinstall
 
 .PHONY = all fat-dotfiles
