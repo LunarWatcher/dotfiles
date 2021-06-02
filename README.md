@@ -1,7 +1,5 @@
 # dotfiles
 
-## Note: 
-
 ## .vimrc
 Compatibility: assume latest Vim. 
 
