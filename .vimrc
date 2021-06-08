@@ -365,6 +365,7 @@ let g:AutoPairsMultilineFastWrap = 1
 let g:AutoPairsMultilineClose = 0
 let g:AutoPairsCompatibleMaps = 0
 let g:AutoPairsStringHandlingMode = 1
+let g:AutoPairsPreferClose = 0
 
 let g:AutoPairs = autopairs#AutoPairsDefine([
             \ {"open": '\w\zs<', "close": '>', "filetype": ["cpp", "java"]},
