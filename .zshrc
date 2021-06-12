@@ -37,6 +37,11 @@ export EDITOR='vim'
 
 # Aliases
 
+if [ -f ~/.zsh.sysrc ]
+then
+    # .zshrc but sensitive
+    source ~/.zsh.sysrc
+fi
 source ~/.shell_aliases
 
 # Variables (modification + new)
@@ -77,4 +82,3 @@ fi
 export PYENV_VIRTUALENV_DISABLE_PROMPT=1
 export PATH="${HOME}/.pyenv/bin:$PATH"
 
-export LUNASCONS_DEBUG="true"

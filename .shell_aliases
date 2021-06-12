@@ -1,33 +1,32 @@
-# Fix neovim stupidity
-alias nvim-qt="FORCEGUI=1 nvim-qt"
-# Builtins
+# Builtins {{{
 # ls without colors for dipshit 777 disks
+# The colorscheme makes 777 folders literally unreadable
 alias lsn="ls --color=no"
-
-# Git
+# }}}
+# Git {{{
 alias gi="git init"
 alias subclone="git submodule update --init --recursive"
 alias gitdeep="git clone --recursive"
 alias gitgraph="git log --graph --abbrev-commit --decorate --format=format:'%C(bold blue)%h%C(reset) - %C(bold cyan)%aD%C(reset) %C(bold green)(%ar)%C(reset)%C(bold yellow)%d%C(reset)%n'' %C(white)%s%C(reset) %C(dim white)- %an%C(reset)' --all"
 alias gitsign="git config commit.gpgsign true"
-
-# Hardware
+# }}}
+# Hardware {{{
 alias noiturbo="echo '1' | sudo tee /sys/devices/system/cpu/intel_pstate/no_turbo"
 alias iturbo="echo '0' | sudo tee /sys/devices/system/cpu/intel_pstate/no_turbo"
 alias pulsenodio="pulseaudio -k && sudo alsa force-reload"
-
-# Pyenv
+# }}}
+# Pyenv {{{
 alias newpyenv="virtualenv env && source ./env/bin/activate"
-
-# Vim
+# }}}
+# Vim {{{
 # Hack for gvim: source the pyenv so gvim can access it.
 # Workaround in my current dotfiles: :SetVEnv in gvim
 # All output is then piped into good 'ol /dev/null because it
 # usually spews out bullshit anyway
 alias pygvim="source ./env/bin/activate && gvim . > /dev/null 2>&1"
 alias pyenv="source ./env/bin/activate"
-
-# System
+# }}}
+# System {{{
 alias sysupdate="sudo apt update && sudo apt upgrade && flatpak update"
 
 # Updates various packages that aren't managed by apt or flatpak.
@@ -42,12 +41,12 @@ function updatePackages() {
     gvim +PlugUpdate
     set +x
 }
-
-# Tmux
+# }}}
+# Tmux {{{
 # **tmux n**ame
 alias tmuxn="tmux new-session -t"
-
-# Docker
+# }}}
+# Docker {{{
 # Start and stop the service
 alias rdocker="sudo systemctl start docker"
 alias sdocker="sudo systemctl stop docker"
@@ -65,11 +64,12 @@ alias dstop="docker stop"
 alias drm="docker rm"
 
 alias powershelldocker="docker run -ti --rm mcr.microsoft.com/powershell:latest"
-
-# ffmpeg (convert standalone MP3s to spotify-compatible audio levels)
+# }}}
+# ffmpeg {{{
+# convert standalone MP3s to spotify-compatible audio levels
 alias normalize-audio="ffmpeg-normalize *.mp3 -c:a libmp3lame -ext mp3 -b:a 320k -f -t -14"
-
-# asciinema extensions
+# }}}
+# asciinema extensions {{{
 
 function asciinemaProfile() {
     if [[ -n "$1" ]]; then
@@ -78,5 +78,36 @@ function asciinemaProfile() {
         echo "Specify which profile to use"
     fi
 }
+# }}}
+# fail2ban sshd aliases {{{
+
+if [[ $(command -v fail2ban-client) ]]
+then
+    alias ban="sudo fail2ban-client set sshd banip"
+    alias unban="sudo fail2ban-client unban sshd"
+
+    alias breach-attempts="sudo fail2ban-client status sshd"
+    alias sshd-auths="cat /var/log/auth.log | grep sshd"
+
+    # Stats on usernames
+    alias sshd-auth-bad="cat /var/log/auth.log | grep sshd | grep invalid user"
+    alias sshd-auth-pi="cat /var/log/auth.log | grep sshd | grep authenticating user pi"
+    # No need to check root, the config has it as an invalid user
+fi
+
+# }}}
+# ssh {{{
+
+if [[ $(whoami) != "pi" ]]
+then
+    alias sshpi="ssh pi@sinon"
+    function sshpiremote() {
+        ssh pi@$REMOTEPI
+    }
+else
+    alias sshd-restart="sudo systemctl restart ssh"
+fi
+
+# }}}
 
 # vim:ft=sh
