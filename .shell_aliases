@@ -90,8 +90,8 @@ then
     alias sshd-auths="cat /var/log/auth.log | grep sshd"
 
     # Stats on usernames
-    alias sshd-auth-bad="cat /var/log/auth.log | grep sshd | grep invalid user"
-    alias sshd-auth-pi="cat /var/log/auth.log | grep sshd | grep authenticating user pi"
+    alias sshd-auth-bad="cat /var/log/auth.log | grep sshd | grep 'invalid user'"
+    alias sshd-auth-pi="cat /var/log/auth.log | grep sshd | grep 'authenticating user pi'"
     # No need to check root, the config has it as an invalid user
 fi
 
