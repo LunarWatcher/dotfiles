@@ -7,7 +7,6 @@ set termencoding=utf-8
 set nocompatible              " be iMproved, required
 filetype off                  " required
 
-" Neovim doesn't export a GUI variable
 let g:python3_host_prog = 'python3'
 " }}}
 " Folding {{{
@@ -126,6 +125,8 @@ endif
 
 Plug 'skywind3000/asyncrun.vim'
 Plug 'skywind3000/asynctasks.vim'
+
+call s:LocalOption('doctor.vim', 'LunarWatcher/doctor.vim')
 " }}}
 " Text extensions {{{
 Plug 'junegunn/goyo.vim'
