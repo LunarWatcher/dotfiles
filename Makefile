@@ -179,6 +179,7 @@ cleanup:
 
 uncrustify:
 	-git clone https://github.com/uncrustify/uncrustify
+	-cd uncrustify && git pull origin master
 	cd uncrustify && mkdir -p build && cd build && cmake .. \
 				&& make -j 8 && sudo make install
 

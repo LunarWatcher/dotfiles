@@ -349,11 +349,12 @@ nnoremap <leader>zt :AsyncTaskFzf<cr>
 
 let g:vimspector_enable_mappings = ''
 
-nnoremap <M-d>c <Plug>VimspectorContinue
-nnoremap <M-d>s <Plug>VimspectorStop
-nnoremap <M-d>r <Plug>VimspectorRestart
-nnoremap <M-d>p <Plug>VimspectorPause
-nnoremap <leader>b <Plug>VimspectorAddFunctionBreakpoint
+nmap <M-d>c <Plug>VimspectorContinue
+nmap <M-d>s <Plug>VimspectorStop
+nmap <M-d>r <Plug>VimspectorRestart
+nmap <M-d>e :VimspectorReset<cr>
+nmap <M-d>p <Plug>VimspectorPause
+nmap <leader>b <Plug>VimspectorToggleBreakpoint
 
 " }}}
 " Autopair config {{{
@@ -374,7 +375,8 @@ let g:AutoPairs = autopairs#AutoPairsDefine([
             \ {"open": '\\left(', 'close': '\right)', "filetype": "tex"},
             \ {"open": '\vclass .{-} (: (.{-}[ ,])+)? ?\{', 'close': '};', 'mapopen': '{', 'filetype': 'cpp'},
             \ {"open": "*", "close": "*", "filetype": ["help"]},
-            \ {"open": "|", "close": "|", "filetype": "help"}
+            \ {"open": "|", "close": "|", "filetype": "help"},
+            \ {'open': '\\[',  'close': '\]', "filetype": "tex"}
     \ ])
 
 if has_key(g:AutoPairsLanguagePairs["html"], "<")
