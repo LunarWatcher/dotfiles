@@ -94,6 +94,10 @@ Plug 'rakr/vim-two-firewatch'
 call s:LocalOption('Amber', 'LunarWatcher/Amber')
 
 Plug 'rhysd/conflict-marker.vim'
+
+" Treesitter polyfill
+call s:LocalOption('Acacia', 'LunarWatcher/Acacia')
+
 " }}}
 " GitHub integration {{{
 call s:LocalOption('Skye', 'LunarWatcher/Skye.vim')
