@@ -104,7 +104,7 @@ vim:
 			--enable-perlinterp=yes --enable-luainterp=yes --with-luajit=yes \
 			--enable-gui=gtk2 --enable-cscope --prefix=/usr/local \
 			--with-python3-config-dir=$$(python3.8-config --configdir) --with-python3-command=python3.8 \
-			--enable-largefile --enable-fail-if-missing && \
+			--enable-largefile --enable-fail-if-missing --with-compiledby="Olivia" && \
 		make -j 8 && \
 		sudo make install
 	rm -rf vim

@@ -652,13 +652,13 @@ let g:PaperColor_Theme_Options = {
 
 " Colorschemes + alternate variants
 " =================================
-colorscheme PaperColor    " Color scheme
+"colorscheme PaperColor    " Color scheme
 "colorscheme one
 " colorscheme onedark
 " colorscheme onehalfdark
 " colorscheme onehalflight
-"colorscheme seoul256-light
-" colorscheme two-firewatch
+colorscheme seoul256-light
+ "colorscheme two-firewatch
 
 " =================================
 
@@ -704,7 +704,7 @@ endif
 " }}}
 " Visual {{{
 
-set fillchars+=vert:\│
+set fillchars+=eob:\ ,vert:\│
 " }}}
 " Filetype overrides {{{
 if has("linux") && (has("gui_running") || $SSH_TTY == "")
@@ -730,7 +730,7 @@ function! ToggleAutoSave()
     if g:autoSave == 0
         let g:autoSave = 1
         augroup AutoSaveAu
-            au TextChanged,TextChangedI <buffer> silent write
+            au CursorHoldI,CursorHold <buffer> silent update
         augroup END
     else
         let g:autoSave = 0
@@ -843,10 +843,19 @@ endfun
 
 
 " }}}
+" C++ helpers {{{
+fun! CppMaps()
+    command! -buffer -nargs=0 CppSwitch execute 'e' expand('%:r') .. (expand('%:e') == 'cpp' ? '.hpp' : '.cpp')
+
+    nnoremap <buffer> <leader>cps :CppSwitch<CR>
+endfun
+
+" }}}
 " Filetype maps {{{
 augroup FileMaps
     au!
     autocmd FileType tex call TexMaps()
+    autocmd FileType cpp call CppMaps()
 augroup END
 " }}}
 " Custom movements {{{
@@ -867,7 +876,7 @@ nnoremap <leader>csc q:
 " }}}
 " Custom functions and commands {{{
 " Fancy editing {{{
-command! -nargs=1 E :e %:h/<args>
+command! -complete=file -nargs=1 E :e %:h/<args>
 " }}}
 " Renaming tabs {{{
 fun! RenameTab(newName)
