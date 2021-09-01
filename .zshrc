@@ -5,6 +5,7 @@ if [[ -r "${XDG_CACHE_HOME:-$HOME/.cache}/p10k-instant-prompt-${(%):-%n}.zsh" ]]
   source "${XDG_CACHE_HOME:-$HOME/.cache}/p10k-instant-prompt-${(%):-%n}.zsh"
 fi
 
+
 # Path to your oh-my-zsh installation.
 export ZSH="/home/${USER}/.oh-my-zsh"
 
@@ -52,10 +53,6 @@ export CXX=clang++
 export CC=clang
 # Fix with some OpenSSL-based apps
 export SSL_CERT_FILE=/etc/ssl/certs/ca-certificates.crt
-
-export NVM_DIR=~/.nvm
- [ -s "$NVM_DIR/nvm.sh" ] && . "$NVM_DIR/nvm.sh"
-
 
 # >>> conda initialize >>>
 # !! Contents within this block are managed by 'conda init' !!

@@ -136,6 +136,7 @@ call s:LocalOption('doctor.vim', 'LunarWatcher/doctor.vim')
 Plug 'junegunn/goyo.vim'
 Plug 'junegunn/limelight.vim'
 Plug 'https://gitlab.com/dbeniamine/todo.txt-vim'
+Plug 'junegunn/vim-easy-align'
 " }}}
 " Coding utilities {{{
 " Extended % matching
@@ -545,6 +546,9 @@ let g:codi#interpreters = {
     \ },
 \ }
 " }}}
+" Easy align {{{
+nmap ga <Plug>(EasyAlign)
+" }}}
 " }}}
 " Config {{{
 " Basic enabling {{{
@@ -653,12 +657,13 @@ let g:PaperColor_Theme_Options = {
 " Colorschemes + alternate variants
 " =================================
 "colorscheme PaperColor    " Color scheme
-"colorscheme one
+colorscheme one
 " colorscheme onedark
 " colorscheme onehalfdark
-" colorscheme onehalflight
-colorscheme seoul256-light
+ "colorscheme onehalflight
+"colorscheme seoul256-light
  "colorscheme two-firewatch
+"colorscheme Aurora
 
 " =================================
 
@@ -982,6 +987,11 @@ fun! IDeleteThis()
     :WintabsClose
 endfun
 command! DeleteThis call IDeleteThis()
+if $USER == "olivia" || $USER == "lunarwatcher"
+    " Fat fingers
+    command! W call popup_notification("Bad girl!", #{pos: "center",
+                \ minwidth: 80, minheight: 40})
+endif
 
 " }}}
 
@@ -1034,6 +1044,7 @@ if has("gui_running")
     " This mapping only works in Vim. The alleged workarounds on the wiki do
     " not work
     imap <C-BS> <C-w>
+    imap <C-Del> <C-o>dw
 
     " hack: enable ctrl-ins and shift-ins.
     " These don't work out of the box on Ubuntu-based distros,
