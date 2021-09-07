@@ -1,3 +1,6 @@
+# Profiling
+#zmodload zsh/zprof
+
 # Enable Powerlevel10k instant prompt. Should stay close to the top of ~/.zshrc.
 # Initialization code that may require console input (password prompts, [y/n]
 # confirmations, etc.) must go above this block; everything else may go below.
@@ -19,9 +22,6 @@ HIST_STAMPS="dd.mm.yyyy"
 plugins=(
     git
     wd
-    pyenv
-    zsh-syntax-highlighting
-    vi-mode
 )
 
 # Prevent wd from converting paths (https://github.com/ohmyzsh/ohmyzsh/issues/8996#issuecomment-640512998)

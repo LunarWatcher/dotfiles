@@ -10,7 +10,7 @@ build-deps:
 vim-build-deps: # Grabs Vim build dependencies
 	@echo "Installing dependencies for the Vim build..."
 	# This contains potentially redundant packages
-	sudo apt install -y libncurses5-dev \
+	-sudo apt install -y libncurses5-dev \
 		libgtk2.0-dev libatk1.0-dev \
 		libcairo2-dev libx11-dev libxpm-dev libxt-dev \
 		python3.8-dev ruby-dev lua5.3 liblua5.3-dev luajit libluajit-5.1-dev libperl-dev
@@ -103,7 +103,7 @@ vim:
 			--enable-rubyinterp=yes --enable-python3interp=yes \
 			--enable-perlinterp=yes --enable-luainterp=yes --with-luajit=yes \
 			--enable-gui=gtk2 --enable-cscope --prefix=/usr/local \
-			--with-python3-config-dir=$$(python3.8-config --configdir) --with-python3-command=python3.8 \
+			--with-python3-config-dir=$$(python3-config --configdir) --with-python3-command=python3 \
 			--enable-largefile --enable-fail-if-missing --with-compiledby="Olivia" && \
 		make -j 8 && \
 		sudo make install
