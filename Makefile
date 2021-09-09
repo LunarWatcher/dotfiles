@@ -167,11 +167,15 @@ config:
 	rsync -av --progress config/ ~/.config/
 
 nerdfonts:
-	@echo "Installing nerdfonts. Note that this can take a _long_ time, depending on your connection."
+	# Left for posterity. SHAME!
+	#@echo "Installing nerdfonts. Note that this can take a _long_ time, depending on your connection."
 	# The cloning is the part that takes the longest time. The repo is about 7GB big
-	git clone https://github.com/ryanoasis/nerd-fonts
-	cd nerd-fonts && ./install.sh
-	@echo "Done"
+	#git clone https://github.com/ryanoasis/nerd-fonts
+	#cd nerd-fonts && ./install.sh
+	#@echo "Done"
+	wget https://github.com/ryanoasis/nerd-fonts/blob/master/patched-fonts/SourceCodePro/Regular/complete/Sauce%20Code%20Pro%20Nerd%20Font%20Complete.ttf?raw=true -O "Sauce Code Pro Nerd Font Complete.ttf"
+	sudo mv "Sauce Code Pro Nerd Font Complete.ttf" /usr/local/share/fonts
+	sudo fc-cache -f
 
 cleanup:
 	@echo "Cleaning up..."

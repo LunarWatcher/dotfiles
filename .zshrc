@@ -49,8 +49,13 @@ source ~/.shell_aliases
 export PATH="/home/${USER}/.local/bin:/home/${USER}/go/bin:$PATH"
 # export PATH="/home/lunarwatcher/anaconda3/bin:$PATH"  # commented out by conda initialize
 
-export CXX=clang++
-export CC=clang
+if (( $+commands[clang] )); then
+    export CXX=clang++
+    export CC=clang
+else
+    export CXX=g++
+    export CC=gcc
+fi
 # Fix with some OpenSSL-based apps
 export SSL_CERT_FILE=/etc/ssl/certs/ca-certificates.crt
 
