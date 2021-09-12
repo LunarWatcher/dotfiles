@@ -137,6 +137,7 @@ Plug 'junegunn/goyo.vim'
 Plug 'junegunn/limelight.vim'
 Plug 'https://gitlab.com/dbeniamine/todo.txt-vim'
 Plug 'junegunn/vim-easy-align'
+Plug 'wellle/targets.vim'
 " }}}
 " Coding utilities {{{
 " Extended % matching
