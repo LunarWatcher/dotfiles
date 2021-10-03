@@ -118,10 +118,6 @@ function mkcd() {
         mkdir $1 && cd $1
     fi
 }
-function mkpcd() {
-    if [[ "$1" != "" ]]; then
-        mkdir -p $1 && cd $1
-    fi
-}
+
 # }}}
 # vim:ft=zsh
