@@ -657,13 +657,13 @@ let g:PaperColor_Theme_Options = {
 
 " Colorschemes + alternate variants
 " =================================
-"colorscheme PaperColor    " Color scheme
-colorscheme one
+colorscheme PaperColor    " Color scheme
+"colorscheme one
 " colorscheme onedark
 " colorscheme onehalfdark
- "colorscheme onehalflight
+" colorscheme onehalflight
 "colorscheme seoul256-light
- "colorscheme two-firewatch
+"colorscheme two-firewatch
 "colorscheme Aurora
 
 " =================================

@@ -112,4 +112,16 @@ fi
 # You're not funny, Olivia {{{
 alias hiya="This isn't the input prompt you're looking for."
 # }}}
-# vim:ft=sh
+# Command shortening {{{
+function mkcd() {
+    if [[ "$1" != "" ]]; then
+        mkdir $1 && cd $1
+    fi
+}
+function mkpcd() {
+    if [[ "$1" != "" ]]; then
+        mkdir -p $1 && cd $1
+    fi
+}
+# }}}
+# vim:ft=zsh

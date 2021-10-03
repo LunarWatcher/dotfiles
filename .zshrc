@@ -22,6 +22,7 @@ HIST_STAMPS="dd.mm.yyyy"
 plugins=(
     git
     wd
+    vim-interaction
 )
 
 # Prevent wd from converting paths (https://github.com/ohmyzsh/ohmyzsh/issues/8996#issuecomment-640512998)
@@ -44,6 +45,7 @@ then
     source ~/.zsh.sysrc
 fi
 source ~/.shell_aliases
+source /etc/zsh_command_not_found
 
 # Variables (modification + new)
 export PATH="/home/${USER}/.local/bin:/home/${USER}/go/bin:$PATH"
