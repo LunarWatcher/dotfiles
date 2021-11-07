@@ -116,8 +116,16 @@ alias hiya="This isn't the input prompt you're looking for."
 function mkcd() {
     if [[ "$1" != "" ]]; then
         mkdir $1 && cd $1
+    else
+        echo "Create what?"
     fi
 }
-
+function cleanmk() {
+    if [[ "$1" != "" && "$1" != "/" ]]; then
+        rm -rf $1 && mkdir $1 && cd $1
+    else
+        echo "Invalid path, or path was root (rm-ing root is bad!)"
+    fi
+}
 # }}}
 # vim:ft=zsh

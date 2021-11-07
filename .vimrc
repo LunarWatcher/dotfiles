@@ -38,22 +38,22 @@ endif
 if type(g:OVimDevDir) == v:t_number && type(g:ODevDir) == v:t_string
     " Assuming the general directory scheme is maintained anyway
     " Can be customized separately though.
-    let g:OVimDevDir = g:ODevDir . 'programming/vim/'
+    let g:OVimDevDir = g:ODevDir .. 'programming/vim/'
 endif
 
 let g:Print = "Vimrc messages:\n"
 fun! s:SilentPrint(message)
-    let g:Print .= "\n" . a:message
+    let g:Print ..= "\n" .. a:message
 endfun
 command! Messages echo g:Print
 
 fun! s:LocalOption(localPath, remotePath)
-    if (type(g:OVimDevDir) == v:t_number || !isdirectory(g:OVimDevDir . a:localPath))
-        exec "Plug '" . a:remotePath . "'"
-        call s:SilentPrint("Using remote path: " . a:remotePath)
+    if (type(g:OVimDevDir) == v:t_number || !isdirectory(g:OVimDevDir .. a:localPath))
+        exec "Plug '" .. a:remotePath .. "'"
+        call s:SilentPrint("Using remote path: " .. a:remotePath)
     else
-        exec "Plug '" . g:OVimDevDir . a:localPath . "'"
-        call s:SilentPrint("Using local path: " . g:OVimDevDir . a:localPath)
+        exec "Plug '" .. g:OVimDevDir .. a:localPath .. "'"
+        call s:SilentPrint("Using local path: " .. g:OVimDevDir .. a:localPath)
     endif
 endfun
 
@@ -138,6 +138,8 @@ Plug 'junegunn/limelight.vim'
 Plug 'https://gitlab.com/dbeniamine/todo.txt-vim'
 Plug 'junegunn/vim-easy-align'
 Plug 'wellle/targets.vim'
+" Bit of a weak argument to call this a text extension, but here we are
+Plug 'junegunn/vim-peekaboo'
 " }}}
 " Coding utilities {{{
 " Extended % matching
@@ -168,6 +170,7 @@ Plug 'tpope/vim-speeddating'
 Plug 'scy/vim-mkdir-on-write'
 
 call s:LocalOption('auto-pairs', 'LunarWatcher/auto-pairs')
+"Plug 'https://github.com/anihm136/auto-pairs'
 call s:LocalOption('Dawn',       'LunarWatcher/Dawn')
 call s:LocalOption('Pandora',    'LunarWatcher/Pandora')
 
@@ -242,7 +245,7 @@ nmap   <M-C-RightMouse>      <Plug>(VM-Mouse-Column)
 function! s:center(lines)
     let longest_line   = max(map(copy(a:lines), 'strwidth(v:val)'))
     let centered_lines = map(copy(a:lines),
-            \ 'repeat(" ", (&columns / 2) - (longest_line / 2)) . v:val')
+            \ 'repeat(" ", (&columns / 2) - (longest_line / 2)) .. v:val')
     return centered_lines
 endfunction
 
@@ -301,7 +304,7 @@ nnoremap <F7> :call asyncrun#quickfix_toggle(6)<cr>
 " So force compatibility by setting a custom config home.
 " Admittedly, this is in parallel to the default one, but an attempt
 " was made.
-let g:asynctasks_extra_config = [ $HOME . "/.vim/asynctasks.ini" ]
+let g:asynctasks_extra_config = [ $HOME .. "/.vim/asynctasks.ini" ]
 
 " Shortcut mnemonic expander
 " <leader>      prefix
@@ -324,7 +327,7 @@ fun! s:FzfTaskSink(what)
         let name = strpart(a:what, 0, p1)
         let name = substitute(name, '\v^\s*(.{-})\s*$', '\1', '')
         if name != ""
-            exec "AsyncTask " . fnameescape(name)
+            exec "AsyncTask " .. fnameescape(name)
         endif
     endif
 endfun
@@ -334,7 +337,7 @@ fun! s:FzfAsyncTasks()
     let source = []
     for row in rows
         let name = row[0]
-        let source += [ name . ' ' . row[1] . ': ' . row[2] ]
+        let source += [ name .. ' ' .. row[1] .. ': ' .. row[2] ]
     endfor
     let opts = {
         \ 'source': source,
@@ -717,7 +720,7 @@ if has("linux") && (has("gui_running") || $SSH_TTY == "")
     augroup ZoeGUIFiletypes
         au!
         
-        autocmd BufRead *.png,*.jpg,*.jpeg call system('xdg-open ' . expand('%:p'))
+        autocmd BufRead *.png,*.jpg,*.jpeg call system('xdg-open ' .. expand('%:p'))
     augroup END
 endif
 " }}}
@@ -922,7 +925,7 @@ fun! RunBuild(buildSys, allowEmpty, pane, ...)
         let args = join(a:000)
     endif
 
-    let base = a:buildSys . ' ' . args
+    let base = a:buildSys .. ' ' .. args
     call TmuxSendKeys(a:pane, -1, base)
 endfun
 
@@ -932,7 +935,7 @@ fun! RunBinary(buff, sess, ...)
         return
     endif
 
-    call TmuxSendKeys(a:buff, a:sess, './' . join(a:000, ' '))
+    call TmuxSendKeys(a:buff, a:sess, './' .. join(a:000, ' '))
 endfun
 
 fun! SetVEnv(...)
@@ -940,7 +943,7 @@ fun! SetVEnv(...)
     if a:0 != 0
         let env = a:1
     endif
-    let venv_load_script = getcwd() . '/' . env
+    let venv_load_script = getcwd() .. '/' .. env
     " Using python alters the current process, which is what we want.
     " Using `:!source <path>` doesn't work, because it spawns a new subprocess
     " that doesn't alter the parent. Python is a nice hack for fixing this,
@@ -1006,13 +1009,13 @@ let g:UncrustifyConfig = ".uncrustify.cfg"
 fun! UncrustifyRunner(config = g:UncrustifyConfig)
     " I could add error handling to the get, but fuck that
     " Don't be an idiot when you use this, future me
-    let command = "uncrustify -q -c " . a:config . " -l " . g:UncrustifyLanguageMap[&ft]
+    let command = "uncrustify -q -c " .. a:config .. " -l " .. g:UncrustifyLanguageMap[&ft]
 
     " Save the position
     let cursorPos = getpos('.')
 
     " Format
-    silent! exec "%!" . command
+    silent! exec "%!" .. command
 
     " Reset the cursor position
     call setpos('.', cursorPos)
