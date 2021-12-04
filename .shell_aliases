@@ -10,6 +10,9 @@ alias gitdeep="git clone --recursive"
 alias gitgraph="git log --graph --abbrev-commit --decorate --format=format:'%C(bold blue)%h%C(reset) - %C(bold cyan)%aD%C(reset) %C(bold green)(%ar)%C(reset)%C(bold yellow)%d%C(reset)%n'' %C(white)%s%C(reset) %C(dim white)- %an%C(reset)' --all"
 alias gitsign="git config commit.gpgsign true"
 # }}}
+# Exposing various binaries {{{
+alias themis="~/.vim/plugged/vim-themis/bin/themis"
+# }}}
 # Hardware {{{
 alias noiturbo="echo '1' | sudo tee /sys/devices/system/cpu/intel_pstate/no_turbo"
 alias iturbo="echo '0' | sudo tee /sys/devices/system/cpu/intel_pstate/no_turbo"
@@ -67,7 +70,8 @@ alias powershelldocker="docker run -ti --rm mcr.microsoft.com/powershell:latest"
 # }}}
 # ffmpeg {{{
 # convert standalone MP3s to spotify-compatible audio levels
-alias normalize-audio="ffmpeg-normalize *.mp3 -c:a libmp3lame -ext mp3 -b:a 320k -f -t -14"
+alias normalize-all-audio="ffmpeg-normalize *.mp3 -c:a libmp3lame -ext mp3 -b:a 320k -f -t -14"
+alias normalize-audio="ffmpeg-normalize -c:a libmp3lame -ext mp3 -b:a 320k -f -t -14"
 # }}}
 # asciinema extensions {{{
 

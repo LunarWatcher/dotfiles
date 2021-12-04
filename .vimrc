@@ -225,6 +225,7 @@ Plug 'tweekmonster/startuptime.vim'
 Plug 'thinca/vim-themis'
 
 Plug 'tpope/vim-repeat'
+Plug 'Asheq/close-buffers.vim'
 " }}}
 call plug#end()
 " }}}
@@ -320,6 +321,8 @@ nnoremap <leader>rrc :AsyncTask cpprun<cr>
 " Java
 nnoremap <leader>rbjm :AsyncTask mavenbuild<cr>
 
+nnoremap <C-k>ass :AsyncStop<cr>
+
 " Fuzzy finder integration
 fun! s:FzfTaskSink(what)
     let p1 = stridx(a:what, '<')
@@ -387,6 +390,7 @@ let g:AutoPairs = autopairs#AutoPairsDefine([
             \ {"open": "|", "close": "|", "filetype": "help"},
             \ {'open': '\\[',  'close': '\]', "filetype": "tex"}
     \ ])
+"let g:AutoPairs = autopairs#AutoPairsDefine([{'open': '\\(', 'close': '\)', 'filetype': 'tex'}])
 
 if has_key(g:AutoPairsLanguagePairs["html"], "<")
     unlet g:AutoPairsLanguagePairs["html"]["<"]
