@@ -49,6 +49,7 @@ source /etc/zsh_command_not_found
 
 # Variables (modification + new)
 export PATH="/home/${USER}/.local/bin:/home/${USER}/go/bin:$PATH"
+export PATH="/home/lunarwatcher/.cargo/bin:$PATH"
 # export PATH="/home/lunarwatcher/anaconda3/bin:$PATH"  # commented out by conda initialize
 
 if (( $+commands[clang] )); then

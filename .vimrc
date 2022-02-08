@@ -170,7 +170,6 @@ Plug 'tpope/vim-speeddating'
 Plug 'scy/vim-mkdir-on-write'
 
 call s:LocalOption('auto-pairs', 'LunarWatcher/auto-pairs')
-"Plug 'https://github.com/anihm136/auto-pairs'
 call s:LocalOption('Dawn',       'LunarWatcher/Dawn')
 call s:LocalOption('Pandora',    'LunarWatcher/Pandora')
 
@@ -267,7 +266,7 @@ let g:startify_bookmarks = [
 
 set shortmess+=c
 set signcolumn=number
-set updatetime=300
+set updatetime=100
 
 nmap <leader>qf  <Plug>(coc-fix-current)
 inoremap <silent><expr> <c-space> coc#refresh()
