@@ -96,7 +96,7 @@ call s:LocalOption('Amber', 'LunarWatcher/Amber')
 Plug 'rhysd/conflict-marker.vim'
 
 " Treesitter polyfill
-call s:LocalOption('Acacia', 'LunarWatcher/Acacia')
+"call s:LocalOption('Acacia', 'LunarWatcher/Acacia')
 
 " }}}
 " GitHub integration {{{
