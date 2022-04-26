@@ -192,6 +192,7 @@ nerdfonts:
 	#cd nerd-fonts && ./install.sh
 	#@echo "Done"
 	wget https://github.com/ryanoasis/nerd-fonts/blob/master/patched-fonts/SourceCodePro/Regular/complete/Sauce%20Code%20Pro%20Nerd%20Font%20Complete.ttf?raw=true -O "Sauce Code Pro Nerd Font Complete.ttf"
+	# Needed for gnome terminal because reasons
 	wget https://github.com/ryanoasis/nerd-fonts/blob/master/patched-fonts/SourceCodePro/Regular/complete/Sauce%20Code%20Pro%20Nerd%20Font%20Complete%20Mono.ttf?raw=true -O "Sauce Code Pro Nerd Font Complete Mono.ttf"
 	sudo mv "Sauce Code Pro Nerd Font Complete.ttf" /usr/local/share/fonts
 	sudo mv "Sauce Code Pro Nerd Font Complete Mono.ttf" /usr/local/share/fonts
@@ -207,7 +208,11 @@ uncrustify:
 	cd uncrustify && mkdir -p build && cd build && cmake .. \
 				&& make -j 8 && sudo make install
 
-all: update packages zsh vim tmux fat-dotfiles pythoninstall goinstall nerdfonts home-packages additional-packages
+dotall: update packages zsh vim tmux fat-dotfiles pythoninstall goinstall nerdfonts 
+software: home-packages additional-packages
 
-.PHONY = all fat-dotfiles
+all: dotall software
+
+.PHONY = all fat-dotfiles software dotall
+
 # vim:autoindent:noexpandtab:tabstop=4:shiftwidth=4
