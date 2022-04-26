@@ -96,7 +96,7 @@ call s:LocalOption('Amber', 'LunarWatcher/Amber')
 Plug 'rhysd/conflict-marker.vim'
 
 " Treesitter polyfill
-call s:LocalOption('Acacia', 'LunarWatcher/Acacia')
+"call s:LocalOption('Acacia', 'LunarWatcher/Acacia')
 
 " }}}
 " GitHub integration {{{
@@ -1038,7 +1038,6 @@ if has("gui_running")
     " Note to self: there cannot be a space between the = and letter.
     " Otherwise, it thinks i.e. " m" is the option, not just "m".
     set guioptions -=m
-    set guioptions -=T
     set guioptions +=k
     if has("win32")
         " Set the language to English
@@ -1047,6 +1046,8 @@ if has("gui_running")
     endif
     " Bells are the _worst_
     autocmd GUIEnter * set vb t_vb=
+    autocmd VimEnter * set guioptions-=T
+
 
     " This mapping only works in Vim. The alleged workarounds on the wiki do
     " not work

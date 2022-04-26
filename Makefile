@@ -33,7 +33,18 @@ packages: # Install base packages
 	# My condolences future me, I tried to avoid it.
 	# But turns out CoC is actually good now, and that requires node, soooo
 	# Don't get rekt in the future pl0x
-	sudo apt install -y npm nodejs
+	#sudo apt install -y npm nodejs
+	# ---
+	# Hi past me. Fuck you.
+	# This fucking crap broke because coc.nvim requires node 12 or higher, while
+	# Mint ships with fucking 10.xx. This shit was outdated ages ago.
+	# ugh, thanks for nothing. Use upm: https://github.com/lunarwatcher/upm
+	# Currently requires a manual install because I work on it, but for anyone else
+	# who runs into this, you need to update npm and node manually. Blame Ubuntu
+	#
+	# Even then this does not change that node and npm are required for now.
+	# Seems it's unavoidable for uni, though, so will see what I can do with upm.
+	# Auto-installing it along with dependencies should help a little
 	
 	# Install general stuff
 	sudo apt install -y git thefuck curl python-pkg-resources libssl-dev \
