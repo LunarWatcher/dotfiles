@@ -3,7 +3,7 @@
 ## .vimrc
 Compatibility: assume latest Vim. 
 
-As you can see, my Makefile has a target for vim that compiles Vim, so I have no reason to stay backwards-compatible. I'll update if I have to, and I can do it in 2 minutes or less on my current hardware.
+As you can see, my Makefile has a target for vim that compiles Vim, so I have no reason to stay backwards-compatible. I'll update if I have to, and I can do it in 1.5 minute or less on my current hardware.
 
 ### Notes
 
@@ -14,7 +14,7 @@ As you can see, my Makefile has a target for vim that compiles Vim, so I have no
 
 This dotfile repo bases itself on makefiles. It should take care of all the relevant dependencies. Note that the files themselves assume the distro is Debian-based (for access to `apt`).
 
-TODO: write a list of tasks
+Installing dotfiles, along with necessary dependencies can be done by running `make dotall`. For additional software, use `make all`, or just `make software`. Note that the software installed is primarily geared towards me, hence the split between dotfile installation.
 
 # License 
 
