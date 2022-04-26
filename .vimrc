@@ -33,6 +33,8 @@ let g:OVimDevDir = 0
 
 if isdirectory("/mnt/LinuxData")
     let g:ODevDir = "/mnt/LinuxData/"
+elseif isdirectory($HOME .. "/programming/vim")
+    let g:ODevDir = $HOME
 endif
 
 if type(g:OVimDevDir) == v:t_number && type(g:ODevDir) == v:t_string
