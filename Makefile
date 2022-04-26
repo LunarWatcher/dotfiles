@@ -12,7 +12,7 @@ vim-build-deps: # Grabs Vim build dependencies
 	# This contains potentially redundant packages
 	-sudo apt install -y libncurses5-dev \
 		libgtk2.0-dev libatk1.0-dev \
-		libcairo2-dev libx11-dev libxpm-dev libxt-dev \
+		libcairo2-dev libx11-dev libxpm-dev libxt-dev python3-dev \
 		python3.8-dev ruby-dev lua5.3 liblua5.3-dev luajit libluajit-5.1-dev libperl-dev
 	# Caveat; if Vim still fails to compile lua, run:
 	# cd /usr/include && ln -s lua5.1 lua
@@ -41,7 +41,7 @@ packages: # Install base packages
 	
 	# TODO: clang 12
 	# C++ dev stuff
-	sudo apt install -y clang-10 clang-format-10
+	sudo apt install -y clang-12 clang-format-12
 	# Install build dependencies
 	make build-deps
 	
@@ -53,7 +53,7 @@ theming:
 
 tmux:
 	mkdir -p ~/.tmux
-	git clone https://github.com/tmux-plugins/tpm ~/.tmux/plugins/tpm
+	-git clone https://github.com/tmux-plugins/tpm ~/.tmux/plugins/tpm
 
 home-packages:
 	# Installs home packages.
@@ -68,31 +68,38 @@ home-packages:
 	
 additional-packages:
 	# installs peek (gif screen recorder)
-	flatpak install flathub com.uploadedlobster.peek
+	flatpak install -y flathub com.uploadedlobster.peek
 
-	flatpak install flathub com.bitwarden.desktop
+	flatpak install -y flathub com.bitwarden.desktop
+	flatpak install -y flathub com.discordapp.Discord
+	flatpak install -y flathub org.kde.krita
 
 	# Installs ksnip for its editing capabilities
 	wget https://github.com/ksnip/ksnip/releases/download/v1.7.1/ksnip-1.7.1.deb && sudo apt install -y ./ksnip-1.7.1.deb
+
+	# Spotify
+	curl -sS https://download.spotify.com/debian/pubkey_5E3C45D7B312C643.gpg | sudo apt-key add - 
+	echo "deb http://repository.spotify.com stable non-free" | sudo tee /etc/apt/sources.list.d/spotify.list
+	sudo apt-get update && sudo apt-get install -y spotify-client
 
 pythoninstall:
 	-[ ! -d "$${HOME}/.pyenv" ] && curl -L https://github.com/pyenv/pyenv-installer/raw/master/bin/pyenv-installer | bash
 
 goinstall:
 	sudo apt install -y golang
-	go get -u github.com/boyter/scc/
+	-go get -u github.com/boyter/scc/
 
 zsh: # Installs zsh and oh-my-zsh
 	# Install the shell
 	sudo apt install -y zsh
 	
-	curl -fsSL https://raw.github.com/ohmyzsh/ohmyzsh/master/tools/install.sh | bash
+	-curl -fsSL https://raw.github.com/ohmyzsh/ohmyzsh/master/tools/install.sh | bash
 	make powerlevel
 	# Install zsh syntax highlighting
-	zsh -c 'source ~/.zshrc; git clone https://github.com/zsh-users/zsh-syntax-highlighting.git $${ZSH_CUSTOM:-~/.oh-my-zsh/custom}/plugins/zsh-syntax-highlighting'
+	#zsh -c 'source ~/.zshrc; git clone https://github.com/zsh-users/zsh-syntax-highlighting.git $${ZSH_CUSTOM:-~/.oh-my-zsh/custom}/plugins/zsh-syntax-highlighting'
 
 powerlevel:
-	zsh -c 'source ~/.zshrc; git clone --depth=1 https://github.com/romkatv/powerlevel10k.git $${ZSH_CUSTOM}/themes/powerlevel10k'
+	-zsh -c 'source ~/.zshrc; git clone --depth=1 https://github.com/romkatv/powerlevel10k.git $${ZSH_CUSTOM}/themes/powerlevel10k'
 
 vim:
 	@echo "Building Vim..."
@@ -174,7 +181,9 @@ nerdfonts:
 	#cd nerd-fonts && ./install.sh
 	#@echo "Done"
 	wget https://github.com/ryanoasis/nerd-fonts/blob/master/patched-fonts/SourceCodePro/Regular/complete/Sauce%20Code%20Pro%20Nerd%20Font%20Complete.ttf?raw=true -O "Sauce Code Pro Nerd Font Complete.ttf"
+	wget https://github.com/ryanoasis/nerd-fonts/blob/master/patched-fonts/SourceCodePro/Regular/complete/Sauce%20Code%20Pro%20Nerd%20Font%20Complete%20Mono.ttf?raw=true -O "Sauce Code Pro Nerd Font Complete Mono.ttf"
 	sudo mv "Sauce Code Pro Nerd Font Complete.ttf" /usr/local/share/fonts
+	sudo mv "Sauce Code Pro Nerd Font Complete Mono.ttf" /usr/local/share/fonts
 	sudo fc-cache -f
 
 cleanup:
@@ -187,7 +196,7 @@ uncrustify:
 	cd uncrustify && mkdir -p build && cd build && cmake .. \
 				&& make -j 8 && sudo make install
 
-all: update packages zsh vim tmux fat-dotfiles pythoninstall goinstall
+all: update packages zsh vim tmux fat-dotfiles pythoninstall goinstall nerdfonts home-packages additional-packages
 
 .PHONY = all fat-dotfiles
 # vim:autoindent:noexpandtab:tabstop=4:shiftwidth=4
