@@ -523,7 +523,7 @@ fun FernMaps()
     nmap <buffer><expr> <Plug>(fern-cr)
         \ fern#smart#leaf(
             \ "<Plug>(fern-action-open)",
-            \ "<Plug>(fern-action-expand)",
+            \ "<Plug>(fern-action-expand:stay)",
             \ "<Plug>(fern-action-collapse)",
         \ )
     
@@ -536,7 +536,8 @@ fun FernMaps()
     nmap <buffer> i <Plug>(fern-action-open:split)
 
     nmap <buffer> o <Plug>(fern-cr)
-    nmap <buffer> O <Plug>(fern-action-)
+    " No recursive note expansion :(
+    "nmap <buffer> O <Plug>(fern-action-expand)
 
     " Filesystem maps
     nmap <buffer> M <Plug>(fern-action-move)
