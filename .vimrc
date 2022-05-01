@@ -64,7 +64,10 @@ endfun
 call plug#begin('~/.vim/plugged')
 " Navigation {{{
 Plug 'christoomey/vim-tmux-navigator'
-Plug 'preservim/nerdtree'
+
+Plug 'lambdalisue/fern.vim'
+Plug 'lambdalisue/fern-hijack.vim'
+
 Plug 'anschnapp/move-less'
 
 Plug 'zefei/vim-wintabs'
@@ -504,19 +507,54 @@ nnoremap <leader>zx :HFiles<cr>
 nnoremap <leader>zX :HNGFiles<cr>
 nnoremap <leader>zb :TODO<cr>
 " }}} FZF "
-" NERDTree {{{ "
-let NERDTreeWinSize=32
-let NERDTreeWinPos="left"
-let NERDTreeShowHidden=1
-let NERDTreeAutoDeleteBuffer=1
-let NERDTreeMinimalUI = 1
-let NERDTreeDirArrows = 1
+" fern.vim {{{
+" Global settings
+let g:fern#disable_default_mappings = 1
+let g:fern#default_hidden = 1
+let g:fern#disable_drawer_smart_quit = 1
+let g:fern#drawer_width = 32
+let g:fern#default_hidden = 1
 
-" Toggle the tree with F2
-map <F2> :NERDTreeToggle<CR>
-" Remap the refresh to F5 (browser-style refreshing)
-nnoremap <F5> :NERDTreeRefreshRoot<cr>
-" }}} NERDTree "
+" Global control mappings
+nnoremap <F2> :Fern . -drawer -stay -toggle<cr>
+
+fun FernMaps()
+
+    nmap <buffer><expr> <Plug>(fern-cr)
+        \ fern#smart#leaf(
+            \ "<Plug>(fern-action-open)",
+            \ "<Plug>(fern-action-expand)",
+            \ "<Plug>(fern-action-collapse)",
+        \ )
+    
+    " This is common sense, why isn't this default?
+    nmap <buffer> <CR> <Plug>(fern-cr)
+    nmap <buffer> <2-LeftMouse> <Plug>(fern-cr)
+    
+    " Nerd-tree compatible mappings
+    nmap <buffer> s <Plug>(fern-action-open:vsplit)
+    nmap <buffer> i <Plug>(fern-action-open:split)
+
+    nmap <buffer> o <Plug>(fern-cr)
+    nmap <buffer> O <Plug>(fern-action-)
+
+    " Filesystem maps
+    nmap <buffer> M <Plug>(fern-action-move)
+    nmap <buffer> C <Plug>(fern-action-copy)
+    
+    nmap <buffer> N <Plug>(fern-action-new-path)
+    nmap <buffer> T <Plug>(fern-action-new-file)
+    nmap <buffer> D <Plug>(fern-action-new-dir)
+
+    nmap <buffer> dd <Plug>(fern-action-remove)
+
+    " Fern-specific maps
+    nmap <buffer> <leader> <Plug>(fern-action-mark)
+
+    " Meta maps
+    nmap <buffer> <F5> <Plug>(fern-action-reload)
+endfun
+" }}}
 " Wintabs {{{
 nnoremap <M-1> :WintabsGo 1<cr>
 nnoremap <M-2> :WintabsGo 2<cr>
@@ -652,6 +690,7 @@ augroup ZoeFiletypes
 
     autocmd Bufread,BufNewFile *.trconf set ft=json
     autocmd BufRead,BufNewFile *.vert,*.frag set ft=glsl
+
 augroup END
 " }}}
 " Themes and visual configurations {{{
@@ -870,6 +909,8 @@ augroup FileMaps
     au!
     autocmd FileType tex call TexMaps()
     autocmd FileType cpp call CppMaps()
+
+    autocmd FileType fern call FernMaps()
 augroup END
 " }}}
 " Custom movements {{{
@@ -904,10 +945,9 @@ command! -nargs=1 RenameTab call RenameTab(<f-args>)
 " }}}
 
 " Super-cd {{{
-" Super cd - changes the current working directory, as well as changing the NERDTree root
 function! Scd(location)
-    execute 'cd '.a:location
-    execute 'NERDTree .'
+    execute 'cd' a:location
+    <F2>
 endfunction
 
 command! -nargs=1 -complete=dir Scd call Scd(<f-args>)
