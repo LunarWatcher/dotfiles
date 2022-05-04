@@ -67,11 +67,12 @@ tmux:
 	-git clone https://github.com/tmux-plugins/tpm ~/.tmux/plugins/tpm
 
 home-packages:
+	bash -c '[[ "$$(lsb_release -i)" =~ "Linuxmint" ]] && sudo apt remove hexchat hypnotix transmission-gtk simple-scan'
 	# Installs home packages.
 	# These are definitely _not_ barebone packages, and extend beyond basic use.
 	# The version of LibreOffice that ships with Mint is _ancient_. The FlatHub variant
 	# is officially endorsed, it's a _lot_ newer, a lot faster, and a lot prettier
-	sudo apt purge libreoffice && sudo apt autoremove
+	sudo apt purge libreoffice* && sudo apt autoremove
 	flatpak install flathub org.libreoffice.LibreOffice
 
 	# Installs Steam
