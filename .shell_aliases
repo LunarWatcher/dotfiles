@@ -146,4 +146,8 @@ function cleanmk() {
     fi
 }
 # }}}
+# CMake {{{
+alias cmaker="cmake .. -DCMAKE_BUILD_TYPE=Release -DCMAKE_EXPORT_COMPILE_COMMANDS=1"
+alias cmaked="cmake .. -DCMAKE_BUILD_TYPE=Debug -DCMAKE_EXPORT_COMPILE_COMMANDS=1"
+# }}}
 # vim:ft=zsh
