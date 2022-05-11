@@ -770,7 +770,7 @@ if has("linux") && (has("gui_running") || $SSH_TTY == "")
 endif
 " }}}
 " Title management {{{
-set title titlelen=10
+set title titlelen=50
 set titlestring=%{getcwd()->fnamemodify(':t')}:\ %{expand(\"%:t\")}
 " }}}
 " }}}
