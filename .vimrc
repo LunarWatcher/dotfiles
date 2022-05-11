@@ -769,6 +769,10 @@ if has("linux") && (has("gui_running") || $SSH_TTY == "")
     augroup END
 endif
 " }}}
+" Title management {{{
+set title titlelen=10
+set titlestring=%{getcwd()->fnamemodify(':t')}:\ %{expand(\"%:t\")}
+" }}}
 " }}}
 " Mappings {{{
 " Multi-window nav {{{
