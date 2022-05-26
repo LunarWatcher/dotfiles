@@ -154,8 +154,10 @@ Plug 'rhysd/vim-clang-format'
 
 Plug 'neoclide/coc.nvim', {'branch': 'release'}
 
-Plug 'SirVer/ultisnips'
-Plug 'honza/vim-snippets'
+if system("lsb_release -is") != "Raspbian\n"
+    Plug 'SirVer/ultisnips'
+    Plug 'honza/vim-snippets'
+endif
 
 Plug 'LunarWatcher/tmux-multiterm.vim'
 " }}}
