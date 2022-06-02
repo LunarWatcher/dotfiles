@@ -206,17 +206,32 @@ try
     if has("win32")
         " The Nerd Fonts are broken on windows.
         " https://github.com/ryanoasis/nerd-fonts/issues/269
-        " Up since 2018, no patch in sight.
-        " set guifont=SauceCodePro\ Nerd\ Font:h11
-        set guifont=Source\ Code\ Pro\ for\ Powerline:h11:cANSI
+        " Up since 2018, "patched" in 2020
+        " As of 2022, it's still broken.
+        "set guifont=SauceCodePro\ NF:h11
+        " ... and to add insult to injury, as of 2022, the powerline variant
+        " does not display properly. No fucking clue what the problem is, but
+        " it looks like no anti-aliasing or something? Fuck if I know. All I
+        " know is that it's hideous to look at, and painfully hard to read
+        "set guifont=Source\ Code\ Pro\ for\ Powerline:h11
+        " The point in any case... default SCP
+        " Thanks for nothing, Windows
+        set guinfont=Source\ Code\ Pro:h11
     elseif has("unix")
         set guifont=SauceCodePro\ Nerd\ Font\ 11
         Plug 'ryanoasis/vim-devicons'
     endif
 catch
-    echo "Failed to find SauceCodePro - falling back to SourceCodePro, and disabling devicons"
+    echom "Failed to find SauceCodePro - falling back to SourceCodePro, and disabling devicons"
     if has("win32")
-        set guifont=Source\ Code\ Pro\ for\ Powerline:h11:cANSI
+        " We were supposed to fall back to powerline if we didn't have nerd
+        " fonts, but that likely being pointless aside (on linux installs, the
+        " font always exists), we have nothing to fall back on.
+        "
+        " We could fall back on plain SCP here, but we can't do that now that
+        " SCP is the only workin font on this godforesaken shitty OS. (Why am
+        " I even doing this to myself?)
+        echoerr "Options exhausted; install Source Code Pro directly"
     elseif has("unix")
         if !has("gui_running")
             set guifont=Source\ Code\ Pro\ for\ Powerline\ 11
