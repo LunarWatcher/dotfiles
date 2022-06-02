@@ -217,7 +217,7 @@ try
         "set guifont=Source\ Code\ Pro\ for\ Powerline:h11
         " The point in any case... default SCP
         " Thanks for nothing, Windows
-        set guinfont=Source\ Code\ Pro:h11
+        set guifont=Source\ Code\ Pro:h11
     elseif has("unix")
         set guifont=SauceCodePro\ Nerd\ Font\ 11
         Plug 'ryanoasis/vim-devicons'
