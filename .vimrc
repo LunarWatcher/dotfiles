@@ -182,7 +182,7 @@ call s:LocalOption('Pandora',    'LunarWatcher/Pandora')
 
 Plug 'mbbill/undotree'
 
-if !has("win32")
+if !has("win32") && !has("win32unix")
     Plug 'puremourning/vimspector'
 endif
 " }}}
@@ -380,7 +380,7 @@ nnoremap <leader>zt :AsyncTaskFzf<cr>
 
 " }}}
 " Vimspector {{{
-if !has("win32")
+if !has("win32") && !has("win32unix")
     let g:vimspector_enable_mappings = ''
 
     nmap <M-d>c <Plug>VimspectorContinue
