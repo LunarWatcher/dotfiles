@@ -182,8 +182,9 @@ call s:LocalOption('Pandora',    'LunarWatcher/Pandora')
 
 Plug 'mbbill/undotree'
 
-Plug 'puremourning/vimspector'
-
+if !has("win32")
+    Plug 'puremourning/vimspector'
+endif
 " }}}
 " Search {{{
 " This won't integrate with search preview
@@ -379,16 +380,16 @@ nnoremap <leader>zt :AsyncTaskFzf<cr>
 
 " }}}
 " Vimspector {{{
+if !has("win32")
+    let g:vimspector_enable_mappings = ''
 
-let g:vimspector_enable_mappings = ''
-
-nmap <M-d>c <Plug>VimspectorContinue
-nmap <M-d>s <Plug>VimspectorStop
-nmap <M-d>r <Plug>VimspectorRestart
-nmap <M-d>e :VimspectorReset<cr>
-nmap <M-d>p <Plug>VimspectorPause
-nmap <leader>b <Plug>VimspectorToggleBreakpoint
-
+    nmap <M-d>c <Plug>VimspectorContinue
+    nmap <M-d>s <Plug>VimspectorStop
+    nmap <M-d>r <Plug>VimspectorRestart
+    nmap <M-d>e :VimspectorReset<cr>
+    nmap <M-d>p <Plug>VimspectorPause
+    nmap <leader>b <Plug>VimspectorToggleBreakpoint
+endif
 " }}}
 " Autopair config {{{
 
