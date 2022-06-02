@@ -85,3 +85,4 @@ if [[ -n $VIRTUAL_ENV && -e "${VIRTUAL_ENV}/bin/activate" ]]; then
 fi
 export PYENV_VIRTUALENV_DISABLE_PROMPT=1
 export PATH="${HOME}/.pyenv/bin:$PATH"
+export PATH="/opt/upm-active/bin:${PATH}"
