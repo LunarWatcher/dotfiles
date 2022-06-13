@@ -343,7 +343,7 @@ nnoremap <leader>rrc :AsyncTask cpprun<cr>
 " Java
 nnoremap <leader>rbjm :AsyncTask mavenbuild<cr>
 
-nnoremap <C-k>ass :AsyncStop<cr>
+nnoremap <leader>kass :AsyncStop<cr>
 
 " Fuzzy finder integration
 fun! s:FzfTaskSink(what)
@@ -704,8 +704,6 @@ augroup ZoeFiletypes
     au!
 
     autocmd BufRead,BufNewfile conanfile.txt set filetype=dosini
-    autocmd BufRead,BufNewFile SConstruct set filetype=python
-    autocmd Bufread,BufNewFile SConscript set filetype=python
 
     autocmd Bufread,BufNewFile *.trconf set ft=json
     autocmd BufRead,BufNewFile *.vert,*.frag set ft=glsl
@@ -1024,15 +1022,9 @@ if activateThis:
 EOF
 endfun
 
-command! -nargs=* SCons call RunBuild('scons', 0, 0, '-j 6', <f-args>)
-command! -nargs=* SConsTest call RunBuild('scons', 0, 1, 'test -j 6', <f-args>)
 command! -nargs=* TMake call RunBuild('make', 0, 0, '-j 12', <f-args>)
 
 command! -nargs=? SetVEnv call SetVEnv(<f-args>)
-
-nnoremap <leader>sco :SCons<cr>
-nnoremap <leader>scot :SConsTest<cr>
-
 command! -nargs=* Run call RunBinary(1, -1, <f-args>)
 
 command! TmuxCpp let g:tmux_multiterm_session = 'cpp.0'
@@ -1058,8 +1050,12 @@ fun! IDeleteThis()
     silent !rm %
     :WintabsClose
 endfun
+
 command! DeleteThis call IDeleteThis()
-if $USER == "olivia" || $USER == "lunarwatcher"
+nnoremap <leader>kdd :DeleteThis<cr>
+
+" Checks for user on Linux, on Windows, it's probably me.
+if $USER == "olivia" || $USER == "lunarwatcher" || has("win32")
     " Fat fingers
     command! W call popup_notification("Bad girl!", #{pos: "center",
                 \ minwidth: 80, minheight: 40})
