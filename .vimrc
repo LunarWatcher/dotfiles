@@ -7,6 +7,10 @@ set termencoding=utf-8
 set nocompatible              " be iMproved, required
 filetype off                  " required
 
+if has("win32unix")
+    finish
+endif
+
 let g:python3_host_prog = 'python3'
 " }}}
 " Folding {{{
