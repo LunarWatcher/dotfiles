@@ -11,9 +11,9 @@ vim-build-deps: # Grabs Vim build dependencies
 	@echo "Installing dependencies for the Vim build..."
 	# This contains potentially redundant packages
 	-sudo apt install -y libncurses5-dev \
-		libgtk2.0-dev libatk1.0-dev \
+		libgtk-3-dev libatk1.0-dev \
 		libcairo2-dev libx11-dev libxpm-dev libxt-dev python3-dev \
-		python3.8-dev ruby-dev lua5.3 liblua5.3-dev luajit libluajit-5.1-dev libperl-dev
+		ruby-dev lua5.3 liblua5.3-dev luajit libluajit-5.1-dev libperl-dev
 	# Caveat; if Vim still fails to compile lua, run:
 	# cd /usr/include && ln -s lua5.1 lua
 	# Vim is very specific about the file location :rolling_eyes:
@@ -118,11 +118,10 @@ vim:
 	make vim-build-deps
 	-git clone https://github.com/vim/vim.git
 	cd vim/src && \
-		./configure --enable-gui=gtk2 --with-features=huge --enable-multibyte \
+		./configure --enable-gui=gtk3 --with-features=huge --enable-multibyte \
 			--enable-rubyinterp=yes --enable-python3interp=yes \
 			--enable-perlinterp=yes --enable-luainterp=yes --with-luajit=yes \
-			--enable-gui=gtk2 --enable-cscope --prefix=/usr/local \
-			--with-python3-config-dir=$$(python3-config --configdir) --with-python3-command=python3 \
+			--enable-cscope --prefix=/usr/local \
 			--enable-largefile --enable-fail-if-missing --with-compiledby="Olivia" && \
 		make -j 8 && \
 		sudo make install

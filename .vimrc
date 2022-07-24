@@ -158,10 +158,8 @@ Plug 'rhysd/vim-clang-format'
 
 Plug 'neoclide/coc.nvim', {'branch': 'release'}
 
-if system("lsb_release -is") != "Raspbian\n"
-    Plug 'SirVer/ultisnips'
-    Plug 'honza/vim-snippets'
-endif
+Plug 'SirVer/ultisnips'
+Plug 'honza/vim-snippets'
 
 Plug 'LunarWatcher/tmux-multiterm.vim'
 " }}}
@@ -179,6 +177,7 @@ Plug 'embear/vim-localvimrc'
 Plug 'LunarWatcher/vim-multiple-monitors'
 Plug 'tpope/vim-speeddating'
 Plug 'scy/vim-mkdir-on-write'
+
 
 call s:LocalOption('auto-pairs', 'LunarWatcher/auto-pairs')
 call s:LocalOption('Dawn',       'LunarWatcher/Dawn')
@@ -200,6 +199,17 @@ Plug 'haya14busa/is.vim'
 " }}}
 " Start screen {{{
 Plug 'mhinz/vim-startify'
+" }}}
+" Productivity {{{
+if ($USER != 'pi')
+    " TODO: figure out some better way to detect if activitywatch is running.
+    " might be easier when sync is implemented and it's guaranteed up,
+    " but failing to run every time vim opens is an annoyance in the
+    " meanwhile.
+    " My desktop systems do have it. Installing it on my pi
+    " isn't really an option.
+    Plug 'ActivityWatch/aw-watcher-vim'
+endif
 " }}}
 " Font-related stuff {{{
 "set guifont=Source\ Code\ Pro\ for\ Powerline:h11:cANSI " Source Code Pro <3
@@ -618,6 +628,12 @@ let g:codi#interpreters = {
 " }}}
 " Easy align {{{
 nmap ga <Plug>(EasyAlign)
+" }}}
+" ActiviyWatch {{{
+if has("win32")
+    let s:hostname = hostname()
+    let g:aw_hostname = s:hostname[0] .. s:hostname[1:]->tolower()
+endif
 " }}}
 " }}}
 " Config {{{
@@ -1058,13 +1074,29 @@ endfun
 command! DeleteThis call IDeleteThis()
 nnoremap <leader>kdd :DeleteThis<cr>
 
+fun s:BadGirl()
+    call popup_notification("Bad girl!", #{pos: "center",
+                    \ minwidth: 80, minheight: 40})
+endfun
+
 " Checks for user on Linux, on Windows, it's probably me.
-if $USER == "olivia" || $USER == "lunarwatcher" || has("win32")
+if $USER == "olivia" || $USER == "lunarwatcher" || $HOME =~ '\\Olivia' || $USER == 'pi'
     " Fat fingers
-    command! W call popup_notification("Bad girl!", #{pos: "center",
-                \ minwidth: 80, minheight: 40})
+    command! W call s:BadGirl()
 endif
 
+" }}}
+
+" Ultisnips {{{
+" Preface: ultisnips is the most moody plugin on the face of the earth.
+" It breaks regularly, and it breaking has severe consequences.
+" So, introducing, the UltiSnips aborter.
+" Removes the ultisnips directory so you don't have to suffer from half a
+" million insert mode errors when trying to manually remove it from your
+" .vimrc.
+" Would be nice if the creators made ultisnips even vaguely stable, but they
+" didn't, so here we are.
+command! -nargs=0 UninstallUltiSnips call delete($HOME .. "/.vim/plugged/ultisnips", "rf")
 " }}}
 
 " Uncrustify {{{
@@ -1133,11 +1165,11 @@ endif
 " This enables system-specific configurations that don't make sense to keep in
 " the .vimrc (i.e. sensitive config, or config that is system-specific (i.e.
 " startify bookmarks)).
-if !isdirectory($HOME."/.vim-extern/")
+if !isdirectory($HOME .. "/.vim-extern/")
     " Create the directory
-    call mkdir($HOME."/.vim-extern")
+    call mkdir($HOME .. "/.vim-extern")
 else
-    if filereadable($HOME."/.vim-extern/.systemrc")
+    if filereadable($HOME .. "/.vim-extern/.systemrc")
         source $HOME/.vim-extern/.systemrc
     endif
 endif
@@ -1146,11 +1178,11 @@ endif
 set backupdir=~/.vim/backup//
 set directory=~/.vim/swap//
 
-if !isdirectory($HOME."/.vim/backup")
-    call mkdir($HOME."/.vim/backup", "p")
+if !isdirectory($HOME .. "/.vim/backup")
+    call mkdir($HOME .. "/.vim/backup", "p")
 endif
-if !isdirectory($HOME."/.vim/swap")
-    call mkdir($HOME."/.vim/swap", "p")
+if !isdirectory($HOME .. "/.vim/swap")
+    call mkdir($HOME .. "/.vim/swap", "p")
 endif
 " }}}
 " vim:sw=4
