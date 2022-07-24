@@ -1138,8 +1138,8 @@ if has("gui_running")
     set guioptions +=k
     if has("win32")
         " Set the language to English
-        language messages English_United States
-        set langmenu=en_US.UTF-8
+        language messages en_GB.UTF-8
+        set langmenu=en_GB.UTF-8
     endif
     " Bells are the _worst_
     autocmd GUIEnter * set vb t_vb=
