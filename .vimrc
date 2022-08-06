@@ -802,6 +802,13 @@ endif
 
 set fillchars+=eob:\ ,vert:\│
 " }}}
+" Session management {{{
+" Storing options is a shit idea: https://github.com/LunarWatcher/auto-pairs/issues/33
+set ssop-=options,globals,localoptions
+set vop-=options
+" Storing blank buffers is pointless
+set ssop-=blank
+" }}}
 " Filetype overrides {{{
 if has("linux") && (has("gui_running") || $SSH_TTY == "")
     augroup ZoeGUIFiletypes
