@@ -164,7 +164,9 @@ Plug 'honza/vim-snippets'
 Plug 'LunarWatcher/tmux-multiterm.vim'
 " }}}
 " Lightline {{{
-Plug 'itchyny/lightline.vim'
+" Plug 'itchyny/lightline.vim'
+Plug 'vim-airline/vim-airline'
+Plug 'vim-airline/vim-airline-themes'
 " }}}
 " Git integration {{{
 Plug 'tpope/vim-fugitive'
@@ -464,9 +466,13 @@ let g:localvimrc_sandbox = 0
 set exrc
 " }}}
 " Lightline {{{
-let g:lightline = {
-            \ 'colorscheme': 'one'
-            \ }
+"let g:lightline = {
+"            \ 'colorscheme': 'one'
+"            \ }
+" }}}
+" Airline {{{
+let g:airline_theme = "bubblegum"
+let g:airline_powerline_fonts = 1
 " }}}
 " Ultisnips {{{
 let g:UltiSnipsSnippetDirectories = ["UltiSnips", "CustomSnippets"]
