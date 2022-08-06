@@ -655,6 +655,9 @@ set hlsearch              " Search highlighting
 set splitright
 
 set wildmenu              " GUI popup for command autocomplete options
+if has("patch-8.2.4325")
+    set wildoptions=pum
+end
 
 set number                " Line numbers
 set laststatus=2
