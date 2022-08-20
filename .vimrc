@@ -7,6 +7,10 @@ set termencoding=utf-8
 set nocompatible              " be iMproved, required
 filetype off                  " required
 
+if has("win32unix")
+    finish
+endif
+
 let g:python3_host_prog = 'python3'
 " }}}
 " Folding {{{
@@ -34,7 +38,7 @@ let g:OVimDevDir = 0
 if isdirectory("/mnt/LinuxData")
     let g:ODevDir = "/mnt/LinuxData/"
 elseif isdirectory($HOME .. "/programming/vim")
-    let g:ODevDir = $HOME
+    let g:ODevDir = $HOME .. "/"
 endif
 
 if type(g:OVimDevDir) == v:t_number && type(g:ODevDir) == v:t_string
@@ -160,7 +164,9 @@ Plug 'honza/vim-snippets'
 Plug 'LunarWatcher/tmux-multiterm.vim'
 " }}}
 " Lightline {{{
-Plug 'itchyny/lightline.vim'
+" Plug 'itchyny/lightline.vim'
+Plug 'vim-airline/vim-airline'
+Plug 'vim-airline/vim-airline-themes'
 " }}}
 " Git integration {{{
 Plug 'tpope/vim-fugitive'
@@ -174,14 +180,16 @@ Plug 'LunarWatcher/vim-multiple-monitors'
 Plug 'tpope/vim-speeddating'
 Plug 'scy/vim-mkdir-on-write'
 
+
 call s:LocalOption('auto-pairs', 'LunarWatcher/auto-pairs')
 call s:LocalOption('Dawn',       'LunarWatcher/Dawn')
 "call s:LocalOption('Pandora',    'LunarWatcher/Pandora')
 
 Plug 'mbbill/undotree'
 
-Plug 'puremourning/vimspector'
-
+if !has("win32") && !has("win32unix")
+    Plug 'puremourning/vimspector'
+endif
 " }}}
 " Search {{{
 " This won't integrate with search preview
@@ -194,6 +202,17 @@ Plug 'haya14busa/is.vim'
 " Start screen {{{
 Plug 'mhinz/vim-startify'
 " }}}
+" Productivity {{{
+if ($USER != 'pi')
+    " TODO: figure out some better way to detect if activitywatch is running.
+    " might be easier when sync is implemented and it's guaranteed up,
+    " but failing to run every time vim opens is an annoyance in the
+    " meanwhile.
+    " My desktop systems do have it. Installing it on my pi
+    " isn't really an option.
+    Plug 'ActivityWatch/aw-watcher-vim'
+endif
+" }}}
 " Font-related stuff {{{
 "set guifont=Source\ Code\ Pro\ for\ Powerline:h11:cANSI " Source Code Pro <3
 "set guifontwide=Source\ Code\ Pro\ for\ Powerline:h11:cANSI " gvim
@@ -204,17 +223,32 @@ try
     if has("win32")
         " The Nerd Fonts are broken on windows.
         " https://github.com/ryanoasis/nerd-fonts/issues/269
-        " Up since 2018, no patch in sight.
-        " set guifont=SauceCodePro\ Nerd\ Font:h11
-        set guifont=Source\ Code\ Pro\ for\ Powerline:h11:cANSI
+        " Up since 2018, "patched" in 2020
+        " As of 2022, it's still broken.
+        "set guifont=SauceCodePro\ NF:h11
+        " ... and to add insult to injury, as of 2022, the powerline variant
+        " does not display properly. No fucking clue what the problem is, but
+        " it looks like no anti-aliasing or something? Fuck if I know. All I
+        " know is that it's hideous to look at, and painfully hard to read
+        "set guifont=Source\ Code\ Pro\ for\ Powerline:h11
+        " The point in any case... default SCP
+        " Thanks for nothing, Windows
+        set guifont=Source\ Code\ Pro:h11
     elseif has("unix")
         set guifont=SauceCodePro\ Nerd\ Font\ 11
         Plug 'ryanoasis/vim-devicons'
     endif
 catch
-    echo "Failed to find SauceCodePro - falling back to SourceCodePro, and disabling devicons"
+    echom "Failed to find SauceCodePro - falling back to SourceCodePro, and disabling devicons"
     if has("win32")
-        set guifont=Source\ Code\ Pro\ for\ Powerline:h11:cANSI
+        " We were supposed to fall back to powerline if we didn't have nerd
+        " fonts, but that likely being pointless aside (on linux installs, the
+        " font always exists), we have nothing to fall back on.
+        "
+        " We could fall back on plain SCP here, but we can't do that now that
+        " SCP is the only workin font on this godforesaken shitty OS. (Why am
+        " I even doing this to myself?)
+        echoerr "Options exhausted; install Source Code Pro directly"
     elseif has("unix")
         if !has("gui_running")
             set guifont=Source\ Code\ Pro\ for\ Powerline\ 11
@@ -325,8 +359,8 @@ nnoremap <leader>rrc :AsyncTask cpprun<cr>
 " Java
 nnoremap <leader>rbjm :AsyncTask mavenbuild<cr>
 
-" Starting now, I guess, <C-g> is a prefix for everything control-related
-nnoremap <C-g>ass :AsyncStop<cr>
+" Note: <leader>k is a prefix
+nnoremap <leader>kass :AsyncStop<cr>
 
 " Fuzzy finder integration
 fun! s:FzfTaskSink(what)
@@ -363,16 +397,16 @@ nnoremap <leader>zt :AsyncTaskFzf<cr>
 
 " }}}
 " Vimspector {{{
+if !has("win32") && !has("win32unix")
+    let g:vimspector_enable_mappings = ''
 
-let g:vimspector_enable_mappings = ''
-
-nmap <M-d>c <Plug>VimspectorContinue
-nmap <M-d>s <Plug>VimspectorStop
-nmap <M-d>r <Plug>VimspectorRestart
-nmap <M-d>e :VimspectorReset<cr>
-nmap <M-d>p <Plug>VimspectorPause
-nmap <leader>b <Plug>VimspectorToggleBreakpoint
-
+    nmap <M-d>c <Plug>VimspectorContinue
+    nmap <M-d>s <Plug>VimspectorStop
+    nmap <M-d>r <Plug>VimspectorRestart
+    nmap <M-d>e :VimspectorReset<cr>
+    nmap <M-d>p <Plug>VimspectorPause
+    nmap <leader>b <Plug>VimspectorToggleBreakpoint
+endif
 " }}}
 " Autopair config {{{
 
@@ -433,9 +467,13 @@ let g:localvimrc_sandbox = 0
 set exrc
 " }}}
 " Lightline {{{
-let g:lightline = {
-            \ 'colorscheme': 'one'
-            \ }
+"let g:lightline = {
+"            \ 'colorscheme': 'one'
+"            \ }
+" }}}
+" Airline {{{
+let g:airline_theme = "bubblegum"
+let g:airline_powerline_fonts = 1
 " }}}
 " Ultisnips {{{
 let g:UltiSnipsSnippetDirectories = ["UltiSnips", "CustomSnippets"]
@@ -598,6 +636,12 @@ let g:codi#interpreters = {
 " Easy align {{{
 nmap ga <Plug>(EasyAlign)
 " }}}
+" ActiviyWatch {{{
+if has("win32")
+    let s:hostname = hostname()
+    let g:aw_hostname = s:hostname[0] .. s:hostname[1:]->tolower()
+endif
+" }}}
 " }}}
 " Config {{{
 " Basic enabling {{{
@@ -612,6 +656,9 @@ set hlsearch              " Search highlighting
 set splitright
 
 set wildmenu              " GUI popup for command autocomplete options
+if has("patch-8.2.4325")
+    set wildoptions=pum
+end
 
 set number                " Line numbers
 set laststatus=2
@@ -687,8 +734,6 @@ augroup ZoeFiletypes
     au!
 
     autocmd BufRead,BufNewfile conanfile.txt set filetype=dosini
-    autocmd BufRead,BufNewFile SConstruct set filetype=python
-    autocmd Bufread,BufNewFile SConscript set filetype=python
 
     autocmd Bufread,BufNewFile *.trconf set ft=json
     autocmd BufRead,BufNewFile *.vert,*.frag set ft=glsl
@@ -760,6 +805,13 @@ endif
 " Visual {{{
 
 set fillchars+=eob:\ ,vert:\│
+" }}}
+" Session management {{{
+" Storing options is a shit idea: https://github.com/LunarWatcher/auto-pairs/issues/33
+set ssop-=options,globals,localoptions
+set vop-=options
+" Storing blank buffers is pointless
+set ssop-=blank
 " }}}
 " Filetype overrides {{{
 if has("linux") && (has("gui_running") || $SSH_TTY == "")
@@ -1007,15 +1059,9 @@ if activateThis:
 EOF
 endfun
 
-command! -nargs=* SCons call RunBuild('scons', 0, 0, '-j 6', <f-args>)
-command! -nargs=* SConsTest call RunBuild('scons', 0, 1, 'test -j 6', <f-args>)
 command! -nargs=* TMake call RunBuild('make', 0, 0, '-j 12', <f-args>)
 
 command! -nargs=? SetVEnv call SetVEnv(<f-args>)
-
-nnoremap <leader>sco :SCons<cr>
-nnoremap <leader>scot :SConsTest<cr>
-
 command! -nargs=* Run call RunBinary(1, -1, <f-args>)
 
 command! TmuxCpp let g:tmux_multiterm_session = 'cpp.0'
@@ -1041,13 +1087,33 @@ fun! IDeleteThis()
     silent !rm %
     :WintabsClose
 endfun
+
 command! DeleteThis call IDeleteThis()
-if $USER == "olivia" || $USER == "lunarwatcher"
+nnoremap <leader>kdd :DeleteThis<cr>
+
+fun s:BadGirl()
+    call popup_notification("Bad girl!", #{pos: "center",
+                    \ minwidth: 80, minheight: 40})
+endfun
+
+" Checks for user on Linux, on Windows, it's probably me.
+if $USER == "olivia" || $USER == "lunarwatcher" || $HOME =~ '\\Olivia' || $USER == 'pi'
     " Fat fingers
-    command! W call popup_notification("Bad girl!", #{pos: "center",
-                \ minwidth: 80, minheight: 40})
+    command! W call s:BadGirl()
 endif
 
+" }}}
+
+" Ultisnips {{{
+" Preface: ultisnips is the most moody plugin on the face of the earth.
+" It breaks regularly, and it breaking has severe consequences.
+" So, introducing, the UltiSnips aborter.
+" Removes the ultisnips directory so you don't have to suffer from half a
+" million insert mode errors when trying to manually remove it from your
+" .vimrc.
+" Would be nice if the creators made ultisnips even vaguely stable, but they
+" didn't, so here we are.
+command! -nargs=0 UninstallUltiSnips call delete($HOME .. "/.vim/plugged/ultisnips", "rf")
 " }}}
 
 " Uncrustify {{{
@@ -1089,8 +1155,8 @@ if has("gui_running")
     set guioptions +=k
     if has("win32")
         " Set the language to English
-        language messages English_United States
-        set langmenu=en_US.UTF-8
+        language messages en_GB.UTF-8
+        set langmenu=en_GB.UTF-8
     endif
     " Bells are the _worst_
     autocmd GUIEnter * set vb t_vb=
@@ -1116,11 +1182,11 @@ endif
 " This enables system-specific configurations that don't make sense to keep in
 " the .vimrc (i.e. sensitive config, or config that is system-specific (i.e.
 " startify bookmarks)).
-if !isdirectory($HOME."/.vim-extern/")
+if !isdirectory($HOME .. "/.vim-extern/")
     " Create the directory
-    call mkdir($HOME."/.vim-extern")
+    call mkdir($HOME .. "/.vim-extern")
 else
-    if filereadable($HOME."/.vim-extern/.systemrc")
+    if filereadable($HOME .. "/.vim-extern/.systemrc")
         source $HOME/.vim-extern/.systemrc
     endif
 endif
@@ -1129,11 +1195,11 @@ endif
 set backupdir=~/.vim/backup//
 set directory=~/.vim/swap//
 
-if !isdirectory($HOME."/.vim/backup")
-    call mkdir($HOME."/.vim/backup", "p")
+if !isdirectory($HOME .. "/.vim/backup")
+    call mkdir($HOME .. "/.vim/backup", "p")
 endif
-if !isdirectory($HOME."/.vim/swap")
-    call mkdir($HOME."/.vim/swap", "p")
+if !isdirectory($HOME .. "/.vim/swap")
+    call mkdir($HOME .. "/.vim/swap", "p")
 endif
 " }}}
 " vim:sw=4
