@@ -176,7 +176,7 @@ Plug 'scy/vim-mkdir-on-write'
 
 call s:LocalOption('auto-pairs', 'LunarWatcher/auto-pairs')
 call s:LocalOption('Dawn',       'LunarWatcher/Dawn')
-call s:LocalOption('Pandora',    'LunarWatcher/Pandora')
+"call s:LocalOption('Pandora',    'LunarWatcher/Pandora')
 
 Plug 'mbbill/undotree'
 
@@ -325,7 +325,8 @@ nnoremap <leader>rrc :AsyncTask cpprun<cr>
 " Java
 nnoremap <leader>rbjm :AsyncTask mavenbuild<cr>
 
-nnoremap <C-k>ass :AsyncStop<cr>
+" Starting now, I guess, <C-g> is a prefix for everything control-related
+nnoremap <C-g>ass :AsyncStop<cr>
 
 " Fuzzy finder integration
 fun! s:FzfTaskSink(what)
