@@ -63,14 +63,14 @@ export SSL_CERT_FILE=/etc/ssl/certs/ca-certificates.crt
 
 # >>> conda initialize >>>
 # !! Contents within this block are managed by 'conda init' !!
-__conda_setup="$('/home/lunarwatcher/anaconda3/bin/conda' 'shell.zsh' 'hook' 2> /dev/null)"
+__conda_setup="$('/home/olivia/anaconda3/bin/conda' 'shell.zsh' 'hook' 2> /dev/null)"
 if [ $? -eq 0 ]; then
     eval "$__conda_setup"
 else
-    if [ -f "/home/lunarwatcher/anaconda3/etc/profile.d/conda.sh" ]; then
-        . "/home/lunarwatcher/anaconda3/etc/profile.d/conda.sh"
+    if [ -f "/home/olivia/anaconda3/etc/profile.d/conda.sh" ]; then
+        . "/home/olivia/anaconda3/etc/profile.d/conda.sh"
     else
-        export PATH="/home/lunarwatcher/anaconda3/bin:$PATH"
+        export PATH="/home/olivia/anaconda3/bin:$PATH"
     fi
 fi
 unset __conda_setup
@@ -81,7 +81,7 @@ unset __conda_setup
 # Virtualenv with Vim hack
 
 if [[ -n $VIRTUAL_ENV && -e "${VIRTUAL_ENV}/bin/activate" ]]; then
-  source "${VIRTUAL_ENV}/bin/activate"
+# source "${VIRTUAL_ENV}/bin/activate"  # commented out by conda initialize
 fi
 export PYENV_VIRTUALENV_DISABLE_PROMPT=1
 export PATH="${HOME}/.pyenv/bin:$PATH"

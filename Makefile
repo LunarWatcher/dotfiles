@@ -113,6 +113,7 @@ zsh: # Installs zsh and oh-my-zsh
 powerlevel:
 	-zsh -c 'source ~/.zshrc; git clone --depth=1 https://github.com/romkatv/powerlevel10k.git $${ZSH_CUSTOM}/themes/powerlevel10k'
 
+# TODO: replace with upm
 vim:
 	@echo "Building Vim..."
 	make vim-build-deps
@@ -202,13 +203,23 @@ cleanup:
 	@echo "Cleaning up..."
 	sudo apt autoremove -y
 
-uncrustify:
-	-git clone https://github.com/uncrustify/uncrustify
-	-cd uncrustify && git pull origin master
-	cd uncrustify && mkdir -p build && cd build && cmake .. \
-				&& make -j 8 && sudo make install
+# TODO: integrate {{{
+extended-documents:
+	sudo apt install texlive-full
 
-dotall: update packages zsh vim tmux fat-dotfiles pythoninstall goinstall nerdfonts 
+# Note; upm is not yet functional
+upm:
+	-git clone https://github.com/LunarWatcher/upm
+	-cd upm && git pull origin master
+	cd 
+
+upm-packages:
+	upm install cmake@latest
+	upm install node@latest
+	upm install python@latest
+# }}}
+
+dotall: update packages upm upm-packages zsh vim tmux fat-dotfiles pythoninstall goinstall nerdfonts
 software: home-packages additional-packages
 
 all: dotall software
