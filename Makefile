@@ -99,7 +99,7 @@ pythoninstall:
 
 goinstall:
 	sudo apt install -y golang
-	-go get -u github.com/boyter/scc/
+	-go install github.com/boyter/scc@latest
 
 zsh: # Installs zsh and oh-my-zsh
 	# Install the shell
