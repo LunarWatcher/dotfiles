@@ -151,4 +151,13 @@ function cleanmk() {
 alias cmaker="cmake .. -DCMAKE_BUILD_TYPE=Release -DCMAKE_EXPORT_COMPILE_COMMANDS=1"
 alias cmaked="cmake .. -DCMAKE_BUILD_TYPE=Debug -DCMAKE_EXPORT_COMPILE_COMMANDS=1"
 # }}}
+# mozart2 (uni garbage) {{{
+function mozrun() {
+    if [ "$#" -ne 1 ]; then
+        echo "Need to know which file to compile and run"
+        return
+    fi
+    ozc -c $1 && ozem ${1}f
+}
+# }}}
 # vim:ft=zsh

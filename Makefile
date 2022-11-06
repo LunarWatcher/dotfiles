@@ -83,7 +83,6 @@ additional-packages:
 	flatpak install -y flathub com.uploadedlobster.peek
 
 	flatpak install -y flathub com.bitwarden.desktop
-	flatpak install -y flathub com.discordapp.Discord
 	flatpak install -y flathub org.kde.krita
 
 	# Installs ksnip for its editing capabilities
@@ -112,6 +111,9 @@ zsh: # Installs zsh and oh-my-zsh
 
 powerlevel:
 	-zsh -c 'source ~/.zshrc; git clone --depth=1 https://github.com/romkatv/powerlevel10k.git $${ZSH_CUSTOM}/themes/powerlevel10k'
+
+server-essentials:
+	sudo apt install mlocate 
 
 # TODO: replace with upm
 vim:

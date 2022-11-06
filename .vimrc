@@ -417,8 +417,10 @@ let g:AutoPairsMapCR = 1
 let g:AutoPairsMultilineFastWrap = 1
 let g:AutoPairsMultilineClose = 0
 let g:AutoPairsCompatibleMaps = 0
-let g:AutoPairsStringHandlingMode = 1
+let g:AutoPairsStringHandlingMode = 2
 let g:AutoPairsPreferClose = 0
+
+call autopairs#Variables#InitVariables()
 
 let g:AutoPairs = autopairs#AutoPairsDefine([
             \ {"open": '\w\zs<', "close": '>', "filetype": ["cpp", "java"]},
@@ -436,7 +438,6 @@ if has_key(g:AutoPairsLanguagePairs["html"], "<")
 endif
 
 let g:AutoPairsExperimentalAutocmd = 1
-
 " }}}
 " Undotree {{{
 nnoremap <F9> :UndotreeToggle<cr>
@@ -960,7 +961,23 @@ fun! CppMaps()
 
     nnoremap <buffer> <leader>cps :CppSwitch<CR>
 endfun
+" }}}
+" Project helpers {{{
+" CMake {{{
+fun! OpenCMakeTests()
+    if isdirectory("tests/")
+        e tests/CMakeLists.txt
+    elseif isdirectory("test/")
+        e test/CMakeLists.txt
+    else
+        echoerr "Failed to locate test directory. Is this a project with obscure standards?"
+    endif
+endfun
 
+nnoremap <leader>cmr :e CMakeLists.txt<cr>
+nnoremap <leader>cmp :e src/CMakeLists.txt<cr>
+nnoremap <leader>cmt :call OpenCMakeTests()<cr>
+" }}}
 " }}}
 " Filetype maps {{{
 augroup FileMaps
