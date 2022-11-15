@@ -151,13 +151,11 @@ function cleanmk() {
 alias cmaker="cmake .. -DCMAKE_BUILD_TYPE=Release -DCMAKE_EXPORT_COMPILE_COMMANDS=1"
 alias cmaked="cmake .. -DCMAKE_BUILD_TYPE=Debug -DCMAKE_EXPORT_COMPILE_COMMANDS=1"
 # }}}
-# mozart2 (uni garbage) {{{
-function mozrun() {
-    if [ "$#" -ne 1 ]; then
-        echo "Need to know which file to compile and run"
-        return
-    fi
-    ozc -c $1 && ozem ${1}f
-}
+# Network fuckery {{{
+if [[ "$(( nmcli dev list || nmcli dev show ) 2>/dev/null | grep IP4.DNS | grep 192.168.0.179)" != "" ]]; then
+    alias sshmount="sshfs olivia@shiro.lan:/media/NAS1 /media/NAS1; sshfs olivia@shiro.lan:/media/NAS2 /media/NAS2"
+    alias sshrpi="ssh olivia@sinon.lan"
+    alias sshdell="ssh olivia@shiro.lan"
+fi
 # }}}
 # vim:ft=zsh
