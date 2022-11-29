@@ -115,17 +115,7 @@ fi
 
 # }}}
 # ssh {{{
-
-if [[ $(whoami) != "pi" ]]
-then
-    alias sshpi="ssh pi@sinon"
-    function sshpiremote() {
-        ssh pi@$REMOTEPI
-    }
-else
-    alias sshd-restart="sudo systemctl restart ssh"
-fi
-
+alias sshd-restart="sudo systemctl restart ssh"
 # }}}
 # You're not funny, Olivia {{{
 alias hiya="This isn't the input prompt you're looking for."
