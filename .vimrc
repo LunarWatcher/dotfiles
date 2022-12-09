@@ -104,9 +104,6 @@ call s:LocalOption('Amber', 'LunarWatcher/Amber')
 
 Plug 'rhysd/conflict-marker.vim'
 
-" Treesitter polyfill
-"call s:LocalOption('Acacia', 'LunarWatcher/Acacia')
-
 " }}}
 " GitHub integration {{{
 call s:LocalOption('Skye', 'LunarWatcher/Skye.vim')
@@ -161,7 +158,6 @@ Plug 'neoclide/coc.nvim', {'branch': 'release'}
 Plug 'SirVer/ultisnips'
 Plug 'honza/vim-snippets'
 
-Plug 'LunarWatcher/tmux-multiterm.vim'
 " }}}
 " Lightline {{{
 " Plug 'itchyny/lightline.vim'
@@ -172,7 +168,7 @@ Plug 'vim-airline/vim-airline-themes'
 Plug 'tpope/vim-fugitive'
 Plug 'rbong/vim-flog'
 " }}}
-" Project config {{{
+" Project management {{{
 Plug 'embear/vim-localvimrc'
 " }}}
 " General every-day use {{{
@@ -359,8 +355,8 @@ nnoremap <leader>rrc :AsyncTask cpprun<cr>
 " Java
 nnoremap <leader>rbjm :AsyncTask mavenbuild<cr>
 
-" Note: <leader>k is a prefix
-nnoremap <leader>kass :AsyncStop<cr>
+" Note: <leader>o is a prefix
+nnoremap <leader>oass :AsyncStop<cr>
 
 " Fuzzy finder integration
 fun! s:FzfTaskSink(what)
@@ -511,7 +507,7 @@ let g:Illuminate_ftblacklist = ['nerdtree', 'md', 'json', 'markdown', 'text', 't
 let g:rainbow_active = 1
 let g:rainbow_list = ['vim', 'javascript', 'java', 'python', 'cpp']
 " }}}
-" FZF {{{ "
+" FZF {{{ 
 let g:fzf_layout = {
     \ 'window':
     \     {
@@ -541,12 +537,20 @@ command! -bang -nargs=? -complete=dir HNGFiles call fzf#run(fzf#wrap({
         \ 'window': g:CopyPastaTemplate
         \ }))
 
+command! -bang -nargs=? -complete=dir CMakeFiles call fzf#run(fzf#wrap({
+        \ 'source': 'ag --hidden --ignore .git -g "CMakeLists.txt"',
+        \ 'options': ['--layout=reverse'],
+        \ 'down': '30%'
+        \ }))
+
 command! -bang -nargs=? -bang -complete=dir TODO call fzf#vim#ag("(TODO|FIXME):", {'options': ['--layout=reverse'], 'down': "30%"}, <bang>0)
 
 nnoremap <leader>zx :HFiles<cr>
 nnoremap <leader>zX :HNGFiles<cr>
 nnoremap <leader>zb :TODO<cr>
-" }}} FZF "
+
+nnoremap <leader>ocm :CMakeFiles<cr>
+" }}} FZF 
 " fern.vim {{{
 " Global settings
 let g:fern#disable_default_mappings = 1
@@ -1001,7 +1005,6 @@ command! -nargs=0 CopyLastCommand let @+ = @:
 command! -nargs=+ -complete=command CopyCommandOutput redir @+ | <args> | redir END 
 
 nnoremap <leader>ccp :CopyLastCommand<cr>
-nnoremap <leader>csc q:
 " }}}
 " }}}
 " Custom functions and commands {{{
@@ -1027,63 +1030,6 @@ endfunction
 
 command! -nargs=1 -complete=dir Scd call Scd(<f-args>)
 " }}}
-" Compiler {{{
-
-augroup Multiterm
-    autocmd FileType cpp let g:tmux_multiterm_session = "cpp.0"
-augroup END
-
-fun! RunBuild(buildSys, allowEmpty, pane, ...)
-    " buildSys: the command to use
-    " allowEmpty: whether to allow the output to be inside vim. This will
-    " block.
-
-    " Runs a build command for a provided buildSys, channels into a provided
-    " pipe, with optional args
-    let args = ""
-    if a:0 != 0
-        let args = join(a:000)
-    endif
-
-    let base = a:buildSys .. ' ' .. args
-    call TmuxSendKeys(a:pane, -1, base)
-endfun
-
-fun! RunBinary(buff, sess, ...)
-    if a:0 == 0
-        echo "Run what? (Supply a binary name)"
-        return
-    endif
-
-    call TmuxSendKeys(a:buff, a:sess, './' .. join(a:000, ' '))
-endfun
-
-fun! SetVEnv(...)
-    let env = "env"
-    if a:0 != 0
-        let env = a:1
-    endif
-    let venv_load_script = getcwd() .. '/' .. env
-    " Using python alters the current process, which is what we want.
-    " Using `:!source <path>` doesn't work, because it spawns a new subprocess
-    " that doesn't alter the parent. Python is a nice hack for fixing this,
-    " and sourcing in the virtualenv
-    python3 << EOF
-import vim
-activateThis = vim.eval('l:venv_load_script') + "/bin/activate_this.py"
-if activateThis:
-    exec(open(activateThis).read(), { "__file__": activateThis })
-EOF
-endfun
-
-command! -nargs=* TMake call RunBuild('make', 0, 0, '-j 12', <f-args>)
-
-command! -nargs=? SetVEnv call SetVEnv(<f-args>)
-command! -nargs=* Run call RunBinary(1, -1, <f-args>)
-
-command! TmuxCpp let g:tmux_multiterm_session = 'cpp.0'
-
-" }}}
 " Profiling {{{
 fun! s:profileStart()
     profile start profile.log
@@ -1106,7 +1052,7 @@ fun! IDeleteThis()
 endfun
 
 command! DeleteThis call IDeleteThis()
-nnoremap <leader>kdd :DeleteThis<cr>
+nnoremap <leader>odd :DeleteThis<cr>
 
 fun s:BadGirl()
     call popup_notification("Bad girl!", #{pos: "center",
@@ -1199,13 +1145,8 @@ endif
 " This enables system-specific configurations that don't make sense to keep in
 " the .vimrc (i.e. sensitive config, or config that is system-specific (i.e.
 " startify bookmarks)).
-if !isdirectory($HOME .. "/.vim-extern/")
-    " Create the directory
-    call mkdir($HOME .. "/.vim-extern")
-else
-    if filereadable($HOME .. "/.vim-extern/.systemrc")
-        source $HOME/.vim-extern/.systemrc
-    endif
+if filereadable($HOME .. "/.vim/.systemrc")
+    source $HOME/.vim/.systemrc
 endif
 " }}}
 " Paths for Vim-generated files {{{
