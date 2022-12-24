@@ -32,7 +32,11 @@ source $ZSH/oh-my-zsh.sh
 
 # Config
 export LANG=en_US.UTF-8
-export EDITOR='vim'
+if [[ "$SSH_TTY" == "" ]]; then
+    export EDITOR='gvim -f'
+else
+    export EDITOR='vim'
+fi
 
 # To customize prompt, run `p10k configure` or edit ~/.p10k.zsh.
 [[ ! -f ~/.p10k.zsh ]] || source ~/.p10k.zsh

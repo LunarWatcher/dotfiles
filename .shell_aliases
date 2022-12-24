@@ -115,17 +115,7 @@ fi
 
 # }}}
 # ssh {{{
-
-if [[ $(whoami) != "pi" ]]
-then
-    alias sshpi="ssh pi@sinon"
-    function sshpiremote() {
-        ssh pi@$REMOTEPI
-    }
-else
-    alias sshd-restart="sudo systemctl restart ssh"
-fi
-
+alias sshd-restart="sudo systemctl restart ssh"
 # }}}
 # You're not funny, Olivia {{{
 alias hiya="This isn't the input prompt you're looking for."
@@ -152,10 +142,40 @@ alias cmaker="cmake .. -DCMAKE_BUILD_TYPE=Release -DCMAKE_EXPORT_COMPILE_COMMAND
 alias cmaked="cmake .. -DCMAKE_BUILD_TYPE=Debug -DCMAKE_EXPORT_COMPILE_COMMANDS=1"
 # }}}
 # Network fuckery {{{
-if [[ "$(( nmcli dev list || nmcli dev show ) 2>/dev/null | grep IP4.DNS | grep 192.168.0.179)" != "" ]]; then
-    alias sshmount="sshfs olivia@shiro.lan:/media/NAS1 /media/NAS1; sshfs olivia@shiro.lan:/media/NAS2 /media/NAS2"
+# Only enabled on pihole-enabled devices or my devices in general, because this is aimed at my home network only,
+# and remoting into my home network.
+if [[ "$(( nmcli dev list || nmcli dev show ) 2>/dev/null | grep IP4.DNS | grep 192.168.0.179)" != '' ]]; then
+    # NAS stuff
+    function nasmountn() {
+        sshfs olivia@shiro.lan:/media/NAS$1 /media/NAS$1
+    }
+    alias nasmount1="nasmountn 1"
+    alias nasmount2="nasmountn 2"
+    function nasmountall() {
+        nasmountn 1
+        nasmountn 2
+    }
+
+    # Devices
     alias sshrpi="ssh olivia@sinon.lan"
     alias sshdell="ssh olivia@shiro.lan"
+fi
+if [[ $USER == "olivia" ]]; then
+    # Equivalent to nasmountall, but takes a single IP as input
+    # The IP has to be manually configured in ~/.ssh/config first.
+    function nasmountremote() {
+        if [[ "$1" != "" ]]; then
+            sshfs olivia@$1:/media/NAS1 /media/NAS1
+            sshfs olivia@$1:/media/NAS2 /media/NAS2
+        else
+            echo "Invalid IP."
+        fi
+    }
+
+    function nasumount() {
+        umount /media/NAS1
+        umount /media/NAS2
+    }
 fi
 # }}}
 # vim:ft=zsh
