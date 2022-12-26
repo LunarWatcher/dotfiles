@@ -1141,7 +1141,7 @@ if has("gui_running")
 else
     " Because some keys with esc as part of its code are mapped, the terminal
     " timeout has to be reduced. https://vi.stackexchange.com/a/24938/21251
-    set timeoutlen=300
+    set ttimeoutlen=10
 endif
 " }}}
 " External config {{{
