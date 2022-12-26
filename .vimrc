@@ -833,6 +833,10 @@ set titlestring=%{getcwd()->fnamemodify(':t')}:\ %{expand(\"%:t\")}
 " }}}
 " }}}
 " Mappings {{{
+" Fix copy-pasta {{{
+noremap \p "0p
+noremap \P "0P
+" }}}
 " Multi-window nav {{{
 map <C-j> <C-W>j
 map <C-k> <C-W>k
