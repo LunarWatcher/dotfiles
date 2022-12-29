@@ -39,6 +39,9 @@ if isdirectory("/mnt/LinuxData")
     let g:ODevDir = "/mnt/LinuxData/"
 elseif isdirectory($HOME .. "/programming/vim")
     let g:ODevDir = $HOME .. "/"
+elseif $SSH_TTY != ""
+    let g:ODevDir = $HOME .. "/"
+    let g:OVimDevDir = g:ODevDir .. "programming/"
 endif
 
 if type(g:OVimDevDir) == v:t_number && type(g:ODevDir) == v:t_string
@@ -67,8 +70,6 @@ endfun
 " Plugins {{{
 call plug#begin('~/.vim/plugged')
 " Navigation {{{
-Plug 'christoomey/vim-tmux-navigator'
-
 Plug 'lambdalisue/fern.vim'
 Plug 'lambdalisue/fern-hijack.vim'
 
@@ -120,7 +121,7 @@ Plug 'godlygeek/tabular'
 Plug 'lervag/vimtex', {'for': 'tex'}
 " }}}
 " Various coding-related utils {{{
-Plug 'scrooloose/nerdcommenter'
+Plug 'preservim/nerdcommenter'
 Plug 'liuchengxu/vista.vim'
 Plug 'alvan/vim-closetag', {'for': ['markdown', 'html']}
 Plug 'AndrewRadev/tagalong.vim', {'for': ['xml', 'html', 'xhtml', 'markdown']}
@@ -141,7 +142,6 @@ call s:LocalOption('doctor.vim', 'LunarWatcher/doctor.vim')
 " Text extensions {{{
 Plug 'junegunn/goyo.vim'
 Plug 'junegunn/limelight.vim'
-Plug 'https://gitlab.com/dbeniamine/todo.txt-vim'
 Plug 'junegunn/vim-easy-align'
 Plug 'wellle/targets.vim'
 " Bit of a weak argument to call this a text extension, but here we are
