@@ -1005,11 +1005,19 @@ nnoremap daa diwdf<space>
 nnoremap ø 0i
 nnoremap æ ^i
 " }}} 
+" Utility {{{
 " Copy-pasta {{{
 command! -nargs=0 CopyLastCommand let @+ = @:
 command! -nargs=+ -complete=command CopyCommandOutput redir @+ | <args> | redir END 
 
 nnoremap <leader>ccp :CopyLastCommand<cr>
+" }}}
+" Vim management {{{
+nnoremap <leader>ffs :redraw!<cr>
+" }}}
+" Uncategorized {{{
+
+" }}}
 " }}}
 " }}}
 " Custom functions and commands {{{
