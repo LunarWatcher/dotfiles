@@ -115,7 +115,7 @@ Plug 'sheerun/vim-polyglot'
 
 Plug 'octol/vim-cpp-enhanced-highlight', {'for': 'cpp'}
 Plug 'pboettch/vim-cmake-syntax'
-Plug 'plasticboy/vim-markdown', { 'for': 'markdown' }
+Plug 'preservim/vim-markdown', { 'for': 'markdown' }
 Plug 'godlygeek/tabular'
 Plug 'lervag/vimtex', {'for': 'tex'}
 " }}}
@@ -155,9 +155,10 @@ Plug 'rhysd/vim-clang-format'
 
 Plug 'neoclide/coc.nvim', {'branch': 'release'}
 
-Plug 'SirVer/ultisnips'
-Plug 'honza/vim-snippets'
-
+if has("python3")
+    Plug 'SirVer/ultisnips'
+    Plug 'honza/vim-snippets'
+endif
 " }}}
 " Lightline {{{
 " Plug 'itchyny/lightline.vim'
