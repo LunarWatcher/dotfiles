@@ -39,6 +39,9 @@ if isdirectory("/mnt/LinuxData")
     let g:ODevDir = "/mnt/LinuxData/"
 elseif isdirectory($HOME .. "/programming/vim")
     let g:ODevDir = $HOME .. "/"
+elseif $SSH_TTY != ""
+    let g:ODevDir = $HOME .. "/"
+    let g:OVimDevDir = g:ODevDir .. "programming/"
 endif
 
 if type(g:OVimDevDir) == v:t_number && type(g:ODevDir) == v:t_string
@@ -67,8 +70,6 @@ endfun
 " Plugins {{{
 call plug#begin('~/.vim/plugged')
 " Navigation {{{
-Plug 'christoomey/vim-tmux-navigator'
-
 Plug 'lambdalisue/fern.vim'
 Plug 'lambdalisue/fern-hijack.vim'
 
@@ -115,12 +116,12 @@ Plug 'sheerun/vim-polyglot'
 
 Plug 'octol/vim-cpp-enhanced-highlight', {'for': 'cpp'}
 Plug 'pboettch/vim-cmake-syntax'
-Plug 'plasticboy/vim-markdown', { 'for': 'markdown' }
+Plug 'preservim/vim-markdown', { 'for': 'markdown' }
 Plug 'godlygeek/tabular'
 Plug 'lervag/vimtex', {'for': 'tex'}
 " }}}
 " Various coding-related utils {{{
-Plug 'scrooloose/nerdcommenter'
+Plug 'preservim/nerdcommenter'
 Plug 'liuchengxu/vista.vim'
 Plug 'alvan/vim-closetag', {'for': ['markdown', 'html']}
 Plug 'AndrewRadev/tagalong.vim', {'for': ['xml', 'html', 'xhtml', 'markdown']}
@@ -141,7 +142,6 @@ call s:LocalOption('doctor.vim', 'LunarWatcher/doctor.vim')
 " Text extensions {{{
 Plug 'junegunn/goyo.vim'
 Plug 'junegunn/limelight.vim'
-Plug 'https://gitlab.com/dbeniamine/todo.txt-vim'
 Plug 'junegunn/vim-easy-align'
 Plug 'wellle/targets.vim'
 " Bit of a weak argument to call this a text extension, but here we are
@@ -155,9 +155,10 @@ Plug 'rhysd/vim-clang-format'
 
 Plug 'neoclide/coc.nvim', {'branch': 'release'}
 
-Plug 'SirVer/ultisnips'
-Plug 'honza/vim-snippets'
-
+if has("python3")
+    Plug 'SirVer/ultisnips'
+    Plug 'honza/vim-snippets'
+endif
 " }}}
 " Lightline {{{
 " Plug 'itchyny/lightline.vim'
@@ -833,6 +834,10 @@ set titlestring=%{getcwd()->fnamemodify(':t')}:\ %{expand(\"%:t\")}
 " }}}
 " }}}
 " Mappings {{{
+" Fix copy-pasta {{{
+noremap \p "0p
+noremap \P "0P
+" }}}
 " Multi-window nav {{{
 map <C-j> <C-W>j
 map <C-k> <C-W>k
@@ -1000,11 +1005,19 @@ nnoremap daa diwdf<space>
 nnoremap ø 0i
 nnoremap æ ^i
 " }}} 
+" Utility {{{
 " Copy-pasta {{{
 command! -nargs=0 CopyLastCommand let @+ = @:
 command! -nargs=+ -complete=command CopyCommandOutput redir @+ | <args> | redir END 
 
 nnoremap <leader>ccp :CopyLastCommand<cr>
+" }}}
+" Vim management {{{
+nnoremap <leader>ffs :redraw!<cr>
+" }}}
+" Uncategorized {{{
+
+" }}}
 " }}}
 " }}}
 " Custom functions and commands {{{
@@ -1138,7 +1151,10 @@ if has("gui_running")
     imap <S-Insert> <Esc>"+p
     map <C-Insert> "+y
     imap <C-Insert> <Esc>"+y
-
+else
+    " Because some keys with esc as part of its code are mapped, the terminal
+    " timeout has to be reduced. https://vi.stackexchange.com/a/24938/21251
+    set ttimeoutlen=10
 endif
 " }}}
 " External config {{{
