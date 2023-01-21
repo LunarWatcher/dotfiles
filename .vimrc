@@ -77,6 +77,7 @@ Plug 'anschnapp/move-less'
 
 Plug 'zefei/vim-wintabs'
 Plug 'zefei/vim-wintabs-powerline' " Powerline rendering
+call s:LocalOption("control.vim", "LunarWatcher/control.vim")
 " }}}
 " Fuzzy finder {{{
 if has('win32')
