@@ -77,7 +77,6 @@ Plug 'anschnapp/move-less'
 
 Plug 'zefei/vim-wintabs'
 Plug 'zefei/vim-wintabs-powerline' " Powerline rendering
-call s:LocalOption("control.vim", "LunarWatcher/control.vim")
 " }}}
 " Fuzzy finder {{{
 if has('win32')
@@ -343,56 +342,10 @@ nnoremap <F7> :call asyncrun#quickfix_toggle(6)<cr>
 " was made.
 let g:asynctasks_extra_config = [ $HOME .. "/.vim/asynctasks.ini" ]
 
-" Shortcut mnemonic expander
-" <leader>      prefix
-"         r     namespace
-"          b    build
-"          r    run
-" ------ Begin task list ------
-"           c   C/C++ through make
-"           jm  Java  through Maven
-nnoremap <leader>rbc :AsyncTask cppbuild<cr>
-nnoremap <leader>rrc :AsyncTask cpprun<cr>
-
-" Java
-nnoremap <leader>rbjm :AsyncTask mavenbuild<cr>
+" TODO: reconstruct asyncrun and asynctask with sane defaults
 
 " Note: <leader>o is a prefix
 nnoremap <leader>oass :AsyncStop<cr>
-
-" Fuzzy finder integration
-fun! s:FzfTaskSink(what)
-    let p1 = stridx(a:what, '<')
-    if p1 > -1
-        let name = strpart(a:what, 0, p1)
-        let name = substitute(name, '\v^\s*(.{-})\s*$', '\1', '')
-        if name != ""
-            exec "AsyncTask " .. fnameescape(name)
-        endif
-    endif
-endfun
-
-fun! s:FzfAsyncTasks()
-    let rows = asynctasks#source(&columns * 48 / 100)
-    let source = []
-    for row in rows
-        let name = row[0]
-        let source += [ name .. ' ' .. row[1] .. ': ' .. row[2] ]
-    endfor
-    let opts = {
-        \ 'source': source,
-        \ 'sink': function('s:FzfTaskSink'),
-        \ 'options': '+m --nth 1 --inline-info --tac'
-    \ }
-    for key in keys(g:fzf_layout)
-        let opts[key] = deepcopy(g:fzf_layout[key])
-    endfor
-    call fzf#run(opts)
-endfun
-
-command! -nargs=0 AsyncTaskFzf call s:FzfAsyncTasks()
-nnoremap <leader>zt :AsyncTaskFzf<cr>
-
 " }}}
 " Vimspector {{{
 if !has("win32") && !has("win32unix")
@@ -552,7 +505,15 @@ nnoremap <leader>zX :HNGFiles<cr>
 nnoremap <leader>zb :TODO<cr>
 
 nnoremap <leader>ocm :CMakeFiles<cr>
-" }}} FZF 
+
+" Remap some of the defaults {{{
+nnoremap <leader>zs :Snippets<cr>
+nnoremap <leader>zm :Maps<cr>
+nnoremap <leader>zc :Commands<cr>
+nnoremap <leader>zh :Helptags<cr>
+
+" }}}
+" }}} FZF
 " fern.vim {{{
 " Global settings
 let g:fern#disable_default_mappings = 1
