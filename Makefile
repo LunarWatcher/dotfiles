@@ -177,7 +177,6 @@ dotfiles:
 	ln -sTf ${PWD}/VimSnippets /home/${USER}/.vim/CustomSnippets
 	# Make sure the submodules are initialized.
 	git pull --recurse-submodules
-	ln -sf ${PWD}/gdb-dashboard/.gdbinit /home/${USER}/.gdbinit
 	# Additional vim config
 	ln -sf ${PWD}/.vim/asynctasks.ini /home/${USER}/.vim/asynctasks.ini
 
