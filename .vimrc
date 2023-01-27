@@ -342,10 +342,15 @@ nnoremap <F7> :call asyncrun#quickfix_toggle(6)<cr>
 " was made.
 let g:asynctasks_extra_config = [ $HOME .. "/.vim/asynctasks.ini" ]
 
-" TODO: reconstruct asyncrun and asynctask with sane defaults
+nnoremap <F9> :AsyncTask build<cr>
+nnoremap <F10> :AsyncTask run-build<cr>
+nnoremap <F11> :AsyncTask test<cr>
+
+nnoremap <leader>oar :AsyncTask run<cr>
+
 
 " Note: <leader>o is a prefix
-nnoremap <leader>oass :AsyncStop<cr>
+nnoremap <leader>oas :AsyncStop<cr>
 " }}}
 " Vimspector {{{
 if !has("win32") && !has("win32unix")
@@ -376,11 +381,10 @@ call autopairs#Variables#InitVariables()
 let g:AutoPairs = autopairs#AutoPairsDefine([
             \ {"open": '\w\zs<', "close": '>', "filetype": ["cpp", "java"]},
             \ {"open": "$", "close": "$", "filetype": "tex"},
-            \ {"open": '\\left(', 'close': '\right)', "filetype": "tex"},
-            \ {"open": '\vclass .{-} (: (.{-}[ ,])+)? ?\{', 'close': '};', 'mapopen': '{', 'filetype': 'cpp'},
+            \ {"open": '\left(', 'close': '\right)', "filetype": "tex"},
+            \ {"open": '\vclass .{-} (: (.{-}[ ,])+)? ?\{', 'close': '};', 'mapopen': '{', 'filetype': 'cpp', 'regex': 1},
             \ {"open": "*", "close": "*", "filetype": ["help"]},
             \ {"open": "|", "close": "|", "filetype": "help"},
-            \ {'open': '\\[',  'close': '\]', "filetype": "tex"}
     \ ])
 "let g:AutoPairs = autopairs#AutoPairsDefine([{'open': '\\(', 'close': '\)', 'filetype': 'tex'}])
 
@@ -391,7 +395,7 @@ endif
 let g:AutoPairsExperimentalAutocmd = 1
 " }}}
 " Undotree {{{
-nnoremap <F9> :UndotreeToggle<cr>
+nnoremap <leader>ou :UndotreeToggle<cr>
 " }}}
 " Incsearch {{{
 
