@@ -342,9 +342,9 @@ nnoremap <F7> :call asyncrun#quickfix_toggle(6)<cr>
 " was made.
 let g:asynctasks_extra_config = [ $HOME .. "/.vim/asynctasks.ini" ]
 
-nnoremap <F9> :AsyncTask build<cr>
-nnoremap <F10> :AsyncTask run-build<cr>
-nnoremap <F11> :AsyncTask test<cr>
+nnoremap <F9> :AsyncStop<cr>:2sleep<cr>:AsyncTask build<cr>
+nnoremap <F10> :AsyncStop<cr>:2sleep<cr>:AsyncTask run-build<cr>
+nnoremap <F11> :AsyncStop<cr>:2sleep<cr>:AsyncTask test<cr>
 
 nnoremap <leader>oar :AsyncTask run<cr>
 
