@@ -1057,34 +1057,6 @@ endif
 " didn't, so here we are.
 command! -nargs=0 UninstallUltiSnips call delete($HOME .. "/.vim/plugged/ultisnips", "rf")
 " }}}
-
-" Uncrustify {{{
-let g:UncrustifyLanguageMap = {
-    \ "cpp": "cpp"
-    \ }
-
-let g:UncrustifyConfig = ".uncrustify.cfg"
-
-fun! UncrustifyRunner(config = g:UncrustifyConfig)
-    " I could add error handling to the get, but fuck that
-    " Don't be an idiot when you use this, future me
-    let command = "uncrustify -q -c " .. a:config .. " -l " .. g:UncrustifyLanguageMap[&ft]
-
-    " Save the position
-    let cursorPos = getpos('.')
-
-    " Format
-    silent! exec "%!" .. command
-
-    " Reset the cursor position
-    call setpos('.', cursorPos)
-
-endfun
-
-command! -nargs=? UncrustifyFormat call UncrustifyRunner(<f-args>)
-
-nnoremap <leader>uf :UncrustifyFormat<cr>
-" }}}
 " }}}
 " gVim config {{{
 
