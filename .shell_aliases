@@ -163,23 +163,24 @@ if [[ `( nmcli dev list || nmcli dev show ) 2>/dev/null | grep IP4.DNS | grep 19
     # Devices
     alias sshrpi="ssh olivia@sinon.lan"
     alias sshdell="ssh olivia@shiro.lan"
+else
+    alias sshrpi="ssh olivia@sinon.remote"
+    alias sshdell="ssh olivia@shiro.remote"
 fi
 if [[ $USER == "olivia" ]]; then
     # Equivalent to nasmountall, but takes a single IP as input
     # The IP has to be manually configured in ~/.ssh/config first.
     function nasmountremote() {
-        if [[ "$1" != "" ]]; then
-            sshfs olivia@$1:/media/NAS1 /media/NAS1
-            sshfs olivia@$1:/media/NAS2 /media/NAS2
-        else
-            echo "Invalid IP."
-        fi
+        sshfs olivia@${1:-shiro.remote}:/media/NAS1 /media/NAS1
+        sshfs olivia@${1:-shiro.remote}:/media/NAS2 /media/NAS2
+
     }
 
     function nasumount() {
         umount /media/NAS1
         umount /media/NAS2
     }
+
 fi
 # }}}
 # Anki {{{
@@ -189,4 +190,7 @@ alias ankiinit-normal="ANKISYNC_USE_NORMAL=69 python3 $DOTFILES_HOME/scripts/ank
 alias ankipull="python3 $DOTFILES_HOME/scripts/anki-sync.py pull"
 alias ankipush="python3 $DOTFILES_HOME/scripts/anki-sync.py push"
 # }}}
+if [ -f "${DOTFILES_HOME}/scripts/homelab.zsh" ]; then
+    source "${DOTFILES_HOME}/scripts/homelab.zsh"
+fi
 # vim:ft=zsh
