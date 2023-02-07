@@ -101,21 +101,13 @@ function asciinemaProfile() {
     fi
 }
 # }}}
-# fail2ban sshd aliases {{{
+# sshd aliases {{{
+alias breach-attempts="sudo fail2ban-client status sshd"
+alias sshd-auths="cat /var/log/auth.log | grep sshd"
 
-if [[ $(command -v fail2ban-client) ]]
-then
-    alias ban="sudo fail2ban-client set sshd banip"
-    alias unban="sudo fail2ban-client unban sshd"
-
-    alias breach-attempts="sudo fail2ban-client status sshd"
-    alias sshd-auths="cat /var/log/auth.log | grep sshd"
-
-    # Stats on usernames
-    alias sshd-auth-bad="cat /var/log/auth.log | grep sshd | grep 'invalid user'"
-    alias sshd-auth-pi="cat /var/log/auth.log | grep sshd | grep 'authenticating user pi'"
-    # No need to check root, the config has it as an invalid user
-fi
+# Stats on usernames
+alias sshd-auth-bad="cat /var/log/auth.log | grep sshd | grep 'invalid user'"
+# No need to check root, the config has it as an invalid user
 
 # }}}
 # ssh {{{
