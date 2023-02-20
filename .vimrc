@@ -199,17 +199,6 @@ Plug 'haya14busa/is.vim'
 " Start screen {{{
 Plug 'mhinz/vim-startify'
 " }}}
-" Productivity {{{
-if ($USER != 'pi')
-    " TODO: figure out some better way to detect if activitywatch is running.
-    " might be easier when sync is implemented and it's guaranteed up,
-    " but failing to run every time vim opens is an annoyance in the
-    " meanwhile.
-    " My desktop systems do have it. Installing it on my pi
-    " isn't really an option.
-    Plug 'ActivityWatch/aw-watcher-vim'
-endif
-" }}}
 " Font-related stuff {{{
 "set guifont=Source\ Code\ Pro\ for\ Powerline:h11:cANSI " Source Code Pro <3
 "set guifontwide=Source\ Code\ Pro\ for\ Powerline:h11:cANSI " gvim
