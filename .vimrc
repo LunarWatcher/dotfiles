@@ -688,7 +688,7 @@ set cindent
 set cino=N-s
 set cino+=g0,l1
 set cino+=(0
-set cino+=k4,m1
+set cino+=k4,m1,W4,j1
 " }}}
 " Add non-standard filetypes {{{
 augroup ZoeFiletypes
