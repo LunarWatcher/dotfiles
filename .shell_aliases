@@ -120,7 +120,7 @@ alias fuck="echo That piece of shit!"
 # Command shortening {{{
 function mkcd() {
     if [[ "$1" != "" ]]; then
-        mkdir $1 && cd $1
+        mkdir -p $1 && cd $1
     else
         echo "Create what?"
     fi
