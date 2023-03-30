@@ -4,7 +4,7 @@ update:
 build-deps:
 	@echo "Installing general build dependencies..."
 	sudo apt install -y autoconf automake autotools-dev build-essential \
-		libjansson-dev libtool libtool-bin cmake
+		libjansson-dev libtool libtool-bin cmake pkg-config
 	@echo "Done."
 
 vim-build-deps: # Grabs Vim build dependencies
@@ -126,7 +126,7 @@ vim:
 			--enable-perlinterp=yes --enable-luainterp=yes --with-luajit=yes \
 			--enable-cscope --prefix=/usr/local \
 			--enable-largefile --enable-fail-if-missing --with-compiledby="Olivia" && \
-		make -j 8 && \
+		make -j $$(nproc) && \
 		sudo make install
 	rm -rf vim
 	@echo "Done"
@@ -150,7 +150,7 @@ vim-plugin-dependencies:
 	# Dependency: universal-ctags
 	# Used for: vim-vista
 	git clone https://github.com/universal-ctags/ctags.git --depth=1
-	cd ctags && ./autogen.sh && ./configure && make -j 4 && sudo make install
+	cd ctags && ./autogen.sh && ./configure && make -j $$(nproc) && sudo make install
 	
 	rm -rf ctags
 	# Required for the latex plugin

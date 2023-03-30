@@ -96,12 +96,8 @@ Plug 'terryma/vim-expand-region'
 Plug 'NLKNguyen/papercolor-theme'
 Plug 'junegunn/seoul256.vim'
 Plug 'sonph/onehalf'
-call s:LocalOption('Aurora', 'LunarWatcher/Aurora')
 Plug 'rakr/vim-one'
 Plug 'rakr/vim-two-firewatch'
-
-" Colorscheme designer
-call s:LocalOption('Amber', 'LunarWatcher/Amber')
 
 Plug 'rhysd/conflict-marker.vim'
 
@@ -173,14 +169,12 @@ Plug 'rbong/vim-flog'
 Plug 'embear/vim-localvimrc'
 " }}}
 " General every-day use {{{
-Plug 'LunarWatcher/vim-multiple-monitors'
 Plug 'tpope/vim-speeddating'
 Plug 'scy/vim-mkdir-on-write'
 
 
 call s:LocalOption('auto-pairs', 'LunarWatcher/auto-pairs')
 call s:LocalOption('Dawn',       'LunarWatcher/Dawn')
-"call s:LocalOption('Pandora',    'LunarWatcher/Pandora')
 
 Plug 'mbbill/undotree'
 
@@ -853,8 +847,12 @@ nmap <X1Mouse> <C-PageUp>
 " }}}
 " LaTeX {{{
 fun! TexMaps()
+    imap <buffer> <C-l><C-i> \textit{
+    vmap <buffer> <C-l><C-i> xi\textit{<esc>p
+
+    imap <buffer> <C-l><C-b> \textbf{
+    vmap <buffer> <C-l><C-b> xi\textbf{<esc>p
     if !has("gui_running")
-        echoerr "LaTeX-maps are gvim-specific, and aren't compatible with terminal vim"
         return
     endif
 
