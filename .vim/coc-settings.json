@@ -1,7 +1,7 @@
 {
     "languageserver": {
         "ccls": {
-            "enable": true,
+            "enable": false,
             "command": "ccls",
             "filetypes": [
                 "c",

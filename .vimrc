@@ -244,10 +244,15 @@ Plug 'thinca/vim-themis'
 
 Plug 'tpope/vim-repeat'
 Plug 'Asheq/close-buffers.vim'
+
+Plug 'wakatime/vim-wakatime'
 " }}}
 call plug#end()
 " }}}
 " Plugin config {{{
+" Wakatime {{{
+
+" }}}
 " Plug mapping {{{
 nnoremap <leader>pi <esc>:PlugInstall<cr>
 nnoremap <leader>pc <esc>:PlugClean<cr>
@@ -287,7 +292,10 @@ set shortmess+=c
 set signcolumn=number
 set updatetime=100
 
+nmap <leader>qa  <Plug>(coc-codeaction-cursor)
+nmap <leader>qs  <Plug>(coc-codeaction-source)
 nmap <leader>qf  <Plug>(coc-fix-current)
+
 inoremap <silent><expr> <c-space> coc#refresh()
 nmap <leader>rn <Plug>(coc-rename)
 nmap <silent> gd <Plug>(coc-definition)
