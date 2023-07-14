@@ -1,0 +1,8 @@
+snippet iso "Full ISO date"
+`!v strftime('%Y-%m-%dT%T%z')[:-3]`:`!v strftime('%z')[-2:]`
+endsnippet
+snippet isog "GMT ISO date"
+`!p 
+import datetime
+snip.rv = datetime.datetime.utcnow().strftime('%Y-%m-%dT%TZ')`
+endsnippet
