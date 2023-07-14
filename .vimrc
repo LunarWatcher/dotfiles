@@ -244,8 +244,6 @@ Plug 'thinca/vim-themis'
 
 Plug 'tpope/vim-repeat'
 Plug 'Asheq/close-buffers.vim'
-
-Plug 'wakatime/vim-wakatime'
 " }}}
 call plug#end()
 " }}}

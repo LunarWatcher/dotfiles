@@ -14,7 +14,7 @@ if [[ -r "${XDG_CACHE_HOME:-$HOME/.cache}/p10k-instant-prompt-${(%):-%n}.zsh" ]]
 fi
 
 # Path to your oh-my-zsh installation.
-export ZSH="/home/${USER}/.oh-my-zsh"
+export ZSH="/${HOME}/.oh-my-zsh"
 
 # Theming
 ZSH_THEME="powerlevel10k/powerlevel10k"
@@ -60,9 +60,8 @@ fi
 source ~/.shell_aliases
 
 # Variables (modification + new)
-export PATH="/home/${USER}/.local/bin:/home/${USER}/go/bin:$PATH"
-export PATH="/home/lunarwatcher/.cargo/bin:$PATH"
-# export PATH="/home/lunarwatcher/anaconda3/bin:$PATH"  # commented out by conda initialize
+export PATH="${HOME}/.local/bin:${HOME}/go/bin:$PATH"
+export PATH="${HOME}/.cargo/bin:$PATH"
 
 if (( $+commands[clang] )); then
     export CXX=clang++
