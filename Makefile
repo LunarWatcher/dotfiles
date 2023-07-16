@@ -1,5 +1,5 @@
 update:
-	sudo apt update& & sudo apt upgrade -y
+	sudo apt update && sudo apt upgrade -y
 
 build-deps:
 	@echo "Installing general build dependencies..."
@@ -15,7 +15,7 @@ vim-build-deps: # Grabs Vim build dependencies
 		libcairo2-dev libx11-dev libxpm-dev libxt-dev python3-dev \
 		ruby-dev lua5.3 liblua5.3-dev luajit libluajit-5.1-dev libperl-dev
 	# Caveat; if Vim still fails to compile lua, run:
-	# cd /usr/include& & ln -s lua5.1 lua
+	# cd /usr/include && ln -s lua5.1 lua
 	# Vim is very specific about the file location :rolling_eyes:
 	# --with-lua-prefix doesn't work without a few hacks with symlinks,
 	#  because it's a prefix and not a location.
@@ -24,8 +24,8 @@ vim-build-deps: # Grabs Vim build dependencies
 
 packages: # Install base packages
 	@echo "Installing packages..."
-	sudo apt update& & sudo apt install -y software-properties-common
-	-sudo apt-add-repository universe& & sudo apt update
+	sudo apt update && sudo apt install -y software-properties-common
+	-sudo apt-add-repository universe && sudo apt update
 	# Fix lolcat (the apt version is broken)
 	sudo apt remove -y lolcat
 	sudo apt install -y ruby
@@ -60,23 +60,23 @@ packages: # Install base packages
 
 theming:
 	sudo add-apt-repository ppa:papirus/papirus
-	sudo apt update& & sudo apt install papirus-icon-theme
+	sudo apt update && sudo apt install papirus-icon-theme
 
 tmux:
 	mkdir -p ~/.tmux
 	-git clone https://github.com/tmux-plugins/tpm ~/.tmux/plugins/tpm
 
 home-packages:
-	bash -c '[[ "$$(lsb_release -i)" =~ "Linuxmint" ]]& & sudo apt remove hexchat hypnotix transmission-gtk simple-scan'
+	bash -c '[[ "$$(lsb_release -i)" =~ "Linuxmint" ]] && sudo apt remove hexchat hypnotix transmission-gtk simple-scan'
 	# Installs home packages.
 	# These are definitely _not_ barebone packages, and extend beyond basic use.
 	# The version of LibreOffice that ships with Mint is _ancient_. The FlatHub variant
 	# is officially endorsed, it's a _lot_ newer, a lot faster, and a lot prettier
-	sudo apt purge libreoffice*& & sudo apt autoremove
+	sudo apt purge libreoffice* && sudo apt autoremove
 	flatpak install flathub org.libreoffice.LibreOffice
 
 	# Installs Steam
-	wget https://steamcdn-a.akamaihd.net/client/installer/steam.deb& & sudo apt install -y ./steam.deb
+	wget https://steamcdn-a.akamaihd.net/client/installer/steam.deb && sudo apt install -y ./steam.deb
 	
 additional-packages:
 	# installs peek (gif screen recorder)
@@ -86,15 +86,15 @@ additional-packages:
 	flatpak install -y flathub org.kde.krita
 
 	# Installs ksnip for its editing capabilities
-	wget https://github.com/ksnip/ksnip/releases/download/v1.7.1/ksnip-1.7.1.deb& & sudo apt install -y ./ksnip-1.7.1.deb
+	wget https://github.com/ksnip/ksnip/releases/download/v1.7.1/ksnip-1.7.1.deb && sudo apt install -y ./ksnip-1.7.1.deb
 
 	# Spotify
 	curl -sS https://download.spotify.com/debian/pubkey_5E3C45D7B312C643.gpg | sudo apt-key add - 
 	echo "deb http://repository.spotify.com stable non-free" | sudo tee /etc/apt/sources.list.d/spotify.list
-	sudo apt-get update& & sudo apt-get install -y spotify-client
+	sudo apt-get update && sudo apt-get install -y spotify-client
 
 pythoninstall:
-	-[ ! -d "$${HOME}/.pyenv" ]& & curl -L https://github.com/pyenv/pyenv-installer/raw/master/bin/pyenv-installer | bash
+	-[ ! -d "$${HOME}/.pyenv" ] && curl -L https://github.com/pyenv/pyenv-installer/raw/master/bin/pyenv-installer | bash
 
 goinstall:
 	sudo apt install -y golang
@@ -120,13 +120,13 @@ vim:
 	@echo "Building Vim..."
 	make vim-build-deps
 	-git clone https://github.com/vim/vim.git
-	cd vim/src& & \
+	cd vim/src && \
 		./configure --enable-gui=gtk3 --with-features=huge --enable-multibyte \
 			--enable-rubyinterp=yes --enable-python3interp=yes \
 			--enable-perlinterp=yes --enable-luainterp=yes --with-luajit=yes \
 			--enable-cscope --prefix=/usr/local \
-			--enable-largefile --enable-fail-if-missing --with-compiledby="Olivia"& & \
-		make -j $$(nproc)& & \
+			--enable-largefile --enable-fail-if-missing --with-compiledby="Olivia" && \
+		make -j $$(nproc) && \
 		sudo make install
 	rm -rf vim
 	@echo "Done"
@@ -150,7 +150,7 @@ vim-plugin-dependencies:
 	# Dependency: universal-ctags
 	# Used for: vim-vista
 	git clone https://github.com/universal-ctags/ctags.git --depth=1
-	cd ctags& & ./autogen.sh && ./configure && make -j $$(nproc) && sudo make install
+	cd ctags && ./autogen.sh && ./configure && make -j $$(nproc) && sudo make install
 	
 	rm -rf ctags
 	# Required for the latex plugin
@@ -192,7 +192,7 @@ nerdfonts:
 	#@echo "Installing nerdfonts. Note that this can take a _long_ time, depending on your connection."
 	# The cloning is the part that takes the longest time. The repo is about 7GB big
 	#git clone https://github.com/ryanoasis/nerd-fonts
-	#cd nerd-fonts& & ./install.sh
+	#cd nerd-fonts && ./install.sh
 	#@echo "Done"
 	wget https://github.com/ryanoasis/nerd-fonts/blob/master/patched-fonts/SourceCodePro/Regular/complete/Sauce%20Code%20Pro%20Nerd%20Font%20Complete.ttf?raw=true -O "Sauce Code Pro Nerd Font Complete.ttf"
 	# Needed for gnome terminal because reasons
@@ -212,7 +212,7 @@ extended-documents:
 # Note; upm is not yet functional
 upm:
 	-git clone https://github.com/LunarWatcher/upm
-	-cd upm& & git pull origin master
+	-cd upm && git pull origin master
 	cd 
 
 upm-packages:
