@@ -790,8 +790,8 @@ set titlestring=%{getcwd()->fnamemodify(':t')}:\ %{expand(\"%:t\")}
 " }}}
 " Mappings {{{
 " Fix copy-pasta {{{
-noremap \p "0p
-noremap \P "0P
+noremap <leader>pp "0p
+noremap <leader>P "0P
 " }}}
 " Multi-window nav {{{
 map <C-j> <C-W>j
@@ -831,6 +831,8 @@ endif
 nnoremap <leader>ve :split $MYVIMRC<cr>
 nnoremap <leader>vE :e $MYVIMRC<cr>
 nnoremap <leader>vt :tabe $MYVIMRC<cr>
+nnoremap <leader>va :split ~/.shell_aliases<cr>
+nnoremap <leader>vz :split ~/.zshrc<cr>
 
 nnoremap <leader>rel :source $MYVIMRC<cr>
 " }}}
@@ -973,6 +975,13 @@ nnoremap <leader>ccp :CopyLastCommand<cr>
 " }}}
 " Vim management {{{
 nnoremap <leader>ffs :redraw!<cr>
+" }}}
+" Mark helpers {{{
+" Store a jumpback mark in the Z register (AKA the register I'm least likely
+" to use for anything non-scripted, because it's exceedingly unlikely I'll
+" _have_ to dive into )
+nnoremap <leader>sp mZ
+nnoremap <leader>sr 'Z
 " }}}
 " Uncategorized {{{
 
