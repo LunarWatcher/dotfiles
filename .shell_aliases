@@ -143,7 +143,7 @@ alias cmaked="cmake .. -DCMAKE_BUILD_TYPE=Debug -DCMAKE_EXPORT_COMPILE_COMMANDS=
 if [[ `( nmcli dev list || nmcli dev show ) 2>/dev/null | grep IP4.DNS | grep 192.168.0.179` != '' ]]; then
     # NAS stuff
     function nasmountn() {
-        sshfs olivia@shiro.lan:/media/NAS$1 /media/NAS$1
+        sshfs olivia@nova.lan:/media/NAS$1 /media/NAS$1
     }
     alias nasmount1="nasmountn 1"
     alias nasmount2="nasmountn 2"
@@ -154,17 +154,17 @@ if [[ `( nmcli dev list || nmcli dev show ) 2>/dev/null | grep IP4.DNS | grep 19
 
     # Devices
     alias sshrpi="ssh olivia@sinon.lan"
-    alias sshdell="ssh olivia@shiro.lan"
+    alias sshdell="ssh olivia@nova.lan"
 else
     alias sshrpi="ssh olivia@sinon.remote"
-    alias sshdell="ssh olivia@shiro.remote"
+    alias sshdell="ssh olivia@nova.remote"
 fi
 if [[ $USER == "olivia" ]]; then
     # Equivalent to nasmountall, but takes a single IP as input
     # The IP has to be manually configured in ~/.ssh/config first.
     function nasmountremote() {
-        sshfs olivia@${1:-shiro.remote}:/media/NAS1 /media/NAS1
-        sshfs olivia@${1:-shiro.remote}:/media/NAS2 /media/NAS2
+        sshfs olivia@${1:-nova.remote}:/media/NAS1 /media/NAS1
+        sshfs olivia@${1:-nova.remote}:/media/NAS2 /media/NAS2
 
     }
 

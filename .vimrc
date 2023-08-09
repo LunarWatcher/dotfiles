@@ -172,7 +172,6 @@ Plug 'embear/vim-localvimrc'
 Plug 'tpope/vim-speeddating'
 Plug 'scy/vim-mkdir-on-write'
 
-
 call s:LocalOption('auto-pairs', 'LunarWatcher/auto-pairs')
 call s:LocalOption('Dawn',       'LunarWatcher/Dawn')
 
@@ -596,6 +595,7 @@ let g:codi#interpreters = {
 " }}}
 " Easy align {{{
 nmap ga <Plug>(EasyAlign)
+vmap ga <Plug>(EasyAlign)
 " }}}
 " ActiviyWatch {{{
 if has("win32")
