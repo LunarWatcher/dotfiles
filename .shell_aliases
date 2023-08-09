@@ -113,10 +113,6 @@ alias sshd-auth-bad="cat /var/log/auth.log | grep sshd | grep 'invalid user'"
 # ssh {{{
 alias sshd-restart="sudo systemctl restart ssh"
 # }}}
-# You're not funny, Olivia {{{
-alias hiya="This isn't the input prompt you're looking for."
-alias fuck="echo That piece of shit!"
-# }}}
 # Command shortening {{{
 function mkcd() {
     if [[ "$1" != "" ]]; then
@@ -174,6 +170,10 @@ if [[ $USER == "olivia" ]]; then
     }
 
 fi
+# }}}
+# VPN {{{
+# Thanks, arch wiki: https://wiki.archlinux.org/title/VPN_over_SSH
+alias vpn="ssh -TND 4711 olivia@shiro.remote"
 # }}}
 # Anki {{{
 alias ankiinit-flatpak="ANKISYNC_USE_FLATPAK=69 python3 $DOTFILES_HOME/scripts/anki-sync.py pull"
