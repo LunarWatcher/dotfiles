@@ -10,4 +10,4 @@ REM Fucking windows
 set PATH=C:\Program Files\SSHFS-Win\bin\;%PATH%
 
 REM connect. The port is stored in a system variable because seekrits
-sshfs-win.exe svc \sshfs.kr\olivia@shiro.remote!%NAS_PORT%\media\NAS1 Z:
+sshfs-win.exe svc \sshfs.kr\olivia@nova.remote!%NAS_PORT%\media\NAS1 Z:

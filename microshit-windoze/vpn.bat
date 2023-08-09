@@ -1,1 +1,1 @@
-ssh -TND 4711 olivia@shiro.remote
+ssh -TND 4711 olivia@nova.remote

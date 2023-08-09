@@ -16,7 +16,7 @@
 
 # Variable declarations {{{
 local homelab_devices=(
-    sinon shiro
+    sinon nova
 )
 local -A device_groups=(
     [all]="homelab_devices"
@@ -24,12 +24,12 @@ local -A device_groups=(
 
 local -A homelab_local_addr=(
     [sinon]="sinon.lan"
-    [shiro]="shiro.lan"
+    [nova]="nova.lan"
 )
 
 local -A homelab_remote_addr=(
     [sinon]="sinon.remote"
-    [shiro]="shiro.remote"
+    [nova]="nova.remote"
 )
 
 local -A homelab_fucky_services=(
@@ -42,7 +42,7 @@ local -A homelab_update_commands=(
 
 local -A homelab_status_commands=(
     [sinon]="systemctl status -n 0 boson && systemctl status -n 0 discord-hooks && systemctl status -n 0 pihole-FTL"
-    [shiro]="systemctl status -n 0 comdest"
+    [nova]="systemctl status -n 0 comdest"
 )
 # }}}
 

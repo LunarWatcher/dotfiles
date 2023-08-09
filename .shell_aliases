@@ -173,7 +173,7 @@ fi
 # }}}
 # VPN {{{
 # Thanks, arch wiki: https://wiki.archlinux.org/title/VPN_over_SSH
-alias vpn="ssh -TND 4711 olivia@shiro.remote"
+alias vpn="ssh -TND 4711 olivia@nova.remote"
 # }}}
 # Anki {{{
 alias ankiinit-flatpak="ANKISYNC_USE_FLATPAK=69 python3 $DOTFILES_HOME/scripts/anki-sync.py pull"
