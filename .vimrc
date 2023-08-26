@@ -69,7 +69,14 @@ endfun
 " }}}
 " Plugins {{{
 call plug#begin('~/.vim/plugged')
+" Local debug {{{
+if isdirectory(g:OVimDevDir .. "PluginScience")
+    exec "Plug '" .. g:OVimDevDir .. "PluginScience" .. "'"
+endif
+" }}}
 " Navigation {{{
+"Plug 'lambdalisue/fern.vim'
+"call s:LocalOption("fern.vim", "LunarWatcher/fern.vim")
 Plug 'lambdalisue/fern.vim'
 Plug 'lambdalisue/fern-hijack.vim'
 
@@ -517,6 +524,7 @@ let g:fern#default_hidden = 1
 " Global control mappings
 nnoremap <F2> :Fern . -drawer -stay -toggle<cr>
 
+let g:fern#loglevel = g:fern#DEBUG
 fun FernMaps()
 
     nmap <buffer><expr> <Plug>(fern-cr)
@@ -535,8 +543,8 @@ fun FernMaps()
     nmap <buffer> i <Plug>(fern-action-open:split)
 
     nmap <buffer> o <Plug>(fern-cr)
-    " No recursive note expansion :(
-    "nmap <buffer> O <Plug>(fern-action-expand)
+    nmap <buffer> O <Plug>(fern-action-expand-tree:stay)
+    nmap <buffer> L <Plug>(fern-action-expand-tree:in)
 
     " Filesystem maps
     nmap <buffer> M <Plug>(fern-action-move)
