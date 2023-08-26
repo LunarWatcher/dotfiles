@@ -166,7 +166,6 @@ fat-dotfiles: vim-plugin-dependencies install-vim-plug dotfiles
 dotfiles:
 	mkdir -p ~/.vim
 	mkdir -p ~/.config/nvim
-	ln -sf ${PWD}/.vim/coc-settings.json ${HOME}/.vim/coc-settings.json
 	ln -sf ${PWD}/.vimrc ${HOME}/.vimrc
 	ln -sf ${PWD}/.zshrc ${HOME}/.zshrc
 	ln -sf ${PWD}/.shell_aliases ${HOME}/.shell_aliases

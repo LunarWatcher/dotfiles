@@ -182,6 +182,14 @@ alias ankiinit-normal="ANKISYNC_USE_NORMAL=69 python3 $DOTFILES_HOME/scripts/ank
 alias ankipull="python3 $DOTFILES_HOME/scripts/anki-sync.py pull"
 alias ankipush="python3 $DOTFILES_HOME/scripts/anki-sync.py push"
 # }}}
+# WSL bullshit {{{
+if [[ $(grep -i Microsoft /proc/version) ]]; then
+    # No automatic services
+    function bootstrapenv() {
+        sudo service postgresql start
+    }
+fi
+# }}}
 if [ -f "${DOTFILES_HOME}/scripts/homelab.zsh" ]; then
     source "${DOTFILES_HOME}/scripts/homelab.zsh"
 fi
