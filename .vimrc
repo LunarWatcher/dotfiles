@@ -161,6 +161,14 @@ Plug 'neoclide/coc.nvim', {'branch': 'release'}
 if has("python3")
     Plug 'SirVer/ultisnips'
     Plug 'honza/vim-snippets'
+    " I had to give this a double name because
+    " 1. I'm lazy
+    " 2. just vim-snippets results in vim-plug not being sure what to do with
+    "    honza/vim-snippets, because BrOKeN InstALlAtion.
+    "    Would be a lot easier if vim-plug preserved the username in the path.
+    " 3. Telling people to manually rename either repo with plugin manager
+    "    config is stupid
+    Plug 'LunarWatcher/lunarwatcher-vim-snippets'
 endif
 " }}}
 " Lightline {{{

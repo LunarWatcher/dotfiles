@@ -173,7 +173,6 @@ dotfiles:
 	ln -sf ${PWD}/.tmux.conf ${HOME}/.tmux.conf
 	ln -sf ${PWD}/.condarc ${HOME}/.condarc
 	ln -sf ${PWD}/.config/nvim/init.vim ${HOME}/.config/nvim/init.vim
-	ln -sTf ${PWD}/VimSnippets ${HOME}/.vim/CustomSnippets
 	# Make sure the submodules are initialized.
 	git pull --recurse-submodules
 	# Additional vim config
