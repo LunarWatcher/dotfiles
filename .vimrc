@@ -280,14 +280,17 @@ endfunction
 let g:startify_custom_header = s:center(startify#fortune#boxed())
 
 let g:startify_lists = [
+    \ { 'type': 'sessions',  'header': ['    Sessions'] },
     \ { 'type': 'bookmarks', 'header': ['    Bookmarks'] },
-    \ { 'type': 'commands', 'header': ['    Commands'] },
+    \ { 'type': 'commands',  'header': ['    Commands'] },
     \ ]
 
 let g:startify_files_number = 10
 
 let g:startify_bookmarks = [
     \ {'c': '~/.vimrc'},
+    \ {'z': '~/.zshrc'},
+    \ {'a': '~/.shell_aliases'},
     \ ]
 " }}}
 " Autocomplete {{{
