@@ -182,6 +182,7 @@ Plug 'rbong/vim-flog'
 " }}}
 " Project management {{{
 Plug 'embear/vim-localvimrc'
+call s:LocalOption("LightSessions.vim", "LunarWatcher/LightSessions.vim")
 " }}}
 " General every-day use {{{
 Plug 'tpope/vim-speeddating'
@@ -258,6 +259,7 @@ Plug 'thinca/vim-themis'
 
 Plug 'tpope/vim-repeat'
 Plug 'Asheq/close-buffers.vim'
+call s:LocalOption("helpwriter.vim", "LunarWatcher/helpwriter.vim")
 " }}}
 call plug#end()
 " }}}
@@ -288,7 +290,7 @@ endfunction
 let g:startify_custom_header = s:center(startify#fortune#boxed())
 
 let g:startify_lists = [
-    \ { 'type': 'sessions',  'header': ['    Sessions'] },
+    \ { 'type': function('lightsessions#StartifyList'),  'header': ['    Sessions'] },
     \ { 'type': 'bookmarks', 'header': ['    Bookmarks'] },
     \ { 'type': 'commands',  'header': ['    Commands'] },
     \ ]
@@ -566,6 +568,7 @@ fun FernMaps()
     nmap <buffer> D <Plug>(fern-action-new-dir)
 
     nmap <buffer> dd <Plug>(fern-action-remove)
+    nmap <buffer> cd <Plug>(fern-action-enter)
 
     " Fern-specific maps
     nmap <buffer> <leader> <Plug>(fern-action-mark)
