@@ -168,7 +168,7 @@ if has("python3")
     "    Would be a lot easier if vim-plug preserved the username in the path.
     " 3. Telling people to manually rename either repo with plugin manager
     "    config is stupid
-    Plug 'LunarWatcher/lunarwatcher-vim-snippets'
+    call s:LocalOption("vim-snippets", 'LunarWatcher/lunarwatcher-vim-snippets')
 endif
 " }}}
 " Lightline {{{
@@ -767,6 +767,8 @@ augroup TabConf
     " Make is specific about using tabs
     autocmd FileType make setlocal noexpandtab
     autocmd FileType yaml setlocal tabstop=2 shiftwidth=2 softtabstop=2
+
+    autocmd FileType typescript,typescriptreact,javascriptreact setlocal sw=2 tabstop=2 softtabstop=2
 
 augroup END
 
