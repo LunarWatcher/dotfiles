@@ -36,6 +36,7 @@ alias themis="~/.vim/plugged/vim-themis/bin/themis"
 alias noiturbo="echo '1' | sudo tee /sys/devices/system/cpu/intel_pstate/no_turbo"
 alias iturbo="echo '0' | sudo tee /sys/devices/system/cpu/intel_pstate/no_turbo"
 alias pulsenodio="pulseaudio -k && sudo alsa force-reload"
+alias fix-bluetooth="pactl unload-module module-bluetooth-discover && pactl load-module module-bluetooth-discover"
 # }}}
 # Pyenv {{{
 alias newpyenv="virtualenv env && source ./env/bin/activate"
