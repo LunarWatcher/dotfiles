@@ -58,6 +58,7 @@ then
     source ~/.zsh.sysrc
 fi
 source ~/.shell_aliases
+export PATH="${DOTFILES_HOME}/scripts/bin:$PATH"
 
 # Variables (modification + new)
 export PATH="${HOME}/.local/bin:${HOME}/go/bin:$PATH"
