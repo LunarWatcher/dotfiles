@@ -99,3 +99,18 @@ then
     # Unfuck SSH paths
     export PATH="/usr/local/bin:$PATH"
 fi
+
+# Load dynamic, unmanaged, local directories.
+if [[ -d $HOME/.local/dynamic ]];
+then
+    for folder in $HOME/.local/dynamic/*;
+    do
+        if [[ -d $folder ]]; then
+            local file=$folder/.zshinit
+            if [ -f $file ];
+            then
+                source $file
+            fi
+        fi
+    done
+fi
