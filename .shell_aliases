@@ -7,8 +7,7 @@ export DOTFILES_HOME=$(dirname $loc)
 # The colorscheme makes 777 folders literally unreadable
 alias lsn="ls --color=no"
 
-# Folder Open, opens the current folder
-alias fo="xdg-open ."
+alias open="xdg-open"
 # }}}
 # Git {{{
 alias gi="git init"
