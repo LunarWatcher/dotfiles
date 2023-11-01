@@ -50,9 +50,6 @@ packages: # Install base packages
 	sudo apt install -y git thefuck curl python-pkg-resources libssl-dev \
 		wget nano xclip tmux cargo
 	
-	# TODO: clang 12
-	# C++ dev stuff
-	sudo apt install -y clang-12 clang-format-12
 	# Install build dependencies
 	make build-deps
 	

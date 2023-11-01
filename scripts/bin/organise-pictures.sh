@@ -9,7 +9,7 @@ local input=""
 local output=""
 
 local outputExpr="Photos from %s"
-local imagePattern="/IMG_([0-9]{4})[0-9]{2}[0-9]{2}"
+local imagePattern="/(IMG|VID)_([0-9]{4})[0-9]{2}[0-9]{2}"
 
 echo "Note that using this script comes with a certain amount of risk. If you're in doubt, don't use it. It can and will happily make mistakes"
 echo "particularly if the images are stupidly named or from different sources and happen to have the same name."
