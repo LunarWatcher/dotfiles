@@ -846,6 +846,8 @@ if has("gui_running")
     "https://old.reddit.com/r/vim/comments/cxhi7p/ctrlw_to_delete_word_in_terminal_window/
     tnoremap <C-BS> <C-w>.
     tnoremap <S-Space> <Space>
+
+    inoremap <C-Tab> <C-v><Tab>
 endif
 "}}}
 " Vimrc {{{
