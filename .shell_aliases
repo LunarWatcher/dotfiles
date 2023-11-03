@@ -139,14 +139,10 @@ alias cmaked="cmake .. -DCMAKE_BUILD_TYPE=Debug -DCMAKE_EXPORT_COMPILE_COMMANDS=
 # and remoting into my home network.
 if [[ `( nmcli dev list || nmcli dev show ) 2>/dev/null | grep IP4.DNS | grep 192.168.0.179` != '' ]]; then
     # NAS stuff
-    function nasmountn() {
-        sshfs olivia@nova.lan:/media/NAS$1 /media/NAS$1
-    }
-    alias nasmount1="nasmountn 1"
-    alias nasmount2="nasmountn 2"
+
     function nasmountall() {
-        nasmountn 1
-        nasmountn 2
+        sshfs olivia@nova.lan:/media/NAS /media/NAS
+        #sshfs olivia@nova.lan:/media/NAS1 /media/NAS1
     }
 
     # Devices
@@ -160,14 +156,13 @@ if [[ $USER == "olivia" ]]; then
     # Equivalent to nasmountall, but takes a single IP as input
     # The IP has to be manually configured in ~/.ssh/config first.
     function nasmountremote() {
-        sshfs olivia@${1:-nova.remote}:/media/NAS1 /media/NAS1
-        sshfs olivia@${1:-nova.remote}:/media/NAS2 /media/NAS2
+        sshfs olivia@${1:-nova.remote}:/media/NAS /media/NAS
+        #sshfs olivia@${1:-nova.remote}:/media/NAS1 /media/NAS1
 
     }
 
     function nasumount() {
-        umount /media/NAS1
-        umount /media/NAS2
+        umount /media/NAS
     }
 
 fi
