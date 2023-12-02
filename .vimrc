@@ -606,6 +606,16 @@ let g:vim_markdown_folding_disabled = 1
 " }}}
 " Vimtex {{{
 let g:tex_flavor = "latex"
+let g:vimtex_compiler_clean_paths = ['_minted*']
+let g:vimtex_compiler_latexmk = {
+    \ 'options' : [
+    \   '-shell-escape',
+    \   '-verbose',
+    \   '-file-line-error',
+    \   '-synctex=1',
+    \   '-interaction=nonstopmode',
+    \ ],
+    \}
 " }}}
 " Codi {{{
 let g:codi#interpreters = {
