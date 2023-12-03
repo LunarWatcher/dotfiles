@@ -636,6 +636,9 @@ if has("win32")
 endif
 " }}}
 " }}}
+" Formatter config {{{
+let g:html_indent_style1 = "inc"
+" }}}
 " Config {{{
 " Basic enabling {{{
 set nowrap                " Soft wrapping is annoying
