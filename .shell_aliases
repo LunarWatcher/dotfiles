@@ -186,6 +186,26 @@ if [[ $(grep -i Microsoft /proc/version) ]]; then
     }
 fi
 # }}}
+# Gpg {{{
+alias gpgsign="gpg --clearsign "
+
+function gpgsend() {
+    if [[ $1 == "" || $2 == "" || $1 == "--help" ]]; then
+        echo "Usage: gpgsend email message-file"
+        return 0
+    fi
+
+    gpg --sign --encrypt --recipient $1 $2
+}
+
+function gpgexport() {
+    if [[ $1 == "" || $2 == "" || $1 == "--help" ]]; then
+        echo "Usage: gpgexport output-path email"
+        return 0
+    fi
+    gpg --output $1 --armor --export $2
+}
+# }}}
 if [ -f "${DOTFILES_HOME}/scripts/homelab.zsh" ]; then
     source "${DOTFILES_HOME}/scripts/homelab.zsh"
 fi
