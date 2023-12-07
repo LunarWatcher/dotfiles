@@ -43,6 +43,7 @@ RestartSec=60s
 Type=idle
 WorkingDirectory=/opt/uptime-kuma
 Environment="UPTIME_KUMA_PORT=6902"
+Environment="NODE_EXTRA_CA_CERTS=/etc/nova/rootCA.crt"
 ExecStart=node server/server.js
 
 [Install]

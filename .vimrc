@@ -168,7 +168,7 @@ if has("python3")
     "    Would be a lot easier if vim-plug preserved the username in the path.
     " 3. Telling people to manually rename either repo with plugin manager
     "    config is stupid
-    call s:LocalOption("vim-snippets", 'LunarWatcher/lunarwatcher-vim-snippets')
+    call s:LocalOption("lunarwatcher-vim-snippets", 'LunarWatcher/lunarwatcher-vim-snippets')
 endif
 " }}}
 " Lightline {{{
