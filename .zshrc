@@ -72,6 +72,7 @@ else
     export CC=gcc
 fi
 # Fix with some OpenSSL-based apps
+# TODO: This is a shit variable, and doesn't match my new conventions
 export SSL_CERT_FILE=/etc/ssl/certs/ca-certificates.crt
 
 # >>> conda initialize >>>
@@ -90,9 +91,7 @@ unset __conda_setup
 # <<< conda initialize <<<
 
 [ -f ~/.fzf.zsh ] && source ~/.fzf.zsh
-
-# upm <3
-export PATH="/opt/upm/active/bin:$PATH"
+[ -f ~/.zshrc.local ] && source ~/.zshrc.local
 
 if [[ $(whoami) == "pi" ]]
 then
@@ -100,7 +99,3 @@ then
     export PATH="/usr/local/bin:$PATH"
 fi
 
-if [[ -f /opt/.zshrc ]];
-then
-    source /opt/.zshrc
-fi
