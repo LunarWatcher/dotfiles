@@ -228,9 +228,9 @@ try
         "set guifont=Source\ Code\ Pro\ for\ Powerline:h11
         " The point in any case... default SCP
         " Thanks for nothing, Windows
-        set guifont=Source\ Code\ Pro:h11
+        set guifont=Source\ Code\ Pro:h12
     elseif has("unix")
-        set guifont=SauceCodePro\ Nerd\ Font\ 11
+        set guifont=SauceCodePro\ Nerd\ Font\ 12
         Plug 'ryanoasis/vim-devicons'
     endif
 catch
@@ -246,9 +246,9 @@ catch
         echoerr "Options exhausted; install Source Code Pro directly"
     elseif has("unix")
         if !has("gui_running")
-            set guifont=Source\ Code\ Pro\ for\ Powerline\ 11
+            set guifont=Source\ Code\ Pro\ for\ Powerline\ 12
         else
-            set guifont=Source\ Code\ Pro\ for\ Powerline:h11
+            set guifont=Source\ Code\ Pro\ for\ Powerline:h12
         endif
     endif
 endtry
