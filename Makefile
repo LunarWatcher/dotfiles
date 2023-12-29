@@ -169,7 +169,6 @@ dotfiles:
 	ln -sf ${PWD}/.p10k.zsh ${HOME}/.p10k.zsh
 	ln -sf ${PWD}/.tmux.conf ${HOME}/.tmux.conf
 	ln -sf ${PWD}/.condarc ${HOME}/.condarc
-	ln -sf ${PWD}/.config/nvim/init.vim ${HOME}/.config/nvim/init.vim
 	# Make sure the submodules are initialized.
 	git pull --recurse-submodules
 	# Additional vim config
