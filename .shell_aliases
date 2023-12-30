@@ -133,6 +133,7 @@ function cleanmk() {
 # CMake {{{
 alias cmaker="cmake .. -DCMAKE_BUILD_TYPE=Release -DCMAKE_EXPORT_COMPILE_COMMANDS=1"
 alias cmaked="cmake .. -DCMAKE_BUILD_TYPE=Debug -DCMAKE_EXPORT_COMPILE_COMMANDS=1"
+alias fmake='make -j $(nproc)'
 # }}}
 # Network fuckery {{{
 # Only enabled on pihole-enabled devices or my devices in general, because this is aimed at my home network only,
