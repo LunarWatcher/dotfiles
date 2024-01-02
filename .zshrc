@@ -99,3 +99,8 @@ then
     export PATH="/usr/local/bin:$PATH"
 fi
 
+# TODO: integrate this or fully axe whatever  the fuck pyenv is
+# It was lurking in the makefile, but I have no idea what it's for
+#export PYENV_ROOT="$HOME/.pyenv"
+#[[ -d $PYENV_ROOT/bin ]] && export PATH="$PYENV_ROOT/bin:$PATH"
+#eval "$(pyenv init -)"
