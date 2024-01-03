@@ -85,6 +85,6 @@ common: core cleanup
 home: core $(HOME_TARGETS) cleanup
 server: core $(SERVER_TARGETS) cleanup
 
-
+.PHONY: home server common core cleanup software dotfiles dependencies
 
 # vim:autoindent:noexpandtab:tabstop=4:shiftwidth=4
