@@ -42,7 +42,7 @@ ifeq ($(currOs),linux)
 $(info -- Linux identified)
 # On Linux, we pay more attention to the distro than the OS
 # Note that this is, strictly speaking, an implementation detail
-ifeq ($(currDist),mint)
+ifeq ($(currDist),linuxmint)
 $(info -- Loading Mint-specific stuff)
 include make/distros/mint.mk
 endif # mint
