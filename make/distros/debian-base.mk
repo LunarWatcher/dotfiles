@@ -18,7 +18,7 @@ debian-vim-deps:
 	rm -rf ctags
 
 ohmyzsh:
-	-[ ! -d "$${HOME}/.oh-my-zsh" ] curl -fsSL https://raw.github.com/ohmyzsh/ohmyzsh/master/tools/install.sh | bash
+	-[ ! -d "$${HOME}/.oh-my-zsh" ] && curl -fsSL https://raw.github.com/ohmyzsh/ohmyzsh/master/tools/install.sh | bash
 	-zsh -c 'source ~/.zshrc; git clone --depth=1 https://github.com/romkatv/powerlevel10k.git $${ZSH_CUSTOM}/themes/powerlevel10k'
 
 debian-dotfile-software: debian-vim-deps ohmyzsh
