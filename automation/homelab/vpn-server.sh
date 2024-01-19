@@ -17,7 +17,7 @@ else
     
     sudo cat <<EOF | sudo tee /etc/wireguard/wg0.conf
 [Interface]
-Address = 10.100.0.1/24, fd08:4711::1/64
+Address = 10.100.0.1/24, fd08:4711::1/64, 192.168.0.170, 192.168.0.179
 ListenPort = 47111
 PrivateKey = $(sudo cat /etc/wireguard/server.key)
 EOF

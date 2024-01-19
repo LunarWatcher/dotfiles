@@ -27,7 +27,7 @@ cat <<EOF | tee -a wg0.conf
 [Peer]
 PublicKey = $(cat "${hostname}.pub")
 PresharedKey = $(cat "${hostname}.psk")
-AllowedIPs = 10.100.0.2/32, fd08:4711::2/128
+AllowedIPs = 10.100.0.2/32, fd08:4711::2/128, 192.168.0.0/16
 EOF
 
 
@@ -42,10 +42,11 @@ DNS = 192.168.0.179
 PrivateKey = $(cat ${hostname}.key)
 
 [Peer]
-AllowedIPs = 10.100.0.1/32, fd08:4711::1/128
+AllowedIPs = 0.0.0.0/0, ::/0
 Endpoint = ${HOMELAB_DOMAIN}:47111
 PublicKey = $(cat server.pub)
 PresharedKey = $(cat ${hostname}.psk)
+PersistentKeepalive = 25
 EOF
 cat ${hostname}.conf
 qrencode -t ansiutf8 < ${hostname}.conf
