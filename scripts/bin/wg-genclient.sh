@@ -39,6 +39,8 @@ PrivateKey = $(cat ${hostname}.key)
 [Peer]
 AllowedIPs = 10.100.0.1/32, fd08:4711::1/128
 Endpoint = ${HOMELAB_DOMAIN}:47111
+PublicKey = $(cat server.pub)
+PresharedKey = $(cat ${hostname}.psk)
 EOF
 cat ${hostname}.conf
 qrencode -t ansiutf8 < ${hostname}.conf
