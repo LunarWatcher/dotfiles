@@ -21,8 +21,12 @@ Address = 10.100.0.1/24
 Address = fd08:4711::1/64
 ListenPort = 47111
 PrivateKey = $(sudo cat /etc/wireguard/server.key)
-PostUp = iptables -A FORWARD -i wg0 -j ACCEPT; iptables -t nat -A POSTROUTING -o eth0 -j MASQUERADE; ip6tables -A FORWARD -i wg0 -j ACCEPT; ip6tables -t nat -A POSTROUTING -o eth0 -j MASQUERADE # Add forwarding when VPN is started
-PostDown = iptables -D FORWARD -i wg0 -j ACCEPT; iptables -t nat -D POSTROUTING -o eth0 -j MASQUERADE; ip6tables -D FORWARD -i wg0 -j ACCEPT; ip6tables -t nat -D POSTROUTING -o eth0 -j MASQUERADE # Remove forwarding when VPN is shutdown
+PostUp = ufw route allow in on wg0 out on eno1
+PostUp = iptables -t nat -I POSTROUTING -o eno1 -j MASQUERADE
+PostUp = ip6tables -t nat -I POSTROUTING -o eno1 -j MASQUERADE
+PreDown = ufw route delete allow in on wg0 out on eno1
+PreDown = iptables -t nat -D POSTROUTING -o eno1 -j MASQUERADE
+PreDown = ip6tables -t nat -D POSTROUTING -o eno1 -j MASQUERADE
 EOF
 
     sudo systemctl enable wg-quick@wg0.service
