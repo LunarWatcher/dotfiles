@@ -32,7 +32,8 @@ cat <<EOF | tee -a wg0.conf
 [Peer]
 PublicKey = $(cat "${hostname}.pub")
 PresharedKey = $(cat "${hostname}.psk")
-Address = 10.100.0.$ip/32, fd08:4711::$ip/128
+Address = 10.100.0.$ip/32
+Address = fd08:4711::$ip/128
 EOF
 
 
@@ -42,12 +43,13 @@ wg syncconf wg0 <(wg-quick strip wg0)
 echo "\n\n\nClient config:"
 cat <<EOF | tee ${hostname}.conf
 [Interface]
-Address = 10.100.0.$ip/32, fd08:4711::$ip/128
+Address = 10.100.0.$ip/32
+Address = fd08:4711::$ip/128
 DNS = 192.168.0.179
 PrivateKey = $(cat ${hostname}.key)
 
 [Peer]
-AllowedIPs = 0.0.0.0/0, ::/0
+AllowedIPs = 0.0.0.0/0, ::/0, 192.168.0.0/16
 Endpoint = ${HOMELAB_DOMAIN}:47111
 PublicKey = $(cat server.pub)
 PresharedKey = $(cat ${hostname}.psk)
