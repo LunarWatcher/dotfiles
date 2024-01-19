@@ -4,6 +4,7 @@ ctags
 *.deb
 neovim
 neovim-qt
+*.ttf
 
 uncrustify
 .cache
