@@ -14,8 +14,8 @@ fi
 cd /etc/wireguard
 umask 077
 
-wg genkey | tee '${hostname}.key' | wg pubkey > '${hostname}'.pub
-wg genpsk > '${hostname}.psk'
+wg genkey | tee "${hostname}.key" | wg pubkey > "${hostname}".pub
+wg genpsk > "${hostname}.psk"
 
 cat <<EOF | tee -a wg0.conf
 
@@ -41,4 +41,4 @@ AllowedIPs = 10.100.0.1/32, fd08:4711::1/128
 Endpoint = ${HOMELAB_DOMAIN}:47111
 EOF
 cat ${hostname}.conf
-qrencode -t ansiutf8 < /etc/wireguard/${hostname}.conf
+qrencode -t ansiutf8 < ${hostname}.conf
