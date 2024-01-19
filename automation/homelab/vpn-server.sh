@@ -6,7 +6,7 @@ sudo apt install -y wireguard wireguard-tools
 # Note that sudo bash -c is used as root privs are required to even cd into /etc/wireguard
 sudo bash -c "[[ -e /etc/wireguard/wg0.conf ]] || exit -1"
 
-if [[ "$?" -ne "0" ]]; then
+if [ "$?" -ne "0" ]; then
     echo "Wireguard already initialised. Skipping"
 else
     # Wireguard has not been initialised. Run elementary setup
