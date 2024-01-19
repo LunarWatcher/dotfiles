@@ -5,6 +5,11 @@ if [[ "$EUID" != "0" ]]; then
     exit -69
 fi
 
+if [[ "$HOMELAB_DOMAIN" == "" ]]; then
+    echo "HOMELAB_DOMAIN is undefined. If this is wrong, try running sudo -E instead"
+    exit -69
+fi
+
 local hostname="$1"
 
 if [[ hostname == "" ]]; then
