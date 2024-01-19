@@ -12,6 +12,7 @@ if [[ hostname == "" ]]; then
     exit -69
 fi
 
+umask 077
 sudo bash -c "cd /etc/wireguard && wg genkey | tee '${hostname}.key' | wg pubkey > '${hostname}'.pub"
 sudo bash -c "cd /etc/wireguard && wg genpsk > '${hostname}.psk'"
 
