@@ -29,6 +29,7 @@ PreDown = iptables -t nat -D POSTROUTING -o eno1 -j MASQUERADE
 PreDown = ip6tables -t nat -D POSTROUTING -o eno1 -j MASQUERADE
 EOF
 
+    sudo ufw allow 47111
     sudo systemctl enable wg-quick@wg0.service
     sudo systemctl daemon-reload
     sudo systemctl start wg-quick@wg0
