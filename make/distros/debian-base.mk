@@ -55,7 +55,8 @@ debian-core:
 	sudo mv "Sauce Code Pro Nerd Font Complete Mono.ttf" /usr/local/share/fonts
 	sudo fc-cache -f
 
-	sudo apt install plocate
+	sudo apt install -y plocate
+	sudo apt install -y qrencode
 
 	-[ ! -d "$${HOME}/.pyenv" ] && curl -L https://github.com/pyenv/pyenv-installer/raw/master/bin/pyenv-installer | bash
 
