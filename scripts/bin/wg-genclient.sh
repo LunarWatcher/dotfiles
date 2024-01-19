@@ -32,7 +32,7 @@ cat <<EOF | tee -a wg0.conf
 [Peer]
 PublicKey = $(cat "${hostname}.pub")
 PresharedKey = $(cat "${hostname}.psk")
-AllowedIPs = 0.0.0.0/0, 192.168.0.0/16
+AllowedIPs = 0.0.0.0/0, 192.168.0.0/16, 10.100.0.$ip/32, fd08:4711::$ip/128
 EOF
 
 
