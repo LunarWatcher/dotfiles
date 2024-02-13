@@ -6,8 +6,8 @@
 
 if [ -d /opt/baikal ]; then
     cd /opt/baikal
-    git pull
-    composer install
+    su - www-data -c 'git pull'
+    su - www-data -c 'composer install'
     sudo systemctl restart nginx
 
     exit 0
@@ -18,9 +18,9 @@ sudo mkdir baikal
 sudo chown -R www-data:www-data baikal
 sudo apt-get install -y php-fpm php-sqlite3 composer php-xml php-curl
 
-git clone https://github.com/sabre-io/Baikal baikal
+su - www-data -c 'git clone https://github.com/sabre-io/Baikal baikal'
 cd baikal
-composer install
+su - www-data -c 'composer install'
 
 # Adapted from https://sabre.io/baikal/install/
 # See also https://serverfault.com/a/870709/569995
@@ -59,4 +59,4 @@ server {
     }
 }
 EOF
-
+sudo systemctl restart nginx
