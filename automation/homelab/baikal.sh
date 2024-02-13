@@ -22,7 +22,9 @@ git clone https://github.com/sabre-io/Baikal baikal
 cd baikal
 composer install
 
-sudo cat <<'EOF' | sudo tee /etc/nginx/sites-enabled/baikal-nginx.site
+# Adapted from https://sabre.io/baikal/install/
+# See also https://serverfault.com/a/870709/569995
+sudo cat <<'EOF' | sudo tee /etc/nginx/conf.d/baikal.conf
 server {
 
     listen 443 ssl;
@@ -35,27 +37,25 @@ server {
 
     root /opt/baikal/html;
 
-    index index.php index.html index.htm index.nginx-debian.html;
+    index index.php;
 
     rewrite ^/.well-known/caldav /dav.php redirect;
     rewrite ^/.well-known/carddav /dav.php redirect;
+
     charset utf-8;
 
     location ~ /(\.ht|Core|Specific|config) {
         deny all;
         return 404;
-    } 
-    location ~ ^(.+.php)(.*)$ {
-        try_files $fastcgi_script_name =404;
-        include /etc/nginx/fastcgi_params;
-        fastcgi_split_path_info ^(.+.php)(.*)$;
-        fastcgi_pass unix:/run/php/php-fpm.sock;
-        fastcgi_param SCRIPT_FILENAME $document_root$fastcgi_script_name;
-        fastcgi_param PATH_INFO $fastcgi_path_info;
     }
 
-    location ~ /.ht {
-        deny all;
+    location ~ ^(.+\.php)(.*)$ {
+        try_files $fastcgi_script_name =404;
+        include        /etc/nginx/fastcgi_params;
+        fastcgi_split_path_info  ^(.+\.php)(.*)$;
+        fastcgi_pass   unix:/var/run/php-fpm/php-fpm.sock;
+        fastcgi_param  SCRIPT_FILENAME  $document_root$fastcgi_script_name;
+        fastcgi_param  PATH_INFO        $fastcgi_path_info;
     }
 }
 EOF
