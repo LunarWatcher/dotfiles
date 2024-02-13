@@ -36,7 +36,6 @@ server {
     root /opt/baikal/html;
 
     index index.php index.html index.htm index.nginx-debian.html;
-    server_name _;
 
     rewrite ^/.well-known/caldav /dav.php redirect;
     rewrite ^/.well-known/carddav /dav.php redirect;
