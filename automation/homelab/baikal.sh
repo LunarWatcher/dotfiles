@@ -1,6 +1,8 @@
 #!/usr/bin/bash
 # This file is based on https://github.com/JsBergbau/BaikalAnleitung?tab=readme-ov-file#einleitung,
-# with the obligatory modifications required for automation purposes
+# with the obligatory modifications required for automation purposes.
+#
+# Aside scaffolding changes and flttening 
 
 if [ -d /opt/baikal ]; then
     cd /opt/baikal
@@ -15,6 +17,7 @@ sudo chown -R $USER baikal
 sudo apt-get install -y php-fpm php-sqlite3 composer php-xml php-curl
 
 git clone https://github.com/sabre-io/Baikal baikal
+cd baikal
 composer install
 
 sudo cat <<'EOF' | sudo tee /etc/nginx/sites-enabled/baikal-nginx.site
