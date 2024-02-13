@@ -7,6 +7,8 @@
 if [ -d /opt/baikal ]; then
     cd /opt/baikal
     git pull
+    composer install
+    sudo systemctl restart nginx
 
     exit 0
 fi
