@@ -28,7 +28,7 @@ sudo cat <<'EOF' | sudo tee /etc/nginx/conf.d/baikal.conf
 server {
 
     listen 443 ssl;
-    server_name caldav.nova.lan
+    server_name caldav.nova.lan;
     allow 192.168.0.0/24;
     allow 10.0.0.0/8;
     deny all;
