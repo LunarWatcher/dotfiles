@@ -4,4 +4,7 @@ nova-uptime-kuma:
 nova-vpn:
 	./automation/homelab/vpn-server.sh
 
-SOFTWARE_TARGETS += nova-uptime-kuma nova-vpn
+nova-baikal:
+	./automation/homelab/baikal.sh
+
+SOFTWARE_TARGETS += nova-uptime-kuma nova-vpn nova-baikal
