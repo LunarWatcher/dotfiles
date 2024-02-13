@@ -15,7 +15,7 @@ fi
 
 cd /opt
 sudo mkdir baikal
-sudo chown -R $USER baikal
+sudo chown -R www-data:www-data baikal
 sudo apt-get install -y php-fpm php-sqlite3 composer php-xml php-curl
 
 git clone https://github.com/sabre-io/Baikal baikal
