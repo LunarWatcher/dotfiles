@@ -6,8 +6,8 @@
 
 if [ -d /opt/baikal ]; then
     cd /opt/baikal
-    sudo -u www-data 'git pull'
-    sudo -u www-data 'composer install'
+    sudo -u www-data git pull
+    sudo -u www-data composer install
     sudo systemctl restart nginx
 
     exit 0
@@ -18,9 +18,9 @@ sudo mkdir baikal
 sudo chown -R www-data:www-data baikal
 sudo apt-get install -y php-fpm php-sqlite3 composer php-xml php-curl
 
-sudo -u www-data 'git clone https://github.com/sabre-io/Baikal baikal'
+sudo -u www-data git clone https://github.com/sabre-io/Baikal baikal
 cd baikal
-sudo -u www-data 'composer install'
+sudo -u www-data composer install
 
 # Adapted from https://sabre.io/baikal/install/
 # See also https://serverfault.com/a/870709/569995
