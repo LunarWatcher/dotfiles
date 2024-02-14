@@ -17,7 +17,7 @@
 # And the `bundle install` call as defined in the docs fails because missing privileges, so every single statement after that cascade fails.
 
 docker run -p 6905:3000 \
-    --name huginn
+    --name huginn \
     -v /media/NAS/docker-data/huginn:/var/lib/mysql \
     ghcr.io/huginn/huginn
 
