@@ -20,12 +20,21 @@ sudo -u huginn git clone https://github.com/huginn/huginn
 cd huginn
 # }}}
 # Ruby deps {{{
+
+mkdir /tmp/ruby && cd /tmp/ruby
+curl -L --progress-bar https://cache.ruby-lang.org/pub/ruby/3.2/ruby-3.2.2.tar.bz2 | tar xj
+cd ruby-3.2.2
+./configure --disable-install-rdoc
+make -j`nproc`
+sudo make install
+
 sudo gem update --system --no-document
 sudo gem install foreman --no-document
 # }}}
 # DB management {{{
 # PSQL should be installed by the makefile prior to this point. If not, fuck you future me,
 # cope
+echo "Creating PSQL user:"
 sudo -u postgres -H createuser -P huginn
 sudo -u postgres -H createdb -O huginn -T template0 huginn_production
 # }}}
