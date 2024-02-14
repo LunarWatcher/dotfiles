@@ -4,6 +4,19 @@ if [ -d /opt/huginn ]; then
 
     exit 0
 fi
+# Ruby deps {{{
+
+mkdir /tmp/ruby && cd /tmp/ruby
+# Bad instructions; bzip2 files are no longer available from the cache
+curl -L https://cache.ruby-lang.org/pub/ruby/3.2/ruby-3.2.2.tar.gz | tar -xz
+cd ruby-3.2.2
+./configure --disable-install-rdoc
+make -j`nproc`
+sudo make install
+
+sudo gem update --system --no-document
+sudo gem install foreman --no-document
+# }}}
 # As far as software I've written wrapper scripts around, this is probably the most extreme
 # case I've had to deal  with. It wouldn't kill them to add a script to automate this.
 # Deps and boilerplate {{{
@@ -18,18 +31,6 @@ sudo adduser --disabled-login --gecos 'Huginn' huginn
 sudo chown -R huginn huginn
 sudo -u huginn git clone https://github.com/huginn/huginn
 cd huginn
-# }}}
-# Ruby deps {{{
-
-mkdir /tmp/ruby && cd /tmp/ruby
-curl -L --progress-bar https://cache.ruby-lang.org/pub/ruby/3.2/ruby-3.2.2.tar.bz2 | tar xj
-cd ruby-3.2.2
-./configure --disable-install-rdoc
-make -j`nproc`
-sudo make install
-
-sudo gem update --system --no-document
-sudo gem install foreman --no-document
 # }}}
 # DB management {{{
 # PSQL should be installed by the makefile prior to this point. If not, fuck you future me,
