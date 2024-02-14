@@ -18,7 +18,7 @@
 
 sudo docker run -p 6905:3000 \
     --name huginn \
-    -v /media/NAS/docker-data/huginn:/var/lib/mysql \
+    -v /media/NAS/docker-data/huginn:/var/lib/mysql -d \
     ghcr.io/huginn/huginn
 
 sudo cat <<'EOF' | sudo tee /etc/nginx/conf.d/huginn.conf
