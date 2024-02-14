@@ -16,7 +16,7 @@
 # can be reversed without a problem), but the .env file calls for `rake secret`. `rake secret` refuses to run until `bundle install` has been called
 # And the `bundle install` call as defined in the docs fails because missing privileges, so every single statement after that cascade fails.
 
-docker run -p 6905:3000 \
+sudo docker run -p 6905:3000 \
     --name huginn \
     -v /media/NAS/docker-data/huginn:/var/lib/mysql \
     ghcr.io/huginn/huginn
