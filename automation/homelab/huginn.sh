@@ -19,6 +19,8 @@
 sudo docker run -p 6905:3000 \
     --name huginn \
     -v /media/NAS/docker-data/huginn:/var/lib/mysql -d \
+    --env INVITATION_CODE=liviserver \
+    --env REQUIRE_CONFIRMED_EMAIL=false \
     ghcr.io/huginn/huginn
 
 sudo cat <<'EOF' | sudo tee /etc/nginx/conf.d/huginn.conf
