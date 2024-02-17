@@ -10,8 +10,8 @@ function panic {
 #   2. The backups would be stored _in the same place_ as the unencrypted source
 # EncRYpTioN is cheap, sure, but it's a pain in the ass to look at what happened or rescue the backups from my NAS without using the CLI if shit goes sideways
 
-# backupRepository="/media/NAS/Backups"
-backupRepository="/home/olivia/build/Test folder"
+backupRepository="/media/NAS/Backups"
+#backupRepository="/home/olivia/build/Test folder"
 function backup {
     local source=$1
     local shortname=$2
@@ -52,4 +52,4 @@ function backup {
 # Example:
 #     backup /some/path unique-identifier  || panic
 # Test backup
-backup $HOME/build/some-folder some-folder || panic
+#backup $HOME/build/some-folder some-folder || panic
