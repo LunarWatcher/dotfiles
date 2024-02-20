@@ -34,7 +34,7 @@ function backup {
 
     echo "Found $size existing backup(s)"
 
-    if [ $size -gt 1 ];
+    if [ $size -gt 14 ];
     then
         set -x
         local path="$dest/${existing[0]}"
