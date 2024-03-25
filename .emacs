@@ -1,44 +1,76 @@
+;; Compat shit {{{
+; Hack for ~ on Windows referring to %APPDATA% rather than home
+; (and there not being an easy way to get the home directory reliably
+; on windows, at least using environment variables or other syntax standards)
+(if (eq system-type 'windows-nt)
+    ; if
+    (setq SPECIAL_HOME (substitute-env-vars "C:/Users/$USERNAME"))
+    ; else
+    (setq SPECIAL_HOME "~")
+)
+
+(setq ORG_HOME (format "%s/%s" SPECIAL_HOME "Documents/Syncthing/Orgzly/"))
+
+;; }}}
 ;; Init package manager {{{
 (require 'package)
 (add-to-list 'package-archives
-             '("melpa" . "https://melpa.org/packages/"))
+             '("melpa" . "https://melpa.org/packages/")
+)
 (package-initialize)
 ;(package-refresh-contents)
 ;; }}}
 ;; Packages {{{
 ;; Make emacs usable (evil mode) {{{
 (unless (package-installed-p 'evil)
-  (package-install 'evil))
+    (package-install 'evil)
+)
 
 (require 'evil)
 (evil-mode 1)
+;; }}}
+;; Meta displays {{{
+(unless (package-installed-p 'dashboard)
+    (package-install 'dashboard)
+)
+
+(require 'dashboard)
+(dashboard-setup-startup-hook)
 ;; }}}
 ;; Orgmode {{{
 ; Annoys the shit out of me that they named the package just org
 ; Tbf, evil is consistent with this naming convention, but still.
 (unless (package-installed-p 'org)
-    (package-install 'org))
-
+    (package-install 'org)
+)
 (require 'org)
+; Make tab do something rather than nothing (why the fuck is indentation so fucking shit?)
+(setq org-adapt-indentation t)
+(add-to-list 'org-agenda-files ORG_HOME)
+
+(global-set-key "\C-ca" 'org-agenda)
 ;; }}}
 ;; File support {{{
 (unless (package-installed-p 'markdown-mode)
-    (package-install 'markdown-mode))
+    (package-install 'markdown-mode)
+)
 ;; }}}
 ;; Theming. {{{
 ;; TODO: Shit theme, change when it isn't 2 in the morning
-(unless (package-installed-p 'spacemacs-theme)
-    (package-install 'spacemacs-theme))
+(unless (package-installed-p 'kaolin-themes)
+    (package-install 'kaolin-themes)
+)
 
-(load-theme 'spacemacs-light t) 
+(load-theme 'kaolin-light t) 
 ;; TODO: make compatible with other NF naming conventions for other OSes
 (set-frame-font "SauceCodePro Nerd Font 13" nil t)
 ;; }}}
 ;; }}}
 ;; Config {{{
-(setq inhibit-startup-screen t)
-(setq ring-bell-function 'ignore)
-(global-display-line-numbers-mode)
+(setq inhibit-startup-screen t) ; Get rid of the built-in start screen
+(setq ring-bell-function 'ignore) ; Fuck bells
+(global-display-line-numbers-mode) ; Line numbers
+
 
 (menu-bar-mode -1) 
 (tool-bar-mode -1) ; Remove toolbar and GUI noise
@@ -47,9 +79,13 @@
 (setq font-lock-maximum-decoration t)
 
 ; Yeet autosaves elsewhere
-
+; I'm not sure if make-directory is recursive, and I don't care enough to look it up
+(unless (file-directory-p "~/.emacs.d")
+    (make-directory "~/.emacs.d/")
+)
 (unless (file-directory-p "~/.emacs.d/.autosaves")
-    (make-directory "~/.emacs.d/.autosaves/"))
+    (make-directory "~/.emacs.d/.autosaves/")
+)
 
 (setq auto-save-file-name-transforms
       `((".*" ,"~/.emacs.d/.autosaves/" t)))
@@ -73,6 +109,8 @@
  ;; If you edit it by hand, you could mess it up, so be careful.
  ;; Your init file should contain only one such instance.
  ;; If there is more than one, they won't work right.
+ '(custom-safe-themes
+   '("2ce76d65a813fae8cfee5c207f46f2a256bac69dacbb096051a7a8651aa252b0" "5a00018936fa1df1cd9d54bee02c8a64eafac941453ab48394e2ec2c498b834a" default))
  '(package-selected-packages '(evil)))
 (custom-set-faces
  ;; custom-set-faces was added by Custom.
