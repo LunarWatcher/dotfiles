@@ -21,13 +21,19 @@
 ;(package-refresh-contents)
 ;; }}}
 ;; Packages {{{
-;; Make emacs usable (evil mode) {{{
+;; Make emacs usable (evil mode + compat keybinds) {{{
 (unless (package-installed-p 'evil)
     (package-install 'evil)
 )
 
 (require 'evil)
 (evil-mode 1)
+
+; Buffer navigation
+(global-set-key (kbd "C-k") 'windmove-up)
+(global-set-key (kbd "C-j") 'windmove-down)
+(global-set-key (kbd "C-h") 'windmove-left)
+(global-set-key (kbd "C-l") 'windmove-right)
 ;; }}}
 ;; Meta displays {{{
 (unless (package-installed-p 'dashboard)
@@ -49,13 +55,22 @@
 (add-to-list 'org-agenda-files ORG_HOME)
 
 (global-set-key "\C-ca" 'org-agenda)
+
 ;; }}}
 ;; File support {{{
 (unless (package-installed-p 'markdown-mode)
     (package-install 'markdown-mode)
 )
 ;; }}}
-;; Theming. {{{
+;; Nav {{{
+(unless (package-installed-p 'dired-sidebar)
+    (package-install 'dired-sidebar)
+)
+(require 'dired-sidebar)
+(global-set-key (kbd "<f2>") 'dired-sidebar-toggle-sidebar)
+
+;; }}}
+;; Theming {{{
 ;; TODO: Shit theme, change when it isn't 2 in the morning
 (unless (package-installed-p 'kaolin-themes)
     (package-install 'kaolin-themes)
@@ -64,6 +79,7 @@
 (load-theme 'kaolin-light t) 
 ;; TODO: make compatible with other NF naming conventions for other OSes
 (set-frame-font "SauceCodePro Nerd Font 13" nil t)
+(set-cursor-color "#FF00EF")
 ;; }}}
 ;; }}}
 ;; Config {{{
@@ -71,6 +87,7 @@
 (setq ring-bell-function 'ignore) ; Fuck bells
 (global-display-line-numbers-mode) ; Line numbers
 
+(setq default-directory ORG_HOME)
 
 (menu-bar-mode -1) 
 (tool-bar-mode -1) ; Remove toolbar and GUI noise
@@ -78,6 +95,7 @@
 ; Syntax  stuff
 (setq font-lock-maximum-decoration t)
 
+; Get rid of or move auto-generated files {{{
 ; Yeet autosaves elsewhere
 ; I'm not sure if make-directory is recursive, and I don't care enough to look it up
 (unless (file-directory-p "~/.emacs.d")
@@ -89,10 +107,13 @@
 
 (setq auto-save-file-name-transforms
       `((".*" ,"~/.emacs.d/.autosaves/" t)))
+; Kill lockfiles (.# files)
+(setq create-lockfiles nil)
 ; Disable file backups
 ; I really don't see the point in them. Autosaves, yes; they can avoid data loss if
 ; the editor suddenly dies. But file backups? Seems like it's just git but lazy
 (setq make-backup-files nil)
+; }}}
 
 ; Spaces my beloved
 ; This is not enough to force 4 spaces and no  tabs in all files, because some major modes
