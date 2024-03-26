@@ -56,6 +56,11 @@
 
 (global-set-key "\C-ca" 'org-agenda)
 
+
+; The week starts on Monday, not Sunday >:(
+(setq org-agenda-start-on-weekday 1)
+(setq calendar-week-start-day 1)
+
 ;; }}}
 ;; File support {{{
 (unless (package-installed-p 'markdown-mode)
