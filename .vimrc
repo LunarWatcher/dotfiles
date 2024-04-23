@@ -925,6 +925,7 @@ nmap <X1Mouse> <C-PageUp>
 " }}}
 " LaTeX {{{
 fun! TexMaps()
+    nmap <buffer> <F10> :VimtexCompile<cr>
     imap <buffer> <C-l><C-i> \textit{
     vmap <buffer> <C-l><C-i> xi\textit{<esc>p
 
@@ -950,12 +951,6 @@ fun! TexMaps()
     imap <buffer> <C-l><C-s> _{}<left>
     imap <buffer> <C-l><C-r> \sqrt{}<left>
     imap <buffer> <C-l><C-l> \lambda
-    " Various alignments
-    imap <buffer> <C-l><C-a> \begin{align*}<CR>.<CR>\end{align*}<up><C-o>$<BS>
-    imap <buffer> <C-l><C-m> \begin{bmatrix}\end{bmatrix}<C-o>14<left><C-o>:call search('\\end')<cr>
-    imap <buffer> <C-l><C-t> \begin{tmatrix}{}\end{tmatrix}<C-o>16<Left><C-o>:call search('{')<cr><right>
-    imap <buffer> <C-l><C-o> \begin{oppgave}<CR>\begin{punkt}<CR>.<CR>\end{punkt}<cr>\end{oppgave}<up><up><C-o>$<BS>
-    imap <buffer> <C-l><C-p> \begin{punkt}<CR>.<CR>\end{punkt}<up><C-o>$<BS>
 
     imap <buffer> <C-e>2 ^2
     imap <buffer> <C-e>g ^{}<left>
