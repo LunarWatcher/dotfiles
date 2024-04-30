@@ -176,13 +176,6 @@ function oc() {
     openconnect-sso -s $1 --browser-display-mode shown
 }
 # }}}
-# Anki {{{
-alias ankiinit-flatpak="ANKISYNC_USE_FLATPAK=69 python3 $DOTFILES_HOME/scripts/anki-sync.py pull"
-alias ankiinit-normal="ANKISYNC_USE_NORMAL=69 python3 $DOTFILES_HOME/scripts/anki-sync.py pull"
-
-alias ankipull="python3 $DOTFILES_HOME/scripts/anki-sync.py pull"
-alias ankipush="python3 $DOTFILES_HOME/scripts/anki-sync.py push"
-# }}}
 # WSL bullshit {{{
 if [[ $(grep -i Microsoft /proc/version) ]]; then
     # No automatic services
