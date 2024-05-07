@@ -855,6 +855,16 @@ endif
 set title titlelen=50
 set titlestring=%{getcwd()->fnamemodify(':t')}:\ %{expand(\"%:t\")}
 " }}}
+" netrw stuff {{{
+if has("linux")
+    " The linux default for gx is gnome-open, which doesn't seem to exist on
+    " my distro. xdg-open is fairly portable, but it's borked in gVim. setsid
+    " (whatever that is, didn't bother checking) seems to work around this.
+    "
+    " Thank you Christian Brandt: https://vi.stackexchange.com/a/5034/21251
+    let g:netrw_browsex_viewer = "setsid xdg-open"
+endif
+" }}}
 " }}}
 " Mappings {{{
 " Fix copy-pasta {{{
