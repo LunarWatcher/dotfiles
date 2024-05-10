@@ -138,20 +138,16 @@ alias fmake='make -j $(nproc)'
 # Network fuckery {{{
 # Only enabled on pihole-enabled devices or my devices in general, because this is aimed at my home network only,
 # and remoting into my home network.
+#
+# TODO merge these into a single function
 if [[ `( nmcli dev list || nmcli dev show ) 2>/dev/null | grep IP4.DNS | grep 192.168.0.179` != '' ]]; then
-    # NAS stuff
-
     function nasmountall() {
         sshfs olivia@nova.lan:/media/NAS /media/NAS
-        #sshfs olivia@nova.lan:/media/NAS1 /media/NAS1
     }
-
-    # Devices
-    alias sshrpi="ssh olivia@sinon.lan"
-    alias sshdell="ssh olivia@nova.lan"
 else
-    alias sshrpi="ssh olivia@sinon.remote"
-    alias sshdell="ssh olivia@nova.remote"
+    function nasmountall() {
+        sshfs olivia@nova.remote:/media/NAS /media/NAS
+    }
 fi
 if [[ $USER == "olivia" ]]; then
     # Equivalent to nasmountall, but takes a single IP as input
