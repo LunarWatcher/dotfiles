@@ -1,6 +1,9 @@
 #!/usr/bin/bash
 
-port=$(curl http://nova.lan:8000/v1/openvpn/portforwarded | jq .port)
+$base_addr=${QBT_ADDR:-nova.lan}
+$torrent_addr="$base_addr:8080"
+
+port=$(curl http://$base_addr:8000/v1/openvpn/portforwarded | jq .port)
 if [[ "$?" != "0" ]]; then
     ntfy pub --tags fire -p 5 --title="Cron failure [Gluetun]" alerts "Gluetun appears to be dead"
     exit -1
