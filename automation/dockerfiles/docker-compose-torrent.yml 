@@ -1,0 +1,40 @@
+version: "3"
+services:
+  gluetun:
+    image: qmcgaw/gluetun
+    container_name: gluetun
+    cap_add:
+      - NET_ADMIN
+    devices:
+      - /dev/net/tun:/dev/net/tun
+    ports:
+      - 8080:8080
+      - 6881:6881
+      - 6881:6881/udp
+    volumes:
+      - /etc/nova/gluetun:/gluetun
+    environment:
+      - VPN_SERVICE_PROVIDER=protonvpn
+      - VPN_TYPE=openvpn
+      - OPENVPN_USER=<REDACTED>
+      - OPENVPN_PASSWORD=<REDACTED>
+      # Not sure if this is going to work reliably or not, but all the swiss servers support P2P, except one that's a Tor
+      # server
+      - SERVER_COUNTRIES=Switzerland
+      - VPN_PORT_FORWARDING=on
+      - TZ=Europe/Oslo
+  qbittorrent:
+    image: lscr.io/linuxserver/qbittorrent:latest
+    container_name: qbittorrent
+    network_mode: "service:gluetun"
+    environment:
+      - PUID=1000
+      - PGID=1000
+      - TZ=Europe/Berlin
+      - WEBUI_PORT=8080
+    volumes:
+      - /media/NAS/torrent/config:/config
+      - /media/NAS/torrent/downloads:/downloads
+    depends_on:
+      gluetun:
+        condition: service_healthy
