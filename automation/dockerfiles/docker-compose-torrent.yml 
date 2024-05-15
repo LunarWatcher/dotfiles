@@ -1,5 +1,16 @@
 version: "3"
 services:
+  # NOTE: With protonvpn, the port forwarded isn't guaranteed to be stable 
+  # The port has to be manually set instead.
+  # To automate some of this, there's opt/cron-scripts/qbittorrent-portforward.sh,
+  # which I personally run outside docker, because I'm not setting up an entire
+  # account and image for something this trivial
+  # Feel free to steal the script and shove it in a docker container, but this
+  # is the path I've gone down.
+  # Also note that the script requires ntfy cli, and posts to alerts with a priority
+  # of 4 if anything fails. Remove those lines if you don't have ntfy
+  # Also note that the gluetun location is hard-coded, just in case 
+  # stuff changes
   gluetun:
     image: qmcgaw/gluetun
     container_name: gluetun
@@ -8,11 +19,11 @@ services:
     devices:
       - /dev/net/tun:/dev/net/tun
     ports:
+      - 8000:8000
       - 8080:8080
-      - 6881:6881
-      - 6881:6881/udp
     volumes:
       - /etc/nova/gluetun:/gluetun
+    restart: unless-stopped
     environment:
       - VPN_SERVICE_PROVIDER=protonvpn
       - VPN_TYPE=openvpn
@@ -35,6 +46,7 @@ services:
     volumes:
       - /media/NAS/torrent/config:/config
       - /media/NAS/torrent/downloads:/downloads
+    restart: unless-stopped
     depends_on:
       gluetun:
         condition: service_healthy
