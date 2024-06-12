@@ -75,10 +75,17 @@ if isdirectory(g:OVimDevDir .. "PluginScience")
 endif
 " }}}
 " Navigation {{{
-"Plug 'lambdalisue/fern.vim'
 "call s:LocalOption("fern.vim", "LunarWatcher/fern.vim")
 Plug 'lambdalisue/fern.vim'
 Plug 'lambdalisue/fern-hijack.vim'
+
+" Required for vim-fern-renderer-nerdfont to work
+Plug 'lambdalisue/vim-nerdfont'
+Plug 'lambdalisue/vim-fern-renderer-nerdfont'
+
+if executable("git")
+    Plug 'lambdalisue/vim-fern-git-status'
+endif
 
 Plug 'anschnapp/move-less'
 
@@ -100,11 +107,10 @@ Plug 'junegunn/fzf.vim'
 Plug 'terryma/vim-expand-region'
 " }}}
 " Themes and colors {{{
-Plug 'NLKNguyen/papercolor-theme'
-Plug 'junegunn/seoul256.vim'
-Plug 'sonph/onehalf'
-Plug 'rakr/vim-one'
-Plug 'rakr/vim-two-firewatch'
+" Temporary until https://github.com/NLKNguyen/papercolor-theme/pull/203 is
+" merged
+call s:LocalOption("papercolor.vim", "LunarWatcher/papercolor.vim")
+" Plug 'NLKNguyen/papercolor-theme'
 
 Plug 'rhysd/conflict-marker.vim'
 
@@ -132,15 +138,8 @@ Plug 'tpope/vim-surround'
 
 Plug 'mg979/vim-visual-multi'
 
-" Codi isn't supported by Windows.
-if !has("win32") && (has('job') && has('channel'))
-    Plug 'metakirby5/codi.vim'
-endif
-
 Plug 'skywind3000/asyncrun.vim'
 Plug 'skywind3000/asynctasks.vim'
-
-call s:LocalOption('doctor.vim', 'LunarWatcher/doctor.vim')
 " }}}
 " Text extensions {{{
 Plug 'junegunn/goyo.vim'
@@ -264,9 +263,6 @@ call s:LocalOption("helpwriter.vim", "LunarWatcher/helpwriter.vim")
 call plug#end()
 " }}}
 " Plugin config {{{
-" Wakatime {{{
-
-" }}}
 " Plug mapping {{{
 nnoremap <leader>pi <esc>:PlugInstall<cr>
 nnoremap <leader>pc <esc>:PlugClean<cr>
@@ -384,7 +380,7 @@ nnoremap <F11> :AsyncStop<cr>:2sleep<cr>:AsyncTask test<cr>
 
 nnoremap <leader>oar :AsyncTask run<cr>
 
-
+" TODO: standardise your shit
 " Note: <leader>o is a prefix
 nnoremap <leader>oas :AsyncStop<cr>
 " }}}
@@ -561,11 +557,12 @@ let g:fern#default_hidden = 1
 let g:fern#disable_drawer_smart_quit = 1
 let g:fern#drawer_width = 32
 let g:fern#default_hidden = 1
+let g:fern#renderer = "nerdfont"
 
 " Global control mappings
 nnoremap <F2> :Fern . -drawer -stay -toggle<cr>
 
-let g:fern#loglevel = g:fern#DEBUG
+"let g:fern#loglevel = g:fern#DEBUG
 fun FernMaps()
 
     nmap <buffer><expr> <Plug>(fern-cr)
