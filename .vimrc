@@ -342,12 +342,16 @@ nmap <leader>rn <Plug>(coc-rename)
 nmap <silent> gd <Plug>(coc-definition)
 
 " Fix scrolling in popups
-nnoremap <silent><nowait><expr> <C-f> coc#float#has_scroll() ? coc#float#scroll(1) : "\<C-f>"
-nnoremap <silent><nowait><expr> <C-b> coc#float#has_scroll() ? coc#float#scroll(0) : "\<C-b>"
-inoremap <silent><nowait><expr> <C-f> coc#float#has_scroll() ? "\<c-r>=coc#float#scroll(1)\<cr>" : "\<Right>"
-inoremap <silent><nowait><expr> <C-b> coc#float#has_scroll() ? "\<c-r>=coc#float#scroll(0)\<cr>" : "\<Left>"
-vnoremap <silent><nowait><expr> <C-f> coc#float#has_scroll() ? coc#float#scroll(1) : "\<C-f>"
-vnoremap <silent><nowait><expr> <C-b> coc#float#has_scroll() ? coc#float#scroll(0) : "\<C-b>"
+nnoremap <silent><expr> <C-f> coc#float#has_scroll() ? coc#float#scroll(1) : "\<C-f>"
+nnoremap <silent><expr> <C-b> coc#float#has_scroll() ? coc#float#scroll(0) : "\<C-b>"
+inoremap <silent><expr> <C-f> coc#float#has_scroll() ? "\<c-r>=coc#float#scroll(1)\<cr>" : "\<Right>"
+inoremap <silent><expr> <C-b> coc#float#has_scroll() ? "\<c-r>=coc#float#scroll(0)\<cr>" : "\<Left>"
+vnoremap <silent><expr> <C-f> coc#float#has_scroll() ? coc#float#scroll(1) : "\<C-f>"
+vnoremap <silent><expr> <C-b> coc#float#has_scroll() ? coc#float#scroll(0) : "\<C-b>"
+
+" This isn't optimal, but mapping <C-p> is not an option, because auto-pairs
+" takes priority
+inoremap <silent><expr> <C-m> coc#pum#visible() ? coc#pum#prev(1) : "\<C-m>"
 
 " Show docs
 " I also like that this doesn't show up automatically. YCM was wayyyyyyyy too
@@ -642,27 +646,14 @@ let g:vimtex_compiler_latexmk = {
     \ ],
     \}
 " }}}
-" Codi {{{
-let g:codi#interpreters = {
-    \ 'python': {
-        \ 'bin': 'python3',
-        \ 'prompt': '^\(>>>\|\.\.\.\) ',
-    \ },
-\ }
-" }}}
 " Easy align {{{
 nmap ga <Plug>(EasyAlign)
 vmap ga <Plug>(EasyAlign)
 " }}}
-" ActiviyWatch {{{
-if has("win32")
-    let s:hostname = hostname()
-    let g:aw_hostname = s:hostname[0] .. s:hostname[1:]->tolower()
-endif
-" }}}
 " }}}
 " Formatter config {{{
 let g:html_indent_style1 = "inc"
+
 " }}}
 " Config {{{
 " Basic enabling {{{
@@ -706,6 +697,9 @@ set shortmess-=S
 
 " Look at all the pretty colors
 if has("termguicolors")
+    " I still find it funny  that I haven't touched this part of my vimrc
+    " since I wrote it, and I have yet to use a single terminal where
+    " termguicolors has been unavailable.
     set termguicolors         " Required for true color terminals. If statement for compat
 else
     set t_Co=256
