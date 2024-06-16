@@ -200,6 +200,24 @@ function gpgexport() {
     gpg --output $1 --armor --export $2
 }
 # }}}
+# Ssh keygen and key admin {{{
+function ssh-fixperms() {
+    chmod 600 ~/.ssh/*
+    chmod 700 ~/.ssh
+}
+
+function o-ssh-keygen() {
+    if [[ "$1" == "" || "$2" == "" ]]; then
+        echo "Usage: o-ssh-keygen [email] [file name]" 
+        return -1
+    fi
+
+    ssh-keygen -t ed25519 -C $1 -f ~/.ssh/$2
+
+    echo "Copy this line to whereever you need access:"
+    cat ~/.ssh/$2.pub
+}
+# }}}
 if [ -f "${DOTFILES_HOME}/scripts/homelab.zsh" ]; then
     source "${DOTFILES_HOME}/scripts/homelab.zsh"
 fi
