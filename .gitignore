@@ -5,6 +5,7 @@ ctags
 neovim
 neovim-qt
 *.ttf
+/upm/
 
 uncrustify
 .cache

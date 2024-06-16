@@ -1,3 +1,6 @@
+# If you have no idea what you're looking at, 
+# https://lunarwatcher.github.io/posts/2024/01/06/how-to-set-up-a-makefile-for-managing-dotfiles-and-system-configurations.html
+# might help
 help:
 	@echo "Supported targets:"
 	@echo "dotfiles - install dotfiles only"
@@ -36,6 +39,8 @@ CLEANUP_TARGETS =
 # Group vars
 HOME_TARGETS =
 SERVER_TARGETS =
+WORK_TARGETS =
+NON_SERVER_TARGETS =
 
 # First, check the OS
 ifeq ($(currOs),linux)
@@ -82,8 +87,9 @@ cleanup: $(CLEANUP_TARGETS);
 core: dependencies dotfiles software
 common: core cleanup
 
-home: core $(HOME_TARGETS) cleanup
+home: core $(HOME_TARGETS) $(NON_SERVER_TARGETS) cleanup
 server: core $(SERVER_TARGETS) cleanup
+work: core $(WORK_TARGETS) $(NON_SERVER_TARGETS) cleanup
 
 .PHONY: home server common core cleanup software dotfiles dependencies
 

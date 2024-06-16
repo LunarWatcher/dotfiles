@@ -351,7 +351,8 @@ vnoremap <silent><expr> <C-b> coc#float#has_scroll() ? coc#float#scroll(0) : "\<
 
 " This isn't optimal, but mapping <C-p> is not an option, because auto-pairs
 " takes priority
-inoremap <silent><expr> <C-m> coc#pum#visible() ? coc#pum#prev(1) : "\<C-m>"
+" TODO: borked, fucks with a cr map
+"inoremap <silent><expr> <C-m> coc#pum#visible() ? coc#pum#prev(1) : "\<C-m>"
 
 " Show docs
 " I also like that this doesn't show up automatically. YCM was wayyyyyyyy too

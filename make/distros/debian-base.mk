@@ -11,7 +11,7 @@ debian-base-update:
 	sudo apt update && sudo apt upgrade -y
 
 debian-vim-deps:
-	sudo apt install -y ccls latexmk
+	sudo apt install -y latexmk
 
 	-git clone https://github.com/universal-ctags/ctags.git --depth=1
 	cd ctags && ./autogen.sh && ./configure && make -j $$(nproc) && sudo make install
@@ -40,12 +40,20 @@ debian-home-packages:
 	wget https://github.com/ksnip/ksnip/releases/download/v$(KSNIP_VERSION)/ksnip-$(KSNIP_VERSION).deb && sudo apt install -y ./ksnip-$(KSNIP_VERSION).deb
 
 	# Spotify
-	curl -sS https://download.spotify.com/debian/pubkey_7A3A762FAFD4A51F.gpg | sudo gpg --dearmor --yes -o /etc/apt/trusted.gpg.d/spotify.gpg
+	curl -sS https://download.spotify.com/debian/pubkey_6224F9941A8AA6D1.gpg | sudo gpg --dearmor --yes -o /etc/apt/trusted.gpg.d/spotify.gpg
 	echo "deb http://repository.spotify.com stable non-free" | sudo tee /etc/apt/sources.list.d/spotify.list
 	sudo apt-get update && sudo apt-get install -y spotify-client
 
 	sudo apt install -y golang
 	-go install github.com/boyter/scc@latest
+
+upm:
+	-git clone git@github.com:LunarWatcher/upm
+	cd upm && mkdir build && cd build \
+		&& cmake .. -DCMAKE_BUILD_TYPE=Release && make -j $$(nproc)
+
+vim: upm debian-dotfile-software
+	cd upm && cd build && sudo ./bin/upm install vim@latest
 
 debian-core:
 	wget https://github.com/ryanoasis/nerd-fonts/raw/master/patched-fonts/SourceCodePro/SauceCodeProNerdFont-Regular.ttf -O "Sauce Code Pro Nerd Font Complete.ttf"
@@ -56,10 +64,14 @@ debian-core:
 	sudo fc-cache -f
 
 	sudo apt install -y plocate
+	# Mainly used for mobile wireguard on my server, but it does have some interesting general applications
 	sudo apt install -y qrencode
 
 	-[ ! -d "$${HOME}/.pyenv" ] && curl -L https://github.com/pyenv/pyenv-installer/raw/master/bin/pyenv-installer | bash
 
+	# Neofetch has been archived
+	sudo apt install -y fastfetch
+
 DEPENDENCY_TARGETS += debian-base-update debian-build-deps debian-dotfile-software
 DOTFILE_TARGETS += debian-base-dotfiles
-SOFTWARE_TARGETS += debian-core
+SOFTWARE_TARGETS += debian-core vim
