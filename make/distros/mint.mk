@@ -18,6 +18,7 @@ mint-home-packages:
 	
 	# What have I done?
 	sudo apt install -y emacs
+	sudo apt install qbittorrent
 
 mint-core:
 	sudo add-apt-repository ppa:papirus/papirus
