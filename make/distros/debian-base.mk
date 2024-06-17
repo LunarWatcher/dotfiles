@@ -70,7 +70,7 @@ debian-core:
 	-[ ! -d "$${HOME}/.pyenv" ] && curl -L https://github.com/pyenv/pyenv-installer/raw/master/bin/pyenv-installer | bash
 
 	# Neofetch has been archived
-	sudo apt install -y fastfetch
+	# sudo apt install -y fastfetch
 
 DEPENDENCY_TARGETS += debian-base-update debian-build-deps debian-dotfile-software
 DOTFILE_TARGETS += debian-base-dotfiles
