@@ -48,7 +48,7 @@ debian-home-packages:
 	-go install github.com/boyter/scc@latest
 
 upm:
-	-git clone git@github.com:LunarWatcher/upm
+	-git clone https://github.com/LunarWatcher/upm
 	cd upm && mkdir build && cd build \
 		&& cmake .. -DCMAKE_BUILD_TYPE=Release && make -j $$(nproc)
 
