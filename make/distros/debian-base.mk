@@ -47,14 +47,6 @@ debian-home-packages:
 	sudo apt install -y golang
 	-go install github.com/boyter/scc@latest
 
-upm:
-	-git clone https://github.com/LunarWatcher/upm
-	cd upm && mkdir build && cd build \
-		&& cmake .. -DCMAKE_BUILD_TYPE=Release && make -j $$(nproc)
-
-vim: upm debian-dotfile-software
-	cd upm && cd build && sudo ./bin/upm install vim@latest
-
 debian-core:
 	wget https://github.com/ryanoasis/nerd-fonts/raw/master/patched-fonts/SourceCodePro/SauceCodeProNerdFont-Regular.ttf -O "Sauce Code Pro Nerd Font Complete.ttf"
 	# Needed for gnome terminal because reasons
@@ -71,6 +63,10 @@ debian-core:
 
 	# Neofetch has been archived
 	# sudo apt install -y fastfetch
+
+vim:
+	-git clone https://github.com/LunarWatcher/upm
+	cd upm && mkdir -p build && cd build && cmake .. -DCMAKE_BUILD_TYPE=Debug && make -j $$(nproc) && sudo ./bin/upm install vim@latest
 
 DEPENDENCY_TARGETS += debian-base-update debian-build-deps debian-dotfile-software
 DOTFILE_TARGETS += debian-base-dotfiles
