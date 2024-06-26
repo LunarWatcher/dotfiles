@@ -148,6 +148,7 @@ Plug 'junegunn/vim-easy-align'
 Plug 'wellle/targets.vim'
 " Bit of a weak argument to call this a text extension, but here we are
 Plug 'junegunn/vim-peekaboo'
+call s:LocalOption("img-paste.vim", "LunarWatcher/img-paste.vim")
 " }}}
 " Coding utilities {{{
 " Extended % matching
@@ -857,6 +858,26 @@ if has("linux")
     let g:netrw_browsex_viewer = "setsid xdg-open"
 endif
 " }}}
+" Colorcolumn {{{
+" Sets a cursorcolumn to appear at &textwidth. Most files don't have this
+" configured, but the ones that do get a visible alignment thing
+set colorcolumn=+0
+
+augroup TWOverride
+    au!
+    " Disable the cursorcolumn in all 
+    autocmd BufEnter * if &ro == 1 | exec 'setlocal colorcolumn=' | endif
+    " Per convention -- though 79 and 78 are more common here, I prefer 80 for
+    " helpfiles. Helpfiles are much more sensitive to alignment, so even numbers
+    " are arguably better
+    autocmd FileType help if &ro == 0 | exec 'setlocal textwidth=80' | endif
+    " Per pep8
+    autocmd FileType python setlocal textwidth=79
+    " Per personal preference
+    autocmd FileType cpp setlocal textwidth=120
+
+augroup END
+" }}}
 " }}}
 " Mappings {{{
 " Fix copy-pasta {{{
@@ -876,6 +897,7 @@ function! ToggleAutoSave()
     if g:autoSave == 0
         let g:autoSave = 1
         augroup AutoSaveAu
+            au!
             au CursorHoldI,CursorHold <buffer> silent update
         augroup END
     else
