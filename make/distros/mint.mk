@@ -28,9 +28,17 @@ mint-core:
 mint-home-dotfiles:
 	ln -sf ${PWD}/.emacs ${HOME}/.emacs
 
+docker:
+	sudo curl -fsSL https://download.docker.com/linux/ubuntu/gpg -o /etc/apt/keyrings/docker.asc
+	sudo chmod a+r /etc/apt/keyrings/docker.asc
+	echo "deb [arch=$(dpkg --print-architecture) signed-by=/etc/apt/keyrings/docker.asc] https://download.docker.com/linux/ubuntu $(. /etc/os-release && echo "$UBUNTU_CODENAME") stable" | \
+		sudo tee /etc/apt/sources.list.d/docker.list > /dev/null
+	
+	sudo apt update && sudo apt install -y docker-ce docker-ce-cli containerd.io docker-buildx-plugin docker-compose-plugin
+
 mint-debloat:
 	sudo apt remove -y hexchat hypnotix transmission-gtk simple-scan
 
 HOME_TARGETS += mint-home-packages mint-home-dotfiles
-SOFTWARE_TARGETS += mint-tweaks mint-core mint-tweaks
+SOFTWARE_TARGETS += mint-tweaks mint-core mint-tweaks docker
 CLEANUP_TARGETS += mint-debloat
