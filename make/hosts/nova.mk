@@ -14,7 +14,7 @@ nova-certbot:
 	-sudo ln -s /opt/certbot/bin/certbot /usr/local/bin/certbot
 
 	# Updating and renewal
-	echo '0 12 */10 * * root /opt/certbot/bin/pip install --upgrade certbot || ntfy pub alerts --tags fire -p 5 "Certbot update failed"' | sudo tee /etc/cron.d/certbot
-	echo '0 0,12 * * * root /opt/certbot/bin/python -c "import random; import time; time.sleep(random.random() * 3600)" && sudo certbot renew -q || ntfy pub alerts --tags fire -p 5 "Certbot renewal failed"' | sudo tee -a /etc/cron.d/certbot
+	echo '0 12 */10 * * root /opt/certbot/bin/pip install --upgrade certbot || ntfy pub --tags fire -p 5 alerts "Certbot update failed"' | sudo tee /etc/cron.d/certbot
+	echo '0 0,12 * * * root /opt/certbot/bin/python -c "import random; import time; time.sleep(random.random() * 3600)" && sudo certbot renew -q || ntfy pub --tags fire -p 5 alerts "Certbot renewal failed"' | sudo tee -a /etc/cron.d/certbot
 
 SOFTWARE_TARGETS += nova-uptime-kuma nova-vpn nova-baikal nova-certbot
