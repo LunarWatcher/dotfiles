@@ -54,15 +54,17 @@ debian-core:
 	sudo mv "Sauce Code Pro Nerd Font Complete.ttf" /usr/local/share/fonts
 	sudo mv "Sauce Code Pro Nerd Font Complete Mono.ttf" /usr/local/share/fonts
 	sudo fc-cache -f
-
+	
 	sudo apt install -y plocate
 	# Mainly used for mobile wireguard on my server, but it does have some interesting general applications
 	sudo apt install -y qrencode
-
+	
 	-[ ! -d "$${HOME}/.pyenv" ] && curl -L https://github.com/pyenv/pyenv-installer/raw/master/bin/pyenv-installer | bash
-
+	
 	# Neofetch has been archived
 	# sudo apt install -y fastfetch
+	
+	sudo apt install -y python3-venv
 
 vim:
 	-git clone https://github.com/LunarWatcher/upm
