@@ -1,3 +1,5 @@
+
+inoremap <silent> <F12> <C-R>=autopairs#AutoPairsDelete()<CR>
 " Base configuration {{{
 " Encoding. Required for powerline fonts (at least with gVim: https://vi.stackexchange.com/q/20136/21251)
 " Might be dependent on window-specific overrides.
