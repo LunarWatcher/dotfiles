@@ -4,13 +4,15 @@ debian-build-deps:
 	@echo "Installing general build dependencies..."
 	sudo apt install -y autoconf automake autotools-dev build-essential \
 		libjansson-dev libtool libtool-bin cmake pkg-config \
-		git wget curl libssl-dev cargo xclip nano python3-pkg-resources
+		git wget curl libssl-dev cargo xclip nano python3-pkg-resources \
+		libncurses-dev libgtk-3-dev libxt-dev libpython3-dev
 	@echo "Done."
 
 debian-base-update:
 	sudo apt update && sudo apt upgrade -y
 
 debian-vim-deps:
+	# TODO: This should really be an OS distro thing
 	sudo apt install -y latexmk
 
 	-git clone https://github.com/universal-ctags/ctags.git --depth=1
@@ -68,7 +70,7 @@ debian-core:
 
 vim:
 	-git clone https://github.com/LunarWatcher/upm
-	cd upm && mkdir -p build && cd build && cmake .. -DCMAKE_BUILD_TYPE=Debug && make -j $$(nproc) && sudo ./bin/upm install vim@latest
+	cd upm && mkdir -p build && cd build && cmake .. -DCMAKE_BUILD_TYPE=Release && sudo make -j $$(nproc) install && sudo ./bin/upm install vim@latest
 
 DEPENDENCY_TARGETS += debian-base-update debian-build-deps debian-dotfile-software
 DOTFILE_TARGETS += debian-base-dotfiles
