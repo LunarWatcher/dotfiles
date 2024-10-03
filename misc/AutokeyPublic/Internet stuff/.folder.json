@@ -1,0 +1,27 @@
+{
+    "type": "folder",
+    "title": "Internet stuff",
+    "modes": [
+        1
+    ],
+    "usageCount": 1,
+    "showInTrayMenu": false,
+    "abbreviation": {
+        "abbreviations": [
+            ":h.i"
+        ],
+        "backspace": true,
+        "ignoreCase": false,
+        "immediate": false,
+        "triggerInside": false,
+        "wordChars": "[^\\t]"
+    },
+    "hotkey": {
+        "modifiers": [],
+        "hotKey": null
+    },
+    "filter": {
+        "regex": null,
+        "isRecursive": false
+    }
+}

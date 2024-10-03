@@ -1,0 +1,27 @@
+{
+    "type": "folder",
+    "title": "Autokey",
+    "modes": [
+        1
+    ],
+    "usageCount": 79,
+    "showInTrayMenu": false,
+    "abbreviation": {
+        "abbreviations": [
+            ":h"
+        ],
+        "backspace": true,
+        "ignoreCase": false,
+        "immediate": false,
+        "triggerInside": false,
+        "wordChars": "[^\\t]"
+    },
+    "hotkey": {
+        "modifiers": [],
+        "hotKey": null
+    },
+    "filter": {
+        "regex": null,
+        "isRecursive": false
+    }
+}

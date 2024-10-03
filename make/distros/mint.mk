@@ -39,6 +39,10 @@ docker:
 mint-debloat:
 	sudo apt remove -y hexchat hypnotix transmission-gtk simple-scan
 
+mint-autokey:
+	sudo apt install -y autokey-gtk
+	DOTFILES_CWD=$$(pwd) envsubst < config/autokey/autokey.json > ~/.config/autokey/autokey.json
+
 HOME_TARGETS += mint-home-packages mint-home-dotfiles
-SOFTWARE_TARGETS += mint-tweaks mint-core mint-tweaks docker
+SOFTWARE_TARGETS += mint-tweaks mint-core mint-tweaks docker mint-autokey
 CLEANUP_TARGETS += mint-debloat

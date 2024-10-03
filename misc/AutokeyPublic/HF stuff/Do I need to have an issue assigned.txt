@@ -1,0 +1,1 @@
+Whether you need to be assigned or not depends on the repo. Some repos require you to be assigned, others don't. To check what applies for the repo you're interested in, read CONTRIBUTING.md and  the README. If you can't find any instructions, it doesn't hurt to ask. See also <https://opensource.guide>

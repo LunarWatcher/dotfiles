@@ -1,0 +1,3 @@
+The repo you're talking about violates [Hacktoberfest's values](<https://hacktoberfe.st/values>), and has therefore been excluded. 
+
+For more details about exclusion, see <https://hacktoberfest.com/participation/#pr-mr-details>. You can also run `/faq Why does my PR say 'Excluded Project'?` for more information.
