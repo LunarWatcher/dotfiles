@@ -43,6 +43,16 @@ mint-autokey:
 	sudo apt install -y autokey-gtk
 	DOTFILES_CWD=$$(pwd) envsubst < config/autokey/autokey.json > ~/.config/autokey/autokey.json
 
+mint-rofi:
+	sudo apt install -y rofi
+
+	mkdir -p ${HOME}/.config/rofi
+	mkdir -p ${HOME}/.config/rofi/themes
+
+	ln -sf ${PWD}/config/rofi/config.rasi ${HOME}/.config/rofi/config.rasi
+	-rm ${HOME}/.config/rofi/themes/catppuccin-latte.rasi
+	wget https://github.com/LunarWatcher/catppuccin-rofi-saucecodepro/raw/refs/heads/main/basic/.local/share/rofi/themes/catppuccin-latte.rasi -P ${HOME}/.config/rofi/themes/
+
 HOME_TARGETS += mint-home-packages mint-home-dotfiles
-SOFTWARE_TARGETS += mint-tweaks mint-core mint-tweaks docker mint-autokey
+SOFTWARE_TARGETS += mint-tweaks mint-core mint-tweaks docker mint-autokey mint-rofi
 CLEANUP_TARGETS += mint-debloat
