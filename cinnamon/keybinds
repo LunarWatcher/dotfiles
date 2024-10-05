@@ -1,0 +1,37 @@
+[/]
+custom-list=['custom0', 'custom1', 'custom2', 'custom3', 'custom4']
+
+[custom-keybindings/custom0]
+binding=['<Primary><Shift>Escape']
+command='gnome-system-monitor'
+name='Task manager'
+
+[custom-keybindings/custom1]
+binding=['<Super>F1', '<Primary>F1']
+command='zsh -c "source ~/.shell_aliases && nasmountall"'
+name='Mount NAS'
+
+[custom-keybindings/custom2]
+binding=['<Shift><Super>s', 'Print']
+command='flatpak run org.flameshot.Flameshot gui'
+name='Flameshot'
+
+[custom-keybindings/custom3]
+binding=['<Primary><Super>s']
+command='flatpak run org.flameshot.Flameshot gui -d 5000'
+name='Flameshot (delay)'
+
+[custom-keybindings/custom4]
+binding=['<Alt>r']
+command='rofi -show drun'
+name='Rofi (drun)'
+
+[media-keys]
+area-screenshot=['<Shift>Print']
+mic-mute=['XF86AudioMicMute', '<Primary><Shift><Alt>e']
+screenshot=@as []
+
+[wm]
+minimize=['<Primary><Shift>F1']
+toggle-fullscreen=@as []
+toggle-maximized=['<Alt>F10', '<Primary><Shift>Up']

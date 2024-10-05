@@ -52,6 +52,13 @@ mint-rofi:
 	ln -sf ${PWD}/config/rofi/config.rasi ${HOME}/.config/rofi/config.rasi
 	ln -sf ${PWD}/config/rofi/themes/catppuccin-latte.rasi ${HOME}/.config/rofi/themes/catppuccin-latte.rasi
 
+mint-keybinds:
+	dconf load /org/cinnamon/desktop/keybindings/ < cinnamon/keybinds
+
+mint-export:
+	dconf dump /org/cinnamon/desktop/keybindings/ > cinnamon/keybinds
+
 HOME_TARGETS += mint-home-packages mint-home-dotfiles
-SOFTWARE_TARGETS += mint-tweaks mint-core mint-tweaks docker mint-autokey mint-rofi
+SOFTWARE_TARGETS += mint-tweaks mint-core mint-tweaks docker mint-autokey mint-rofi mint-keybinds
 CLEANUP_TARGETS += mint-debloat
+EXPORT_TARGETS += mint-export
