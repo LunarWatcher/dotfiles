@@ -35,8 +35,11 @@ SOFTWARE.
     fg-col2: #d20f39;
     grey: #9ca0b0;
 
-    width: 600;
+    pink: #ec8de3;
+
+    width: 900px;
     font: "SauceCodePro Nerd Font 14";
+    scrollbar: true;
 }
 
 element-text, element-icon , mode-switcher {
@@ -45,14 +48,17 @@ element-text, element-icon , mode-switcher {
 }
 
 window {
-    height: 360px;
-    border: 3px;
-    border-color: @border-col;
+    height: 720px;
+    border: 1px;
+    border-radius: 4px;
+    border-color: @pink;
     background-color: @bg-col;
 }
 
 mainbox {
     background-color: @bg-col;
+
+children: [ "inputbar", "message", "listview", "mode-switcher" ];
 }
 
 inputbar {
@@ -86,9 +92,10 @@ listview {
     border: 0px 0px 0px;
     padding: 6px 0px 0px;
     margin: 10px 0px 0px 20px;
-    columns: 2;
-    lines: 5;
+    columns: 1;
     background-color: @bg-col;
+
+    cycle: true;
 }
 
 element {
@@ -108,7 +115,7 @@ element selected {
 
 mode-switcher {
     spacing: 0;
-  }
+}
 
 button {
     padding: 10px;
@@ -135,4 +142,14 @@ textbox {
     margin: 20px 0px 0px 20px;
     text-color: @blue;
     background-color: @bg-col-light;
+}
+
+#scrollbar {
+    width: 4px;
+    handle-width: 8px;
+    border-radius: 4px;
+
+    handle-color: @pink;
+    border: 0;
+    padding: 0;
 }

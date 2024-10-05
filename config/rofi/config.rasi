@@ -1,17 +1,17 @@
 configuration{
-    modi: "run,drun,window";
+    modi: "drun,run,filebrowser";
     icon-theme: "Oranchelo";
     show-icons: true;
     drun-display-format: "{icon} {name}";
     location: 0;
     disable-history: false;
-    hide-scrollbar: false;
     display-drun: "   Apps ";
     display-run: "   Run ";
     display-window: " 󰕰  Window";
-    display-Network: " 󰤨  Network";
+    // TODO: Fix
+    display-filebrowser: "UwU x3";
     sidebar-mode: false;
-    font: "SauceCodePro Nerd Font 12";
+
 }
 
 @theme "catppuccin-latte"
