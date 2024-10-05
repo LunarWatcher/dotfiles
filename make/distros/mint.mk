@@ -50,8 +50,7 @@ mint-rofi:
 	mkdir -p ${HOME}/.config/rofi/themes
 
 	ln -sf ${PWD}/config/rofi/config.rasi ${HOME}/.config/rofi/config.rasi
-	-rm ${HOME}/.config/rofi/themes/catppuccin-latte.rasi
-	wget https://github.com/LunarWatcher/catppuccin-rofi-saucecodepro/raw/refs/heads/main/basic/.local/share/rofi/themes/catppuccin-latte.rasi -P ${HOME}/.config/rofi/themes/
+	ln -sf ${PWD}/config/rofi/themes/catppuccin-latte.rasi ${HOME}/.config/rofi/themes/catppuccin-latte.rasi
 
 HOME_TARGETS += mint-home-packages mint-home-dotfiles
 SOFTWARE_TARGETS += mint-tweaks mint-core mint-tweaks docker mint-autokey mint-rofi

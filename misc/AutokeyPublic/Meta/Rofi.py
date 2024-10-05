@@ -18,6 +18,7 @@ DATA_FILES = []
 for (dirpath, dirnames, filenames) in walk(AUTOKEY_DATA_DIR):
     # TODO: expand to script support
     # TODO: Multiple menus how?
+    # Two columns does not work here
     files = [join(dirpath, f) for f in filenames if f.endswith(('.txt'))]
     DATA_FILES.extend(files)
 

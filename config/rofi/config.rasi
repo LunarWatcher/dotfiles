@@ -5,12 +5,12 @@ configuration{
     drun-display-format: "{icon} {name}";
     location: 0;
     disable-history: false;
-    hide-scrollbar: true;
+    hide-scrollbar: false;
     display-drun: "   Apps ";
     display-run: "   Run ";
     display-window: " 󰕰  Window";
     display-Network: " 󰤨  Network";
-    sidebar-mode: true;
+    sidebar-mode: false;
     font: "SauceCodePro Nerd Font 12";
 }
 
