@@ -4,7 +4,7 @@
     "modes": [
         1
     ],
-    "usageCount": 0,
+    "usageCount": 1,
     "prompt": false,
     "omitTrigger": false,
     "matchCase": false,
@@ -27,5 +27,5 @@
         "regex": "discord.discord",
         "isRecursive": false
     },
-    "sendMode": "kb"
+    "sendMode": "<ctrl>+v"
 }

@@ -1,17 +1,17 @@
 {
     "type": "phrase",
-    "description": "Finding projects",
+    "description": "PRs not counting",
     "modes": [
         1
     ],
-    "usageCount": 3,
+    "usageCount": 1,
     "prompt": false,
     "omitTrigger": false,
     "matchCase": false,
     "showInTrayMenu": false,
     "abbreviation": {
         "abbreviations": [
-            "hf.projects"
+            "hf.nocount"
         ],
         "backspace": true,
         "ignoreCase": false,
