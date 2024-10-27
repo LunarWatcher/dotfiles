@@ -63,7 +63,7 @@ debian-core:
 	sudo apt install -y python3-venv
 
 vim:
-	bash -c "$$(wget -O- https://raw.githubusercontent.com/LunarWatcher/upm/master/tools/install.sh)"
+	sudo bash -c "$$(wget -O- https://raw.githubusercontent.com/LunarWatcher/upm/master/tools/install.sh)"
 
 DEPENDENCY_TARGETS += debian-base-update debian-build-deps debian-dotfile-software
 DOTFILE_TARGETS += debian-base-dotfiles
