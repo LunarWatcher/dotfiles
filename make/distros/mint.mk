@@ -23,7 +23,7 @@ mint-home-packages:
 	sudo dpkg -i obsidian.deb
 	rm obsidian.deb
 
-	curl -L -o discord.deb https://discord.com/api/download?platform=linux&format=deb
+	curl -L -o discord.deb https://discord.com/api/download?platform=linux\&format=deb
 	sudo dpkg -i discord.deb
 	rm discord.deb
 
