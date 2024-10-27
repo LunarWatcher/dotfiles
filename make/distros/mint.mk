@@ -11,12 +11,12 @@ mint-tweaks:
 mint-home-packages:
 	# Flatpak libreoffice is much more up to date 
 	sudo apt purge libreoffice* && sudo apt autoremove
-	flatpak install flathub org.libreoffice.LibreOffice
+	flatpak install -y flathub org.libreoffice.LibreOffice
 	flatpak install -y flathub com.uploadedlobster.peek
 	flatpak install -y flathub com.bitwarden.desktop
 	flatpak install -y flathub org.kde.krita
 	
-	sudo apt install qbittorrent
+	sudo apt install -y qbittorrent
 	
 	# TODO: maybe add a thing that downloads .debs from releases to upm?
 	wget https://github.com/obsidianmd/obsidian-releases/releases/download/v1.7.4/obsidian_1.7.4_amd64.deb -O obsidian.deb
