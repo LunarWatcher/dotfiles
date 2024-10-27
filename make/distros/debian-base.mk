@@ -40,7 +40,7 @@ debian-home-packages:
 	echo "deb http://repository.spotify.com stable non-free" | sudo tee /etc/apt/sources.list.d/spotify.list
 	sudo apt-get update && sudo apt-get install -y spotify-client
 
-	sudo apt install -y golang
+	sudo apt install -y golang sshfs
 	-go install github.com/boyter/scc@latest
 
 debian-core:
@@ -68,3 +68,4 @@ vim:
 DEPENDENCY_TARGETS += debian-base-update debian-build-deps debian-dotfile-software
 DOTFILE_TARGETS += debian-base-dotfiles
 SOFTWARE_TARGETS += debian-core vim
+HOME_TARGETS += debian-home-packages
