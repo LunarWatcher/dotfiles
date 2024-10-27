@@ -63,8 +63,7 @@ debian-core:
 	sudo apt install -y python3-venv
 
 vim:
-	-git clone https://github.com/LunarWatcher/upm
-	cd upm && mkdir -p build && cd build && cmake .. -DCMAKE_BUILD_TYPE=Release && sudo make -j $$(nproc) install && sudo upm install vim@latest
+	sh -c "$(wget -O- https://raw.githubusercontent.com/LunarWatcher/upm/master/tools/install.sh)"
 
 DEPENDENCY_TARGETS += debian-base-update debian-build-deps debian-dotfile-software
 DOTFILE_TARGETS += debian-base-dotfiles
