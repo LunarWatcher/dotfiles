@@ -5,7 +5,8 @@ debian-build-deps:
 	sudo apt install -y autoconf automake autotools-dev build-essential \
 		libjansson-dev libtool libtool-bin cmake pkg-config \
 		git wget curl libssl-dev cargo xclip nano python3-pkg-resources \
-		libncurses-dev libgtk-3-dev libxt-dev libpython3-dev
+		libncurses-dev libgtk-3-dev libxt-dev libpython3-dev \
+		apt-transport-https
 	@echo "Done."
 
 debian-base-update:

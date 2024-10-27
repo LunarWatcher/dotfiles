@@ -16,9 +16,16 @@ mint-home-packages:
 	flatpak install -y flathub com.bitwarden.desktop
 	flatpak install -y flathub org.kde.krita
 	
-	# What have I done?
-	sudo apt install -y emacs
 	sudo apt install qbittorrent
+	
+	# TODO: maybe add a thing that downloads .debs from releases to upm?
+	wget https://github.com/obsidianmd/obsidian-releases/releases/download/v1.7.4/obsidian_1.7.4_amd64.deb -O obsidian.deb
+	sudo dpkg -i obsidian.deb
+	rm obsidian.deb
+
+	wget https://discord.com/api/download?platform=linux&format=deb -O discord.deb
+	sudo dpkg -i discord.deb
+	rm discord.deb
 
 mint-core:
 	sudo add-apt-repository ppa:papirus/papirus
