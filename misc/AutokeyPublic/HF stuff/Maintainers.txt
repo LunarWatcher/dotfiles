@@ -1,1 +1,1 @@
-See <https://hacktoberfe.st/maintainers>
+See <https://hacktoberfest.com/maintainers>

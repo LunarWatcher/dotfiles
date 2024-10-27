@@ -1,17 +1,17 @@
 {
     "type": "phrase",
-    "description": "Finding projects",
+    "description": "Reward nagging",
     "modes": [
         1
     ],
-    "usageCount": 50,
+    "usageCount": 0,
     "prompt": false,
     "omitTrigger": false,
     "matchCase": false,
     "showInTrayMenu": false,
     "abbreviation": {
         "abbreviations": [
-            "hf.projects"
+            "hf.bounty"
         ],
         "backspace": true,
         "ignoreCase": false,

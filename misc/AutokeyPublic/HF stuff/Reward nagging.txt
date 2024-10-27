@@ -1,0 +1,1 @@
+There are no rewards aside the badges. Hacktoberfest is not a competition - it's meant to give back to open-source. The reward is not the important part.

@@ -1,1 +1,1 @@
-Please don't share projects that violate hacktoberfest's values. See <https://hacktoberfe.st/maintainers> and <https://hacktoberfe.st/values>
+Please don't share projects that violate hacktoberfest's values. See <https://hacktoberfest.com/maintainers> and <https://hacktoberfest.com/values>

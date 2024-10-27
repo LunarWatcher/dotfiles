@@ -1,1 +1,1 @@
-See <https://hacktoberfe.st/contributors>, <https://opensource.guide>, and <https://hacktoberfe.st/resources>.
+See <https://hacktoberfest.com/contributors>, <https://opensource.guide>, and <https://hacktoberfest.com/resources>.
