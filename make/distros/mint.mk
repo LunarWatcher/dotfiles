@@ -31,12 +31,12 @@ mint-home-packages:
 	sudo curl -L -o /etc/apt/keyrings/syncthing-archive-keyring.gpg https://syncthing.net/release-key.gpg
 	echo "deb [signed-by=/etc/apt/keyrings/syncthing-archive-keyring.gpg] https://apt.syncthing.net/ syncthing stable" | sudo tee /etc/apt/sources.list.d/syncthing.list
 	sudo apt-get update
-	sudo apt-get install syncthing
+	sudo apt-get install -y syncthing
 
 mint-core:
 	sudo add-apt-repository ppa:papirus/papirus
 	sudo apt update && sudo apt install papirus-icon-theme
-	sudo apt install texlive-full
+	sudo apt install -y texlive-full
 	
 mint-home-dotfiles:
 	ln -sf ${PWD}/.emacs ${HOME}/.emacs
