@@ -19,11 +19,11 @@ mint-home-packages:
 	sudo apt install -y qbittorrent
 	
 	# TODO: maybe add a thing that downloads .debs from releases to upm?
-	wget -O obsidian.deb https://github.com/obsidianmd/obsidian-releases/releases/download/v1.7.4/obsidian_1.7.4_amd64.deb
+	curl -L -o obsidian.deb https://github.com/obsidianmd/obsidian-releases/releases/download/v1.7.4/obsidian_1.7.4_amd64.deb
 	sudo dpkg -i obsidian.deb
 	rm obsidian.deb
 
-	wget -O discord.deb https://discord.com/api/download?platform=linux&format=deb
+	curl -L -o discord.deb https://discord.com/api/download?platform=linux&format=deb
 	sudo dpkg -i discord.deb
 	rm discord.deb
 
