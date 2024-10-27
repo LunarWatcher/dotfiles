@@ -71,7 +71,7 @@ debian-core:
 
 vim:
 	-git clone https://github.com/LunarWatcher/upm
-	cd upm && mkdir -p build && cd build && cmake .. -DCMAKE_BUILD_TYPE=Release && sudo make -j $$(nproc) install && sudo ./bin/upm install vim@latest
+	cd upm && mkdir -p build && cd build && cmake .. -DCMAKE_BUILD_TYPE=Release && sudo make -j $$(nproc) install && sudo upm install vim@latest
 
 DEPENDENCY_TARGETS += debian-base-update debian-build-deps debian-dotfile-software
 DOTFILE_TARGETS += debian-base-dotfiles
