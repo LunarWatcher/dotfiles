@@ -1,5 +1,3 @@
-KSNIP_VERSION := 1.10.1
-
 debian-build-deps:
 	@echo "Installing general build dependencies..."
 	sudo apt install -y autoconf automake autotools-dev build-essential \
@@ -14,11 +12,7 @@ debian-base-update:
 
 debian-vim-deps:
 	# TODO: This should really be an OS distro thing
-	sudo apt install -y latexmk
-
-	-git clone https://github.com/universal-ctags/ctags.git --depth=1
-	cd ctags && ./autogen.sh && ./configure && make -j $$(nproc) && sudo make install
-	rm -rf ctags
+	sudo apt install -y latexmk universal-ctags
 
 ohmyzsh:
 	-[ ! -d "$${HOME}/.oh-my-zsh" ] && curl -fsSL https://raw.github.com/ohmyzsh/ohmyzsh/master/tools/install.sh | bash
@@ -40,7 +34,6 @@ debian-base-dotfiles: config
 debian-home-packages:
 	# Installs Steam
 	wget https://steamcdn-a.akamaihd.net/client/installer/steam.deb && sudo apt install -y ./steam.deb
-	wget https://github.com/ksnip/ksnip/releases/download/v$(KSNIP_VERSION)/ksnip-$(KSNIP_VERSION).deb && sudo apt install -y ./ksnip-$(KSNIP_VERSION).deb
 
 	# Spotify
 	curl -sS https://download.spotify.com/debian/pubkey_6224F9941A8AA6D1.gpg | sudo gpg --dearmor --yes -o /etc/apt/trusted.gpg.d/spotify.gpg
