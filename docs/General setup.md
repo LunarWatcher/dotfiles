@@ -68,7 +68,7 @@ Things to update:
 * Time format: `%A, %B %e, %H:%M:%S`
 * Wallpaper &lt;3
 * Language: Set language and time format to british, and region should correctly default to norwegian and not be an issue
-
+* Sounds need to be disabled 
 
 ### Firefox
 
@@ -79,6 +79,12 @@ I love Firefox, but holy fuck is the sync process messy. Things that need manual
 * Plugins need to be re-pinned, and bloatware needs to be unpinned
 * The search engine needs to be switched from DDG back to Kagi, because the DDG plugin *forcibly* changes the search engine away from Kagi when it eventually syncs. Fuck you, DDG; I just want the email aliases, not the search engine.
 * uBlock, Kagi, and possibly one other plugin I'm forgetting right now needs to be manually enabled in incognito tabs
+* Non-standard uBlock blocklists need to be enabled. The following non-included filter lists need to be added:
+    ```
+    https://raw.githubusercontent.com/LunarWatcher/uBlock-blocklists/master/Blocklist.txt
+    https://raw.githubusercontent.com/LunarWatcher/uBlock-blocklists/master/anti-ai.txt
+    https://raw.githubusercontent.com/LunarWatcher/uBlock-blocklists/master/anti-ai-nuclear.txt
+    ```
 
 ### Gnome terminal (and others)
 
@@ -101,3 +107,13 @@ Remember to set `user.name` and `user.email`. The `.gitconfig` is not synced to 
 ### Extended secrets
 
 TBA
+
+### Laptops
+
+* Battery settings need to be changed so stuff doesn't immediately time out
+
+### Misc. software
+
+* AutoKey needs to be added to startup apps (there's a setting for it in autokey; use it)
+* A DAV account needs to be connected to the OS
+    * Calendar should pick up on this automatically, but until Endeavour works, the TODO thing needs to be manually set up with the DAV server as well
