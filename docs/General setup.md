@@ -98,7 +98,17 @@ I love Firefox, but holy fuck is the sync process messy. Things that need manual
 > [!WARNING]
 > Before proceeding, make sure you change the default folder to `~/Documents/Syncthing/`, and `mkdir ~/Documents/Syncthing`
 
-On secure machines: folders need to be shared. Adding nova as an introducer should automatically get everything up and running.
+First, auto-startup:
+```
+systemctl enable syncthing@olivia.service
+systemctl start syncthing@olivia.service
+```
+
+> [!TIP]
+>
+> If syncthing was started outside systemd, it needs to be shut down before taking the above steps. Otherwise, `start` will fail. This is a one-time problem, however.
+
+On secure machines: folders need to be shared. Adding nova as an introducer should automatically get everything up and running. Note that some folders on `nova` have passwords that are stored in Bitwarden.
 
 ### Git 
 
