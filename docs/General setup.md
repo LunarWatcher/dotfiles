@@ -65,10 +65,13 @@ Not all cinnamon settings are copied (unfortunately). This is a work in progress
 Things to update:
 
 * Themes
-* Time format: `%A, %B %e, %H:%M:%S`
+* Time widget:
+    * Time format: `%A, %B %e, %H:%M:%S`
+    * Enable week numbers
 * Wallpaper &lt;3
-* Language: Set language and time format to british, and region should correctly default to norwegian and not be an issue
+* Language: Set language and time format to british, and region should correctly default to norwegian and not be an issue. (Not sure if there's a way to get this right during install, english just seems to default to 'murican. might be missing an option, but I don't install often enough to tell)
 * Sounds need to be disabled 
+* Window  Tiling > Maximise, instead of tile, when dragging a window to the top edge
 
 ### Firefox
 
