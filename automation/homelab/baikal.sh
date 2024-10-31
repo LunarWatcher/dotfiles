@@ -5,6 +5,8 @@
 # Aside scaffolding changes and flttening 
 
 if [ -d /opt/baikal ]; then
+    echo "Baikal already installed; updating instead"
+
     cd /opt/baikal
     sudo -u www-data git pull
     sudo -u www-data composer install
