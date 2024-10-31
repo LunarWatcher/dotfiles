@@ -42,16 +42,14 @@ server {
 
     listen 443 ssl;
     server_name git.$BASE_DOMAIN;
-    allow 192.168.0.0/24;
-    allow 10.0.0.0/8;
-    deny all;
+
     ssl_certificate         /etc/letsencrypt/live/$BASE_DOMAIN/fullchain.pem;
     ssl_certificate_key     /etc/letsencrypt/live/$BASE_DOMAIN/privkey.pem;
 
     location / {
         proxy_set_header Host $host;
         proxy_set_header X-Forwarded-Proto https;
-        proxy_pass http://localhost:3000
+        proxy_pass http://localhost:3000;
     }
 }
 EOF
