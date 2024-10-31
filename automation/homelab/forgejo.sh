@@ -11,7 +11,7 @@ sudo chmod 755 /usr/local/bin/forgejo
 
 grep "^git:" /etc/passwd
 
-if [[ "$?" == "0" ]];
+if [[ "$?" == "0" ]]; then
     exit 0
 fi
 # No git user means nothing else has been set up.
