@@ -9,6 +9,8 @@ wget https://codeberg.org/forgejo/forgejo/releases/download/v${FORGEJO_VERSION}/
 sudo mv forgejo-${FORGEJO_VERSION}-linux-amd64 /usr/local/bin/forgejo
 sudo chmod 755 /usr/local/bin/forgejo
 
+sudo chown root:root /usr/local/bin/forgejo
+
 grep "^git:" /etc/passwd
 
 if [[ "$?" == "0" ]]; then
