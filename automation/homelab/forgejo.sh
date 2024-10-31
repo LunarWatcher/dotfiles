@@ -3,7 +3,7 @@
 # Not sure if git-lfs is installed alongside git
 sudo apt install git git-lfs
 
-FORGEJO_VERSION=${FORGEJO_VERSION:9.0.1}
+FORGEJO_VERSION=${FORGEJO_VERSION:-9.0.1}
 
 wget https://codeberg.org/forgejo/forgejo/releases/download/v${FORGEJO_VERSION}/forgejo-${FORGEJO_VERSION}-linux-amd64
 sudo mv forgejo-${FORGEJO_VERSION}-linux-amd64 /usr/local/bin/forgejo
@@ -35,6 +35,25 @@ Environment=USER=git HOME=/home/git FORGEJO_WORK_DIR=/var/lib/forgejo
 
 [Install]
 WantedBy=multi-user.target
+EOF
+
+sudo cat <<'EOF' | envsubst | sudo tee /etc/nginx/conf.d/forgejo.conf
+server {
+
+    listen 443 ssl;
+    server_name git.$BASE_DOMAIN;
+    allow 192.168.0.0/24;
+    allow 10.0.0.0/8;
+    deny all;
+    ssl_certificate         /etc/letsencrypt/live/$BASE_DOMAIN/fullchain.pem;
+    ssl_certificate_key     /etc/letsencrypt/live/$BASE_DOMAIN/privkey.pem;
+
+    location / {
+        proxy_set_header Host $host;
+        proxy_set_header X-Forwarded-Proto https;
+        proxy_pass http://localhost:3000
+    }
+}
 EOF
 
 sudo adduser --system --shell /bin/bash --gecos 'Git Version Control' \
