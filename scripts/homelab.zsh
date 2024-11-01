@@ -1,19 +1,5 @@
 #!/usr/bin/zsh
 
-# This file exists because no better options exist.
-#
-# To properly interact with my network, I need an interactive ssh session.
-# This is because I don't allow sshing into root, as this is fucking stupid
-# from a security standpoint.
-#
-# This means tools like ansible are off the table, because it requires a root
-# session for shit like updating, which is just idiotic.
-#
-# This file (and function) contains my alternative to network automation.
-# Admittedly, this isn't fully unsupervised; it requires passwords when `sudo`
-# is used, because again, sshing into root is fucking stupid and storing passwords
-# in plain text is even worse.
-
 # Variable declarations {{{
 local homelab_devices=(
     sinon nova
@@ -23,8 +9,8 @@ local -A device_groups=(
 )
 
 local -A homelab_local_addr=(
-    [sinon]="sinon.lan"
-    [nova]="nova.lan"
+    [sinon]="sinon"
+    [nova]="nova"
 )
 
 local -A homelab_remote_addr=(

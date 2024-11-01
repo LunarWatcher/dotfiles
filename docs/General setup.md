@@ -26,6 +26,13 @@ After installing, you need to manually install `git`, and clone the repo. If you
 > [!WARNING]
 > Avoid using Firefox until everything has been set up, as any use of Firefox is more likely to introduce sync bugs
 
+### Fixing `.ssh` perms
+
+```bash
+chmod 600 ~/.ssh/*
+chmod 700 ~/.ssh
+```
+
 ## Running the makefile
 
 ```bash
@@ -34,10 +41,27 @@ make home
 # For server use
 make server
 # For work use
-make home
+make work
 ```
 
 This process requires some supervision and manual input, but should Just Work:tm:.
+
+### Extended secrets
+
+For extended secrets, use
+```
+make secrets [other command, such as "home"]
+```
+
+When manually appending `secrets`, secrets are automatically sourced from `git@nova.git:LunarWatcher/secrets`.
+
+**Secrets must be the first target!** If `secrets` isn't executed first, certain targets in the home and server configurations may fail.
+
+> [!NOTE]
+>
+> `nova.git` is a new `~/.ssh/config` alias, and has (at the time of writing) not propagated to other systems. If `make secrets` fails, an outdated `.ssh` has been sourced. Note that `nova.git` is not a proper FQDN, just a `.ssh/config` alias.
+>
+> As a manual hack, `git clone git@git.[FQDN]:LunarWatcher/secrets` also works
 
 ### Putting out fires
 
@@ -116,10 +140,6 @@ On secure machines: folders need to be shared. Adding nova as an introducer shou
 ### Git 
 
 Remember to set `user.name` and `user.email`. The `.gitconfig` is not synced to avoid problems with work devices (plus, it's a worthless file)
-
-### Extended secrets
-
-TBA
 
 ### Laptops
 

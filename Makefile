@@ -7,6 +7,8 @@ help:
 	@echo "common - install dotfiles and system deps"
 	@echo "home - same as common with additional software"
 	@echo "server - same as common with additional software"
+	@echo "secrets - used alongside the other options to source secrets"
+
 ifeq ($(OS),Windows_NT)
 currOs := win
 else
@@ -90,6 +92,10 @@ common: core cleanup
 home: core $(HOME_TARGETS) $(NON_SERVER_TARGETS) cleanup
 server: core $(SERVER_TARGETS) cleanup
 work: core $(WORK_TARGETS) $(NON_SERVER_TARGETS) cleanup
+
+secrets:
+	git clone git@nova.git:LunarWatcher/secrets
+	./secrets/bootstrap.sh
 
 .PHONY: home server common core cleanup software dotfiles dependencies
 

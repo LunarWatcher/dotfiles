@@ -1,5 +1,8 @@
 #!/usr/bin/bash
 
+# Required for $HOMELAB_DOMAIN
+. ~/.shell_secrets
+
 # Not sure if git-lfs is installed alongside git
 sudo apt install git git-lfs
 
@@ -39,14 +42,14 @@ Environment=USER=git HOME=/home/git FORGEJO_WORK_DIR=/var/lib/forgejo
 WantedBy=multi-user.target
 EOF
 
-sudo cat <<'EOF' | envsubst | sudo tee /etc/nginx/conf.d/forgejo.conf
+sudo cat <<'EOF' | envsubst '$HOMELAB_DOMAIN' | sudo tee /etc/nginx/conf.d/forgejo.conf
 server {
 
     listen 443 ssl;
-    server_name git.$BASE_DOMAIN;
+    server_name git.$HOMELAB_DOMAIN;
 
-    ssl_certificate         /etc/letsencrypt/live/$BASE_DOMAIN/fullchain.pem;
-    ssl_certificate_key     /etc/letsencrypt/live/$BASE_DOMAIN/privkey.pem;
+    ssl_certificate         /etc/letsencrypt/live/$HOMELAB_DOMAIN/fullchain.pem;
+    ssl_certificate_key     /etc/letsencrypt/live/$HOMELAB_DOMAIN/privkey.pem;
 
     location / {
         proxy_set_header Host $host;
@@ -62,7 +65,7 @@ sudo adduser --system --shell /bin/bash --gecos 'Git Version Control' \
 sudo mkdir /var/lib/forgejo
 sudo chown git:git /var/lib/forgejo && chmod 750 /var/lib/forgejo
 sudo mkdir /etc/forgejo
-sudo chown root:git /etc/forgejo && chmod 770 /etc/forgejo
+sudo chown git:git /etc/forgejo && chmod 770 /etc/forgejo
 
 sudo systemctl enable forgejo.service
 sudo systemctl start forgejo.service

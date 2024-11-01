@@ -1,5 +1,7 @@
 /install.sh
 
+/secrets
+
 vim
 nerd-fonts
 ctags

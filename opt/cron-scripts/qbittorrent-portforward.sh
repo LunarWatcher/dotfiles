@@ -1,6 +1,6 @@
 #!/usr/bin/bash
 
-base_addr=${QBT_ADDR:-nova.lan}
+base_addr=${QBT_ADDR:-localhost}
 torrent_addr="$base_addr:8080"
 
 port=$(curl --silent http://$base_addr:8000/v1/openvpn/portforwarded | jq .port)
