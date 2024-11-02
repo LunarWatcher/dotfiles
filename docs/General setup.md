@@ -28,6 +28,8 @@ After installing, you need to manually install `git`, and clone the repo. If you
 
 ### Fixing `.ssh` perms
 
+This is also available as an alias (`ssh-fixperms`) when zsh has been properly set up, but this step is required before a repo can be cloned, so the alias isn't available at the time it's required.
+
 ```bash
 chmod 600 ~/.ssh/*
 chmod 700 ~/.ssh
