@@ -69,6 +69,11 @@ ifeq ($(currOs),macos)
 endif
 
 -include make/hosts/$(host).mk
+# TODO: figure out if it makes sense to default-source this
+# It only adds to NON_SERVER_TARGETS, so it doesn't cause any problems,
+# but the system is set up for  far more modularity than just assuming
+# it should be sourced
+include make/packages/flatpak.mk
 
 vim-plug:
 	curl -fLo ${HOME}/.vim/autoload/plug.vim --create-dirs \

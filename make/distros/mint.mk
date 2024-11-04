@@ -10,7 +10,11 @@ mint-tweaks:
 
 mint-home-packages:
 	# Flatpak libreoffice is much more up to date 
-	sudo apt purge libreoffice* && sudo apt autoremove
+	sudo apt purge libreoffice* && sudo apt autoremove -y
+	# Will be replaced with the flatpak for the time being.
+	# gnome-calendar 47.0 has significant visual improvements that make it far more usable
+	sudo apt remove -y gnome-calendar
+
 	flatpak install -y flathub org.libreoffice.LibreOffice
 	flatpak install -y flathub com.uploadedlobster.peek
 	flatpak install -y flathub com.bitwarden.desktop

@@ -24,7 +24,7 @@ for (dirpath, dirnames, filenames) in walk(AUTOKEY_DATA_DIR):
             # Avoid folder descriptors
             if not isPhrase and data["type"] != "script":
                 continue
-            
+
             abbrevs = data["abbreviation"]["abbreviations"]
             keybind = None
             if data["hotkey"]["hotKey"] is not None:
