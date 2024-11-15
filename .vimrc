@@ -1,5 +1,3 @@
-
-inoremap <silent> <F12> <C-R>=autopairs#AutoPairsDelete()<CR>
 " Base configuration {{{
 " Encoding. Required for powerline fonts (at least with gVim: https://vi.stackexchange.com/q/20136/21251)
 " Might be dependent on window-specific overrides.
@@ -253,6 +251,7 @@ Plug 'thinca/vim-themis'
 Plug 'tpope/vim-repeat'
 Plug 'Asheq/close-buffers.vim'
 call s:LocalOption("helpwriter.vim", "LunarWatcher/helpwriter.vim")
+call s:LocalOption("vim9cord", "LunarWatcher/vim9cord")
 " }}}
 call plug#end()
 " }}}
