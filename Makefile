@@ -7,6 +7,8 @@ help:
 	@echo "common - install dotfiles and system deps"
 	@echo "home - same as common with additional software"
 	@echo "server - same as common with additional software"
+	@echo "secrets - used alongside the other options to source secrets"
+
 ifeq ($(OS),Windows_NT)
 currOs := win
 else
@@ -67,6 +69,11 @@ ifeq ($(currOs),macos)
 endif
 
 -include make/hosts/$(host).mk
+# TODO: figure out if it makes sense to default-source this
+# It only adds to NON_SERVER_TARGETS, so it doesn't cause any problems,
+# but the system is set up for  far more modularity than just assuming
+# it should be sourced
+include make/packages/flatpak.mk
 
 vim-plug:
 	curl -fLo ${HOME}/.vim/autoload/plug.vim --create-dirs \
@@ -90,6 +97,10 @@ common: core cleanup
 home: core $(HOME_TARGETS) $(NON_SERVER_TARGETS) cleanup
 server: core $(SERVER_TARGETS) cleanup
 work: core $(WORK_TARGETS) $(NON_SERVER_TARGETS) cleanup
+
+secrets:
+	git clone git@nova.git:LunarWatcher/secrets
+	./secrets/bootstrap.sh
 
 .PHONY: home server common core cleanup software dotfiles dependencies
 

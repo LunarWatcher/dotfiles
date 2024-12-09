@@ -94,6 +94,7 @@ unset __conda_setup
 
 [ -f ~/.fzf.zsh ] && source ~/.fzf.zsh
 [ -f ~/.zshrc.local ] && source ~/.zshrc.local
+[ -f ~/.shell_secrets ] && . ~/.shell_secrets
 
 if [[ $(whoami) == "pi" ]]
 then

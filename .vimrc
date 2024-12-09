@@ -1,5 +1,3 @@
-
-inoremap <silent> <F12> <C-R>=autopairs#AutoPairsDelete()<CR>
 " Base configuration {{{
 " Encoding. Required for powerline fonts (at least with gVim: https://vi.stackexchange.com/q/20136/21251)
 " Might be dependent on window-specific overrides.
@@ -89,8 +87,6 @@ if executable("git")
     Plug 'lambdalisue/vim-fern-git-status'
 endif
 
-Plug 'anschnapp/move-less'
-
 Plug 'zefei/vim-wintabs'
 Plug 'zefei/vim-wintabs-powerline' " Powerline rendering
 " }}}
@@ -106,7 +102,6 @@ else
 endif
 Plug 'junegunn/fzf.vim'
 
-Plug 'terryma/vim-expand-region'
 " }}}
 " Themes and colors {{{
 " Temporary until https://github.com/NLKNguyen/papercolor-theme/pull/203 is
@@ -117,16 +112,12 @@ call s:LocalOption("papercolor.vim", "LunarWatcher/papercolor.vim")
 Plug 'rhysd/conflict-marker.vim'
 
 " }}}
-" GitHub integration {{{
-call s:LocalOption('Skye', 'LunarWatcher/Skye.vim')
-" }}}
 " Language highlighting {{{
 " Speed up load
 let g:loaded_sensible = 1
 Plug 'sheerun/vim-polyglot'
 
-Plug 'octol/vim-cpp-enhanced-highlight', {'for': 'cpp'}
-Plug 'pboettch/vim-cmake-syntax'
+Plug 'bfrg/vim-c-cpp-modern', {'for': 'cpp'}
 Plug 'preservim/vim-markdown', { 'for': 'markdown' }
 Plug 'godlygeek/tabular'
 Plug 'lervag/vimtex', {'for': 'tex'}
@@ -134,14 +125,12 @@ Plug 'lervag/vimtex', {'for': 'tex'}
 " Various coding-related utils {{{
 Plug 'preservim/nerdcommenter'
 Plug 'liuchengxu/vista.vim'
-Plug 'alvan/vim-closetag', {'for': ['markdown', 'html']}
-Plug 'AndrewRadev/tagalong.vim', {'for': ['xml', 'html', 'xhtml', 'markdown']}
 Plug 'tpope/vim-surround'
 
 Plug 'mg979/vim-visual-multi'
 
 Plug 'skywind3000/asyncrun.vim'
-Plug 'skywind3000/asynctasks.vim'
+"Plug 'skywind3000/asynctasks.vim'
 " }}}
 " Text extensions {{{
 Plug 'junegunn/goyo.vim'
@@ -256,12 +245,13 @@ catch
 endtry
 " }}}
 " Meta plugins {{{
-Plug 'tweekmonster/startuptime.vim'
+"Plug 'tweekmonster/startuptime.vim'
 Plug 'thinca/vim-themis'
 
 Plug 'tpope/vim-repeat'
 Plug 'Asheq/close-buffers.vim'
 call s:LocalOption("helpwriter.vim", "LunarWatcher/helpwriter.vim")
+call s:LocalOption("vim9cord", "LunarWatcher/vim9cord")
 " }}}
 call plug#end()
 " }}}
