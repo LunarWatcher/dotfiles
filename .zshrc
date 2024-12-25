@@ -102,6 +102,28 @@ then
     export PATH="/usr/local/bin:$PATH"
 fi
 
+if [[ $(whoami) == "olivia" ]];
+then
+    precmd() {
+        local status_code=$?
+        if [[ "${ZOE_WHY:-no}" == "no" ]]; then
+            export ZOE_WHY=yes
+            return
+        fi
+                                                          
+        local message=""
+                                                          
+        if [[ $status_code == 0 ]]; then
+            message="good girl ❤️"
+        else
+            message="bad girl >:("
+        fi
+                                                          
+                                                          
+        echo -e "\033[38;2;252;141;243m${message}\033[0m"
+    }
+fi
+
 # TODO: integrate this or fully axe whatever  the fuck pyenv is
 # It was lurking in the makefile, but I have no idea what it's for
 #export PYENV_ROOT="$HOME/.pyenv"
