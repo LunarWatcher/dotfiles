@@ -256,6 +256,11 @@ call s:LocalOption("vim9cord", "LunarWatcher/vim9cord")
 call plug#end()
 " }}}
 " Plugin config {{{
+" Vim9cord (testing) {{{
+"let g:Vim9cordButtons = [
+    "{}
+"]
+" }}}
 " Plug mapping {{{
 nnoremap <leader>pi <esc>:PlugInstall<cr>
 nnoremap <leader>pc <esc>:PlugClean<cr>
@@ -937,6 +942,11 @@ autocmd FileType help nnoremap <C-t> <C-]>
 " Get tab maps on the mouse in normal mode
 nmap <X2Mouse> <C-PageDown>
 nmap <X1Mouse> <C-PageUp>
+
+" Buftab navigation
+" TODO: tmap equivalents
+nmap <S-F5> gt
+nmap <S-F6> gT
 
 " }}}
 " LaTeX {{{
