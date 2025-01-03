@@ -103,7 +103,7 @@ Things to update:
 
 I love Firefox, but holy fuck is the sync process messy. Things that need manual fixing (and that aren't obvious):
 
-* Container tabs has its own separate sync system, and requires logging into your FF account separately, because fuck you
+* **DO NOT ENABLE SYNC FOR CONTAINER TABS!** Make sure it's explicitly disabled. Sync is completely borked and will screw over other devices. Set them up manually instead.
 * The theme is usually never synced, and occasionally clears the theme from all other devices. The theme needs to be reset, possibly on all devices. I'm not sure why this happens
 * Plugins need to be re-pinned, and bloatware needs to be unpinned
 * The search engine needs to be switched from DDG back to Kagi, because the DDG plugin *forcibly* changes the search engine away from Kagi when it eventually syncs. Fuck you, DDG; I just want the email aliases, not the search engine.
