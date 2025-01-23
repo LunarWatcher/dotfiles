@@ -27,6 +27,14 @@ function ghsclone() {
     git clone "git@github.com:$1"
 }
 
+function git-mirror-config() {
+    ghUrl=$(git remote get-url --push origin)
+    codebergUrl=${ghUrl/github.com/codeberg.org}
+
+    git remote set-url --add --push origin ${ghUrl}
+    git remote set-url --add --push origin ${codebergUrl}
+}
+
 # }}}
 # Exposing various binaries {{{
 alias themis="~/.vim/plugged/vim-themis/bin/themis"
