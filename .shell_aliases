@@ -227,6 +227,9 @@ function o-ssh-keygen() {
     cat ~/.ssh/$2.pub
 }
 # }}}
+# Project utilities {{{
+alias open-doxygen="open ./html/index.html"
+# }}}
 if [ -f "${DOTFILES_HOME}/scripts/homelab.zsh" ]; then
     source "${DOTFILES_HOME}/scripts/homelab.zsh"
 fi

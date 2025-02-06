@@ -1,0 +1,127 @@
+:root {
+
+    /* Pastell-ish rainbow */
+    --livi-rainbow-red: #ffadad;
+    --livi-rainbow-orange: #ffd6a5;
+    --livi-rainbow-yellow: #fdffb6;
+    --livi-rainbow-green: #caffbf;
+    --livi-rainbow-blue: #9bf6ff;
+    --livi-rainbow-light-blue: #a0c4ff;
+    --livi-rainbow-purple: #bdb2ff;
+    --livi-rainbow-pink: #ffc6ff;
+
+    --livi-darken: black;
+    --livi-mixin-ratio: 15%;
+
+    /* Note: in my vaults, h1 are never used outside the filename, so it isn't coloured separately */
+    --h1-colour: black;
+
+    --livi-rainbow-darkened-pink: color-mix(in srgb, var(--livi-rainbow-pink) 95%, var(--livi-darken) var(--livi-mixin-ratio));
+    --livi-rainbow-darkened-purple: color-mix(in srgb, var(--livi-rainbow-purple) 95%, var(--livi-darken) var(--livi-mixin-ratio));
+    --livi-rainbow-darkened-green: color-mix(in srgb, var(--livi-rainbow-green) 95%, var(--livi-darken) var(--livi-mixin-ratio));
+    --livi-rainbow-darkened-blue: color-mix(in srgb, var(--livi-rainbow-blue) 95%, var(--livi-darken) var(--livi-mixin-ratio));
+    --livi-rainbow-darkened-red: color-mix(in srgb, var(--livi-rainbow-red) 95%, var(--livi-darken) var(--livi-mixin-ratio));
+
+    --h2-colour: var(--livi-rainbow-darkened-pink);
+    --h3-colour: var(--livi-rainbow-darkened-purple);
+    --h4-colour: var(--livi-rainbow-darkened-green);
+    --h5-colour: var(--livi-rainbow-darkened-blue);
+    --h6-colour: var(--livi-rainbow-darkened-red);
+}
+
+* {
+    font-family: 'SauceCodePro Nerd Font',
+        'Source Code Pro',
+        monospace;
+}
+/* Background colours {{{ */
+.view-content {
+    background-color: #EEEEEE !important;
+}
+
+:not(pre) > code {
+    background-color: #DEDEDE !important;
+}
+/* }}} */
+/* Header colours {{{ */
+h1, .cm-header-1, .inline-title {
+    color: var(--h1-colour) !important;
+}
+h2, .cm-header-2 {
+    color: var(--h2-colour) !important;
+}
+h3, .cm-header-3 {
+    color: var(--h3-colour) !important;
+}
+h4, .cm-header-4 {
+    color: var(--h4-colour) !important;
+}
+h5, .cm-header-5 {
+    color: var(--h5-colour) !important;
+}
+h6, .cm-header-6 {
+    color: var(--h6-colour) !important;
+}
+/* }}} */
+/* Fix bold in tables {{{ */
+.cm-strong, strong {
+    font-weight: bold;
+}
+
+th > .table-cell-wrapper {
+    font-weight: 900;
+}
+/* }}} */
+/* Dim collapsed _-prefixed folders {{{ */
+.nav-folder.is-collapsed:has(
+    div[data-path^="_"],
+    div[data-path*="/_"]
+) {
+    filter: brightness(2);
+}
+/* }}} */
+/* Specific folder styles {{{ */
+.nav-folder:has(
+    div[data-path="Design"]
+) {
+    background-color: var(--livi-rainbow-purple) !important;
+    border-radius: 4px;
+}
+.nav-folder:has(
+    div[data-path="DnD"]
+) {
+    background-color: var(--livi-rainbow-red) !important;
+    border-radius: 4px;
+}
+
+.nav-folder:has(
+    div[data-path="Tech"]
+) {
+    background-color: var(--livi-rainbow-green) !important;
+    border-radius: 4px;
+}
+.nav-folder:has(
+    > div[data-path="Tech/Projects"]
+) {
+    background-color: var(--livi-rainbow-pink) !important;
+    border-radius: 4px;
+}
+.nav-folder:has(
+    div[data-path="TIL"]
+) {
+    background-color: var(--livi-rainbow-orange) !important;
+    border-radius: 4px;
+}
+.nav-folder:has(
+    div[data-path="Journal-ish"]
+) {
+    background-color: var(--livi-rainbow-darkened-blue) !important;
+    border-radius: 4px;
+}
+.nav-folder:has(
+    div[data-path="Life admin"]
+) {
+    background-color: var(--livi-rainbow-blue) !important;
+    border-radius: 4px;
+}
+/* }}} */
