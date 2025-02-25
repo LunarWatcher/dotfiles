@@ -19,7 +19,7 @@ ohmyzsh:
 	-zsh -c 'source ~/.zshrc; git clone --depth=1 https://github.com/romkatv/powerlevel10k.git $${ZSH_CUSTOM}/themes/powerlevel10k'
 
 debian-dotfile-software: debian-vim-deps ohmyzsh
-	sudo apt -y install tmux zsh silversearcher-ag
+	sudo apt -y install tmux zsh silversearcher-ag ripgrep
 	
 
 config:

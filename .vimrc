@@ -260,6 +260,8 @@ call plug#end()
 "let g:Vim9cordButtons = [
     "{}
 "]
+
+let g:Vim9cordAltDetails = "I don't have a problem, I can quit any time I want :3"
 " }}}
 " Plug mapping {{{
 nnoremap <leader>pi <esc>:PlugInstall<cr>
@@ -502,6 +504,13 @@ let g:rainbow_active = 1
 let g:rainbow_list = ['vim', 'javascript', 'java', 'python', 'cpp']
 " }}}
 " FZF {{{ 
+
+fun! s:Fzf2Quickfix(lines)
+    call setqflist(map(copy(a:lines), '{"filename": v:val}'), "r")
+    copen
+    call setqflist([], 'a', {"title": "FZF search results"})
+endfun
+
 let g:fzf_layout = {
     \ 'window':
     \     {
@@ -512,11 +521,13 @@ let g:fzf_layout = {
     \     }
     \ }
 let g:CopyPastaTemplate = g:fzf_layout["window"]
+let $FZF_DEFAULT_OPTS="--bind ctrl-a:select-all"
 let g:fzf_action = {
     \ 'ctrl-t': 'tab split',
     \ 'ctrl-s': 'split',
     \ 'ctrl-v': 'vsplit',
-    \ 'ctrl-o': 'tabe'
+    \ 'ctrl-o': 'tabe',
+    \ 'ctrl-f': function('s:Fzf2Quickfix')
 \ }
 
 command! -bang -nargs=? -complete=dir HFiles call fzf#run(fzf#wrap({
@@ -537,7 +548,23 @@ command! -bang -nargs=? -complete=dir CMakeFiles call fzf#run(fzf#wrap({
         \ 'down': '30%'
         \ }))
 
-command! -bang -nargs=? -bang -complete=dir TODO call fzf#vim#ag("(TODO|FIXME):", {'options': ['--layout=reverse'], 'down': "30%"}, <bang>0)
+command! -nargs=0 TODO grep '(TODO\|FIXME)(\(.*\))?:?'
+command! -nargs=? Search call fzf#run(fzf#wrap({
+        \ 'source': 'rg . --smart-case --',
+        \ 'options': ['--layout=reverse'],
+        \ 'down': '30%'
+        \ }))
+
+command! -bang -nargs=* Search call fzf#vim#grep2(
+        \ "rg --column --line-number --no-heading --color=always --smart-case -- ", 
+        \ <q-args>,
+        \ fzf#wrap({
+        \   'options': ['--layout=reverse', '--bind=enter:select-all+accept'],
+        \   'down': '30%',
+        \   'sinklist': function('s:Fzf2Quickfix')
+        \ }),
+        \ <bang>0
+        \ )
 
 nnoremap <leader>zx :HFiles<cr>
 nnoremap <leader>zX :HNGFiles<cr>
@@ -874,6 +901,11 @@ augroup TWOverride
     autocmd FileType cpp setlocal textwidth=120
 
 augroup END
+" }}}
+" Grepping and search {{{
+if executable("rg")
+    set grepprg=rg\ --vimgrep\ --smart-case
+endif
 " }}}
 " }}}
 " Mappings {{{
