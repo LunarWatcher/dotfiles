@@ -370,13 +370,8 @@ nnoremap <silent> <leader>hp :call coc#float#close_all()<cr>
 let g:asyncrun_open = 6
 let g:asyncrun_bell = 0     " Fuck bells
 
-nnoremap <F7> :call asyncrun#quickfix_toggle(6)<cr>
 
-" That's a strong indicator vim on Windoze may resort to a different
-" location, which would be a problem.
-" So force compatibility by setting a custom config home.
-" Admittedly, this is in parallel to the default one, but an attempt
-" was made.
+
 let g:asynctasks_extra_config = [ $HOME .. "/.vim/asynctasks.ini" ]
 
 nnoremap <F9> :AsyncStop<cr>:2sleep<cr>:AsyncTask build<cr>
@@ -548,7 +543,7 @@ command! -bang -nargs=? -complete=dir CMakeFiles call fzf#run(fzf#wrap({
         \ 'down': '30%'
         \ }))
 
-command! -nargs=0 TODO grep '(TODO\|FIXME)(\(.*\))?:?'
+command! -nargs=0 TODO grep! '(TODO\|FIXME)(\(.*\))?:?'
 command! -nargs=? Search call fzf#run(fzf#wrap({
         \ 'source': 'rg . --smart-case --',
         \ 'options': ['--layout=reverse'],
@@ -832,7 +827,6 @@ augroup TabConf
     autocmd FileType typescript,typescriptreact,javascriptreact setlocal sw=2 tabstop=2 softtabstop=2
 
 augroup END
-
 " }}}
 " Cursor config {{{
 if has("gui_running")
@@ -902,10 +896,12 @@ augroup TWOverride
 
 augroup END
 " }}}
-" Grepping and search {{{
+" Grepping, search, and fun with quickfix {{{
 if executable("rg")
     set grepprg=rg\ --vimgrep\ --smart-case
 endif
+
+nnoremap <F7> :copen<cr>
 " }}}
 " }}}
 " Mappings {{{
