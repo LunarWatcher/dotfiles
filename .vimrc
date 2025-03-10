@@ -563,16 +563,15 @@ command! -bang -nargs=* Search call fzf#vim#grep2(
 
 nnoremap <leader>zx :HFiles<cr>
 nnoremap <leader>zX :HNGFiles<cr>
+nnoremap <leader>zc :Rg<cr>
+nnoremap <leader>zC :RG<cr>
 nnoremap <leader>zb :TODO<cr>
+nnoremap <leader>zs :Search<cr>
 
 nnoremap <leader>ocm :CMakeFiles<cr>
 
 " Remap some of the defaults {{{
-nnoremap <leader>zs :Snippets<cr>
-nnoremap <leader>zm :Maps<cr>
-nnoremap <leader>zc :Commands<cr>
 nnoremap <leader>zh :Helptags<cr>
-
 " }}}
 " }}} FZF
 " fern.vim {{{
