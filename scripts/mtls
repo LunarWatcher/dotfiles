@@ -40,5 +40,10 @@ case "$1" in
         echo "\trevoke [name]"
         echo "\tcreate-ca [dir-path|/etc/mtls/ca]"
         echo "\tcreate-client [client-name] [ca-dir|/etc/mtls/ca]"
+        echo ""
+        echo "Example use:"
+        echo "\tsudo --preserve-env=HOMELAB_DOMAIN ./mtls create-client vixen"
+        echo ""
+        echo "Note that sudo clears the PATH, so mtls won't be in its path"
         ;;
 esac
