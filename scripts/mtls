@@ -1,22 +1,25 @@
 #!/usr/bin/zsh
 
 function mtls-create-ca() {
-    openssl genpkey -algorithm ED25519 -out "$1/ca.key"
-    openssl req -x509 -new -nodes -key "$1/ca.key" -sha384 -days 3650 -out "$1/rootCA.crt" \
-      -subj "/C=NO/ST=/L=/O=/OU=/CN="
+    openssl genrsa -out "$1/ca.key" 4096
+    openssl req -x509 -new -nodes -key "$1/ca.key" -sha256 -days 3650 -out "$1/rootCA.crt" \
+      -subj "/C=NO/ST=/L=/O=/OU=/CN=Homelab"
 
     openssl x509 -in "$1/rootCA.crt" -text -noout
 }
 
 function mtls-client-cert() {
-    openssl genpkey -algorithm ED25519 -out "$2/$1.key"
+    openssl genrsa -out "$2/$1.key" 4096
     openssl req -new -sha256 -key "$2/$1.key" -subj "/C=NO" -out "$2/$1.csr" \
         -reqexts SAN \
         -config <(cat $(mktemp) \
             <(printf "\n[SAN]\nsubjectAltName=DNS:$HOMELAB_DOMAIN,DNS:*.$HOMELAB_DOMAIN"))
 
     openssl req -in "$2/$1.csr" -noout -text
-    openssl x509 -req -in "$2/$1.csr" -CA "$2/rootCA.crt" -CAkey "$2/ca.key" -CAcreateserial -out "$2/$1.crt" -days 3600 -sha384
+    openssl x509 -req -in "$2/$1.csr" -CA "$2/rootCA.crt" -CAkey "$2/ca.key" -CAcreateserial -out "$2/$1.crt" -days 3600 -sha256
+    openssl pkcs12 -export -inkey "$2/$1.key" -in "$2/$1.crt" -out "$2/$1.pkcs12"
+
+    echo "Copy $2/$1.pkcs12 to the client device"
 }
 
 function mtls-revoke-client-cert() {
