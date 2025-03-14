@@ -10,7 +10,7 @@ function mtls-create-ca() {
 
 function mtls-client-cert() {
     openssl genrsa -out "$2/$1.key" 4096
-    openssl req -new -sha256 -key "$2/$1.key" -subj "/C=NO" -out "$2/$1.csr" \
+    openssl req -new -sha256 -key "$2/$1.key" -subj "/C=NO/CN=Homelab" -out "$2/$1.csr" \
         -reqexts SAN \
         -config <(cat $(mktemp) \
             <(printf "\n[SAN]\nsubjectAltName=DNS:$HOMELAB_DOMAIN,DNS:*.$HOMELAB_DOMAIN"))
