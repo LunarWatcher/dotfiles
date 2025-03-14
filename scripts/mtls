@@ -17,9 +17,9 @@ function mtls-client-cert() {
 
     openssl req -in "$2/$1.csr" -noout -text
     openssl x509 -req -in "$2/$1.csr" -CA "$2/rootCA.crt" -CAkey "$2/ca.key" -CAcreateserial -out "$2/$1.crt" -days 3600 -sha256
-    openssl pkcs12 -export -inkey "$2/$1.key" -in "$2/$1.crt" -out "$2/$1.pkcs12"
+    openssl pkcs12 -export -inkey "$2/$1.key" -in "$2/$1.crt" -out "$2/$1.p12"
 
-    echo "Copy $2/$1.pkcs12 to the client device"
+    echo "Copy $2/$1.p12 to the client device"
 }
 
 function mtls-revoke-client-cert() {
