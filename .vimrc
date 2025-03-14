@@ -7,6 +7,12 @@ set termencoding=utf-8
 set nocompatible              " be iMproved, required
 filetype off                  " required
 
+let g:ODebugVim = 1
+
+if g:ODebugVim
+    call ch_logfile($HOME .. "/.log/vim-" .. strftime("%FT%T") .. ".txt", "ao")
+endif
+
 if has("win32unix")
     finish
 endif
@@ -251,7 +257,7 @@ Plug 'thinca/vim-themis'
 Plug 'tpope/vim-repeat'
 Plug 'Asheq/close-buffers.vim'
 call s:LocalOption("helpwriter.vim", "LunarWatcher/helpwriter.vim")
-call s:LocalOption("vim9cord", "LunarWatcher/vim9cord")
+"call s:LocalOption("vim9cord", "LunarWatcher/vim9cord")
 " }}}
 call plug#end()
 " }}}
@@ -1233,5 +1239,16 @@ endif
 if !isdirectory($HOME .. "/.vim/swap")
     call mkdir($HOME .. "/.vim/swap", "p")
 endif
+
+function! ToggleVerbose()
+    if !&verbose
+        set verbosefile=~/.log/vim/verbose.log
+        set verbose=15
+    else
+        set verbose=0
+        set verbosefile=
+    endif
+endfunction
+command! Debug :call ToggleVerbose()<cr>
 " }}}
 " vim:sw=4

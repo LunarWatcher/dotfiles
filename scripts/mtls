@@ -1,0 +1,44 @@
+#!/usr/bin/zsh
+
+function mtls-create-ca() {
+    openssl genpkey -algorithm ED25519 -out "$1/ca.key"
+    openssl req -x509 -new -nodes -key "$1/ca.key" -sha384 -days 3650 -out "$1/rootCA.crt" \
+      -subj "/C=NO/ST=/L=/O=/OU=/CN="
+
+    openssl x509 -in "$1/rootCA.crt" -text -noout
+}
+
+function mtls-client-cert() {
+    openssl genpkey -algorithm ED25519 -out "$2/$1.key"
+    openssl req -new -sha256 -key "$2/$1.key" -subj "/C=NO" -out "$2/$1.csr" \
+        -reqexts SAN \
+        -config <(cat $(mktemp) \
+            <(printf "\n[SAN]\nsubjectAltName=DNS:$HOMELAB_DOMAIN,DNS:*.$HOMELAB_DOMAIN"))
+
+    openssl req -in "$2/$1.csr" -noout -text
+    openssl x509 -req -in "$2/$1.csr" -CA "$2/rootCA.crt" -CAkey "$2/ca.key" -CAcreateserial -out "$2/$1.crt" -days 3600 -sha384
+}
+
+function mtls-revoke-client-cert() {
+    echo "hi future me, I sure do hope you didn't need me to implement this"
+}
+
+case "$1" in
+    revoke )
+        mtls-revoke-client-cert "$2"
+        ;;
+    create-ca )
+        mtls-create-ca "${2:-/etc/mtls/ca}"
+        ;;
+    create-client )
+        mtls-client-cert "$2" "${3:-/etc/mtls/ca}"
+        ;;
+    help|--help|-h|* )
+        echo "Usage:"
+        echo "\tmtls [command] [options]"
+        echo "Commands:"
+        echo "\trevoke [name]"
+        echo "\tcreate-ca [dir-path|/etc/mtls/ca]"
+        echo "\tcreate-client [client-name] [ca-dir|/etc/mtls/ca]"
+        ;;
+esac

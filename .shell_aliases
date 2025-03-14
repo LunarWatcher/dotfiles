@@ -1,6 +1,7 @@
 # Globals {{{
 local loc=$(readlink ~/.zshrc)
 export DOTFILES_HOME=$(dirname $loc)
+export PATH=$DOTFILES_HOME/scripts:$PATH
 # }}}
 # Builtins {{{
 # ls without colors for dipshit 777 disks
@@ -229,6 +230,19 @@ function o-ssh-keygen() {
 # }}}
 # Project utilities {{{
 alias open-doxygen="open ./html/index.html"
+# }}}
+# Testing utils {{{
+function display-wrap() {
+    Xvfb :10 -ac -screen 0 1280x1024x24 >/dev/null 2>&1 &
+    mockDisplayPid=$!
+    DISPLAY=:10 zsh -ic "$*"
+
+    kill $mockDisplayPid
+}
+# }}}
+# Ubuntu stuff {{{
+alias pbi="pip3 install --break-system-packages "
+alias pbu="pip3 uninstall --break-system-packages "
 # }}}
 if [ -f "${DOTFILES_HOME}/scripts/homelab.zsh" ]; then
     source "${DOTFILES_HOME}/scripts/homelab.zsh"
