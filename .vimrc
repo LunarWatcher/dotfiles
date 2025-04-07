@@ -7,7 +7,7 @@ set termencoding=utf-8
 set nocompatible              " be iMproved, required
 filetype off                  " required
 
-let g:ODebugVim = 1
+let g:ODebugVim = 0
 
 if g:ODebugVim
     call ch_logfile($HOME .. "/.log/vim-" .. strftime("%FT%T") .. ".txt", "ao")
@@ -257,7 +257,7 @@ Plug 'thinca/vim-themis'
 Plug 'tpope/vim-repeat'
 Plug 'Asheq/close-buffers.vim'
 call s:LocalOption("helpwriter.vim", "LunarWatcher/helpwriter.vim")
-"call s:LocalOption("vim9cord", "LunarWatcher/vim9cord")
+call s:LocalOption("vim9cord", "LunarWatcher/vim9cord")
 " }}}
 call plug#end()
 " }}}
