@@ -28,7 +28,15 @@ function ghsclone() {
     git clone "git@github.com:$1"
 }
 
-function git-mirror-config() {
+function git-mirror-config-cb-source() {
+    codebergUrl=$(git remote get-url --push origin)
+    ghUrl=${codebergUrl/codeberg.org/github.com}
+
+    git remote set-url --add --push origin ${codebergUrl}
+    git remote set-url --add --push origin ${ghUrl}
+}
+
+function git-mirror-config-gh-source() {
     ghUrl=$(git remote get-url --push origin)
     codebergUrl=${ghUrl/github.com/codeberg.org}
 
