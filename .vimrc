@@ -550,14 +550,9 @@ command! -bang -nargs=? -complete=dir CMakeFiles call fzf#run(fzf#wrap({
         \ }))
 
 command! -nargs=0 TODO grep! '(TODO\|FIXME)(\(.*\))?:?'
-command! -nargs=? Search call fzf#run(fzf#wrap({
-        \ 'source': 'rg . --smart-case --',
-        \ 'options': ['--layout=reverse'],
-        \ 'down': '30%'
-        \ }))
 
 command! -bang -nargs=* Search call fzf#vim#grep2(
-        \ "rg --column --line-number --no-heading --color=always --smart-case -- ", 
+        \ "rg --hidden --glob '!.git' --column --line-number --no-heading --color=always --smart-case -- ", 
         \ <q-args>,
         \ fzf#wrap({
         \   'options': ['--layout=reverse', '--bind=enter:select-all+accept'],
@@ -567,10 +562,15 @@ command! -bang -nargs=* Search call fzf#vim#grep2(
         \ <bang>0
         \ )
 
+" Modified version of fzf.vim's :Rg and :RG that includes hidden files, while
+" omitting .git. Necessary for several very relevant files to be searchable
+command! -bang -nargs=* HRg call fzf#vim#grep("rg --hidden --glob '!.git' --column --line-number --no-heading --color=always --smart-case -- ".fzf#shellescape(<q-args>), fzf#vim#with_preview(), <bang>0)
+command! -bang -nargs=* HRG call fzf#vim#grep2("rg --hidden --glob '!.git' --column --line-number --no-heading --color=always --smart-case -- ", <q-args>, fzf#vim#with_preview(), <bang>0)
+
 nnoremap <leader>zx :HFiles<cr>
 nnoremap <leader>zX :HNGFiles<cr>
-nnoremap <leader>zc :Rg<cr>
-nnoremap <leader>zC :RG<cr>
+nnoremap <leader>zc :HRg<cr>
+nnoremap <leader>zC :HRG<cr>
 nnoremap <leader>zb :TODO<cr>
 nnoremap <leader>zs :Search<cr>
 
