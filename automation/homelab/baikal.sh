@@ -9,7 +9,7 @@ if [ -d /opt/baikal ]; then
 
     cd /opt/baikal
     sudo -u www-data git pull
-    sudo -u www-data composer install
+    sudo -u www-data composer update
     sudo systemctl restart nginx
 
     exit 0

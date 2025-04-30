@@ -7,6 +7,8 @@ function updateDockerCompose() {
     cd $2
     FILE_FLAG=${3:+-f $3}
 
+    # TODO: Check to make sure docker compose pull actually pulled something before force-recreating
+    # (to avoid getting bombarded with notifications about services going down when that's very much intentional)
     sudo -E docker compose $FILE_FLAG pull
     sudo -E docker compose $FILE_FLAG up --force-recreate --build -d
     echo "Updated $1"

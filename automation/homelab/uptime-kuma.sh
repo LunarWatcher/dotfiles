@@ -2,6 +2,8 @@
 
 if [ -d /opt/uptime-kuma ]; then
     cd /opt/uptime-kuma
+    # Beta releases seem to fuck up package-lock.json for some reason. Not sure why. It needs to be hard reset to prevent merges from breaking
+    git reset --hard
     git fetch --tags
     latestTag=$(git describe --tags `git rev-list --tags --max-count=1`)
     currTag=$(git describe --tags)
