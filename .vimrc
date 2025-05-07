@@ -860,12 +860,20 @@ set ssop-=blank
 " }}}
 " Filetype overrides {{{
 if has("linux") && (has("gui_running") || $SSH_TTY == "")
-    augroup ZoeGUIFiletypes
+    augroup OGUIFiletypes
         au!
         
-        autocmd BufRead *.png,*.jpg,*.jpeg call system('xdg-open ' .. expand('%:p'))
+        au BufNewFile,BufRead *.png,*.jpg,*.jpeg call system('xdg-open ' .. expand('%:p'))
     augroup END
 endif
+augroup OFiletypeAliases
+    au!
+
+    " Compound filetype so html stuff (particularly snippets and certain
+    " plugins) still work
+    " See https://vi.stackexchange.com/a/4941 for the notation
+    au BufNewFile,BufRead *.mustache setlocal ft=html.mustache
+augroup END
 " }}}
 " Title management {{{
 set title titlelen=50
