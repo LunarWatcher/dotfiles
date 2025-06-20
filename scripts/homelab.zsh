@@ -23,7 +23,7 @@ local -A homelab_fucky_services=(
 )
 
 local -A homelab_update_commands=(
-    [sinon]="pihole -up"
+    [sinon]="sudo pihole -up"
 )
 
 local -A homelab_status_commands=(
