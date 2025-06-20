@@ -1,3 +1,0 @@
-If you see a timer, you don't need to worry. The timer can extend outside October. The important part is getting your PR fully accepted or into the review period before the end of the event. Your PR must be accepted before <t:1730462400:f> to count. If it wasn't accepted prior to this, it will not count.
-
-Remember that the goal was never to win Hacktoberfest, but to contribute to open-source. Even if your PR doesn't count towards the event, if you contributed to real projects with real value, you've still made a net positive contribrution to open-source.

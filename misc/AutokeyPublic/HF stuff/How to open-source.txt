@@ -1,1 +1,0 @@
-See <https://hacktoberfest.com/contributors>, <https://opensource.guide>, and <https://hacktoberfest.com/resources>.

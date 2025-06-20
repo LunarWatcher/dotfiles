@@ -252,6 +252,13 @@ function display-wrap() {
 alias pbi="pip3 install --break-system-packages "
 alias pbu="pip3 uninstall --break-system-packages "
 # }}}
+# PSQL {{{
+alias psql-update='sudo -u postgres psql -c "ALTER DATABASE postgres REFRESH COLLATION VERSION"'
+alias spsql='sudo -u postgres psql '
+# }}}
+# yt-dlp {{{
+alias ytmp3="yt-dlp -x --audio-format mp3 "
+# }}}
 if [ -f "${DOTFILES_HOME}/scripts/homelab.zsh" ]; then
     source "${DOTFILES_HOME}/scripts/homelab.zsh"
 fi

@@ -1,1 +1,0 @@
-The system doesn't instantly refresh the PR's status when the timer hits 0. This means that it'll take some time for your PR to be fully accepted - specifically between 15 minutes and 6 hours, which you'll also find if you scroll to the bottom of the list. Hacktoberfest is not a race, and the update is not urgent. Please be patient, the system will update soon enough.

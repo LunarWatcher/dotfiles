@@ -40,10 +40,7 @@ mint-home-packages:
 mint-core:
 	sudo add-apt-repository ppa:papirus/papirus
 	sudo apt update && sudo apt install papirus-icon-theme
-	sudo apt install -y texlive-full
 	
-mint-home-dotfiles:
-	ln -sf ${PWD}/.emacs ${HOME}/.emacs
 
 docker:
 	sudo curl -fsSL https://download.docker.com/linux/ubuntu/gpg -o /etc/apt/keyrings/docker.asc
@@ -75,7 +72,7 @@ mint-keybinds:
 mint-export:
 	dconf dump /org/cinnamon/desktop/keybindings/ > cinnamon/keybinds
 
-HOME_TARGETS += mint-home-packages mint-home-dotfiles
+HOME_TARGETS += mint-home-packages
 SOFTWARE_TARGETS += mint-tweaks mint-core mint-tweaks docker mint-autokey mint-rofi mint-keybinds
 CLEANUP_TARGETS += mint-debloat
 EXPORT_TARGETS += mint-export

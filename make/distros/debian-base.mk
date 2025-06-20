@@ -12,15 +12,15 @@ debian-base-update:
 
 debian-vim-deps:
 	# TODO: This should really be an OS distro thing
-	sudo apt install -y latexmk universal-ctags
+	sudo apt install -y universal-ctags
 
-ohmyzsh:
-	-[ ! -d "$${HOME}/.oh-my-zsh" ] && curl -fsSL https://raw.github.com/ohmyzsh/ohmyzsh/master/tools/install.sh | bash
-	-zsh -c 'source ~/.zshrc; git clone --depth=1 https://github.com/romkatv/powerlevel10k.git $${ZSH_CUSTOM}/themes/powerlevel10k'
 
-debian-dotfile-software: debian-vim-deps ohmyzsh
+debian-dotfile-software: debian-vim-deps
 	sudo apt -y install tmux zsh silversearcher-ag ripgrep
 	
+ohmyzsh: debian-dotfile-software
+	-[ ! -d "$${HOME}/.oh-my-zsh" ] && curl -fsSL https://raw.github.com/ohmyzsh/ohmyzsh/master/tools/install.sh | bash
+	-zsh -c 'source ~/.zshrc; git clone --depth=1 https://github.com/romkatv/powerlevel10k.git $${ZSH_CUSTOM}/themes/powerlevel10k'
 
 config:
 	rsync -av --progress config/ ~/.config/
@@ -65,7 +65,7 @@ debian-core:
 vim:
 	sudo bash -c "$$(wget -O- https://raw.githubusercontent.com/LunarWatcher/upm/master/tools/install.sh)"
 
-DEPENDENCY_TARGETS += debian-base-update debian-build-deps debian-dotfile-software
+DEPENDENCY_TARGETS += debian-base-update debian-build-deps ohmyzsh debian-dotfile-software
 DOTFILE_TARGETS += debian-base-dotfiles
 SOFTWARE_TARGETS += debian-core vim
 HOME_TARGETS += debian-home-packages
