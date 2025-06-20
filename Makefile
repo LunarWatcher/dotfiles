@@ -52,6 +52,8 @@ $(info -- Linux identified)
 ifeq ($(currDist),linuxmint)
 $(info -- Loading Mint-specific stuff)
 include make/distros/mint.mk
+# TODO: maybe worth setting this up to load anywhere with flatpak?
+include make/packages/flatpak.mk
 endif # mint
 
 ifeq ($(currDist),ubuntu)
@@ -62,18 +64,11 @@ endif # ubuntu
 endif # linux
 
 ifeq ($(currOs),win)
-# Windows; no file has been included for this demo
 endif
 ifeq ($(currOs),macos)
-# Mac; no file has been included for this demo
 endif
 
 -include make/hosts/$(host).mk
-# TODO: figure out if it makes sense to default-source this
-# It only adds to NON_SERVER_TARGETS, so it doesn't cause any problems,
-# but the system is set up for  far more modularity than just assuming
-# it should be sourced
-include make/packages/flatpak.mk
 
 vim-plug:
 	curl -fLo ${HOME}/.vim/autoload/plug.vim --create-dirs \
