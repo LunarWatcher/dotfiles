@@ -28,7 +28,6 @@ local -A homelab_update_commands=(
 
 local -A homelab_status_commands=(
     [sinon]="systemctl status -n 0 boson && systemctl status -n 0 discord-hooks && systemctl status -n 0 pihole-FTL"
-    [nova]="systemctl status -n 0 comdest"
 )
 # }}}
 
