@@ -60,13 +60,8 @@ unsetopt autocd
 [[ ! -f ~/.p10k.zsh ]] || source ~/.p10k.zsh
 
 # Aliases
-
-if [ -f ~/.zsh.sysrc ]
-then
-    # .zshrc but sensitive
-    source ~/.zsh.sysrc
-fi
 source ~/.shell_aliases
+
 export PATH="${DOTFILES_HOME}/scripts/bin:$PATH"
 
 # Variables (modification + new)
@@ -101,6 +96,8 @@ unset __conda_setup
 
 [ -f ~/.fzf.zsh ] && source ~/.fzf.zsh
 [ -f ~/.zshrc.local ] && source ~/.zshrc.local
+# WARNING: sourced from the secrets repo on the self-hosted forgejo instance.
+# DO NOT USE for anything else. System-local secrets go in .zshrc.local
 [ -f ~/.shell_secrets ] && . ~/.shell_secrets
 
 if [[ $(whoami) == "pi" ]]
