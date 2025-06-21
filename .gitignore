@@ -10,6 +10,7 @@ neovim
 neovim-qt
 *.ttf
 /upm/
+*.tar.*
 
 uncrustify
 .cache

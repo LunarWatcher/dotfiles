@@ -1,0 +1,5 @@
+[Desktop Entry]
+Name=Jetbrains toolbox
+Exec=/opt/jetbrains-toolbox/bin/jetbrains-toolbox
+Terminal=false
+Type=Application

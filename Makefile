@@ -104,6 +104,9 @@ secrets:
 	git clone git@nova.git:LunarWatcher/secrets
 	./secrets/bootstrap.sh
 
+include make/packages/intellij.mk
+java: jetbrains-toolbox
+
 .PHONY: home server common core cleanup software dotfiles dependencies
 
 # vim:autoindent:noexpandtab:tabstop=4:shiftwidth=4

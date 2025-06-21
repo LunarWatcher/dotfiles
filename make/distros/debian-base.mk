@@ -57,15 +57,22 @@ debian-core:
 	
 	-[ ! -d "$${HOME}/.pyenv" ] && curl -L https://github.com/pyenv/pyenv-installer/raw/master/bin/pyenv-installer | bash
 	
-	# Neofetch has been archived
+	# Neofetch has been archived, fastfetch is not available by default
+	# TODO when I can be bothered, add the fastfetch ppa
 	# sudo apt install -y fastfetch
 	
 	sudo apt install -y python3-venv
 
-vim:
+upm:
 	sudo bash -c "$$(wget -O- https://raw.githubusercontent.com/LunarWatcher/upm/master/tools/install.sh)"
+
+vim: upm
+	sudo upm install vim 
+
+node: upm
+	sudo upm install nodejs
 
 DEPENDENCY_TARGETS += debian-base-update debian-build-deps ohmyzsh debian-dotfile-software
 DOTFILE_TARGETS += debian-base-dotfiles
-SOFTWARE_TARGETS += debian-core vim
+SOFTWARE_TARGETS += debian-core vim node
 HOME_TARGETS += debian-home-packages
