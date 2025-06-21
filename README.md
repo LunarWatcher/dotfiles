@@ -1,5 +1,11 @@
 # dotfiles
 
+## General compatibility
+
+These dotfiles are primarily tested against Linux Mint, and occasionally against Ubuntu and debian (mostly raspbian so far). Due to work applications, WSL (Ubuntu) is also included. Most of the dependency installation relies heavily on specific system configurations, and won't work more broadly.
+
+Windows works-ish, but it's much more unreliable, particularly with Vim. This is mainly noticeable with fzf, where the window seems to be any number of different sizes that vary between runs for no reason what so ever.
+
 ## .vimrc
 Compatibility: assume latest Vim. 
 
