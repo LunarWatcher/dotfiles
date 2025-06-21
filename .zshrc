@@ -45,7 +45,7 @@ export WD_SKIP_EXPORT=1
 source $ZSH/oh-my-zsh.sh
 
 # Config
-export LANG=en_US.UTF-8
+export LANG=en_GB.UTF-8
 if [[ "$SSH_TTY" == "" ]]; then
     export EDITOR='gvim -f'
 else
@@ -114,7 +114,9 @@ fi
 #export PYENV_ROOT="$HOME/.pyenv"
 #[[ -d $PYENV_ROOT/bin ]] && export PATH="$PYENV_ROOT/bin:$PATH"
 #eval "$(pyenv init -)"
-#. "/home/olivia/.deno/env"
+if [[ -d /home/olivia/.deno ]]; then
+    . "/home/olivia/.deno/env"
+fi
 
 # Add RVM to PATH for scripting. Make sure this is the last PATH variable change.
 export PATH="$PATH:$HOME/.rvm/bin"
