@@ -35,6 +35,8 @@ updateDockerCompose "Wekan" /opt/wekan
 # Non-docker, externally scripted services {{{
 scriptedUpdate "Baikal" baikal.sh
 scriptedUpdate "Uptime Kuma" uptime-kuma.sh
+scriptedUpdate "Jade" /opt/jade/scripts/update.sh
+scriptedUpdate "Hazel" /opt/hazel/scripts/update.sh
 
 # }}}
 # Non-docker, non-scripted services {{{

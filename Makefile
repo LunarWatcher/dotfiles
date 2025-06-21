@@ -22,6 +22,9 @@ currOs := linux
 # https://gist.github.com/natefoo/814c5bf936922dad97ff
 # for more details and alternatives
 currDist := $(shell cat /etc/os-release | sed -n 's/^ID=\(.*\)$$/\1/p')
+isWSL := $(shell uname -r | grep -q "WSL2" && echo "WSL2")
+
+$(info -- WSL detected: $(isWSL))
 endif
 ifeq ($(UNAME_S),Darwin)
 currOs := macos
@@ -44,6 +47,10 @@ SERVER_TARGETS =
 WORK_TARGETS =
 NON_SERVER_TARGETS =
 
+ifeq ($(isWSL),WSL2)
+$(info -- Loading WSL shit)
+include make/special/wsl2.mk
+endif
 # First, check the OS
 ifeq ($(currOs),linux)
 $(info -- Linux identified)
