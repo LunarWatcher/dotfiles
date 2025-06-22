@@ -6,7 +6,7 @@ Despite Microsoft's claims to the contrary, Windows and WSL do not mix, and doin
 
 Git, building, and many other operations are so slow they're functionally unusable on bigger projects. Save yourself the trouble, don't mix Windows and WSL.
 
-The only thing WSL2 has going for it is that it partly acts as a VM by having GUI support. The GUI support is absolute garbage, but it works. Moving _everything_ into WSL avoids the performance-tanking filesystem barrier, at the expense of requiring more software in WSL to replace the native software that's now inoperable.
+The only thing WSL2 has going for it is that it partly acts as a VM by having GUI support. The GUI support is absolute garbage, but it works. Moving _everything_ into WSL avoids the performance-tanking filesystem barrier, at the expense of requiring more software in WSL to replace the native software that now cannot access the WSL filesystem[^4].
 
 ## Theming 
 
@@ -31,3 +31,4 @@ This is patched out automagically by newer versions of the makefile with the `ws
 [^1]: https://www.reddit.com/r/bashonubuntuonwindows/comments/10zy4y8/gtk_theme_not_used_on_border_and_title_bar/
 [^2]: https://github.com/microsoft/WSL/issues/4197
 [^3]: Just to highlight how bad the performance is, I ran a script that was running for over 15 minutes, and only made it half-way before I just gave up. After migrating everything off the windows filesystem and into the WSL filesystem, the same script in the same conditions completed in 18 seconds. Estimated completion time under the Windows filesystem was 25 minutes, largely slowed down by Git operations. WSL on a Windows partition was ~83 times slower than WSL on a WSL partition (or whatever we're calling it)
+[^4]: yes, windows does support accessing the WSL filesystem from Windows explorer - but the performance is still horseshit, because it's still a remote filesystem
