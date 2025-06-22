@@ -28,11 +28,19 @@ nnoremap <leader>fe :set foldenable
 nnoremap <leader>fd :set nofoldenable
 
 augroup folding
+    au!
     autocmd FileType vim setlocal foldenable
     autocmd FileType markdown setlocal nofoldenable
 augroup END
 augroup config
+    au!
     autocmd FileType markdown setlocal conceallevel=0
+augroup END
+augroup SpecialFiles
+    au!
+    autocmd FileType fern call glyph_palette#apply()
+    autocmd FileType fall-list call glyph_palette#apply()
+    autocmd FileType nerdtree,startify call glyph_palette#apply()
 augroup END
 " }}}
 " System compatibility {{{
@@ -88,6 +96,7 @@ Plug 'lambdalisue/fern-hijack.vim'
 " Required for vim-fern-renderer-nerdfont to work
 Plug 'lambdalisue/vim-nerdfont'
 Plug 'lambdalisue/vim-fern-renderer-nerdfont'
+Plug 'lambdalisue/vim-glyph-palette'
 
 if executable("git")
     Plug 'lambdalisue/vim-fern-git-status'
@@ -135,8 +144,11 @@ Plug 'tpope/vim-surround'
 
 Plug 'mg979/vim-visual-multi'
 
-Plug 'skywind3000/asyncrun.vim'
+"Plug 'skywind3000/asyncrun.vim'
 "Plug 'skywind3000/asynctasks.vim'
+
+" Primarily used at work, and in some large open-source projects 
+Plug 'editorconfig/editorconfig-vim'
 " }}}
 " Text extensions {{{
 Plug 'junegunn/goyo.vim'
@@ -258,6 +270,7 @@ Plug 'tpope/vim-repeat'
 Plug 'Asheq/close-buffers.vim'
 call s:LocalOption("helpwriter.vim", "LunarWatcher/helpwriter.vim")
 call s:LocalOption("vim9cord", "LunarWatcher/vim9cord")
+"call s:LocalOption("vimrc-modules", "LunarWatcher/vimrc-modules")
 " }}}
 call plug#end()
 " }}}
@@ -272,7 +285,12 @@ let g:Vim9cordAltDetails = "I don't have a problem, I can quit any time I want :
 " Plug mapping {{{
 nnoremap <leader>pi <esc>:PlugInstall<cr>
 nnoremap <leader>pc <esc>:PlugClean<cr>
-nnoremap <leader>pu :PlugUpdate<cr>
+if !has("win32")
+    nnoremap <leader>pu :PlugUpdate<cr>:CocUpdate<cr>:VimspectorUpdate<cr>
+else
+    " Vimspector is not supported on windows
+    nnoremap <leader>pu :PlugUpdate<cr>:CocUpdate<cr>
+endif
 nnoremap <F8> :Vista!!<cr>
 " }}}
 " vim-visual-multi config {{{
@@ -339,6 +357,12 @@ set shortmess+=c
 set signcolumn=number
 set updatetime=100
 
+let g:coc_global_extensions = [
+    \ 'coc-tsserver', 'coc-css', 'coc-html',
+    \ 'coc-clangd',
+    \ 'coc-snippets',
+    \ 'coc-pyright',
+\ ]
 nmap <leader>qa  <Plug>(coc-codeaction-cursor)
 nmap <leader>qs  <Plug>(coc-codeaction-source)
 nmap <leader>qf  <Plug>(coc-fix-current)
@@ -393,13 +417,18 @@ nnoremap <leader>oas :AsyncStop<cr>
 " Vimspector {{{
 if !has("win32") && !has("win32unix")
     let g:vimspector_enable_mappings = ''
+    let g:vimspector_install_gadgets = [ "vscode-cpptools", "vscode-js-debug" ]
 
-    nmap <M-d>c <Plug>VimspectorContinue
-    nmap <M-d>s <Plug>VimspectorStop
-    nmap <M-d>r <Plug>VimspectorRestart
-    nmap <M-d>e :VimspectorReset<cr>
-    nmap <M-d>p <Plug>VimspectorPause
-    nmap <leader>b <Plug>VimspectorToggleBreakpoint
+    nmap <leader>dc <Plug>VimspectorContinue
+    nmap <leader>ds <Plug>VimspectorStop
+    nmap <leader>dR <Plug>VimspectorRestart
+    nmap <leader>dr :VimspectorReset<cr>
+    nmap <leader>dp <Plug>VimspectorPause
+    nmap <leader>db :call vimspector#Launch()<cr>
+
+    nmap <leader>bb <Plug>VimspectorToggleBreakpoint
+    nmap <leader>bc <Plug>VimspectorToggleConditionalBreakpoint
+    nmap <Leader>bl <Plug>VimspectorBreakpoints
 endif
 " }}}
 " Autopair config {{{
@@ -532,19 +561,19 @@ let g:fzf_action = {
 \ }
 
 command! -bang -nargs=? -complete=dir HFiles call fzf#run(fzf#wrap({
-        \ 'source': 'ag --hidden --ignore .git -g ""',
+        \ 'source': "rg --hidden --glob '!.git' --files",
         \ 'options': ['--layout=reverse'],
         \ 'window': g:CopyPastaTemplate
         \ }))
 
 command! -bang -nargs=? -complete=dir HNGFiles call fzf#run(fzf#wrap({
-        \ 'source': 'ag --hidden --skip-vcs-ignores --ignore .git -g ""',
+        \ 'source': "rg --hidden --no-ignore-vcs --glob '!.git' --files",
         \ 'options': ['--layout=reverse'],
         \ 'window': g:CopyPastaTemplate
         \ }))
 
 command! -bang -nargs=? -complete=dir CMakeFiles call fzf#run(fzf#wrap({
-        \ 'source': 'ag --hidden --ignore .git -g "CMakeLists.txt"',
+        \ 'source': 'rg --hidden --ignore .git -g "CMakeLists.txt"',
         \ 'options': ['--layout=reverse'],
         \ 'down': '30%'
         \ }))
@@ -588,6 +617,9 @@ let g:fern#disable_drawer_smart_quit = 1
 let g:fern#drawer_width = 32
 let g:fern#default_hidden = 1
 let g:fern#renderer = "nerdfont"
+let g:fern#renderer#nerdfont#indent_markers = 1
+
+let g:nerdfont#autofix_cellwidths = 1
 
 " Global control mappings
 nnoremap <F2> :Fern . -drawer -stay -toggle<cr>
@@ -917,6 +949,8 @@ if executable("rg")
 endif
 
 nnoremap <F7> :copen<cr>
+nnoremap <leader>cn :cnext<cr>
+nnoremap <leader>cp :cprev<cr>
 " }}}
 " }}}
 " Mappings {{{
@@ -1168,18 +1202,6 @@ endfun
 
 command! DeleteThis call IDeleteThis()
 nnoremap <leader>odd :DeleteThis<cr>
-
-fun s:BadGirl()
-    call popup_notification("Bad girl!", #{pos: "center",
-                    \ minwidth: 80, minheight: 40})
-endfun
-
-" Checks for user on Linux, on Windows, it's probably me.
-if $USER == "olivia" || $USER == "lunarwatcher" || $HOME =~ '\\Olivia' || $USER == 'pi'
-    " Fat fingers
-    command! W call s:BadGirl()
-endif
-
 " }}}
 
 " Ultisnips {{{
@@ -1191,6 +1213,7 @@ endif
 " .vimrc.
 " Would be nice if the creators made ultisnips even vaguely stable, but they
 " didn't, so here we are.
+" (Funnily enough, since introducing this command, I've never used it)
 command! -nargs=0 UninstallUltiSnips call delete($HOME .. "/.vim/plugged/ultisnips", "rf")
 " }}}
 " }}}
@@ -1203,11 +1226,13 @@ if has("gui_running")
     " Otherwise, it thinks i.e. " m" is the option, not just "m".
     set guioptions -=m
     set guioptions +=k
-    if has("win32")
-        " Set the language to English
-        language messages en_GB.UTF-8
-        set langmenu=en_GB.UTF-8
-    endif
+    " Necessary (on Linux) to avoid a GTK bug: https://gitlab.gnome.org/GNOME/gtk/-/issues/6751
+    " The dialogs still work, but cannot be interacted with using the keyboard
+    set guioptions+=c
+
+    " Force british
+    language messages en_GB.UTF-8
+    set langmenu=en_GB.UTF-8
     " Bells are the _worst_
     autocmd GUIEnter * set vb t_vb=
     autocmd VimEnter * set guioptions-=T

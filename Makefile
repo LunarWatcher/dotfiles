@@ -85,7 +85,6 @@ vim-plug:
 common-dotfiles: vim-plug
 	mkdir -p ${HOME}/.vim
 	ln -sf ${PWD}/.vimrc ${HOME}/.vimrc
-	ln -sf ${PWD}/.vim/asynctasks.ini ${HOME}/.vim/asynctasks.ini
 	ln -sf ${PWD}/.condarc ${HOME}/.condarc
 
 dependencies: $(DEPENDENCY_TARGETS);

@@ -259,6 +259,9 @@ alias spsql='sudo -u postgres psql '
 # yt-dlp {{{
 alias ytmp3="yt-dlp -x --audio-format mp3 "
 # }}}
+# gdb {{{
+alias gdb="gdb --tui "
+# }}}
 if [ -f "${DOTFILES_HOME}/scripts/homelab.zsh" ]; then
     source "${DOTFILES_HOME}/scripts/homelab.zsh"
 fi
