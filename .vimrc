@@ -270,7 +270,7 @@ Plug 'tpope/vim-repeat'
 Plug 'Asheq/close-buffers.vim'
 call s:LocalOption("helpwriter.vim", "LunarWatcher/helpwriter.vim")
 call s:LocalOption("vim9cord", "LunarWatcher/vim9cord")
-"call s:LocalOption("vimrc-modules", "LunarWatcher/vimrc-modules")
+call s:LocalOption("vimrc-modules", "LunarWatcher/vimrc-modules")
 " }}}
 call plug#end()
 " }}}
@@ -429,6 +429,9 @@ if !has("win32") && !has("win32unix")
     nmap <leader>bb <Plug>VimspectorToggleBreakpoint
     nmap <leader>bc <Plug>VimspectorToggleConditionalBreakpoint
     nmap <Leader>bl <Plug>VimspectorBreakpoints
+
+    nmap <leader>dl :execute 'VimspectorLoadSession /tmp/' .. fnamemodify(getcwd(), ':t') .. '.session'<CR>
+    nmap <leader>dm :execute 'VimspectorMkSession /tmp/' .. fnamemodify(getcwd(), ':t') .. '.session'<CR>
 endif
 " }}}
 " Autopair config {{{
