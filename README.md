@@ -11,9 +11,14 @@ Compatibility: assume latest Vim.
 
 As you can see, my Makefile has a target for vim that compiles Vim, so I have no reason to stay backwards-compatible. I'll update if I have to, and I can do it in 1.5 minute or less on my current hardware.
 
-### Snippets
+### Additional plugins making up the .vimrc
+#### Snippets
 
 Up until recently, the snippets I used in Vim were kept in this repo. As of 27.08.23, they've been relocated to [a different repository](https://github.com/LunarWatcher/lunarwatcher-vim-snippets), so they're actually reusable. 
+
+#### Extra modules
+
+Some code-intensive config things have been moved to a [separate repository](https://codeberg.org/LunarWatcher/vimrc-modules/) so it can be loaded as a plugin. This is purely to avoid a cursed hard-coded expansion-based system that resolves the real path of the `.vimrc` to activate the dotfiles repo (or a subfolder) as a vim plugin, because that sounds cursed and terrible.
 
 ### Notes
 

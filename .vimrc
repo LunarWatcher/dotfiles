@@ -207,12 +207,8 @@ if !has("win32") && !has("win32unix")
 endif
 " }}}
 " Search {{{
-" This won't integrate with search preview
-"Plug 'google/vim-searchindex'
 Plug 'obcat/vim-hitspop'
-Plug 'haya14busa/incsearch.vim'
 Plug 'markonm/traces.vim'
-Plug 'haya14busa/is.vim'
 " }}}
 " Start screen {{{
 Plug 'mhinz/vim-startify'
@@ -267,7 +263,6 @@ endtry
 Plug 'thinca/vim-themis'
 
 Plug 'tpope/vim-repeat'
-Plug 'Asheq/close-buffers.vim'
 call s:LocalOption("helpwriter.vim", "LunarWatcher/helpwriter.vim")
 call s:LocalOption("vim9cord", "LunarWatcher/vim9cord")
 call s:LocalOption("vimrc-modules", "LunarWatcher/vimrc-modules")
@@ -379,10 +374,6 @@ inoremap <silent><expr> <C-b> coc#float#has_scroll() ? "\<c-r>=coc#float#scroll(
 vnoremap <silent><expr> <C-f> coc#float#has_scroll() ? coc#float#scroll(1) : "\<C-f>"
 vnoremap <silent><expr> <C-b> coc#float#has_scroll() ? coc#float#scroll(0) : "\<C-b>"
 
-" This isn't optimal, but mapping <C-p> is not an option, because auto-pairs
-" takes priority
-" TODO: borked, fucks with a cr map
-"inoremap <silent><expr> <C-m> coc#pum#visible() ? coc#pum#prev(1) : "\<C-m>"
 
 " Show docs
 " I also like that this doesn't show up automatically. YCM was wayyyyyyyy too
@@ -395,24 +386,6 @@ nnoremap <silent> K :call CocActionAsync('doHover')<cr>
 nnoremap <silent> <leader>rc :call CocRestart<cr>
 nnoremap <silent> <leader>hp :call coc#float#close_all()<cr>
 
-" }}}
-" asyncrun and asynctask {{{
-let g:asyncrun_open = 6
-let g:asyncrun_bell = 0     " Fuck bells
-
-
-
-let g:asynctasks_extra_config = [ $HOME .. "/.vim/asynctasks.ini" ]
-
-nnoremap <F9> :AsyncStop<cr>:2sleep<cr>:AsyncTask build<cr>
-nnoremap <F10> :AsyncStop<cr>:2sleep<cr>:AsyncTask run-build<cr>
-nnoremap <F11> :AsyncStop<cr>:2sleep<cr>:AsyncTask test<cr>
-
-nnoremap <leader>oar :AsyncTask run<cr>
-
-" TODO: standardise your shit
-" Note: <leader>o is a prefix
-nnoremap <leader>oas :AsyncStop<cr>
 " }}}
 " Vimspector {{{
 if !has("win32") && !has("win32unix")
@@ -467,25 +440,6 @@ let g:AutoPairsExperimentalAutocmd = 1
 " Undotree {{{
 nnoremap <leader>ou :UndotreeToggle<cr>
 " }}}
-" Incsearch {{{
-
-" Auto-disables highlighting
-let g:incsearch#auto_nohlsearch=1
-
-" Search remapping
-map /  <Plug>(incsearch-forward)
-map ?  <Plug>(incsearch-backward)
-map g/ <Plug>(incsearch-stay)
-
-" Highlight remapping
-map n  <Plug>(incsearch-nohl-n)
-map N  <Plug>(incsearch-nohl-N)
-map *  <Plug>(incsearch-nohl-*)
-map #  <Plug>(incsearch-nohl-#)
-map g* <Plug>(incsearch-nohl-g*)
-map g# <Plug>(incsearch-nohl-g#)
-
-" }}}
 " Local vimrc {{{
 let g:localvimrc_ask = 0
 let g:localvimrc_sandbox = 0
@@ -509,12 +463,10 @@ let g:UltiSnipsJumpBackwardTrigger="<C-k>"
 let g:UltiSnipsListSnippets="<C-u>"
 " }}}
 " Junegunn plugins {{{
-
 nnoremap <leader>go :Goyo 65%x95%<cr>
 nnoremap <leader>ll :Limelight!! 0.6<cr>
 " }}}
 " Vim clang-format {{{
-
 nnoremap <leader>cf :ClangFormat<cr>
 " }}}
 " Vista {{{ "
@@ -524,20 +476,8 @@ let g:vista#renderer#icons = {
 \   "function": "\uf794",
 \   "variable": "\uf71b",
 \  }
-
 " }}} Vista "
-" Vim illuminate {{{ "
-" Disable highlighting in some files
-let g:Illuminate_ftblacklist = ['nerdtree', 'md', 'json', 'markdown', 'text', 'txt']
-" }}} Vim illuminate "
-" Rainbows {{{
-
-" The autocmd enabling this for some files failed.
-let g:rainbow_active = 1
-let g:rainbow_list = ['vim', 'javascript', 'java', 'python', 'cpp']
-" }}}
 " FZF {{{ 
-
 fun! s:Fzf2Quickfix(lines)
     call setqflist(map(copy(a:lines), '{"filename": v:val}'), "r")
     copen
@@ -812,7 +752,7 @@ set cino+=k4,m1,W4,j1
 augroup ZoeFiletypes
     au!
 
-    autocmd BufRead,BufNewfile conanfile.txt set filetype=dosini
+    autocmd BufRead,BufNewfile conanfile.txt set filetype=dosini.conanfile
 
     autocmd Bufread,BufNewFile *.trconf set ft=json
     autocmd BufRead,BufNewFile *.vert,*.frag set ft=glsl
