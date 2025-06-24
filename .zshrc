@@ -12,6 +12,41 @@ uname -r | grep -q WSL
 if [[ $? == 0 ]]; then
     export __LIVI_WSL__=1
     export GVIM_ENABLE_WAYLAND=1
+
+    setxkbmap no nodeadkeys > /dev/null 2>&1
+    typeset -g POWERLEVEL9K_INSTANT_PROMPT=quiet
+
+    echo "                                 ⡀       "
+    echo "                              ⢀⣴⣿⠟⣧      "
+    echo "           ⢠⣶⢤⣀              ⣴⡿⠏⣿ ⢸⡄     "
+    echo "           ⢸⠉⢿⡻⠙⠦⣄         ⢠⡞⠛⠃⢠⣷⡀⠈⣇     "
+    echo "           ⢸ ⠘⣷⡄ ⠈⠙⢦⡴⣶⠖⠋⠑⠋⠉⠛⢷⣄⡀⣾⠋⣹⡷⠆     "
+    echo "           ⠸⡄⢀⡿⢷⡄⢠⣾⠇          ⠙⠻⣄⣹⡇⡇     "
+    echo "            ⢳⡛⣶⠄⡿⠋⠁       ⢀⡀    ⠙⢮⡿⣷     "
+    echo "            ⠘⢷⢻⣺⠇    ⣶⣦   ⢻⠿⢀⣤⣤⣄  ⠙⣧     "
+    echo "             ⢸⣽⡯  ⣤⣤⣤⡙⠋     ⣾⠛⣿⣿⣿⠃ ⣩⣷⣦   "
+    echo "              ⣿ ⠠⣾⣿⣿⠛⢿⡄ ⣀⣀⣀ ⢿⣿⣿⣿⣟⡴⠟⢙⣪⡏   "
+    echo "             ⣾⣭⣀ ⠈⢿⣿⣿⣿⣧⠞⠛⣿⢉⠙⠛⠛⣿⡍⠁  ⣠⡟    "
+    echo "             ⠹⣮⡎⠙⠓⠲⠛⣿⡍   ⠙⠏   ⠉⠁ ⣀⡴⠟     "
+    echo "              ⠈⠓⢶⣄  ⠈⠁⢀ ⣠⣀⣤⢶  ⣶⠒⠻⣿       "
+    echo "                 ⠈⠉⣹⡟⢿⡿ ⡾ ⠷⢀⠙⢀⡛⣦ ⠸⣗      "
+    echo "                  ⢰⣿⠅⣿⠼ ⠠⡧ ⠘⠂ ⠹⣾⠆ ⣸⡇     "
+    echo "                  ⢸⣇⣸⣏⣰⢧⡄      ⣿⡄ ⠸⣆     "
+    echo "                  ⡼⠁⣸⡏⠉⠉      ⠰⣿⠁ ⢀⡿     "
+    echo "        ⣀⡤⠤⠤⠤⢤⣄⣀ ⢰⣇ ⠻⣶        ⢰⠟  ⢸⣧     "
+    echo "      ⣴⠞⠛     ⣆⡏⢹⠏⣟  ⠈⠳⣶⣆   ⣦⣠⠟   ⢀⡟⣧    "
+    echo "    ⢀⡞⠁ ⢰⣟⡻⠿⠷⠤⢤⣴⣏⣸⢽⣶   ⠈⠛⢦⣠⡴⠋⠁   ⢰⠿⣿⣽⣧⡀  "
+    echo "   ⢠⡿    ⠉   ⣰⠞⣉ ⠉⠳⢿⣦⡄ ⢀⣠⣿⡇⣷⡀⠈  ⢀⡏   ⠈⢳⡀ "
+    echo "   ⣼⠓⠄    ⢀⣤⠾⢃⣀⠠⠤   ⠙⢿⣶⣿⣿⣿⡇⣿⣿⣿⣄⣴⣾⠃⣀⣤⡉ ⠈⢳ "
+    echo "   ⢻⠃    ⢠⡟⠁⣠⡀⢠⡄⠲⠆    ⢹⣿⣿⣿⡇⣿⣷⣿⣟⢍⡏ ⠳⡿⠃  ⢸⠂"
+    echo "   ⠸⣆    ⠘⢧⡀ ⢠⣄⠶⠆      ⢻⣿⣿⡇⣿⣿⣿⣿⣿⣇⣀⣀  ⣠⢠⡾ "
+    echo "    ⠘⢷⡀   ⣼⠋⠓ ⢠⣤       ⠈⣿⣿⡧⣿⣿⣿⣾⢷⣿⣿⣿⣷⣾⠾⠋  "
+    echo "      ⠉⠓⠦⣄⣹⣼⠆⠹         ⢤⣿⣿⣧⣿⣿⣿⠏ ⠉⠛⠛⠛⠋    "
+    echo "           ⠉⠉⠉⠙⠛⠛⠛⠓⠒⠒⠲⠤⢬⡏⠉⠉⠉⠉⠉           "
+    echo ""
+    echo "My sincerest condolences on being stuck in WSL."
+    echo "Friendly reminder fox says:"
+    echo "   Run unfuck-wsl-keyboard.ps1 before you continue"
 fi
 
 

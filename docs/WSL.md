@@ -27,6 +27,30 @@ This is not a problem out of the box, but happens after running the dependency t
 
 This is patched out automagically by newer versions of the makefile with the `wsl-unfuck-unicode` target. 
 
+## Custom keyboard layouts/forcing dead keys
+
+Using a non-standard layout means WSL doesn't translate it properly, and it instead reverts to the US keyboard layout. This needs to be manually overridden with
+```
+setxkbmap no nodeadkeys
+```
+
+This is done automagically by `.zshrc` when WSL is detected.  However, this only affects Xserver apps. Wayland is a piece of shit that didn't standardise an equivalent, so it's compositor-dependent. WSL uses Weston, but WSL is also ✨ special ✨ and requires using WSL commands. This file CANNOT be edited from the Ubuntu container:
+
+```
+wsl -d Ubuntu --user root --system bash -c 'echo -e "[keyboard]" >> /home/wslg/.config/weston.ini'
+wsl -d Ubuntu --user root --system bash -c 'echo -e "keymap_layout=no" >> /home/wslg/.config/weston.ini'
+wsl -d Ubuntu --user root --system bash -c 'echo -e "keymap_variant=nodeadkeys" >> /home/wslg/.config/weston.ini'
+# Restart weston so the changes take place
+wsl -d Ubuntu --user root --system bash -c 'pkill -HUP weston'
+```
+
+Just like the Xserver command, this needs to be run once per boot. The changes to weston.ini do not persist. This cannot be automated as easily, because there's nothing to hook into. A keybind will be provided if I can figure out how to make custom keybinds that run scripts on windows. 
+
+In the meanwhile, `windows/unfuck-wsl-keyboard.ps1` runs these commands, so it's at least a single click away. 
+
+---
+
+A `no nodeadkeys` equivalent is zipped in `windows/keyboard` for reuse on other systems without having to reinstall the MS layout editor  thing.
 
 [^1]: https://www.reddit.com/r/bashonubuntuonwindows/comments/10zy4y8/gtk_theme_not_used_on_border_and_title_bar/
 [^2]: https://github.com/microsoft/WSL/issues/4197
