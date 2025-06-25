@@ -46,7 +46,7 @@ wsl -d Ubuntu --user root --system bash -c 'pkill -HUP weston'
 
 Just like the Xserver command, this needs to be run once per boot. The changes to weston.ini do not persist. This cannot be automated as easily, because there's nothing to hook into. A keybind will be provided if I can figure out how to make custom keybinds that run scripts on windows. 
 
-In the meanwhile, `windows/unfuck-wsl-keyboard.ps1` runs these commands, so it's at least a single click away. 
+In the meanwhile, `windows/unfuck-wsl-keyboard.ps1` runs these commands, so it's at least a single click away. Note that for this to actually work with a single click, `powershell Set-ExecutionPolicy Bypass` (as administrator) is needed. This, unlike anything else microsoft has produced, is actually a one-time thing. This is labelled unsafe behaviour by MS, but it's neither developer nor power-user-friendly, so fuck what MS thinks, with a cactus.
 
 ---
 
