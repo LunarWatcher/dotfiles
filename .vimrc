@@ -364,7 +364,13 @@ nmap <leader>qf  <Plug>(coc-fix-current)
 
 inoremap <silent><expr> <c-space> coc#refresh()
 nmap <leader>rn <Plug>(coc-rename)
-nmap <silent> gd <Plug>(coc-definition)
+nmap <silent> <leader>rd <Plug>(coc-definition)
+nmap <silent> <leader>rD <Plug>(coc-declaration)
+nmap <silent> <leader>rr <Plug>(coc-references)
+nmap <silent> <leader>ri <Plug>(coc-implementation)
+nmap <silent> <leader>rt <Plug>(coc-type-definition)
+
+nmap <silent> <leader>rf <Plug>(coc-format)
 
 " Fix scrolling in popups
 nnoremap <silent><expr> <C-f> coc#float#has_scroll() ? coc#float#scroll(1) : "\<C-f>"
