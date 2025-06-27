@@ -69,7 +69,6 @@ HIST_STAMPS="dd.mm.yyyy"
 
 # Plugins
 plugins=(
-    git
     wd
     vim-interaction
 )

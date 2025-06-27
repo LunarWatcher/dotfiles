@@ -18,6 +18,11 @@ alias gitgraph="git log --graph --abbrev-commit --decorate --format=format:'%C(b
 alias gitsign="git config commit.gpgsign true"
 alias gsi="git submodule update --init"
 alias gcget="git config --get"
+alias grhu='git reset --hard origin/$(git branch --show-current)'
+alias grh="git reset --hard"
+alias gra="git commit --amend --no-edit"
+alias gai="git add -i"
+alias ga="git add -A"
 
 function ghsclone() {
     if [[ "$1" == "" ]]; then
@@ -75,7 +80,7 @@ alias sysupdate="sudo apt update && sudo apt upgrade && flatpak update"
 # (like pip).
 function updatePackages() {
     set -x
-    go get -v -u github.com/boyter/scc/
+    go install -v -u github.com/boyter/scc/
     git -C ${ZSH_CUSTOM:-$HOME/.oh-my-zsh/custom}/themes/powerlevel10k pull
     # Not quitting afterwards in the event something goes wrong
     gvim +PlugUpdate
@@ -148,7 +153,7 @@ function cleanmk() {
     fi
 }
 # }}}
-# CMake {{{
+# CMake/make {{{
 alias cmaker="cmake .. -DCMAKE_BUILD_TYPE=Release -DCMAKE_EXPORT_COMPILE_COMMANDS=1"
 alias cmaked="cmake .. -DCMAKE_BUILD_TYPE=Debug -DCMAKE_EXPORT_COMPILE_COMMANDS=1"
 alias fmake='make -j $(nproc)'
@@ -182,17 +187,9 @@ if [[ $USER == "olivia" ]]; then
 
 fi
 # }}}
-# VPN {{{
-# Thanks, arch wiki: https://wiki.archlinux.org/title/VPN_over_SSH
-alias vpn="ssh -TND 4711 olivia@nova.remote"
-
-function oc() {
-    openconnect-sso -s $1 --browser-display-mode shown
-}
-# }}}
 # WSL bullshit {{{
 if [[ $(grep -i Microsoft /proc/version) ]]; then
-    # No automatic services
+    # No automatic services (TODO: outdated?)
     function bootstrapenv() {
         sudo service postgresql start
     }
