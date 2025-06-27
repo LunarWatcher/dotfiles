@@ -540,6 +540,22 @@ command! -bang -nargs=* Search call fzf#vim#grep2(
         \ <bang>0
         \ )
 
+fun! s:AddCoAuthors(lines)
+    call map(a:lines, '"Co-Authored-By: " .. v:val')
+    " Force insertion on the current line and out rather than inserting a
+    " potentially blank line
+    call append(line('.') - 1, a:lines)
+endfun
+command! -bang -nargs=* AddGitCoAuthors call fzf#run(fzf#wrap({
+    \ 'source': "git log --format='%aN <%aE>' | sort -u",
+    \ 'down': '30%',
+    \ 'sinklist': function('s:AddCoAuthors')
+\ }), <bang>0)
+augroup GitCoAuthorHelper
+    au! 
+    autocmd FileType gitcommit nnoremap <buffer> <leader>co :AddGitCoAuthors<cr>
+augroup END
+
 " Modified version of fzf.vim's :Rg and :RG that includes hidden files, while
 " omitting .git. Necessary for several very relevant files to be searchable
 command! -bang -nargs=* HRg call fzf#vim#grep("rg --hidden --glob '!.git' --column --line-number --no-heading --color=always --smart-case -- ".fzf#shellescape(<q-args>), fzf#vim#with_preview(), <bang>0)
