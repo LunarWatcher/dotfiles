@@ -79,7 +79,6 @@ export WD_SKIP_EXPORT=1
 source $ZSH/oh-my-zsh.sh
 
 # Config
-export LANG=en_GB.UTF-8
 if [[ "$SSH_TTY" == "" ]]; then
     export EDITOR='gvim -f'
 else
