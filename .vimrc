@@ -1183,7 +1183,6 @@ command! -nargs=0 UninstallUltiSnips call delete($HOME .. "/.vim/plugged/ultisni
 " }}}
 " }}}
 " gVim config {{{
-
 if has("gui_running")
     set wak=no
     " Disable the GUI toolbars (they're noisy)
@@ -1208,9 +1207,6 @@ if has("gui_running")
     imap <C-BS> <C-w>
     imap <C-Del> <C-o>dw
 
-    " hack: enable ctrl-ins and shift-ins.
-    " These don't work out of the box on Ubuntu-based distros,
-    " and possibly more distros. Works on Windows, ironically
     map <S-Insert> "+p
     imap <S-Insert> <Esc>"+p
     map <C-Insert> "+y
@@ -1219,6 +1215,26 @@ else
     " Because some keys with esc as part of its code are mapped, the terminal
     " timeout has to be reduced. https://vi.stackexchange.com/a/24938/21251
     set ttimeoutlen=10
+endif
+" }}}
+" WSL patches {{{
+call system("uname -r | grep -q WSL")
+if v:shell_error == 0
+    " Necessary hack for gvim, since gvim doesn't properly strip CRLFs to LFs
+    " when pasting. This likely applies elsewhere too, but I think other
+    " editors are far more aggressive at fixing it automatically
+    fun! s:FixWSLCopying()
+        let event = v:event
+        if event.regname == "*" || event.regname == "+"
+            if (event.regname->stridx("\r") >= 0)
+                call setreg(event.regname, event.regcontents)
+            endif
+        endif
+    endfun
+    augroup WslPatches
+        au!
+        autocmd TextYankPost * call s:FixWSLCopying()
+    augroup END
 endif
 " }}}
 " External config {{{

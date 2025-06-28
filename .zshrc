@@ -7,7 +7,6 @@ if [[ "$(zsh --version)" =~ "zsh 5.9" ]]; then
     CASE_SENSITIVE=true
 fi
 
-
 uname -r | grep -q WSL
 if [[ $? == 0 ]]; then
     export __LIVI_WSL__=1
