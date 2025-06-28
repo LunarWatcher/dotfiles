@@ -1227,7 +1227,7 @@ if v:shell_error == 0
         let event = v:event
         if event.regname == "*" || event.regname == "+"
             if (event.regname->stridx("\r") >= 0)
-                call setreg(event.regname, event.regcontents)
+                call setreg(event.regname, event.regcontents->substitute("\r", "", "g"))
             endif
         endif
     endfun
