@@ -605,7 +605,8 @@ fun FernMaps()
     
     " Nerd-tree compatible mappings
     nmap <buffer> s <Plug>(fern-action-open:vsplit)
-    nmap <buffer> i <Plug>(fern-action-open:split)
+    nmap <buffer> h <Plug>(fern-action-open:split)
+    nmap <buffer> t <Plug>(fern-action-open:tabedit)
 
     nmap <buffer> o <Plug>(fern-cr)
     nmap <buffer> O <Plug>(fern-action-expand-tree:stay)
