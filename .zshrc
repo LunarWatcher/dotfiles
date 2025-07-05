@@ -45,7 +45,7 @@ if [[ $? == 0 ]]; then
     echo ""
     echo "My sincerest condolences on being stuck in WSL."
     echo "Friendly reminder fox says:"
-    echo "   Run unfuck-wsl-keyboard.ps1 before you continue"
+    echo "   Run unfuck-wsl-keyboard.bat before you continue"
 fi
 
 
@@ -150,3 +150,7 @@ fi
 # Add RVM to PATH for scripting. Make sure this is the last PATH variable change.
 export PATH="$PATH:$HOME/.rvm/bin"
 [[ -s "$HOME/.rvm/scripts/rvm" ]] && . "$HOME/.rvm/scripts/rvm" 
+
+if [[ "$(hostname)" == "vixen" ]]; then
+    export PATH="/media/data-ssd-1/SteamLibrary/steamapps/common/Aseprite:$PATH"
+fi
