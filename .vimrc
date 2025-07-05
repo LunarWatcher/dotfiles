@@ -1235,7 +1235,12 @@ if v:shell_error == 0
         au!
         autocmd TextYankPost * call s:FixWSLCopying()
     augroup END
+
+    " Scaling does not apply to WSL windows
+    command! Small set guifont=Source\ Code\ Pro:h12
+    command! Large set guifont=Source\ Code\ Pro:h16
 endif
+
 " }}}
 " External config {{{
 " This enables system-specific configurations that don't make sense to keep in
