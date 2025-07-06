@@ -918,6 +918,9 @@ nnoremap <F7> :copen<cr>
 nnoremap <leader>cn :cnext<cr>
 nnoremap <leader>cp :cprev<cr>
 " }}}
+" Utility {{{
+command! Chmod :!chmod +x %
+" }}}
 " }}}
 " Mappings {{{
 " Fix copy-pasta {{{
