@@ -1,37 +1,49 @@
 # dotfiles
 
-## General compatibility
+This repository contains my dotfiles, and a massive automation system for installing and managing my dotfiles, software, and servers.
 
-These dotfiles are primarily tested against Linux Mint, and occasionally against Ubuntu and debian (mostly raspbian so far). Due to work applications, WSL (Ubuntu) is also included. Most of the dependency installation relies heavily on specific system configurations, and won't work more broadly.
+Some important folders
 
-Windows works-ish, but it's much more unreliable, particularly with Vim. This is mainly noticeable with fzf, where the window seems to be any number of different sizes that vary between runs for no reason what so ever.
+* `docs/`: Contains conventions, manual installation steps, and noteworthy pitfalls 
+* `make/`: contains Makefile-based modules for the main installation script
+* `config/`: contains content copied to `~/.config`
+* `cinnamon/`: Contains cinnamon-specific configuration
+* `automation/`: Contains shell scripts for automated installation of some more complicated services. Some of these are used by specific parts of `make/` (largely `nova.mk`?)
+* `scripts/`: Contains supporting scripts used through zsh
+* `windows/`: contains Windows-specific scripts, and also the keyboard layout I use
 
-## .vimrc
-Compatibility: assume latest Vim. 
+The remaining folders contain various minor files not directly worth mentioning here. 
 
-As you can see, my Makefile has a target for vim that compiles Vim, so I have no reason to stay backwards-compatible. I'll update if I have to, and I can do it in 1.5 minute or less on my current hardware.
+In addition, in my local install, `secrets/` exists. This is a remote git repo stored in my local forgejo instance. As the name suggests, it contains secrets.
 
-### Additional plugins making up the .vimrc
-#### Snippets
+> [!warning]
+>
+> You should not run any of the automation scripts without fully understand what they do first. They install a lot of opinionated stuff, and make decisions that I can only guarantee make sense with my specific setup. If you're interested in joinking my dotfiles, do so manually. If you're interested in the automation suite, [I wrote a blog post about it](https://lunarwatcher.github.io/posts/2024/01/06/how-to-set-up-a-makefile-for-managing-dotfiles-and-system-configurations.html). You can also just read the code and manually port over the parts you want. 
+>
+> However, running it as-is, unless you're me, is likely a bad idea, and will likely have unexpected consequences. You have been warned.
 
-Up until recently, the snippets I used in Vim were kept in this repo. As of 27.08.23, they've been relocated to [a different repository](https://github.com/LunarWatcher/lunarwatcher-vim-snippets), so they're actually reusable. 
+## Prerequites
 
-#### Extra modules
+From nothing, it's assumed that:
 
-Some code-intensive config things have been moved to a [separate repository](https://codeberg.org/LunarWatcher/vimrc-modules/) so it can be loaded as a plugin. This is purely to avoid a cursed hard-coded expansion-based system that resolves the real path of the `.vimrc` to activate the dotfiles repo (or a subfolder) as a vim plugin, because that sounds cursed and terrible.
+* You have an SSH key for GitHub set up
+* If using the `secrets` target, you must additionally be me, and have an SSH key to forgejo as well. 
+* You have cloned the repo, and have Git installed.
 
-### Notes
+## Running the automation systems
 
-* Out of the box, the Python paths are set to python2 and python3. This actually works perfectly fine if an executable called python2 and one called python3 can be found in the path. If they don't, you can either symlink them (copying is not recommended), or change the paths to use the full path.
-* To use the devicons plugin, a [patched Nerd Font](https://github.com/ryanoasis/nerd-fonts) is required. These should now work everywhere
+There's a few main targets, and they're somewhat modular. These are:
 
-## Makefile
+* `home`: used for private machines
+* `server`: used for servers (shock)
+* `work`: used for work computers
 
-This dotfile repo bases itself on makefiles. It should take care of all the relevant dependencies. Note that the files themselves assume the distro is Debian-based (for access to `apt`).
+In addition, the following non-bundled  targets exist:
 
-Installing dotfiles, along with necessary dependencies can be done by running `make dotall`. For additional software, use `make all`, or just `make software`. Note that the software installed is primarily geared towards me, hence the split between dotfile installation.
+* `secrets`: clones the secrets repo and runs `bootstrap.sh`. For context for anyone without access to my secrets repo, this is just a shell script in the secrets repo that copies the secret files where they need to be copied.
+* `java`: installs some Java-related tooling. Ironically, java itself is not installed through this dependency, as java versions in the wild seem to be more involved than "Just install latest and call it a day". Don't you just love legacy software?
 
-Note that unless you're me, you probably don't want to do this! Extract the stuff you want, and nothing else
+There's also `common`, which runs everything except the configuration-specific targets
 
 ## License 
 
