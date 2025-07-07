@@ -9,6 +9,9 @@ browser.ml.chat.shortcuts
 # Crap features
 browser.urlbar.suggest.pocket
 extensions.pocket.enabled
+
+# Crap standards
+browser.urlbar.trimURLs
 ```
 
 ## TODO

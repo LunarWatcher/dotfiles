@@ -484,12 +484,6 @@ let g:vista#renderer#icons = {
 \  }
 " }}} Vista "
 " FZF {{{ 
-fun! s:Fzf2Quickfix(lines)
-    call setqflist(map(copy(a:lines), '{"filename": v:val}'), "r")
-    copen
-    call setqflist([], 'a', {"title": "FZF search results"})
-endfun
-
 let g:fzf_layout = {
     \ 'window':
     \     {
@@ -506,7 +500,6 @@ let g:fzf_action = {
     \ 'ctrl-s': 'split',
     \ 'ctrl-v': 'vsplit',
     \ 'ctrl-o': 'tabe',
-    \ 'ctrl-f': function('s:Fzf2Quickfix')
 \ }
 
 command! -bang -nargs=? -complete=dir HFiles call fzf#run(fzf#wrap({
@@ -529,14 +522,19 @@ command! -bang -nargs=? -complete=dir CMakeFiles call fzf#run(fzf#wrap({
 
 command! -nargs=0 TODO grep! '(TODO\|FIXME)(\(.*\))?:?'
 
+" Note to self: the documentation lies
+" sinklist here forces a fallback 
 command! -bang -nargs=* Search call fzf#vim#grep2(
         \ "rg --hidden --glob '!.git' --column --line-number --no-heading --color=always --smart-case -- ", 
         \ <q-args>,
-        \ fzf#wrap({
-        \   'options': ['--layout=reverse', '--bind=enter:select-all+accept'],
+        \ {
+        \   'options': [
+        \       '--layout=reverse', 
+        \       '--bind=enter:select-all+accept',
+        \       '--multi',
+        \   ],
         \   'down': '30%',
-        \   'sinklist': function('s:Fzf2Quickfix')
-        \ }),
+        \ },
         \ <bang>0
         \ )
 
@@ -1243,6 +1241,8 @@ if v:shell_error == 0
     " Scaling does not apply to WSL windows
     command! Small set guifont=Source\ Code\ Pro:h12
     command! Large set guifont=Source\ Code\ Pro:h16
+
+    nnoremap <leader>wp :%s/\r//g<cr>
 endif
 
 " }}}
