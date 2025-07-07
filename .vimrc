@@ -156,7 +156,7 @@ Plug 'junegunn/limelight.vim'
 Plug 'junegunn/vim-easy-align'
 Plug 'wellle/targets.vim'
 " Bit of a weak argument to call this a text extension, but here we are
-Plug 'junegunn/vim-peekaboo'
+" Plug 'junegunn/vim-peekaboo'
 call s:LocalOption("img-paste.vim", "LunarWatcher/img-paste.vim")
 " }}}
 " Coding utilities {{{
