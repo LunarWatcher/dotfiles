@@ -1239,8 +1239,8 @@ if v:shell_error == 0
     augroup END
 
     " Scaling does not apply to WSL windows
-    command! Small set guifont=Source\ Code\ Pro:h12
-    command! Large set guifont=Source\ Code\ Pro:h16
+    command! Small set guifont=SauceCodePro\ Nerd\ Font\ 12
+    command! Large set guifont=SauceCodePro\ Nerd\ Font\ 16
 
     nnoremap <leader>wp :%s/\r//g<cr>
 endif
