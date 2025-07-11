@@ -63,6 +63,12 @@ include make/distros/mint.mk
 include make/packages/flatpak.mk
 endif # mint
 
+ifeq ($(currDist),debian)
+$(info -- Loading Debian (non-derivative\)-specific stuff)
+include make/distros/debian.mk
+
+endif # debian
+
 ifeq ($(currDist),ubuntu)
 $(info -- Loading ubuntu-specific stuff)
 include make/distros/ubuntu.mk
