@@ -62,6 +62,7 @@ debian-core:
 	# sudo apt install -y fastfetch
 	
 	sudo apt install -y python3-venv
+	sudo apt install -y extrepo
 
 upm:
 	sudo bash -c "$$(wget -O- https://raw.githubusercontent.com/LunarWatcher/upm/master/tools/install.sh)"
