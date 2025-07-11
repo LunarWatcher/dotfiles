@@ -22,9 +22,9 @@ currOs := linux
 # https://gist.github.com/natefoo/814c5bf936922dad97ff
 # for more details and alternatives
 currDist := $(shell cat /etc/os-release | sed -n 's/^ID=\(.*\)$$/\1/p')
-isWSL := $(shell uname -r | grep -q "WSL2" && echo "WSL2")
+isWSL := $(shell uname -r | grep -q "WSL2" && echo "WSL2" || echo "NO")
 
-$(info -- WSL detected: $(isWSL))
+$(info -- WSL detected? $(isWSL))
 endif
 ifeq ($(UNAME_S),Darwin)
 currOs := macos

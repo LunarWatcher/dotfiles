@@ -356,7 +356,7 @@ let g:coc_global_extensions = [
     \ 'coc-tsserver', 'coc-css', 'coc-html',
     \ 'coc-clangd',
     \ 'coc-snippets',
-    \ 'coc-pyright',
+    \ 'coc-jedi'
 \ ]
 nmap <leader>qa  <Plug>(coc-codeaction-cursor)
 nmap <leader>qs  <Plug>(coc-codeaction-source)
