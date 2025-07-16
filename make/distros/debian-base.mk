@@ -73,7 +73,16 @@ vim: upm
 node: upm
 	sudo upm install nodejs
 
+dev-support: debian-core
+	sudo apt install -y direnv
+
+hashicorp-vault:
+	wget -O - https://apt.releases.hashicorp.com/gpg | sudo gpg --dearmor -o /usr/share/keyrings/hashicorp-archive-keyring.gpg
+	echo "deb [arch=$$(dpkg --print-architecture) signed-by=/usr/share/keyrings/hashicorp-archive-keyring.gpg] https://apt.releases.hashicorp.com $$(grep -oP '(?<=UBUNTU_CODENAME=).*' /etc/os-release || lsb_release -cs) main" | sudo tee /etc/apt/sources.list.d/hashicorp.list
+	sudo apt update && sudo apt install vault
+
 DEPENDENCY_TARGETS += debian-base-update debian-build-deps ohmyzsh debian-dotfile-software
 DOTFILE_TARGETS += debian-base-dotfiles
-SOFTWARE_TARGETS += debian-core vim node
+SOFTWARE_TARGETS += debian-core vim node dev-support
 HOME_TARGETS += debian-home-packages
+WORK_TARGETS += hashicorp-vault

@@ -70,6 +70,7 @@ HIST_STAMPS="dd.mm.yyyy"
 plugins=(
     wd
     vim-interaction
+    direnv
 )
 
 # Prevent wd from converting paths (https://github.com/ohmyzsh/ohmyzsh/issues/8996#issuecomment-640512998)
@@ -107,9 +108,6 @@ else
     export CXX=g++
     export CC=gcc
 fi
-# Fix with some OpenSSL-based apps
-# TODO: This is a shit variable, and doesn't match my new conventions
-export SSL_CERT_FILE=/etc/ssl/certs/ca-certificates.crt
 
 # >>> conda initialize >>>
 # !! Contents within this block are managed by 'conda init' !!
@@ -154,3 +152,4 @@ export PATH="$PATH:$HOME/.rvm/bin"
 if [[ "$(hostname)" == "vixen" ]]; then
     export PATH="/media/data-ssd-1/SteamLibrary/steamapps/common/Aseprite:$PATH"
 fi
+
