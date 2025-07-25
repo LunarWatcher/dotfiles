@@ -188,6 +188,7 @@ Plug 'vim-airline/vim-airline-themes'
 " Git integration {{{
 Plug 'tpope/vim-fugitive'
 Plug 'rbong/vim-flog'
+Plug 'airblade/vim-gitgutter'
 " }}}
 " Project management {{{
 Plug 'embear/vim-localvimrc'
@@ -349,7 +350,7 @@ let g:startify_bookmarks = [
 " Autocomplete {{{
 
 set shortmess+=c
-set signcolumn=number
+set signcolumn=yes
 set updatetime=100
 
 let g:coc_global_extensions = [
