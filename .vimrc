@@ -150,6 +150,9 @@ Plug 'mg979/vim-visual-multi'
 " Primarily used at work, and in some large open-source projects 
 Plug 'editorconfig/editorconfig-vim'
 " }}}
+" Editor utils {{{
+Plug 'skywind3000/vim-quickui'
+" }}}
 " Text extensions {{{
 Plug 'junegunn/goyo.vim'
 Plug 'junegunn/limelight.vim'
@@ -359,9 +362,21 @@ let g:coc_global_extensions = [
     \ 'coc-snippets',
     \ 'coc-jedi'
 \ ]
-nmap <leader>qa  <Plug>(coc-codeaction-cursor)
-nmap <leader>qs  <Plug>(coc-codeaction-source)
-nmap <leader>qf  <Plug>(coc-fix-current)
+" Code actions {{{
+map <leader>qa <Plug>(coc-codeaction-cursor)
+
+nmap <leader>qA <Plug>(coc-codeaction)
+vmap <leader>qA <Plug>(coc-codeaction-selected)
+
+map <leader>qs <Plug>(coc-codeaction-source)
+map <leader>qF <Plug>(coc-codeaction-file)
+map <leader>ql <Plug>(coc-codeaction-line)
+
+nmap <leader>qr <Plug>(coc-codeaction-refactor)
+vmap <leader>qr <Plug>(coc-codeaction-refactor-selected)
+
+nmap <leader>qf <Plug>(coc-fix-current)
+" }}}
 
 inoremap <silent><expr> <c-space> coc#refresh()
 nmap <leader>rn <Plug>(coc-rename)
@@ -372,6 +387,7 @@ nmap <silent> <leader>ri <Plug>(coc-implementation)
 nmap <silent> <leader>rt <Plug>(coc-type-definition)
 
 nmap <silent> <leader>rf <Plug>(coc-format)
+vmap <silent> <leader>rf <Plug>(coc-format-selected)
 
 " Fix scrolling in popups
 nnoremap <silent><expr> <C-f> coc#float#has_scroll() ? coc#float#scroll(1) : "\<C-f>"
@@ -919,6 +935,50 @@ nnoremap <leader>cp :cprev<cr>
 " }}}
 " Utility {{{
 command! Chmod :!chmod +x %
+" }}}
+" QuickUI {{{
+" Config {{{
+" Pretty borders instead of ascii borders
+let g:quickui_border_style = 2
+" }}}
+" Coc.nvim actions {{{
+fun! ListCodeActions(scope)
+    " Note to self: :normal! skips maps, :normal does not
+    let actions = [
+        \ [ "&Cursor actions\t\\qa", "normal \\qa" ],
+        \ [ "C&ode actions\t\\qa", "normal \\qA" ],
+        \ [ "&File actions\t\\qF", "normal \\qF" ],
+        \ [ "&Source actions\t\\qs", "normal \\qs" ],
+        \ [ "&Line actions\t\\ql", "normal \\ql" ],
+        \ [ "&Refactor actions\t\\qr", "normal \\qr" ],
+        \ [ "R&ename\t\\rn", "normal \\rn" ],
+        \ [ "For&mat code (LSP)\t\\rf", "normal \\rf" ],
+        \ [ "Quick&fix (you should know this by now)\t\\qf", "normal \\qf" ]
+    \]
+    call quickui#listbox#open(actions, { "title": "Actions" })
+endfun
+
+fun! ListNavActions()
+    let actions = [
+        \ [ "&References\t\\rr", "normal \\rr" ],
+        \ [ "Go to &definition\t\\rd", "normal \\rd" ],
+        \ [ "Go to d&eclaration\t\\rD", "normal \\rD" ],
+        \ [ "Go to &implementation\t\\ri", "normal \\ri" ],
+        \ [ "Go to &type definition\t\\rt", "normal \\rt" ]
+    \]
+    call quickui#listbox#open(actions, { "title": "Code navigation" })
+endfun
+
+" Prefix: <leader>f is short for "fast actions", and used to reference
+" anything that opens util popups.
+" it can also mean "fuck, what fucking keybind was this again?", because
+" there's so many fucking keybinds, and the tweaks to the codeaction keybinds
+" made it so much harder. If I want to reliably use things, this is the best
+" option
+nmap <leader>fq :call ListCodeActions(0)<cr>
+vmap <leader>fq :call ListCodeActions(1)<cr>
+nmap <leader>fr :call ListNavActions()<cr>
+" }}}
 " }}}
 " }}}
 " Mappings {{{
