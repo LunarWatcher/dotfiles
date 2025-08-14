@@ -1137,14 +1137,6 @@ augroup FileMaps
     autocmd FileType fern call FernMaps()
 augroup END
 " }}}
-" Custom movements {{{
-" Delete Around Argument delete in word delete to find space
-nnoremap daa diwdf<space>
-" Not directly a movement, but close enough
-
-nnoremap ø 0i
-nnoremap æ ^i
-" }}} 
 " Utility {{{
 " Copy-pasta {{{
 command! -nargs=0 CopyLastCommand let @+ = @:
