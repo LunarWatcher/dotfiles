@@ -992,23 +992,6 @@ map <C-k> <C-W>k
 map <C-h> <C-W>h
 map <C-l> <C-W>l
 " }}}
-" Autosave {{{
-" Adapted from https://github.com/towc/dotfiles/blob/master/.vimrc#L462-L475
-let g:autoSave = 0
-function! ToggleAutoSave()
-    if g:autoSave == 0
-        let g:autoSave = 1
-        augroup AutoSaveAu
-            au!
-            au CursorHoldI,CursorHold <buffer> silent update
-        augroup END
-    else
-        let g:autoSave = 0
-        au! AutoSaveAu
-    endif
-endfunction
-nnoremap <leader>as :call ToggleAutoSave()<cr>
-" }}}
 " Terminal {{{
 tnoremap <C-n> <C-w>N
 if has("gui_running")
