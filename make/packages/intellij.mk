@@ -1,4 +1,7 @@
-jetbrains-toolbox:
+sdkman:
+	curl -s "https://get.sdkman.io?rcupdate=false" | bash
+
+jetbrains-toolbox: sdkman
 	wget -O jetbrains-toolbox.tar.gz "https://data.services.jetbrains.com/products/download?platform=linux&code=TBA"
 	tar -xf jetbrains-toolbox.tar.gz
 	# The extracted folder is jetbrains-toolbox-<version label>, hence the glob

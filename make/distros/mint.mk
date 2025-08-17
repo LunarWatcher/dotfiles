@@ -72,7 +72,14 @@ mint-keybinds:
 mint-export:
 	dconf dump /org/cinnamon/desktop/keybindings/ > cinnamon/keybinds
 
-HOME_TARGETS += mint-home-packages
+steam-ext: 
+	# World of Warcraft needs wine-staging-tkg to boot. Not sure why, but it's apparently
+	# a recurring bug. 
+	# It's trivial to install through ProtonPlus, and it seems to work fine even though
+	# it's in a sandbox
+	flatpak install flathub com.vysp3r.ProtonPlus
+
+HOME_TARGETS += mint-home-packages steam-ext
 SOFTWARE_TARGETS += mint-tweaks mint-core mint-tweaks docker mint-autokey mint-rofi mint-keybinds
 CLEANUP_TARGETS += mint-debloat
 EXPORT_TARGETS += mint-export
