@@ -787,7 +787,7 @@ set cino+=(0
 set cino+=k4,m1,W4,j1
 " }}}
 " Add non-standard filetypes {{{
-augroup ZoeFiletypes
+augroup OFiletypes
     au!
 
     autocmd BufRead,BufNewfile conanfile.txt set filetype=dosini.conanfile
