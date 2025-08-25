@@ -114,6 +114,13 @@ alias powershelldocker="docker run -ti --rm mcr.microsoft.com/powershell:latest"
 # convert standalone MP3s to spotify-compatible audio levels
 alias normalize-all-audio="ffmpeg-normalize *.mp3 -c:a libmp3lame -ext mp3 -b:a 320k -f -t -14"
 alias normalize-audio="ffmpeg-normalize -c:a libmp3lame -ext mp3 -b:a 320k -f -t -14"
+function mkv2mp3() {
+    if [[ "$1" == "" || "$2" == "" ]]; then
+        echo "Usage: mkv2mp3 src.mkv dest.mp3"
+        exit -2
+    fi
+    ffmpeg -i $1 -map 0:a:0 -b:a 320k $2
+}
 # }}}
 # asciinema extensions {{{
 
