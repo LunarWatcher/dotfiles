@@ -28,7 +28,6 @@ function cleanup() {
 # Docker services {{{
 updateDockerCompose "QBitTorrent" /home/olivia/docker/qbittorrent
 updateDockerCompose "Penpot" /home/olivia/docker/penpot
-updateDockerCompose "ArchiveBox" /home/olivia/docker docker-compose-archivebox.yml
 updateDockerCompose "VaultWarden" /home/olivia/programming/dotfiles/automation/dockerfiles docker-compose-vaultwarden.yml
 updateDockerCompose "Wekan" /opt/wekan
 # }}}
@@ -67,7 +66,16 @@ function updateForgejo() {
     echo "Updated forgejo"
 }
 
+function updateCopyparty() {
+    cd /opt/copyparty
+    source ./env/bin/activate
+
+    pip3 install --upgrade copyparty
+    sudo systemctl restart copyparty
+}
+
 updateForgejo 
+update copyparty
 # }}}
 
 
