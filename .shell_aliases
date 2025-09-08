@@ -23,6 +23,7 @@ alias grh="git reset --hard"
 alias gra="git commit --amend --no-edit"
 alias gai="git add -i"
 alias ga="git add -A"
+alias groot="git rev-parse --show-toplevel"
 
 function ghsclone() {
     if [[ "$1" == "" ]]; then
@@ -265,6 +266,14 @@ alias ytmp3="yt-dlp -x --audio-format mp3 "
 # }}}
 # gdb {{{
 alias gdb="gdb --tui "
+# }}}
+# Gradle {{{
+# Exists because gradle spews out so much fucking shit that my terminal
+# physically cannot contain its output. Redirecting to a file is the only
+# way to see exactly what goes wrong. 
+# Fuck you gradle. With a cactus
+alias gwb='$(groot)/gradlew build > /tmp/gradle-build.txt 2>&1'
+alias gw='$(groot)/gradlew'
 # }}}
 if [ -f "${DOTFILES_HOME}/scripts/homelab.zsh" ]; then
     source "${DOTFILES_HOME}/scripts/homelab.zsh"
