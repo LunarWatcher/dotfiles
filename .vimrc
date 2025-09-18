@@ -168,7 +168,18 @@ Plug 'chrisbra/matchit'
 
 Plug 'rhysd/vim-clang-format'
 
-Plug 'neoclide/coc.nvim', {'branch': 'release'}
+" Toggles between coc.nvim, a bloated javascript piece of shit, and
+" yegappan/lsp, a vim9script plugin that doesn't eat all the CPU for no
+" fucking reason
+" Note that UseJSShit = 1 is deprecated, and should be avoided. It's preserved
+" largely because I still have work to do to port everything I use over on
+" yegappan/lsp in a portable way.
+let UseJSShit = 0
+if UseJSShit
+    Plug 'neoclide/coc.nvim', {'branch': 'release'}
+else
+    Plug 'yegappan/lsp'
+endif
 
 if has("python3")
     Plug 'SirVer/ultisnips'
@@ -363,51 +374,136 @@ let g:coc_global_extensions = [
     \ 'coc-jedi'
 \ ]
 " Code actions {{{
-map <leader>qa <Plug>(coc-codeaction-cursor)
+" Coc.nvim {{{
+fun! LoadCocNvim()
+    map <leader>qa <Plug>(coc-codeaction-cursor)
 
-nmap <leader>qA <Plug>(coc-codeaction)
-vmap <leader>qA <Plug>(coc-codeaction-selected)
+    nmap <leader>qA <Plug>(coc-codeaction)
+    vmap <leader>qA <Plug>(coc-codeaction-selected)
 
-map <leader>qs <Plug>(coc-codeaction-source)
-map <leader>qF <Plug>(coc-codeaction-file)
-map <leader>ql <Plug>(coc-codeaction-line)
+    map <leader>qs <Plug>(coc-codeaction-source)
+    map <leader>qF <Plug>(coc-codeaction-file)
+    map <leader>ql <Plug>(coc-codeaction-line)
 
-nmap <leader>qr <Plug>(coc-codeaction-refactor)
-vmap <leader>qr <Plug>(coc-codeaction-refactor-selected)
+    nmap <leader>qr <Plug>(coc-codeaction-refactor)
+    vmap <leader>qr <Plug>(coc-codeaction-refactor-selected)
 
-nmap <leader>qf <Plug>(coc-fix-current)
+    nmap <leader>qf <Plug>(coc-fix-current)
+    " }}}
+
+    inoremap <silent><expr> <c-space> coc#refresh()
+    nmap <leader>rn <Plug>(coc-rename)
+    nmap <silent> <leader>rd <Plug>(coc-definition)
+    nmap <silent> <leader>rD <Plug>(coc-declaration)
+    nmap <silent> <leader>rr <Plug>(coc-references)
+    nmap <silent> <leader>ri <Plug>(coc-implementation)
+    nmap <silent> <leader>rt <Plug>(coc-type-definition)
+
+    nmap <silent> <leader>rf <Plug>(coc-format)
+    vmap <silent> <leader>rf <Plug>(coc-format-selected)
+
+    " Fix scrolling in popups
+    nnoremap <silent><expr> <C-f> coc#float#has_scroll() ? coc#float#scroll(1) : "\<C-f>"
+    nnoremap <silent><expr> <C-b> coc#float#has_scroll() ? coc#float#scroll(0) : "\<C-b>"
+    inoremap <silent><expr> <C-f> coc#float#has_scroll() ? "\<c-r>=coc#float#scroll(1)\<cr>" : "\<Right>"
+    inoremap <silent><expr> <C-b> coc#float#has_scroll() ? "\<c-r>=coc#float#scroll(0)\<cr>" : "\<Left>"
+    vnoremap <silent><expr> <C-f> coc#float#has_scroll() ? coc#float#scroll(1) : "\<C-f>"
+    vnoremap <silent><expr> <C-b> coc#float#has_scroll() ? coc#float#scroll(0) : "\<C-b>"
+
+
+    " Show docs
+    " I also like that this doesn't show up automatically. YCM was wayyyyyyyy too
+    " aggressive in showing documentation.
+    nnoremap <silent> K :call CocActionAsync('doHover')<cr>
+
+    " Restarting is the only way to fix an issue with some popups not
+    " disappearing. Focusing and quitting the popup could also be an option, but
+    " fuuuuuuuck that
+    nnoremap <silent> <leader>rc :call CocRestart<cr>
+    nnoremap <silent> <leader>hp :call coc#float#close_all()<cr>
+endfun
 " }}}
+" Yegappan/lsp {{{
+fun PreloadYegappanLsp()
+    " TODO:
+    " * LspSymbolSearch
+    " * LspSuperTypeHierarchy
+    " * LspSubTypeHierarchy
+    " * LspSwitchSourceHeader (\cp replacement)
+    " * Investigate if there's a way to change the popup so it's wider
+    " Note to self: as far as I can tell, yegappan/lsp is much less committal
+    " than coc.nvim, and much more automagic. I actually want this. 
+    " The two things we need to care about appear to be :LspCodeLens and
+    " :LspCodeAction. Both of them present options, unless provided with an
+    " index. It may make more sense to turn \qf into :LspCodeAction 0 or
+    " whatever, but this is fine for now.
+    " I also need to get LunarWatcher/lsp-installer.vim9 to work, because I
+    " only have clangd right now, and it doesn't support code lens for
+    " whatever reason, so no file actions.
+    " Really disappointing, but the same lack of functionality is present in
+    " coc.nvim - this is not the plugin's fault, it's clangd. The
+    " functionality might be provided by other linters or something instead.
+    " I've been meaning to integrate "import what you use" or whatever it's
+    " called again, just haven't got that far.
+    map <leader>qa <Plug>(coc-codeaction-cursor)
 
-inoremap <silent><expr> <c-space> coc#refresh()
-nmap <leader>rn <Plug>(coc-rename)
-nmap <silent> <leader>rd <Plug>(coc-definition)
-nmap <silent> <leader>rD <Plug>(coc-declaration)
-nmap <silent> <leader>rr <Plug>(coc-references)
-nmap <silent> <leader>ri <Plug>(coc-implementation)
-nmap <silent> <leader>rt <Plug>(coc-type-definition)
+    nmap <leader>qA :LspCodeLens<cr>
+    nmap <leader>qf :LspCodeAction<cr>
 
-nmap <silent> <leader>rf <Plug>(coc-format)
-vmap <silent> <leader>rf <Plug>(coc-format-selected)
+    inoremap <silent><expr> <c-space> coc#refresh()
+    nmap <leader>rn :LspRename<cr>
+    " TODO: Except references, these all seem to have both a goto and a peek
+    " variant. There's cases where both are useful
+    " There's also Show variants that seem to add to quickfix instead, which
+    " also seems useful for refactoring.
+    " There's just so much cool stuff that I've been wanting, and I just need
+    " to start somewhere for now.
+    nmap <silent> <leader>rd :LspGotoDefinition<cr>
+    nmap <silent> <leader>rD :LspGotoDeclaration<cr>
+    nmap <silent> <leader>rr :LspPeekReferences<cr>
+    nmap <silent> <leader>ri :LspPeekImpl<cr>
+    nmap <silent> <leader>rt :LspPeekTypeDef<cr>
 
-" Fix scrolling in popups
-nnoremap <silent><expr> <C-f> coc#float#has_scroll() ? coc#float#scroll(1) : "\<C-f>"
-nnoremap <silent><expr> <C-b> coc#float#has_scroll() ? coc#float#scroll(0) : "\<C-b>"
-inoremap <silent><expr> <C-f> coc#float#has_scroll() ? "\<c-r>=coc#float#scroll(1)\<cr>" : "\<Right>"
-inoremap <silent><expr> <C-b> coc#float#has_scroll() ? "\<c-r>=coc#float#scroll(0)\<cr>" : "\<Left>"
-vnoremap <silent><expr> <C-f> coc#float#has_scroll() ? coc#float#scroll(1) : "\<C-f>"
-vnoremap <silent><expr> <C-b> coc#float#has_scroll() ? coc#float#scroll(0) : "\<C-b>"
+    nmap <silent> <leader>rf :LspFormat<cr>
+    vmap <silent> <leader>rf :LspFormat<cr>
 
+    " Show docs
+    " TODO: K conflicts with built-in K, which runs :!man <word under cursor>,
+    " which would be so nice to have
+    nnoremap <silent> K :LspShowSignature<cr>
 
-" Show docs
-" I also like that this doesn't show up automatically. YCM was wayyyyyyyy too
-" aggressive in showing documentation.
-nnoremap <silent> K :call CocActionAsync('doHover')<cr>
-
-" Restarting is the only way to fix an issue with some popups not
-" disappearing. Focusing and quitting the popup could also be an option, but
-" fuuuuuuuck that
-nnoremap <silent> <leader>rc :call CocRestart<cr>
-nnoremap <silent> <leader>hp :call coc#float#close_all()<cr>
+    " Restarting is the only way to fix an issue with some popups not
+    " disappearing. Focusing and quitting the popup could also be an option, but
+    " fuuuuuuuck that
+    nnoremap <silent> <leader>rc :LspServer restart<cr>
+    nnoremap <silent> <leader>hp :echoerr "Not implemented for yegappan/lsp"<cr>
+endfun
+fun! LoadYegappanLsp()
+    " TODO: replace with LunarWatcher/lsp-installer.vim9 in 6-8
+    let lsps = [{
+        \ "name": "clangd",
+        \ "filetype": ["c", "cpp"],
+        \ "path": "/usr/bin/clangd",
+        \ "args": ["--background-index"]
+    \ }]
+    call LspOptionsSet(#{
+        \   codeAction: v:true,
+        \   showDiagWithSign: v:true,
+        \   showDiagWithVirtualText: v:true,
+        \   showInlayHints: v:true,
+        \   snippetSupport: v:true,
+        \   ultisnipsSupport: v:true,
+        \   usePopupInCodeAction: v:true,
+    \ })
+    call LspAddServer(lsps)
+endfun
+" }}}
+if UseJSShit
+    call LoadCocNvim()
+else
+    call PreloadYegappanLsp()
+    autocmd User LspSetup call LoadYegappanLsp()
+endif
 
 " }}}
 " Vimspector {{{
@@ -469,14 +565,25 @@ let g:localvimrc_sandbox = 0
 
 set exrc
 " }}}
-" Lightline {{{
-"let g:lightline = {
-"            \ 'colorscheme': 'one'
-"            \ }
-" }}}
 " Airline {{{
-let g:airline_theme = "bubblegum"
+let g:airline_theme = "light"
 let g:airline_powerline_fonts = 1
+let g:airline#extensions#tabline#formatter = 'default'
+let g:airline_theme_patch_func = 'AirlineThemePatch'
+
+function! AirlineThemePatch(palette)
+    if g:airline_theme == 'light'
+        " TODO: This isn't great, would be better to match whatever the last
+        " state was rather than fully reverting to normal mode, but this will
+        " have to work for now.  " It makes the light colours usable, and it's
+        " such an expressive theme. I love it
+        " Making it kinda retain state requires stuff that isn't documented.
+        " extremely little appears to be documented (in airline.txt at least)
+        " about the contents and extended scripting with the palette.
+        let a:palette.inactive = a:palette["normal"]
+    endif
+endfunction
+
 " }}}
 " Ultisnips {{{
 let g:UltiSnipsSnippetDirectories = ["UltiSnips", "CustomSnippets"]
@@ -541,6 +648,8 @@ command! -nargs=0 TODO grep! '(TODO\|FIXME)(\(.*\))?:?'
 
 " Note to self: the documentation lies
 " sinklist here forces a fallback 
+" TODO: create an equivalent for \zx. Fuzzy searching at a filename level gets
+" too aggressive at times
 command! -bang -nargs=* Search call fzf#vim#grep2(
         \ "rg --hidden --glob '!.git' --column --line-number --no-heading --color=always --smart-case -- ", 
         \ <q-args>,
@@ -801,18 +910,18 @@ augroup END
 set background=light      " Color scheme variant
 
 let g:PaperColor_Theme_Options = {
-            \ 'language': {
-            \     'cpp': { 'highlight_standard_library': 1 }
-            \ }
-  \ }
+    \ 'language': {
+    \     'cpp': { 'highlight_standard_library': 1 }
+    \ }
+\ }
 
 " Colorschemes + alternate variants
 " =================================
 colorscheme PaperColor    " Color scheme
 "colorscheme one
-" colorscheme onedark
-" colorscheme onehalfdark
-" colorscheme onehalflight
+"colorscheme onedark
+"colorscheme onehalfdark
+"colorscheme onehalflight
 "colorscheme seoul256-light
 "colorscheme two-firewatch
 "colorscheme Aurora
@@ -849,8 +958,8 @@ augroup END
 " Cursor config {{{
 if has("gui_running")
     hi iCursor guibg=#e00d93
-    hi Cursor  guibg=purple
-    hi Visual  guibg=#b19cd9
+    hi Cursor guibg=purple
+    hi Visual guibg=#b19cd9
     set guicursor=n-v-c:block-Cursor-blinkon530-blinkwait530-blinkoff530
     set guicursor+=i:ver20-iCursor-blinkon530-blinkwait530-blinkoff530
 endif
@@ -941,7 +1050,7 @@ command! Chmod :!chmod +x %
 " Pretty borders instead of ascii borders
 let g:quickui_border_style = 2
 " }}}
-" Coc.nvim actions {{{
+" lsp actions {{{
 fun! ListCodeActions(scope)
     " Note to self: :normal! skips maps, :normal does not
     let actions = [
@@ -1261,6 +1370,8 @@ if v:shell_error == 0
     " Necessary hack for gvim, since gvim doesn't properly strip CRLFs to LFs
     " when pasting. This likely applies elsewhere too, but I think other
     " editors are far more aggressive at fixing it automatically
+    "
+    " TODO: this doesn't work
     fun! s:FixWSLCopying()
         let event = v:event
         if event.regname == "*" || event.regname == "+"
