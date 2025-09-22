@@ -450,7 +450,7 @@ fun PreloadYegappanLsp()
     nmap <leader>qA :LspCodeLens<cr>
     nmap <leader>qf :LspCodeAction<cr>
 
-    inoremap <silent><expr> <c-space> coc#refresh()
+    "inoremap <silent><expr> <c-space> coc#refresh()
     nmap <leader>rn :LspRename<cr>
     " TODO: Except references, these all seem to have both a goto and a peek
     " variant. There's cases where both are useful
@@ -469,8 +469,8 @@ fun PreloadYegappanLsp()
 
     " Show docs
     " TODO: K conflicts with built-in K, which runs :!man <word under cursor>,
-    " which would be so nice to have
-    nnoremap <silent> K :LspShowSignature<cr>
+    " which would be so nice to have (maybe?)
+    nnoremap <silent> K :LspHover<cr>
 
     " Restarting is the only way to fix an issue with some popups not
     " disappearing. Focusing and quitting the popup could also be an option, but
@@ -480,29 +480,47 @@ fun PreloadYegappanLsp()
 endfun
 fun! LoadYegappanLsp()
     " TODO: replace with LunarWatcher/lsp-installer.vim9 in 6-8
-    let lsps = [{
-        \ "name": "clangd",
-        \ "filetype": ["c", "cpp"],
-        \ "path": "/usr/bin/clangd",
-        \ "args": ["--background-index"]
-    \ }]
+    let lsps = [
+        \ modules#lsp#Location("clangd"),
+        \ modules#lsp#Location("pyright"),
+        \ modules#lsp#Location("tsserver"),
+    \ ]
+    " diagVirtualTextAlign is required to deal with a bug in "before", which 
+    " causes the virtual text to contribute to the textwidth, and forces wrap
+    " on every single word, which is fucking infuriating.
     call LspOptionsSet(#{
-        \   codeAction: v:true,
-        \   showDiagWithSign: v:true,
-        \   showDiagWithVirtualText: v:true,
-        \   showInlayHints: v:true,
-        \   snippetSupport: v:true,
-        \   ultisnipsSupport: v:true,
-        \   usePopupInCodeAction: v:true,
+        \ codeAction: v:true,
+        \ diagVirtualTextAlign: 'below',
+        \ noNewlineInCompletion: v:true,
+        \ showDiagWithSign: v:true,
+        \ showDiagWithVirtualText: v:true,
+        \ showInlayHints: v:true,
+        \ snippetSupport: v:false,
+        \ showSignature: v:false,
+        \ ultisnipsSupport: v:true,
+        \ useBufferCompletion: v:true,
+        \ usePopupInCodeAction: v:true,
     \ })
     call LspAddServer(lsps)
+endfun
+fun SignatureHelper()
+    augroup LiviLspBugfix
+        au!
+        autocmd InsertCharPre <buffer> call g:LspShowSignature()
+    augroup END
 endfun
 " }}}
 if UseJSShit
     call LoadCocNvim()
 else
     call PreloadYegappanLsp()
-    autocmd User LspSetup call LoadYegappanLsp()
+    augroup LiviLspConfig
+        au!
+        autocmd User LspSetup call LoadYegappanLsp()
+        " TODO: temporary until https://github.com/yegappan/lsp/issues/623
+        " is fixed
+        autocmd FileType c,cpp,typescript,javascript,javascriptreact,typescriptreact call SignatureHelper()
+    augroup END
 endif
 
 " }}}
