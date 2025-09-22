@@ -296,10 +296,10 @@ let g:Vim9cordAltDetails = "I don't have a problem, I can quit any time I want :
 nnoremap <leader>pi <esc>:PlugInstall<cr>
 nnoremap <leader>pc <esc>:PlugClean<cr>
 if !has("win32")
-    nnoremap <leader>pu :PlugUpdate<cr>:CocUpdate<cr>:VimspectorUpdate<cr>
+    nnoremap <leader>pu :PlugUpdate<cr>:VimspectorUpdate<cr>
 else
     " Vimspector is not supported on windows
-    nnoremap <leader>pu :PlugUpdate<cr>:CocUpdate<cr>
+    nnoremap <leader>pu :PlugUpdate<cr>
 endif
 nnoremap <F8> :Vista!!<cr>
 " }}}
@@ -484,7 +484,16 @@ fun! LoadYegappanLsp()
         \ modules#lsp#Location("clangd"),
         \ modules#lsp#Location("pyright"),
         \ modules#lsp#Location("tsserver"),
+        \ modules#lsp#Location("kotlin-lsp"),
+        \ modules#lsp#Location("deno"),
     \ ]
+
+    " Remove LSPs that don't exist. This lets kotlin-lsp be enabled even
+    " though I only (plan to) use it at work.
+    call filter(lsps, 'v:val.path !~ "^/" || filereadable(v:val.path)')
+    for lsp in lsps
+        call s:SilentPrint("Active: " .. lsp.name)
+    endfor
     " diagVirtualTextAlign is required to deal with a bug in "before", which 
     " causes the virtual text to contribute to the textwidth, and forces wrap
     " on every single word, which is fucking infuriating.
