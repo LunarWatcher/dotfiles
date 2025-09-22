@@ -445,9 +445,8 @@ fun PreloadYegappanLsp()
     " functionality might be provided by other linters or something instead.
     " I've been meaning to integrate "import what you use" or whatever it's
     " called again, just haven't got that far.
-    map <leader>qa <Plug>(coc-codeaction-cursor)
 
-    nmap <leader>qA :LspCodeLens<cr>
+    nmap <leader>qa :LspCodeLens<cr>
     nmap <leader>qf :LspCodeAction<cr>
 
     "inoremap <silent><expr> <c-space> coc#refresh()
@@ -463,6 +462,7 @@ fun PreloadYegappanLsp()
     nmap <silent> <leader>rr :LspPeekReferences<cr>
     nmap <silent> <leader>ri :LspPeekImpl<cr>
     nmap <silent> <leader>rt :LspPeekTypeDef<cr>
+    nmap <silent> <leader>rs :LspSymbolSearch<cr>
 
     nmap <silent> <leader>rf :LspFormat<cr>
     vmap <silent> <leader>rf :LspFormat<cr>
@@ -471,6 +471,7 @@ fun PreloadYegappanLsp()
     " TODO: K conflicts with built-in K, which runs :!man <word under cursor>,
     " which would be so nice to have (maybe?)
     nnoremap <silent> K :LspHover<cr>
+    inoremap <C-k> <C-\><C-o>:LspShowSignature<cr>
 
     " Restarting is the only way to fix an issue with some popups not
     " disappearing. Focusing and quitting the popup could also be an option, but
