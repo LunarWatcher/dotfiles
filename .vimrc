@@ -508,7 +508,7 @@ fun! LoadYegappanLsp()
         \ snippetSupport: v:false,
         \ showSignature: v:false,
         \ ultisnipsSupport: v:true,
-        \ useBufferCompletion: v:true,
+        \ useBufferCompletion: v:false,
         \ usePopupInCodeAction: v:true,
     \ })
     call LspAddServer(lsps)
