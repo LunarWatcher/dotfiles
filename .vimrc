@@ -178,7 +178,9 @@ let UseJSShit = 0
 if UseJSShit
     Plug 'neoclide/coc.nvim', {'branch': 'release'}
 else
-    Plug 'yegappan/lsp'
+    "Plug 'yegappan/lsp'
+    " Temporary until yegappan/lsp#666 is merged
+    Plug "LunarWatcher/lsp", { "branch": "allow-bare-omnicomplete" }
 endif
 
 if has("python3")
@@ -424,6 +426,46 @@ fun! LoadCocNvim()
 endfun
 " }}}
 " Yegappan/lsp {{{
+fun CompletePath(findstart, base)
+    let currIdx = col('.')
+    " This does not account for paths with spaces, but it's a start
+    let matchColStart = match(
+        \ getline('.')[:currIdx], 
+        \ '\v([^ "' .. "'" .. ']+([/\\][^ ]*)+|\.*[/\\][^ ]*)$'
+    \ )
+    if (a:findstart == 1)
+        if (matchColStart < 0 || matchColStart == currIdx)
+            return -2
+        endif
+        return matchColStart - 0
+    elseif (a:findstart == 0)
+        " Required, or /* style comments result `glob("/**")`, which means
+        " indexing the entire disk. For obvious reasons, we don't want this
+        " There's probably other characters that should be escaped too.
+        if (a:base->stridx('*') >= 0)
+            return #{ words: [], refresh: "always" }
+        endif
+        let fileDir = expand('%:h')
+        " Find files relative to the current file
+        " The way this is currently handled also means /<path> also gets
+        " handled relative to the current path, which I kinda like
+        let relative = globpath(fileDir, a:base .. "*", 0, 1)
+            \ ->map('{ "word": v:val[' .. (len(fileDir) + 1) .. ':], "kind": "[Path]", "menu": isdirectory(v:val) ? "Folder" : "File" }')
+        " Find relative to / or cwd or whatever. globpath() does not handle
+        " those cases
+        let absolute = glob(a:base .. "*", 0, 1)
+            \ ->map('{ "word": v:val, "kind": "[Path]", "menu": isdirectory(v:val) ? "Folder" : "File" }')
+        let matches = []->extend(relative)->extend(absolute)
+        if (len(matches) == 0)
+            return #{ words: [], refresh: "always" }
+        endif
+        " call add(out, "BASE: " .. a:base)
+        return #{
+        \     words: matches,
+        \     refresh: "always"
+        \ }
+    endif
+endfun
 fun PreloadYegappanLsp()
     " TODO:
     " * LspSymbolSearch
@@ -449,6 +491,10 @@ fun PreloadYegappanLsp()
     nmap <leader>qa :LspCodeLens<cr>
     nmap <leader>qf :LspCodeAction<cr>
 
+    " autoComplete force trigger
+    inoremap <C-space> <C-\><C-o>:call lsp#completion#LspComplete(v:true)<cr>
+    " omniComplete force trigger (currently disabled)
+    "inoremap <C-space> <C-x><C-o>
     "inoremap <silent><expr> <c-space> coc#refresh()
     nmap <leader>rn :LspRename<cr>
     " TODO: Except references, these all seem to have both a goto and a peek
@@ -473,11 +519,27 @@ fun PreloadYegappanLsp()
     nnoremap <silent> K :LspHover<cr>
     inoremap <C-k> <C-\><C-o>:LspShowSignature<cr>
 
-    " Restarting is the only way to fix an issue with some popups not
-    " disappearing. Focusing and quitting the popup could also be an option, but
-    " fuuuuuuuck that
     nnoremap <silent> <leader>rc :LspServer restart<cr>
     nnoremap <silent> <leader>hp :echoerr "Not implemented for yegappan/lsp"<cr>
+
+    " Set to enable custom completion types, and completion outside LSP
+    " buffers.
+    " FCompletePath matches the CompletePath function in this file.
+    " o matches the default omnicomplete function, which yegappan/lsp always
+    " sets
+    " TODO: autocomplete means complete is auto-invoked, but doesn't seem to
+    " be compatible with autoComplete from yegappan/lsp. For that to work,
+    " omnicomplete needs to be used instead, which adds a lot more noise.
+    " I still really want this built-in, though ctrl-N is enough to show the
+    " complete dialog. Can't map it to <C-space>, because that's the LSP force
+    " button.
+    "
+    " set autocomplete
+    set complete=F,o,.,w,b,FCompletePath
+    " noinsert is required so it doesn't forcibly insert arbitrary shit
+    " Fuzzy is alrgely used so the __cuda headers that inexplicably appear
+    " fuck off slightly lower
+    set completeopt=popup,menuone,noinsert
 endfun
 fun! LoadYegappanLsp()
     " TODO: replace with LunarWatcher/lsp-installer.vim9 in 6-8
@@ -486,7 +548,6 @@ fun! LoadYegappanLsp()
         \ modules#lsp#Location("pyright"),
         \ modules#lsp#Location("tsserver"),
         \ modules#lsp#Location("kotlin-lsp"),
-        \ modules#lsp#Location("deno"),
     \ ]
 
     " Remove LSPs that don't exist. This lets kotlin-lsp be enabled even
@@ -499,8 +560,11 @@ fun! LoadYegappanLsp()
     " causes the virtual text to contribute to the textwidth, and forces wrap
     " on every single word, which is fucking infuriating.
     call LspOptionsSet(#{
+        \ autoComplete: v:true,
         \ codeAction: v:true,
         \ diagVirtualTextAlign: 'below',
+        \ omniComplete: v:false,
+        \ omniCompleteAllowBare: v:true,
         \ noNewlineInCompletion: v:true,
         \ showDiagWithSign: v:true,
         \ showDiagWithVirtualText: v:true,
@@ -510,6 +574,12 @@ fun! LoadYegappanLsp()
         \ ultisnipsSupport: v:true,
         \ useBufferCompletion: v:false,
         \ usePopupInCodeAction: v:true,
+        \ popupBorder: v:true,
+        \ popupBorderChars: ['-', '|', '-', '|', '┌', '┐', '┘', '└'],
+        \ popupBorderHighlight: 'Identifier',
+        \ popupHighlight: 'Normal',
+        \ popupBorderSignatureHelp: v:false,
+        \ popupHighlightSignatureHelp: 'Pmenu',
     \ })
     call LspAddServer(lsps)
 endfun
