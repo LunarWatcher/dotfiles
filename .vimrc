@@ -89,21 +89,30 @@ if isdirectory(g:OVimDevDir .. "PluginScience")
 endif
 " }}}
 " Navigation {{{
+" Fern (!!AI slop involved!!) {{{
 "call s:LocalOption("fern.vim", "LunarWatcher/fern.vim")
-Plug 'lambdalisue/fern.vim'
-Plug 'lambdalisue/fern-hijack.vim'
+" Upstream fern has default-enabled coderabbitai (slop machine) for PR
+" reviews, so changes cannot be default-trusted anymore
+Plug 'lambdalisue/vim-fern', { 'commit': '88f6d81c2d2348cbfb3120931ce72268195859c6' }
+Plug 'lambdalisue/vim-fern-hijack', { 'commit': 'f65524899231b15528066744e714fb344abf0892' }
 
 " Required for vim-fern-renderer-nerdfont to work
-Plug 'lambdalisue/vim-nerdfont'
-Plug 'lambdalisue/vim-fern-renderer-nerdfont'
-Plug 'lambdalisue/vim-glyph-palette'
+" TODO: bump once #41 is merged
+Plug 'lambdalisue/vim-nerdfont', { 'commit': '3605ba4ba4dc0295f5eb400506fd05b451df3e1f' }
+Plug 'lambdalisue/vim-fern-renderer-nerdfont', { 'commit': '325629c68eb543229715b68920fbcb92b206beb6' }
+Plug 'lambdalisue/vim-glyph-palette', { 'commit': '675f0ad64e2c4b823bffc1907d469deefaf6e3bd' }
 
 if executable("git")
-    Plug 'lambdalisue/vim-fern-git-status'
+    Plug 'lambdalisue/vim-fern-git-status', { 'commit': '151336335d3b6975153dad77e60049ca7111da8e' }
 endif
+" }}}
 
-Plug 'zefei/vim-wintabs'
-Plug 'zefei/vim-wintabs-powerline' " Powerline rendering
+" zefei appears to be gone (last activity in 2022), so these were switched
+" over to a fork I made. Won't be maintaining as long as it works, but need to
+" make sure it stays available and that account control doesn't fall into the
+" wrong hands.
+Plug 'LunarWatcher/vim-wintabs'
+Plug 'LunarWatcher/vim-wintabs-powerline' " Powerline rendering
 " }}}
 " Fuzzy finder {{{
 if has('win32')
@@ -134,7 +143,9 @@ Plug 'sheerun/vim-polyglot'
 
 Plug 'bfrg/vim-c-cpp-modern', {'for': 'cpp'}
 Plug 'preservim/vim-markdown', { 'for': 'markdown' }
-Plug 'godlygeek/tabular'
+" Mostly unused, but gets to live for now. Might be worth trying out some
+" alternatives so I can stop installing texlive-full as aprt of my dotfiles
+" setup
 Plug 'lervag/vimtex', {'for': 'tex'}
 " }}}
 " Various coding-related utils {{{
@@ -154,19 +165,11 @@ Plug 'editorconfig/editorconfig-vim'
 Plug 'skywind3000/vim-quickui'
 " }}}
 " Text extensions {{{
-Plug 'junegunn/goyo.vim'
-Plug 'junegunn/limelight.vim'
-Plug 'junegunn/vim-easy-align'
-Plug 'wellle/targets.vim'
-" Bit of a weak argument to call this a text extension, but here we are
-" Plug 'junegunn/vim-peekaboo'
 call s:LocalOption("img-paste.vim", "LunarWatcher/img-paste.vim")
 " }}}
 " Coding utilities {{{
 " Extended % matching
 Plug 'chrisbra/matchit'
-
-Plug 'rhysd/vim-clang-format'
 
 " Toggles between coc.nvim, a bloated javascript piece of shit, and
 " yegappan/lsp, a vim9script plugin that doesn't eat all the CPU for no
@@ -203,7 +206,6 @@ Plug 'vim-airline/vim-airline-themes'
 " }}}
 " Git integration {{{
 Plug 'tpope/vim-fugitive'
-Plug 'rbong/vim-flog'
 Plug 'airblade/vim-gitgutter'
 " }}}
 " Project management {{{
@@ -534,7 +536,7 @@ fun PreloadYegappanLsp()
     " complete dialog. Can't map it to <C-space>, because that's the LSP force
     " button.
     "
-    " set autocomplete
+    set autocomplete
     set complete=F,o,.,w,b,FCompletePath
     " noinsert is required so it doesn't forcibly insert arbitrary shit
     " Fuzzy is alrgely used so the __cuda headers that inexplicably appear
@@ -560,10 +562,10 @@ fun! LoadYegappanLsp()
     " causes the virtual text to contribute to the textwidth, and forces wrap
     " on every single word, which is fucking infuriating.
     call LspOptionsSet(#{
-        \ autoComplete: v:true,
+        \ autoComplete: v:false,
         \ codeAction: v:true,
         \ diagVirtualTextAlign: 'below',
-        \ omniComplete: v:false,
+        \ omniComplete: v:true,
         \ omniCompleteAllowBare: v:true,
         \ noNewlineInCompletion: v:true,
         \ showDiagWithSign: v:true,
@@ -874,7 +876,7 @@ nnoremap <leader>qt :WintabsClose<cr>
 
 let g:wintabs_ui_vimtab_name_format = ' %n %t '
 " }}}
-" Plasticboy markdown {{{
+" Plasticboy (preservim) markdown {{{
 let g:vim_markdown_conceal = 0
 let g:vim_markdown_conceal_code_blocks = 0
 let g:vim_markdown_folding_disabled = 1
@@ -891,10 +893,6 @@ let g:vimtex_compiler_latexmk = {
     \   '-interaction=nonstopmode',
     \ ],
     \}
-" }}}
-" Easy align {{{
-nmap ga <Plug>(EasyAlign)
-vmap ga <Plug>(EasyAlign)
 " }}}
 " }}}
 " Formatter config {{{
