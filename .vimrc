@@ -180,7 +180,7 @@ if UseJSShit
 else
     "Plug 'yegappan/lsp'
     " Temporary until yegappan/lsp#666 is merged
-    Plug "LunarWatcher/lsp", { "branch": "allow-bare-omnicomplete" }
+    Plug 'LunarWatcher/lsp', {'branch': 'allow-bare-omnicomplete'}
 endif
 
 if has("python3")
@@ -575,7 +575,7 @@ fun! LoadYegappanLsp()
         \ useBufferCompletion: v:false,
         \ usePopupInCodeAction: v:true,
         \ popupBorder: v:true,
-        \ popupBorderChars: ['-', '|', '-', '|', '┌', '┐', '┘', '└'],
+        \ popupBorderChars: ['─', '│', '─', '│', '┌', '┐', '┘', '└'],
         \ popupBorderHighlight: 'Identifier',
         \ popupHighlight: 'Normal',
         \ popupBorderSignatureHelp: v:false,
