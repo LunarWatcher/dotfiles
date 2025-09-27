@@ -111,8 +111,7 @@ endif
 " over to a fork I made. Won't be maintaining as long as it works, but need to
 " make sure it stays available and that account control doesn't fall into the
 " wrong hands.
-Plug 'LunarWatcher/vim-wintabs'
-Plug 'LunarWatcher/vim-wintabs-powerline' " Powerline rendering
+call s:LocalOption('vim-wintabs', 'LunarWatcher/vim-wintabs')
 " }}}
 " Fuzzy finder {{{
 if has('win32')
