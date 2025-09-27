@@ -209,7 +209,6 @@ Plug 'tpope/vim-fugitive'
 Plug 'airblade/vim-gitgutter'
 " }}}
 " Project management {{{
-Plug 'embear/vim-localvimrc'
 call s:LocalOption("LightSessions.vim", "LunarWatcher/LightSessions.vim")
 " }}}
 " General every-day use {{{
