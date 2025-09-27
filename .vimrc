@@ -153,7 +153,7 @@ Plug 'tpope/vim-commentary'
 Plug 'liuchengxu/vista.vim'
 Plug 'tpope/vim-surround'
 
-Plug 'mg979/vim-visual-multi'
+Plug 'mg979/vim-visual-multi', { 'commit': 'a6975e7c1ee157615bbc80fc25e4392f71c344d4' }
 
 "Plug 'skywind3000/asyncrun.vim'
 "Plug 'skywind3000/asynctasks.vim'
