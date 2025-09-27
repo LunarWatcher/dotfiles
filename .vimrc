@@ -214,7 +214,6 @@ call s:LocalOption("LightSessions.vim", "LunarWatcher/LightSessions.vim")
 " }}}
 " General every-day use {{{
 Plug 'tpope/vim-speeddating'
-Plug 'scy/vim-mkdir-on-write'
 
 call s:LocalOption('auto-pairs', 'LunarWatcher/auto-pairs')
 call s:LocalOption('Dawn',       'LunarWatcher/Dawn')
