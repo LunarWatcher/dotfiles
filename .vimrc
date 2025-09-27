@@ -208,9 +208,6 @@ Plug 'vim-airline/vim-airline-themes'
 Plug 'tpope/vim-fugitive'
 Plug 'airblade/vim-gitgutter'
 " }}}
-" Project management {{{
-call s:LocalOption("LightSessions.vim", "LunarWatcher/LightSessions.vim")
-" }}}
 " General every-day use {{{
 Plug 'tpope/vim-speeddating'
 
@@ -348,7 +345,6 @@ let g:startify_custom_header = s:center([
 \ ])
 
 let g:startify_lists = [
-    \ { 'type': function('lightsessions#StartifyList'),  'header': ['    Sessions'] },
     \ { 'type': 'bookmarks', 'header': ['    Bookmarks'] },
     \ { 'type': 'commands',  'header': ['    Commands'] },
     \ ]
