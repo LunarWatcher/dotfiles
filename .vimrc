@@ -225,7 +225,7 @@ if !has("win32") && !has("win32unix")
 endif
 " }}}
 " Search {{{
-Plug 'markonm/traces.vim'
+Plug 'LunarWatcher/traces.vim'
 " }}}
 " Start screen {{{
 Plug 'mhinz/vim-startify'
