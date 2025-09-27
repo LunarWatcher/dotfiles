@@ -228,7 +228,7 @@ endif
 Plug 'LunarWatcher/traces.vim'
 " }}}
 " Start screen {{{
-Plug 'mhinz/vim-startify'
+Plug 'LunarWatcher/vim-startify'
 " }}}
 " Font-related stuff {{{
 "set guifont=Source\ Code\ Pro\ for\ Powerline:h11:cANSI " Source Code Pro <3
