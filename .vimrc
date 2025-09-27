@@ -225,7 +225,6 @@ if !has("win32") && !has("win32unix")
 endif
 " }}}
 " Search {{{
-Plug 'obcat/vim-hitspop'
 Plug 'markonm/traces.vim'
 " }}}
 " Start screen {{{
