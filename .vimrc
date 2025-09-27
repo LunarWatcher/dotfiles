@@ -142,14 +142,14 @@ let g:loaded_sensible = 1
 Plug 'sheerun/vim-polyglot'
 
 Plug 'bfrg/vim-c-cpp-modern', {'for': 'cpp'}
-Plug 'preservim/vim-markdown', { 'for': 'markdown' }
 " Mostly unused, but gets to live for now. Might be worth trying out some
-" alternatives so I can stop installing texlive-full as aprt of my dotfiles
+" alternatives so I can stop installing texlive-full as part of my dotfiles
 " setup
 Plug 'lervag/vimtex', {'for': 'tex'}
 " }}}
 " Various coding-related utils {{{
-Plug 'preservim/nerdcommenter'
+" Fallback: tomtom/tcomment_vim
+Plug 'tpope/vim-commentary'
 Plug 'liuchengxu/vista.vim'
 Plug 'tpope/vim-surround'
 
@@ -875,11 +875,6 @@ nnoremap <C-PageDown> :WintabsNext<cr>
 nnoremap <leader>qt :WintabsClose<cr>
 
 let g:wintabs_ui_vimtab_name_format = ' %n %t '
-" }}}
-" Plasticboy (preservim) markdown {{{
-let g:vim_markdown_conceal = 0
-let g:vim_markdown_conceal_code_blocks = 0
-let g:vim_markdown_folding_disabled = 1
 " }}}
 " Vimtex {{{
 let g:tex_flavor = "latex"
