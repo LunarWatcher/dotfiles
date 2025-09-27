@@ -252,7 +252,6 @@ try
         set guifont=Source\ Code\ Pro:h12
     elseif has("unix")
         set guifont=SauceCodePro\ Nerd\ Font\ 12
-        Plug 'ryanoasis/vim-devicons'
     endif
 catch
     echom "Failed to find SauceCodePro - falling back to SourceCodePro, and disabling devicons"
