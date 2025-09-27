@@ -658,9 +658,6 @@ let g:AutoPairsExperimentalAutocmd = 1
 nnoremap <leader>ou :UndotreeToggle<cr>
 " }}}
 " Local vimrc {{{
-let g:localvimrc_ask = 0
-let g:localvimrc_sandbox = 0
-
 set exrc
 " }}}
 " Airline {{{
