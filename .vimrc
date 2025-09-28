@@ -368,7 +368,7 @@ fun PreloadYegappanLsp()
     " autoComplete force trigger (currently disabled)
     " inoremap <C-space> <C-\><C-o>:call lsp#completion#LspComplete(v:true)<cr>
     " omniComplete force trigger
-    inoremap <C-space> <C-x><C-o>
+    imap <C-space> <C-x><C-o>
     nmap <leader>rn :LspRename<cr>
     " TODO: Except references, these all seem to have both a goto and a peek
     " variant. There's cases where both are useful
@@ -421,6 +421,7 @@ fun! LoadYegappanLsp()
         \ modules#lsp#Location("clangd"),
         \ modules#lsp#Location("pyright"),
         \ modules#lsp#Location("tsserver"),
+        \ modules#lsp#Location("deno"),
         \ modules#lsp#Location("kotlin-lsp"),
     \ ]
 
@@ -443,7 +444,7 @@ fun! LoadYegappanLsp()
         \ showDiagWithSign: v:true,
         \ showDiagWithVirtualText: v:true,
         \ showInlayHints: v:true,
-        \ snippetSupport: v:false,
+        \ snippetSupport: v:true,
         \ showSignature: v:false,
         \ ultisnipsSupport: v:true,
         \ useBufferCompletion: v:false,
@@ -465,6 +466,7 @@ fun SignatureHelper()
     autocmd InsertCharPre <buffer> call g:LspShowSignature()
 endfun
 " }}}
+call PreloadYegappanLsp()
 augroup LiviLspConfig
     au!
     autocmd User LspSetup call LoadYegappanLsp()
@@ -473,6 +475,7 @@ augroup LiviLspConfig
     autocmd User LspAttached call SignatureHelper()
 augroup END
 
+" }}}
 " }}}
 " Vimspector {{{
 if !has("win32") && !has("win32unix")
@@ -528,7 +531,7 @@ let g:AutoPairsExperimentalAutocmd = 1
 nnoremap <leader>ou :UndotreeToggle<cr>
 " }}}
 " Local vimrc {{{
-set exrc
+" set exrc
 " }}}
 " Airline {{{
 let g:airline_theme = "light"
