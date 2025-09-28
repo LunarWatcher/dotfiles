@@ -89,21 +89,22 @@ if isdirectory(g:OVimDevDir .. "PluginScience")
 endif
 " }}}
 " Navigation {{{
-" Fern (!!AI slop involved!!) {{{
+" Fern {{{
 "call s:LocalOption("fern.vim", "LunarWatcher/fern.vim")
 " Upstream fern has default-enabled coderabbitai (slop machine) for PR
 " reviews, so changes cannot be default-trusted anymore
-Plug 'lambdalisue/vim-fern', { 'commit': '88f6d81c2d2348cbfb3120931ce72268195859c6' }
-Plug 'lambdalisue/vim-fern-hijack', { 'commit': 'f65524899231b15528066744e714fb344abf0892' }
+" 2025-09-28: all repos forked (I already had fern.vim forked, and
+" vim-nerdfont was forked to fix a bug)
 
-" Required for vim-fern-renderer-nerdfont to work
-" TODO: bump once #41 is merged
-Plug 'lambdalisue/vim-nerdfont', { 'commit': '3605ba4ba4dc0295f5eb400506fd05b451df3e1f' }
-Plug 'lambdalisue/vim-fern-renderer-nerdfont', { 'commit': '325629c68eb543229715b68920fbcb92b206beb6' }
-Plug 'lambdalisue/vim-glyph-palette', { 'commit': '675f0ad64e2c4b823bffc1907d469deefaf6e3bd' }
+Plug 'LunarWatcher/fern.vim'
+Plug 'LunarWatcher/vim-nerdfont'
+Plug 'LunarWatcher/vim-fern-hijack'
+
+Plug 'LunarWatcher/vim-fern-renderer-nerdfont'
+Plug 'LunarWatcher/vim-glyph-palette'
 
 if executable("git")
-    Plug 'lambdalisue/vim-fern-git-status', { 'commit': '151336335d3b6975153dad77e60049ca7111da8e' }
+    Plug 'LunarWatcher/vim-fern-git-status'
 endif
 " }}}
 
@@ -170,20 +171,9 @@ call s:LocalOption("img-paste.vim", "LunarWatcher/img-paste.vim")
 " Extended % matching
 Plug 'chrisbra/matchit'
 
-" Toggles between coc.nvim, a bloated javascript piece of shit, and
-" yegappan/lsp, a vim9script plugin that doesn't eat all the CPU for no
-" fucking reason
-" Note that UseJSShit = 1 is deprecated, and should be avoided. It's preserved
-" largely because I still have work to do to port everything I use over on
-" yegappan/lsp in a portable way.
-let UseJSShit = 0
-if UseJSShit
-    Plug 'neoclide/coc.nvim', {'branch': 'release'}
-else
-    "Plug 'yegappan/lsp'
-    " Temporary until yegappan/lsp#666 is merged
-    Plug 'LunarWatcher/lsp', {'branch': 'allow-bare-omnicomplete'}
-endif
+"Plug 'yegappan/lsp'
+" Temporary until yegappan/lsp#666 is merged
+Plug 'LunarWatcher/lsp', {'branch': 'allow-bare-omnicomplete'}
 
 if has("python3")
     Plug 'SirVer/ultisnips'
@@ -308,62 +298,7 @@ set shortmess+=c
 set signcolumn=yes
 set updatetime=100
 
-let g:coc_global_extensions = [
-    \ 'coc-tsserver', 'coc-css', 'coc-html',
-    \ 'coc-clangd',
-    \ 'coc-snippets',
-    \ 'coc-jedi'
-\ ]
 " Code actions {{{
-" Coc.nvim {{{
-fun! LoadCocNvim()
-    map <leader>qa <Plug>(coc-codeaction-cursor)
-
-    nmap <leader>qA <Plug>(coc-codeaction)
-    vmap <leader>qA <Plug>(coc-codeaction-selected)
-
-    map <leader>qs <Plug>(coc-codeaction-source)
-    map <leader>qF <Plug>(coc-codeaction-file)
-    map <leader>ql <Plug>(coc-codeaction-line)
-
-    nmap <leader>qr <Plug>(coc-codeaction-refactor)
-    vmap <leader>qr <Plug>(coc-codeaction-refactor-selected)
-
-    nmap <leader>qf <Plug>(coc-fix-current)
-    " }}}
-
-    inoremap <silent><expr> <c-space> coc#refresh()
-    nmap <leader>rn <Plug>(coc-rename)
-    nmap <silent> <leader>rd <Plug>(coc-definition)
-    nmap <silent> <leader>rD <Plug>(coc-declaration)
-    nmap <silent> <leader>rr <Plug>(coc-references)
-    nmap <silent> <leader>ri <Plug>(coc-implementation)
-    nmap <silent> <leader>rt <Plug>(coc-type-definition)
-
-    nmap <silent> <leader>rf <Plug>(coc-format)
-    vmap <silent> <leader>rf <Plug>(coc-format-selected)
-
-    " Fix scrolling in popups
-    nnoremap <silent><expr> <C-f> coc#float#has_scroll() ? coc#float#scroll(1) : "\<C-f>"
-    nnoremap <silent><expr> <C-b> coc#float#has_scroll() ? coc#float#scroll(0) : "\<C-b>"
-    inoremap <silent><expr> <C-f> coc#float#has_scroll() ? "\<c-r>=coc#float#scroll(1)\<cr>" : "\<Right>"
-    inoremap <silent><expr> <C-b> coc#float#has_scroll() ? "\<c-r>=coc#float#scroll(0)\<cr>" : "\<Left>"
-    vnoremap <silent><expr> <C-f> coc#float#has_scroll() ? coc#float#scroll(1) : "\<C-f>"
-    vnoremap <silent><expr> <C-b> coc#float#has_scroll() ? coc#float#scroll(0) : "\<C-b>"
-
-
-    " Show docs
-    " I also like that this doesn't show up automatically. YCM was wayyyyyyyy too
-    " aggressive in showing documentation.
-    nnoremap <silent> K :call CocActionAsync('doHover')<cr>
-
-    " Restarting is the only way to fix an issue with some popups not
-    " disappearing. Focusing and quitting the popup could also be an option, but
-    " fuuuuuuuck that
-    nnoremap <silent> <leader>rc :call CocRestart<cr>
-    nnoremap <silent> <leader>hp :call coc#float#close_all()<cr>
-endfun
-" }}}
 " Yegappan/lsp {{{
 fun CompletePath(findstart, base)
     let currIdx = col('.')
@@ -430,11 +365,10 @@ fun PreloadYegappanLsp()
     nmap <leader>qa :LspCodeLens<cr>
     nmap <leader>qf :LspCodeAction<cr>
 
-    " autoComplete force trigger
-    inoremap <C-space> <C-\><C-o>:call lsp#completion#LspComplete(v:true)<cr>
-    " omniComplete force trigger (currently disabled)
-    "inoremap <C-space> <C-x><C-o>
-    "inoremap <silent><expr> <c-space> coc#refresh()
+    " autoComplete force trigger (currently disabled)
+    " inoremap <C-space> <C-\><C-o>:call lsp#completion#LspComplete(v:true)<cr>
+    " omniComplete force trigger
+    inoremap <C-space> <C-x><C-o>
     nmap <leader>rn :LspRename<cr>
     " TODO: Except references, these all seem to have both a goto and a peek
     " variant. There's cases where both are useful
@@ -474,6 +408,7 @@ fun PreloadYegappanLsp()
     " button.
     "
     set autocomplete
+    " TODO: figure out if adding tags back makes sense
     set complete=F,o,.,w,b,FCompletePath
     " noinsert is required so it doesn't forcibly insert arbitrary shit
     " Fuzzy is alrgely used so the __cuda headers that inexplicably appear
@@ -523,24 +458,20 @@ fun! LoadYegappanLsp()
     call LspAddServer(lsps)
 endfun
 fun SignatureHelper()
-    augroup LiviLspBugfix
-        au!
-        autocmd InsertCharPre <buffer> call g:LspShowSignature()
-    augroup END
+    if exists("b:HasSignatureHelper")
+        return
+    endif
+    let b:HasSignatureHelper = 1
+    autocmd InsertCharPre <buffer> call g:LspShowSignature()
 endfun
 " }}}
-if UseJSShit
-    call LoadCocNvim()
-else
-    call PreloadYegappanLsp()
-    augroup LiviLspConfig
-        au!
-        autocmd User LspSetup call LoadYegappanLsp()
-        " TODO: temporary until https://github.com/yegappan/lsp/issues/623
-        " is fixed
-        autocmd FileType c,cpp,typescript,javascript,javascriptreact,typescriptreact call SignatureHelper()
-    augroup END
-endif
+augroup LiviLspConfig
+    au!
+    autocmd User LspSetup call LoadYegappanLsp()
+    " TODO: temporary until https://github.com/yegappan/lsp/issues/623
+    " is fixed
+    autocmd User LspAttached call SignatureHelper()
+augroup END
 
 " }}}
 " Vimspector {{{
@@ -1071,6 +1002,9 @@ nnoremap <leader>cp :cprev<cr>
 " }}}
 " Utility {{{
 command! Chmod :!chmod +x %
+" }}}
+" Fern {{{
+
 " }}}
 " QuickUI {{{
 " Config {{{
