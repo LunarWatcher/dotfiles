@@ -746,6 +746,8 @@ let g:nerdfont#autofix_cellwidths = 1
 
 " Global control mappings
 nnoremap <F2> :Fern . -drawer -stay -toggle<cr>
+nnoremap <leader>fs :exec ':FernDo FernReveal ' .. expand('%')<cr>
+nnoremap <F5> :exec ":FernDo normal \<F5> -stay"<cr>
 
 "let g:fern#loglevel = g:fern#DEBUG
 fun FernMaps()
