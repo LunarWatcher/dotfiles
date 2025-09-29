@@ -415,13 +415,18 @@ fun PreloadYegappanLsp()
     " fuck off slightly lower
     set completeopt=popup,menuone,noinsert
 endfun
+fun! LoadJSTS(type)
+    if a:type == "deno"
+        call LspAddServer([modules#lsp#Location("deno")])
+    else
+        call LspAddServer([modules#lsp#Location("tsserver")])
+    endif
+endfun
 fun! LoadYegappanLsp()
     " TODO: replace with LunarWatcher/lsp-installer.vim9 in 6-8
     let lsps = [
         \ modules#lsp#Location("clangd"),
         \ modules#lsp#Location("pyright"),
-        \ modules#lsp#Location("tsserver"),
-        \ modules#lsp#Location("deno"),
         \ modules#lsp#Location("kotlin-lsp"),
     \ ]
 
@@ -475,6 +480,8 @@ augroup LiviLspConfig
     autocmd User LspAttached call SignatureHelper()
 augroup END
 
+command! LiviLspLoadDeno call LoadJSTS("deno")
+command! LiviLspLoadTsserver call LoadJSTS("tsserver")
 " }}}
 " }}}
 " Vimspector {{{
@@ -1013,6 +1020,20 @@ command! Chmod :!chmod +x %
 " Config {{{
 " Pretty borders instead of ascii borders
 let g:quickui_border_style = 2
+" }}}
+" Workspace actions {{{
+fun! ListWorkspaceActions()
+    " Note to self: :normal! skips maps, :normal does not
+    let actions = [
+        \ [ "Load lsp: &tsserver", "LiviLspLoadTsserver" ],
+        \ [ "Load lsp: &Deno", "LiviLspLoadDeno" ],
+    \]
+    call quickui#listbox#open(actions, { "title": "Actions" })
+endfun
+
+command! WorkspaceActions call ListWorkspaceActions()
+
+nnoremap <leader>fw :WorkspaceActions<cr>
 " }}}
 " lsp actions {{{
 fun! ListCodeActions(scope)
