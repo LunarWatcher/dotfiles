@@ -1039,28 +1039,34 @@ nnoremap <leader>fw :WorkspaceActions<cr>
 fun! ListCodeActions(scope)
     " Note to self: :normal! skips maps, :normal does not
     let actions = [
-        \ [ "&Cursor actions\t\\qa", "normal \\qa" ],
-        \ [ "C&ode actions\t\\qa", "normal \\qA" ],
-        \ [ "&File actions\t\\qF", "normal \\qF" ],
-        \ [ "&Source actions\t\\qs", "normal \\qs" ],
-        \ [ "&Line actions\t\\ql", "normal \\ql" ],
-        \ [ "&Refactor actions\t\\qr", "normal \\qr" ],
-        \ [ "R&ename\t\\rn", "normal \\rn" ],
+        \ [ "C&ode actions\t\\qf", "normal \\qf" ],
+        \ [ "Code &lens\t\\qa", "normal \\qa" ],
+        \ [ "Re&name\t\\rn", "normal \\rn" ],
         \ [ "For&mat code (LSP)\t\\rf", "normal \\rf" ],
-        \ [ "Quick&fix (you should know this by now)\t\\qf", "normal \\qf" ]
+        \ [ "&Restart LSP server\t\\rc", "normal \\rc" ],
     \]
     call quickui#listbox#open(actions, { "title": "Actions" })
 endfun
 
 fun! ListNavActions()
     let actions = [
-        \ [ "&References\t\\rr", "normal \\rr" ],
+        \ [ "Peek &References\t\\rr", "normal \\rr" ],
         \ [ "Go to &definition\t\\rd", "normal \\rd" ],
         \ [ "Go to d&eclaration\t\\rD", "normal \\rD" ],
-        \ [ "Go to &implementation\t\\ri", "normal \\ri" ],
-        \ [ "Go to &type definition\t\\rt", "normal \\rt" ]
+        \ [ "Peek &implementation\t\\ri", "normal \\ri" ],
+        \ [ "Peek &type definition\t\\rt", "normal \\rt" ],
+        \ [ "&Symbol search\t\\rs", "normal \\rs" ],
     \]
     call quickui#listbox#open(actions, { "title": "Code navigation" })
+endfun
+
+fun! ListLists()
+    let actions = [
+        \ [ "Workspace actions\t\\fw", "normal \\fw" ],
+        \ [ "LSP actions\t\\fq", "normal \\fq" ],
+        \ [ "Nav actions\t\\fr", "normal \\fr" ],
+    \ ]
+    call quickui#listbox#open(actions, { "title": "Bad girl, learn your keybinds" })
 endfun
 
 " Prefix: <leader>f is short for "fast actions", and used to reference
@@ -1072,6 +1078,7 @@ endfun
 nmap <leader>fq :call ListCodeActions(0)<cr>
 vmap <leader>fq :call ListCodeActions(1)<cr>
 nmap <leader>fr :call ListNavActions()<cr>
+nmap <leader>ff :call ListLists()<cr>
 " }}}
 " }}}
 " }}}
