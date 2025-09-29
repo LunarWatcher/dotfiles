@@ -1245,9 +1245,6 @@ command! -nargs=+ -complete=command CopyCommandOutput redir @+ | <args> | redir 
 
 nnoremap <leader>ccp :CopyLastCommand<cr>
 " }}}
-" Vim management {{{
-nnoremap <leader>ffs :redraw!<cr>
-" }}}
 " Mark helpers {{{
 " Store a jumpback mark in the Z register (AKA the register I'm least likely
 " to use for anything non-scripted, because it's exceedingly unlikely I'll
