@@ -12,4 +12,14 @@ user_pref("browser.urlbar.trimURLs", false);
 
 // I know what I'm doing
 user_pref("browser.aboutConfig.showWarning", false);
-user_pref("olivia.test", "hi");
+
+// Ads {{{
+// "Support firefox" in settings
+user_pref("browser.newtabpage.activity-stream.showSponsoredCheckboxes", false)
+// "Sponsored shortcuts" in settings
+user_pref("browser.newtabpage.activity-stream.showSponsoredTopSites", false)
+// No clue w hat these are for
+user_pref("browser.newtabpage.activity-stream.showSponsored", false)
+user_pref("browser.newtabpage.activity-stream.system.showSponsoredCheckboxes", false)
+user_pref("browser.urlbar.sponsoredTopSites", false)
+// }}}
