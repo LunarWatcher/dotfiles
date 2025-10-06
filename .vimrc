@@ -686,7 +686,7 @@ let g:fern#renderer#nerdfont#indent_markers = 1
 let g:nerdfont#autofix_cellwidths = 1
 
 " Global control mappings
-nnoremap <F2> :Fern . -drawer -stay -toggle<cr>
+nnoremap <F2> :execute ':Fern ' .. getcwd() .. ' -drawer -stay -toggle'<cr>
 nnoremap <leader>fs :exec ':FernDo FernReveal ' .. expand('%')<cr>
 nnoremap <F5> :exec ":FernDo normal \<F5> -stay"<cr>
 
@@ -728,6 +728,7 @@ fun FernMaps()
     nmap <buffer> <leader> <Plug>(fern-action-mark)
 
     " Meta maps
+    " TODO: this won't move the cwd if it has changed
     nmap <buffer> <F5> <Plug>(fern-action-reload)
 endfun
 " }}}
