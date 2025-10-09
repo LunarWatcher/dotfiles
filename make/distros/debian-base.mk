@@ -43,6 +43,7 @@ debian-home-packages:
 	sudo apt install -y golang sshfs
 	-go install github.com/boyter/scc@latest
 
+
 debian-core:
 	wget https://github.com/ryanoasis/nerd-fonts/raw/master/patched-fonts/SourceCodePro/SauceCodeProNerdFont-Regular.ttf -O "Sauce Code Pro Nerd Font Complete.ttf"
 	# Needed for gnome terminal because reasons
@@ -63,6 +64,10 @@ debian-core:
 	
 	sudo apt install -y python3-venv
 	sudo apt install -y extrepo
+
+	# Only used by certain tools
+	curl --proto '=https' --tlsv1.2 -sSf https://sh.rustup.rs | sh
+	cargo install zellij
 
 upm:
 	sudo bash -c "$$(wget -O- https://raw.githubusercontent.com/LunarWatcher/upm/master/tools/install.sh)"

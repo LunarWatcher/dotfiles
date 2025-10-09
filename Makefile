@@ -92,6 +92,7 @@ common-dotfiles: vim-plug
 	mkdir -p ${HOME}/.vim
 	ln -sf ${PWD}/.vimrc ${HOME}/.vimrc
 	ln -sf ${PWD}/.condarc ${HOME}/.condarc
+	ln -sf ${PWD}/config/zellij/config.kdl ${HOME}/.config/zellij/config.kdl
 
 dependencies: $(DEPENDENCY_TARGETS);
 dotfiles: common-dotfiles $(DOTFILE_TARGETS);

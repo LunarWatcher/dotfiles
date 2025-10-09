@@ -92,6 +92,9 @@ function updatePackages() {
 # **tmux n**ame
 alias tmuxn="tmux new-session -t"
 # }}}
+# Zellij {{{
+alias zn="zellij --session "
+# }}}
 # Docker {{{
 # Start and stop the service
 alias rdocker="sudo systemctl start docker"
