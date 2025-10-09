@@ -13,12 +13,9 @@ layout {
         pane split_direction="vertical" {
             pane cwd="build" {
                 command "zsh"
-                args "-c" "npm run dev"
+                args "-c" "python3 -m pytest"
             }
-            pane cwd="build" {
-                command "zsh"
-                args "-c" "npm run test"
-            }
+            pane cwd="build"
         }
     }
 }
