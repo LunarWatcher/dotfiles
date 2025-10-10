@@ -171,9 +171,8 @@ call s:LocalOption("img-paste.vim", "LunarWatcher/img-paste.vim")
 " Extended % matching
 Plug 'chrisbra/matchit'
 
-"Plug 'yegappan/lsp'
-" Temporary until yegappan/lsp#666 is merged
-Plug 'LunarWatcher/lsp', {'branch': 'allow-bare-omnicomplete'}
+Plug 'yegappan/lsp'
+"Plug 'LunarWatcher/lsp', {'branch': 'allow-bare-omnicomplete'}
 
 if has("python3")
     Plug 'SirVer/ultisnips'
