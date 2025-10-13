@@ -427,6 +427,7 @@ fun! LoadYegappanLsp()
         \ modules#lsp#Location("clangd"),
         \ modules#lsp#Location("pyright"),
         \ modules#lsp#Location("kotlin-lsp"),
+        \ modules#lsp#Location("luals"),
     \ ]
 
     " Remove LSPs that don't exist. This lets kotlin-lsp be enabled even
@@ -449,7 +450,7 @@ fun! LoadYegappanLsp()
         \ showDiagWithVirtualText: v:true,
         \ showInlayHints: v:true,
         \ snippetSupport: v:true,
-        \ showSignature: v:false,
+        \ showSignature: v:true,
         \ ultisnipsSupport: v:true,
         \ useBufferCompletion: v:false,
         \ usePopupInCodeAction: v:true,
@@ -462,21 +463,11 @@ fun! LoadYegappanLsp()
     \ })
     call LspAddServer(lsps)
 endfun
-fun SignatureHelper()
-    if exists("b:HasSignatureHelper")
-        return
-    endif
-    let b:HasSignatureHelper = 1
-    autocmd InsertCharPre <buffer> call g:LspShowSignature()
-endfun
 " }}}
 call PreloadYegappanLsp()
 augroup LiviLspConfig
     au!
     autocmd User LspSetup call LoadYegappanLsp()
-    " TODO: temporary until https://github.com/yegappan/lsp/issues/623
-    " is fixed
-    autocmd User LspAttached call SignatureHelper()
 augroup END
 
 command! LiviLspLoadDeno call LoadJSTS("deno")
@@ -871,6 +862,9 @@ augroup OFiletypes
 
     autocmd Bufread,BufNewFile *.trconf set ft=json
     autocmd BufRead,BufNewFile *.vert,*.frag set ft=glsl
+    " TODO: why isn't this default? The syntax is supported out of the box
+    " (polyglot?), but the .kdl extension is not
+    autocmd BufRead,BufNewFile *.kdl set ft=kdl
 
 augroup END
 " }}}

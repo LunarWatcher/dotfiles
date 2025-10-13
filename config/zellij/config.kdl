@@ -283,7 +283,8 @@ pane_frames true
 copy_command "xclip -selection clipboard" // x11
 // copy_command "wl-copy"                    // wayland
 
-copy_on_select false
+// TODO: can't find a copy keybind, so this is forced for now, but I hate autocopying
+copy_on_select true
 
 attach_to_session true
  
