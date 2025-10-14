@@ -50,6 +50,9 @@ function git-mirror-config-gh-source() {
     git remote set-url --add --push origin ${codebergUrl}
 }
 
+function git-apply-clipboard() {
+    xclip -selection clipboard -o | git apply
+}
 # }}}
 # Exposing various binaries {{{
 alias themis="~/.vim/plugged/vim-themis/bin/themis"

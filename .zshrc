@@ -14,6 +14,7 @@ if [[ $? == 0 ]]; then
 
     typeset -g POWERLEVEL9K_INSTANT_PROMPT=quiet
 
+    # Avoid printing this if running in zellij. If printing in zellij, it gets annoying very fast
     if [[ "$ZELLIJ" == "" ]]; then
         echo "                                 ⡀       "
         echo "                              ⢀⣴⣿⠟⣧      "
@@ -62,7 +63,7 @@ export ZSH="/${HOME}/.oh-my-zsh"
 ZSH_THEME="powerlevel10k/powerlevel10k"
 
 # Use a sensible date format
-# yyyy.mm.dd is also fine, but mm.dd.yyyy is disgusting and needs to disappear
+# yyyy-mm-dd is also fine, but mm.dd.yyyy is disgusting and needs to disappear
 HIST_STAMPS="dd.mm.yyyy"
 
 # Plugins
