@@ -171,7 +171,12 @@ call s:LocalOption("img-paste.vim", "LunarWatcher/img-paste.vim")
 " Extended % matching
 Plug 'chrisbra/matchit'
 
-Plug 'yegappan/lsp'
+let UseJSShit = 0
+if UseJSShit == 0
+    Plug 'yegappan/lsp'
+else
+    Plug 'neoclide/coc.nvim', {'branch': 'release'}
+endif
 "Plug 'LunarWatcher/lsp', {'branch': 'allow-bare-omnicomplete'}
 
 if has("python3")
@@ -298,6 +303,54 @@ set signcolumn=yes
 set updatetime=100
 
 " Code actions {{{
+" Coc.nvim {{{
+fun! LoadCocNvim()
+    map <leader>qa <Plug>(coc-codeaction-cursor)
+
+    nmap <leader>qA <Plug>(coc-codeaction)
+    vmap <leader>qA <Plug>(coc-codeaction-selected)
+
+    map <leader>qs <Plug>(coc-codeaction-source)
+    map <leader>qF <Plug>(coc-codeaction-file)
+    map <leader>ql <Plug>(coc-codeaction-line)
+
+    nmap <leader>qr <Plug>(coc-codeaction-refactor)
+    vmap <leader>qr <Plug>(coc-codeaction-refactor-selected)
+
+    nmap <leader>qf <Plug>(coc-fix-current)
+
+    inoremap <silent><expr> <c-space> coc#refresh()
+    nmap <leader>rn <Plug>(coc-rename)
+    nmap <silent> <leader>rd <Plug>(coc-definition)
+    nmap <silent> <leader>rD <Plug>(coc-declaration)
+    nmap <silent> <leader>rr <Plug>(coc-references)
+    nmap <silent> <leader>ri <Plug>(coc-implementation)
+    nmap <silent> <leader>rt <Plug>(coc-type-definition)
+
+    nmap <silent> <leader>rf <Plug>(coc-format)
+    vmap <silent> <leader>rf <Plug>(coc-format-selected)
+
+    " Fix scrolling in popups
+    nnoremap <silent><expr> <C-f> coc#float#has_scroll() ? coc#float#scroll(1) : "\<C-f>"
+    nnoremap <silent><expr> <C-b> coc#float#has_scroll() ? coc#float#scroll(0) : "\<C-b>"
+    inoremap <silent><expr> <C-f> coc#float#has_scroll() ? "\<c-r>=coc#float#scroll(1)\<cr>" : "\<Right>"
+    inoremap <silent><expr> <C-b> coc#float#has_scroll() ? "\<c-r>=coc#float#scroll(0)\<cr>" : "\<Left>"
+    vnoremap <silent><expr> <C-f> coc#float#has_scroll() ? coc#float#scroll(1) : "\<C-f>"
+    vnoremap <silent><expr> <C-b> coc#float#has_scroll() ? coc#float#scroll(0) : "\<C-b>"
+
+
+    " Show docs
+    " I also like that this doesn't show up automatically. YCM was wayyyyyyyy too
+    " aggressive in showing documentation.
+    nnoremap <silent> K :call CocActionAsync('doHover')<cr>
+
+    " Restarting is the only way to fix an issue with some popups not
+    " disappearing. Focusing and quitting the popup could also be an option, but
+    " fuuuuuuuck that
+    nnoremap <silent> <leader>rc :call CocRestart<cr>
+    nnoremap <silent> <leader>hp :call coc#float#close_all()<cr>
+endfun
+" }}}
 " Yegappan/lsp {{{
 fun CompletePath(findstart, base)
     let currIdx = col('.')
@@ -464,14 +517,18 @@ fun! LoadYegappanLsp()
     call LspAddServer(lsps)
 endfun
 " }}}
-call PreloadYegappanLsp()
-augroup LiviLspConfig
-    au!
-    autocmd User LspSetup call LoadYegappanLsp()
-augroup END
+if (UseJSShit == 0)
+    call PreloadYegappanLsp()
+    augroup LiviLspConfig
+        au!
+        autocmd User LspSetup call LoadYegappanLsp()
+    augroup END
 
-command! LiviLspLoadDeno call LoadJSTS("deno")
-command! LiviLspLoadTsserver call LoadJSTS("tsserver")
+    command! LiviLspLoadDeno call LoadJSTS("deno")
+    command! LiviLspLoadTsserver call LoadJSTS("tsserver")
+else
+    call LoadCocNvim()
+endif
 " }}}
 " }}}
 " Vimspector {{{
