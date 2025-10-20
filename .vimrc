@@ -622,13 +622,6 @@ let g:UltiSnipsJumpForwardTrigger="<C-j>"
 let g:UltiSnipsJumpBackwardTrigger="<C-k>"
 let g:UltiSnipsListSnippets="<C-u>"
 " }}}
-" Junegunn plugins {{{
-nnoremap <leader>go :Goyo 65%x95%<cr>
-nnoremap <leader>ll :Limelight!! 0.6<cr>
-" }}}
-" Vim clang-format {{{
-nnoremap <leader>cf :ClangFormat<cr>
-" }}}
 " Vista {{{ "
 let g:vista_fzf_preview = ['right:50%']
 let g:vista#renderer#enable_icon = 1
@@ -728,7 +721,7 @@ nnoremap <leader>ocm :CMakeFiles<cr>
 nnoremap <leader>zh :Helptags<cr>
 
 inoremap <C-l> <C-o>:Snippets<cr>
-nnoremap <C-l> :Snippets<cr>
+nnoremap <leader>s :Snippets<cr>
 " }}}
 " }}} FZF
 " fern.vim {{{
