@@ -728,6 +728,7 @@ nnoremap <leader>ocm :CMakeFiles<cr>
 nnoremap <leader>zh :Helptags<cr>
 
 inoremap <C-l> <C-o>:Snippets<cr>
+nnoremap <C-l> :Snippets<cr>
 " }}}
 " }}} FZF
 " fern.vim {{{
