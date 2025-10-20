@@ -492,6 +492,14 @@ fun! LoadYegappanLsp()
     " diagVirtualTextAlign is required to deal with a bug in "before", which 
     " causes the virtual text to contribute to the textwidth, and forces wrap
     " on every single word, which is fucking infuriating.
+    "
+    " Snippet support is disabled due to a new <C-l> map that opens fzf with
+    " snippets instead. In retrospect, it's a lot more searchable than using
+    " the popup, and bypasses the fact that the lsp omnicomplete func is only
+    " set if an LSP is loaded
+    " The alternative is adding a custom function for it, but fzf exists and
+    " is just better, so I feel like this makes more sense. <C-t> also exists,
+    " so <C-l> and interactive search is not required.
     call LspOptionsSet(#{
         \ autoComplete: v:false,
         \ codeAction: v:true,
@@ -502,9 +510,9 @@ fun! LoadYegappanLsp()
         \ showDiagWithSign: v:true,
         \ showDiagWithVirtualText: v:true,
         \ showInlayHints: v:true,
-        \ snippetSupport: v:true,
+        \ snippetSupport: v:false,
         \ showSignature: v:true,
-        \ ultisnipsSupport: v:true,
+        \ ultisnipsSupport: v:false,
         \ useBufferCompletion: v:false,
         \ usePopupInCodeAction: v:true,
         \ popupBorder: v:true,
@@ -718,6 +726,8 @@ nnoremap <leader>ocm :CMakeFiles<cr>
 
 " Remap some of the defaults {{{
 nnoremap <leader>zh :Helptags<cr>
+
+inoremap <C-l> <C-o>:Snippets<cr>
 " }}}
 " }}} FZF
 " fern.vim {{{
