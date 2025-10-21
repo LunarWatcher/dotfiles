@@ -66,6 +66,7 @@ debian-core:
 	sudo apt install -y extrepo
 
 	# Only used by certain tools
+	# TODO: install with all defaults without requiring interaction
 	curl --proto '=https' --tlsv1.2 -sSf https://sh.rustup.rs | RUSTUP_INIT_SKIP_PATH_CHECK=yes sh
 	$${HOME}/.cargo/bin/cargo install zellij
 
