@@ -461,7 +461,7 @@ fun PreloadYegappanLsp()
     "
     set autocomplete
     " TODO: figure out if adding tags back makes sense
-    set complete=F,o,.,w,b,FCompletePath
+    set complete=F,o,FCompletePath,t,.,w,b
     " noinsert is required so it doesn't forcibly insert arbitrary shit
     " Fuzzy is alrgely used so the __cuda headers that inexplicably appear
     " fuck off slightly lower

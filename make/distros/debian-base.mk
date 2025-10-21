@@ -66,8 +66,8 @@ debian-core:
 	sudo apt install -y extrepo
 
 	# Only used by certain tools
-	curl --proto '=https' --tlsv1.2 -sSf https://sh.rustup.rs | sh
-	cargo install zellij
+	curl --proto '=https' --tlsv1.2 -sSf https://sh.rustup.rs | RUSTUP_INIT_SKIP_PATH_CHECK=yes sh
+	$${HOME}/.cargo/bin/cargo install zellij
 
 upm:
 	sudo bash -c "$$(wget -O- https://raw.githubusercontent.com/LunarWatcher/upm/master/tools/install.sh)"
