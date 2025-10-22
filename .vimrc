@@ -1136,6 +1136,13 @@ nmap <leader>fr :call ListNavActions()<cr>
 nmap <leader>ff :call ListLists()<cr>
 " }}}
 " }}}
+" Spelling {{{
+set spelllang=en_gb,nb
+" TODO: I think I want a quickui with, among other  things, z=, but I don't
+" know if it makes sense to restrict specifically spelling to its own thing,
+" or if it should include other keybinds
+" Could also be a candidate for the vimrc-modules cheat sheet
+" }}}
 " }}}
 " Mappings {{{
 " Fix copy-pasta {{{
