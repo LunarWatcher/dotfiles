@@ -6,7 +6,7 @@ hashicorp-vault:
 	sudo apt update && sudo apt install vault
 
 extended-work-deps: debian-dotfile-software
-	go install github.com/mikefarah/yq/v4@main
+	go install github.com/mikefarah/yq/v4@latest
 
 	(type -p wget >/dev/null || (sudo apt update && sudo apt install wget -y)) \
 		&& sudo mkdir -p -m 755 /etc/apt/keyrings \
