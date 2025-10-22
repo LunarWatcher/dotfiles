@@ -4,6 +4,7 @@ function wsl() {
     if [[ "$1" == "restart-gui" ]]; then
         $WSL -d Ubuntu --user root --system bash -c "pkill -HUP weston"
     elif [[ "$1" == "proxy" ]]; then
+        shift
         $WSL $@
     else
         echo "Usage:"
