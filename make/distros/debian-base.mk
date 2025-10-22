@@ -72,6 +72,9 @@ debian-core:
 	curl --proto '=https' --tlsv1.2 -sSf https://sh.rustup.rs | RUSTUP_INIT_SKIP_PATH_CHECK=yes sh
 	$${HOME}/.cargo/bin/cargo install zellij
 
+	# Largely used by stripped-down distros
+	sudo apt install -y zip 7zip
+
 upm:
 	sudo bash -c "$$(wget -O- https://raw.githubusercontent.com/LunarWatcher/upm/master/tools/install.sh)"
 
