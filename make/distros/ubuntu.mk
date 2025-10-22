@@ -18,5 +18,8 @@ extended-work-deps: debian-dotfile-software
 		&& sudo apt update \
 		&& sudo apt install gh -y
 
+	sudo apt install -y openjdk-17-jdk
+	sudo update-alternatives --set java /usr/lib/jvm/java-17-openjdk-amd64/bin/java
+
 WORK_TARGETS += hashicorp-vault extended-work-deps
 

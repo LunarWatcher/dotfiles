@@ -17,7 +17,9 @@ debian-vim-deps:
 
 debian-dotfile-software: debian-vim-deps
 	sudo apt -y install tmux zsh silversearcher-ag ripgrep jq golang
-	
+
+	curl -fsSL https://deno.land/install.sh | sh
+
 ohmyzsh: debian-dotfile-software
 	-[ ! -d "$${HOME}/.oh-my-zsh" ] && curl -fsSL https://raw.github.com/ohmyzsh/ohmyzsh/master/tools/install.sh | bash
 	-zsh -c 'source ~/.zshrc; git clone --depth=1 https://github.com/romkatv/powerlevel10k.git $${ZSH_CUSTOM}/themes/powerlevel10k'
