@@ -357,7 +357,7 @@ fun CompletePath(findstart, base)
     " This does not account for paths with spaces, but it's a start
     let matchColStart = match(
         \ getline('.')[:currIdx], 
-        \ '\v([^ "' .. "'" .. ']+([/\\][^ ]*)+|\.*[/\\][^ ]*)$'
+        \ '\v([^ "' .. "'" .. '(){}[\]]+([/\\][^ {}[\]{]*)+|\.*[/\\][^ ]*)$'
     \ )
     if (a:findstart == 1)
         if (matchColStart < 0 || matchColStart == currIdx)
@@ -503,6 +503,7 @@ fun! LoadYegappanLsp()
     call LspOptionsSet(#{
         \ autoComplete: v:false,
         \ codeAction: v:true,
+        \ completionMatcher: 'fuzzy',
         \ diagVirtualTextAlign: 'below',
         \ omniComplete: v:true,
         \ omniCompleteAllowBare: v:true,
