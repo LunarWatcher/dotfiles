@@ -357,7 +357,7 @@ fun CompletePath(findstart, base)
     " This does not account for paths with spaces, but it's a start
     let matchColStart = match(
         \ getline('.')[:currIdx], 
-        \ '\v([^ "' .. "'" .. '(){}[\]]+([/\\][^ {}[\]{]*)+|\.*[/\\][^ ]*)$'
+        \ '\v([^ "' .. "'" .. '(){}[\]]+([/\\][^ {}[\]]*)+|\.*[/\\][^ {}[\]]*)$'
     \ )
     if (a:findstart == 1)
         if (matchColStart < 0 || matchColStart == currIdx)
