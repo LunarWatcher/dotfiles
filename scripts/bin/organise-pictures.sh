@@ -80,7 +80,7 @@ echo "Copy started..."
 for file in ${input}/*; do
     if [[ "$file" =~ ${imagePattern} ]];
     then
-        local year=${match[1]}
+        local year=${match[2]}
         local target=$(printf $outputExpr $year)
         if [ ! -d $target ]; then
             mkdir $target
