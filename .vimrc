@@ -416,6 +416,7 @@ fun PreloadYegappanLsp()
 
     nmap <leader>qa :LspCodeLens<cr>
     nmap <leader>qf :LspCodeAction<cr>
+    nmap <leader>qd :LspDiagCurrent<cr>
 
     " autoComplete force trigger (currently disabled)
     " inoremap <C-space> <C-\><C-o>:call lsp#completion#LspComplete(v:true)<cr>
@@ -474,11 +475,10 @@ fun! LoadJSTS(type)
     endif
 endfun
 fun! LoadYegappanLsp()
-    " TODO: replace with LunarWatcher/lsp-installer.vim9 in 6-8
+    " TODO: re-add kotlin-lsp
     let lsps = [
         \ modules#lsp#Location("clangd"),
         \ modules#lsp#Location("pyright"),
-        \ modules#lsp#Location("kotlin-lsp"),
         \ modules#lsp#Location("luals"),
     \ ]
 
