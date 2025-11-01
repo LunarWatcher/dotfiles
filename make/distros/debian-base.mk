@@ -86,6 +86,7 @@ node: upm
 
 dev-support: debian-core
 	sudo apt install -y direnv
+	bash -c "$(wget -O- https://raw.githubusercontent.com/LunarWatcher/umbra/master/scripts/install.sh)"
 
 DEPENDENCY_TARGETS += debian-base-update debian-build-deps ohmyzsh debian-dotfile-software
 DOTFILE_TARGETS += debian-base-dotfiles
