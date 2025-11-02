@@ -102,14 +102,17 @@ export PATH="${DOTFILES_HOME}/scripts/bin:$PATH"
 export PATH="${HOME}/.local/bin:${HOME}/go/bin:$PATH"
 export PATH="${HOME}/.cargo/bin:$PATH"
 
-if (( $+commands[clang] )); then
-    export CXX=clang++
-    export CC=clang
+# if (( $+commands[clang] )); then
+#     export CXX=clang++
+#     export CC=clang
+# else
+if (( $+commands[g++-14] )); then
+    export CXX=g++-14
+    export CC=gcc-14
 else
     export CXX=g++
     export CC=gcc
 fi
-
 
 [ -f ~/.fzf.zsh ] && source ~/.fzf.zsh
 [ -f ~/.zshrc.local ] && source ~/.zshrc.local
