@@ -12,8 +12,6 @@ if [[ $? == 0 ]]; then
     export __LIVI_WSL__=1
     export GVIM_ENABLE_WAYLAND=1
 
-    typeset -g POWERLEVEL9K_INSTANT_PROMPT=quiet
-
     # Avoid printing this if running in zellij. If printing in zellij, it gets annoying very fast
     if [[ "$ZELLIJ" == "" ]]; then
         echo "                                 ⡀       "
