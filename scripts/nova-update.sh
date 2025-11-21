@@ -75,7 +75,7 @@ function updateCopyparty() {
 }
 
 updateForgejo 
-update copyparty
+updateCopyparty
 # }}}
 
 
