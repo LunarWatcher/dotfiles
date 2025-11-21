@@ -26,16 +26,23 @@ services:
     restart: unless-stopped
     environment:
       - VPN_SERVICE_PROVIDER=protonvpn
-      - VPN_TYPE=openvpn
-      - OPENVPN_USER=<REDACTED>
-      - OPENVPN_PASSWORD=<REDACTED>
+      # OpenVPN is unusable; the protocol is highly unstable, which keeps killing the port forwarding and killing the internal server
+      # This is a long-standing bug that seems to be specific to OpenVPN
+      - VPN_TYPE=wireguard
+      - WIREGUARD_PRIVATE_KEY=<redacted>
       # Not sure if this is going to work reliably or not, but all the swiss servers support P2P, except one that's a Tor
       # server
       - SERVER_COUNTRIES=Switzerland
       - VPN_PORT_FORWARDING=on
       - TZ=Europe/Oslo
+      # See https://github.com/qdm12/gluetun-wiki/blob/main/setup/servers.md#update-the-vpn-servers-list
+      - UPDATER_PERIOD=24h
+      # required to not break the port forwarding script.
+      # Yes, I could add a password, but the server is never exposed and I don't care
+      - HTTP_CONTROL_SERVER_AUTH_DEFAULT_ROLE='{"auth":"none"}'
   qbittorrent:
-    image: lscr.io/linuxserver/qbittorrent:latest
+    # v2 is unusable
+    image: lscr.io/linuxserver/qbittorrent:libtorrentv1
     container_name: qbittorrent
     network_mode: "service:gluetun"
     environment:
@@ -47,6 +54,4 @@ services:
       - /media/NAS/torrent/config:/config
       - /media/NAS/torrent/downloads:/downloads
     restart: unless-stopped
-    depends_on:
-      gluetun:
-        condition: service_healthy
+
