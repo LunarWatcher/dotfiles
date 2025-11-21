@@ -27,8 +27,9 @@ function cleanup() {
 }
 # Docker services {{{
 updateDockerCompose "QBitTorrent" /home/olivia/docker/qbittorrent
-updateDockerCompose "Penpot" /home/olivia/docker/penpot
-updateDockerCompose "VaultWarden" /home/olivia/programming/dotfiles/automation/dockerfiles docker-compose-vaultwarden.yml
+# QBT needs to be hit over the head a second time after the restart 
+docker restart gluetun
+docker restart qbittorrent
 updateDockerCompose "Wekan" /opt/wekan
 # }}}
 # Non-docker, externally scripted services {{{
