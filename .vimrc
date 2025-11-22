@@ -476,6 +476,7 @@ fun! LoadJSTS(type)
 endfun
 fun! LoadYegappanLsp()
     " TODO: re-add kotlin-lsp
+    " TODO: ccls support is blocked until https://github.com/MaskRay/ccls/issues/530 is resolved
     let lsps = [
         \ modules#lsp#Location("clangd"),
         \ modules#lsp#Location("pyright"),
