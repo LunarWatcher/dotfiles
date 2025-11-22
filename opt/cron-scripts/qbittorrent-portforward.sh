@@ -3,7 +3,7 @@
 base_addr=${QBT_ADDR:-localhost}
 torrent_addr="$base_addr:8080"
 
-response=$(curl --silent http://$base_addr:8000/v1/portforwarded)
+response=$(curl --silent http://$base_addr:8000/v1/portforward)
 echo $response
 port=$(echo $response | jq .port)
 if [[ "$?" != "0" ]]; then
