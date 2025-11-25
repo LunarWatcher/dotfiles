@@ -55,6 +55,7 @@ mint-debloat:
 
 mint-autokey:
 	sudo apt install -y autokey-gtk
+	mkdir -p ~/.config/autokey
 	DOTFILES_CWD=$$(pwd) envsubst < config/autokey/autokey.json > ~/.config/autokey/autokey.json
 
 mint-rofi:
