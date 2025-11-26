@@ -1,5 +1,11 @@
 # WSL bullshittery 
 
+> [!warning]
+>
+> This approach has been abandoned in favour of hyper-v. Hyper-v is a graphical downgrade (can't use multiple monitors, because that's only supported for windows guests) and requires admin to even start, but it's a full linux environment without all the bullshit wsl breaks.
+>
+> Notably, dependabot-cli does not work in WSL, because it references a docker internal URL thing that references the host, which is NATed and firewalled on several levels by default. WSL having a separate firewall is a recurring problem when you can't install docker without docker desktop on the windows host, even though docker desktop then creates a separate WSL container to run WSL :facepaw:
+
 ## Windows/WSL performance
 
 Despite Microsoft's claims to the contrary, Windows and WSL do not mix, and doing so is a terrible diea. An arguably critical bug absolutely tanks the filesystem performance when calling the native Windows filesystem from WSL. This bug was reported in 2019, was followded up briefly in 2020, and was never fixed[^2][^3]. 

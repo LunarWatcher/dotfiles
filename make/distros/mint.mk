@@ -1,4 +1,5 @@
 include make/distros/debian-base.mk
+include make/distros/ubuntu-base.mk
 
 mint-tweaks:
 	sudo apt update && sudo apt install -y software-properties-common

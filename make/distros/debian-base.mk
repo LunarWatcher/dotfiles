@@ -76,7 +76,7 @@ debian-core:
 	sudo apt install -y zip 7zip
 
 upm:
-	sudo bash -c "$$(wget -O- https://raw.githubusercontent.com/LunarWatcher/upm/master/tools/install.sh)"
+	-sudo bash -c "$$(wget -O- https://raw.githubusercontent.com/LunarWatcher/upm/master/tools/install.sh)"
 
 vim: upm
 	sudo upm install vim 
