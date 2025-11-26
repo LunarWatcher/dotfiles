@@ -20,7 +20,7 @@ mint-home-packages:
 	sudo apt install -y qbittorrent
 	
 	# TODO: maybe add a thing that downloads .debs from releases to upm?
-	curl -L -o obsidian.deb https://github.com/obsidianmd/obsidian-releases/releases/download/v1.7.4/obsidian_1.7.4_amd64.deb
+	curl -L -o obsidian.deb https://github.com/obsidianmd/obsidian-releases/releases/download/v1.10.6/obsidian_1.10.6_amd64.deb
 	sudo dpkg -i obsidian.deb
 	rm obsidian.deb
 
@@ -77,6 +77,10 @@ steam-ext:
 	# it's in a sandbox
 	flatpak install flathub com.vysp3r.ProtonPlus
 
+mint-work-ext:
+	-flatpak install flathub io.dbeaver.DBeaverCommunity
+
+WORK_TARGETS += mint-work-ext
 HOME_TARGETS += mint-home-packages steam-ext
 SOFTWARE_TARGETS += mint-tweaks mint-core mint-tweaks docker mint-autokey mint-rofi mint-keybinds
 CLEANUP_TARGETS += mint-debloat
