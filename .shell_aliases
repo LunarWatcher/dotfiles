@@ -24,6 +24,7 @@ alias gra="git commit --amend --no-edit"
 alias gai="git add -i"
 alias ga="git add -A"
 alias groot="git rev-parse --show-toplevel"
+alias git-log-oneline-author='git log --format="%Cgreen%h%Creset %<(25)%an (%<(50)%ae) %ad%x09%s"'
 
 function ghsclone() {
     if [[ "$1" == "" ]]; then
