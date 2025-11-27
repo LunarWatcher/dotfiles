@@ -74,7 +74,19 @@ plugins=(
 # Prevent wd from converting paths (https://github.com/ohmyzsh/ohmyzsh/issues/8996#issuecomment-640512998)
 export WD_SKIP_EXPORT=1
 
-source $ZSH/oh-my-zsh.sh
+# 8c5a606 and b52dd1a were made by a slop agent, but were non-functional, so letting it slide for now. This block prevents omz from loading
+# if more slop commits appear. This is incompatible with omz update, so a pull has to be done as well. This is not optimal, but it's the
+# only reasonably stable way to detect AI slop before it fucks the shell (or worse)
+local LAST_SLOP_THRESHOLD=2
+echo $(cd $ZSH && git pull) > /dev/null || true
+matches=$(cd $ZSH && git log --format="%an" | grep -i copilot)
+if (( $(echo $matches | wc -l) > $LAST_SLOP_THRESHOLD)); then
+    bash -c "cd $ZSH && git log --format='%Cgreen%h%Creset %<(25)%an (%<(50)%ae) %ad%x09%s' | grep -i Copilot"
+    echo "⚠️  AI slop in omz exceeded last known threshold of $LAST_SLOP_THRESHOLD. Crosscheck and report"
+    echo "omz will not be loaded to avoid an AI slop supply chain attack"
+else
+    source $ZSH/oh-my-zsh.sh
+fi
 
 # Config
 if [[ "$SSH_TTY" == "" ]]; then
