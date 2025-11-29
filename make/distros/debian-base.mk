@@ -20,10 +20,6 @@ debian-dotfile-software: debian-vim-deps
 
 	curl -fsSL https://deno.land/install.sh | sh
 
-ohmyzsh: debian-dotfile-software
-	-[ ! -d "$${HOME}/.oh-my-zsh" ] && curl -fsSL https://raw.github.com/ohmyzsh/ohmyzsh/master/tools/install.sh | bash
-	-zsh -c 'source ~/.zshrc; git clone --depth=1 https://github.com/romkatv/powerlevel10k.git $${ZSH_CUSTOM}/themes/powerlevel10k'
-
 config:
 	rsync -av --progress config/ ~/.config/
 
@@ -75,6 +71,11 @@ debian-core:
 	# Largely used by stripped-down distros
 	sudo apt install -y zip 7zip
 
+zsh-deps: debian-base-update
+	sudo mkdir -p /opt/powerlevel10k
+	sudo chown $$USER /opt/powerlevel10k
+	-git clone https://github.com/romkatv/powerlevel10k.git /opt/powerlevel10k
+
 upm:
 	-sudo bash -c "$$(wget -O- https://raw.githubusercontent.com/LunarWatcher/upm/master/tools/install.sh)"
 
@@ -88,7 +89,7 @@ dev-support: debian-core
 	sudo apt install -y direnv
 	bash -c "$$(wget -O- https://raw.githubusercontent.com/LunarWatcher/umbra/master/scripts/install.sh)"
 
-DEPENDENCY_TARGETS += debian-base-update debian-build-deps ohmyzsh debian-dotfile-software
+DEPENDENCY_TARGETS += debian-base-update debian-build-deps zsh-deps debian-dotfile-software
 DOTFILE_TARGETS += debian-base-dotfiles
 SOFTWARE_TARGETS += debian-core vim node dev-support
 HOME_TARGETS += debian-home-packages
