@@ -71,8 +71,6 @@ setopt extended_glob
 setopt interactive_comments
 # }}}
 # History stuff {{{
-# Use a sensible date format
-# yyyy-mm-dd is also fine, but mm.dd.yyyy is disgusting and needs to disappear
 export HISTFILE="$HOME/.zsh_history"    # History filepath
 export HISTSIZE=50000
 export SAVEHIST=10000
