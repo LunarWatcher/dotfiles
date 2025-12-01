@@ -81,6 +81,13 @@ setopt hist_ignore_dups
 setopt hist_verify
 setopt hist_fcntl_lock
 setopt share_history
+
+autoload -U up-line-or-beginning-search
+autoload -U down-line-or-beginning-search
+zle -N up-line-or-beginning-search
+zle -N down-line-or-beginning-search
+bindkey "$key[Up]" up-line-or-beginning-search
+bindkey "$key[Down]" down-line-or-beginning-search
 # }}}
 # Dir state {{{
 setopt auto_cd
