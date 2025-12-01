@@ -131,6 +131,22 @@ if (( $+commands[direnv] )); then
     eval "$(direnv hook bash)"
 fi
 # }}}
+# Terminal titles {{{
+function precmd_title() {
+    print -Pn "\e]0;%n@%m: %~\a"
+}
+function preexec_title() {
+    if [[ -n "$SSH_CONNECTION" ]]; then
+        print -Pn "\e]0;%n@%m: %~\a"
+    else
+        print -Pn "\e]0;%~\a"
+    fi
+}
+
+add-zsh-hook preexec preexec_title
+
+add-zsh-hook precmd precmd_title
+# }}}
 
 [[ -f ~/.p10k.zsh ]] && source ~/.p10k.zsh
 
