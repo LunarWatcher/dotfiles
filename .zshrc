@@ -143,7 +143,7 @@ function precmd_title() {
     fi
 }
 function preexec_title() {
-    print -Pn "\e]0;%n@%m: %~ — $2\a"
+    print -Pn "\e]0;%n@%m: %~ - $2\a"
 }
 
 add-zsh-hook preexec preexec_title
