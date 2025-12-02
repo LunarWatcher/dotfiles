@@ -2,6 +2,7 @@
 #zmodload zsh/zprof
 
 if [[ "$(zsh --version)" =~ "zsh 5.9" ]]; then
+    # Required to deal with a bug in zsh 5.9 that does something bad that I don't recall
     CASE_SENSITIVE=true
 fi
 

@@ -708,6 +708,7 @@ augroup END
 " omitting .git. Necessary for several very relevant files to be searchable
 command! -bang -nargs=* HRg call fzf#vim#grep("rg --hidden --glob '!.git' --column --line-number --no-heading --color=always --smart-case -- ".fzf#shellescape(<q-args>), fzf#vim#with_preview(), <bang>0)
 command! -bang -nargs=* HRG call fzf#vim#grep2("rg --hidden --glob '!.git' --column --line-number --no-heading --color=always --smart-case -- ", <q-args>, fzf#vim#with_preview(), <bang>0)
+command! -bang -nargs=1 RGGlob call fzf#vim#grep2("rg --hidden --glob '!.git' --glob '" .. <q-args> .. "' --column --line-number --no-heading --color=always --smart-case ", '', fzf#vim#with_preview(), <bang>0)
 
 nnoremap <leader>zx :HFiles<cr>
 nnoremap <leader>zX :HNGFiles<cr>
@@ -715,6 +716,11 @@ nnoremap <leader>zc :HRg<cr>
 nnoremap <leader>zC :HRG<cr>
 nnoremap <leader>zb :TODO<cr>
 nnoremap <leader>zs :Search<cr>
+
+nnoremap <leader>zgc :RGGlob !{*.md,LICENSE,*.txt,*.json,*.xml}<cr>
+nnoremap <leader>zgp :RGGlob *.{c,cpp,h,hpp,cc}<cr>
+nnoremap <leader>zgt :RGGlob *.{js,ts,tsx,jsx}<cr>
+nnoremap <leader>zgj :RGGlob *.{java,kt}<cr>
 
 nnoremap <leader>ocm :CMakeFiles<cr>
 
@@ -1116,15 +1122,6 @@ fun! ListNavActions()
     call quickui#listbox#open(actions, { "title": "Code navigation" })
 endfun
 
-fun! ListLists()
-    let actions = [
-        \ [ "Workspace actions\t\\fw", "normal \\fw" ],
-        \ [ "LSP actions\t\\fq", "normal \\fq" ],
-        \ [ "Nav actions\t\\fr", "normal \\fr" ],
-    \ ]
-    call quickui#listbox#open(actions, { "title": "Bad girl, learn your keybinds" })
-endfun
-
 " Prefix: <leader>f is short for "fast actions", and used to reference
 " anything that opens util popups.
 " it can also mean "fuck, what fucking keybind was this again?", because
@@ -1134,6 +1131,30 @@ endfun
 nmap <leader>fq :call ListCodeActions(0)<cr>
 vmap <leader>fq :call ListCodeActions(1)<cr>
 nmap <leader>fr :call ListNavActions()<cr>
+" }}}
+" RGGlob helper {{{
+fun! ListGlobs()
+    let actions = [
+        \ [ "Java + Kotlin\t\\zgj", "normal \\zgj" ],
+        \ [ "C/C++\t\\zgp", "normal \\zgp" ],
+        \ [ "JavaScript/TypeScript\t\\zgt", "normal \\zgt" ],
+        \ [ "Code (best effort)\t\\zgc", "normal \\zgc" ]
+    \]
+    call quickui#listbox#open(actions, { "title": ":RGGlob shortcuts" })
+endfun
+nmap <leader>fg :call ListGlobs()<cr>
+" }}}
+" Meta helper {{{
+fun! ListLists()
+    let actions = [
+        \ [ "Workspace actions\t\\fw", "normal \\fw" ],
+        \ [ "LSP actions\t\\fq", "normal \\fq" ],
+        \ [ "Nav actions\t\\fr", "normal \\fr" ],
+        \ [ "List default :RGGlob options", "normal \\fg" ]
+    \ ]
+    call quickui#listbox#open(actions, { "title": "Bad girl, learn your keybinds" })
+endfun
+
 nmap <leader>ff :call ListLists()<cr>
 " }}}
 " }}}
