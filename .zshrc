@@ -132,7 +132,7 @@ bindkey "^[[3;5~" kill-word
 # }}}
 # Direnv {{{
 if (( $+commands[direnv] )); then
-    eval "$(direnv hook bash)"
+    eval "$(direnv hook zsh)"
 fi
 # }}}
 # Terminal titles {{{
