@@ -21,6 +21,13 @@ function scriptedUpdate() {
 
     echo "Updated $1"
 }
+function externalScriptedUpdate() {
+    echo "Preparing to update $1"
+    cd $BASE_DIR
+    $2
+
+    echo "Updated $1"
+}
 
 function cleanup() {
     sudo docker image prune -f
@@ -35,8 +42,8 @@ updateDockerCompose "Wekan" /opt/wekan
 # Non-docker, externally scripted services {{{
 scriptedUpdate "Baikal" baikal.sh
 scriptedUpdate "Uptime Kuma" uptime-kuma.sh
-scriptedUpdate "Jade" /opt/jade/scripts/update.sh
-scriptedUpdate "Hazel" /opt/hazel/scripts/update.sh
+externalScriptedUpdate "Jade" /opt/jade/scripts/update.sh
+externalScriptedUpdate "Hazel" /opt/hazel/scripts/update.sh
 
 # }}}
 # Non-docker, non-scripted services {{{

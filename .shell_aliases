@@ -279,7 +279,7 @@ alias spsql='sudo -u postgres psql '
 alias ytmp3="yt-dlp -x --audio-format mp3 "
 # }}}
 # gdb {{{
-alias gdb="gdb --tui "
+# alias gdb="gdb --tui "
 # }}}
 # Gradle {{{
 # Exists because gradle spews out so much fucking shit that my terminal
