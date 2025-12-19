@@ -90,13 +90,13 @@ endif
 " }}}
 " Navigation {{{
 " Fern {{{
-"call s:LocalOption("fern.vim", "LunarWatcher/fern.vim")
+call s:LocalOption("fern.vim", "LunarWatcher/fern.vim")
 " Upstream fern has default-enabled coderabbitai (slop machine) for PR
 " reviews, so changes cannot be default-trusted anymore
 " 2025-09-28: all repos forked (I already had fern.vim forked, and
 " vim-nerdfont was forked to fix a bug)
 
-Plug 'LunarWatcher/fern.vim'
+" Plug 'LunarWatcher/fern.vim'
 Plug 'LunarWatcher/vim-nerdfont'
 Plug 'LunarWatcher/vim-fern-hijack'
 
@@ -740,6 +740,7 @@ let g:fern#drawer_width = 32
 let g:fern#default_hidden = 1
 let g:fern#renderer = "nerdfont"
 let g:fern#renderer#nerdfont#indent_markers = 1
+let g:fern#comparator = 'numeric'
 
 let g:nerdfont#autofix_cellwidths = 1
 
