@@ -90,21 +90,21 @@ endif
 " }}}
 " Navigation {{{
 " Fern {{{
-call s:LocalOption("fern.vim", "LunarWatcher/fern.vim")
 " Upstream fern has default-enabled coderabbitai (slop machine) for PR
 " reviews, so changes cannot be default-trusted anymore
 " 2025-09-28: all repos forked (I already had fern.vim forked, and
 " vim-nerdfont was forked to fix a bug)
 
-" Plug 'LunarWatcher/fern.vim'
 Plug 'LunarWatcher/vim-nerdfont'
+
+call s:LocalOption("fern.vim", "LunarWatcher/fern.vim")
+call s:LocalOption("vim-fern-renderer-nerdfont", "LunarWatcher/vim-fern-renderer-nerdfont")
 Plug 'LunarWatcher/vim-fern-hijack'
 
-Plug 'LunarWatcher/vim-fern-renderer-nerdfont'
 Plug 'LunarWatcher/vim-glyph-palette'
 
 if executable("git")
-    Plug 'LunarWatcher/vim-fern-git-status'
+    call s:LocalOption("vim-fern-git-status", "LunarWatcher/vim-fern-git-status")
 endif
 " }}}
 
@@ -741,6 +741,7 @@ let g:fern#default_hidden = 1
 let g:fern#renderer = "nerdfont"
 let g:fern#renderer#nerdfont#indent_markers = 1
 let g:fern#comparator = 'numeric'
+" let g:fern#loglevel = g:fern#logger#DEBUG
 
 let g:nerdfont#autofix_cellwidths = 1
 
@@ -1496,5 +1497,9 @@ function! ToggleVerbose()
     endif
 endfunction
 command! Debug :call ToggleVerbose()<cr>
+
+function! SynStack()
+    echo map(synstack(line('.'), col('.')), 'synIDattr(v:val, "name")')
+endfunc
 " }}}
 " vim:sw=4
