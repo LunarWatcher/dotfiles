@@ -98,7 +98,6 @@ endif
 Plug 'LunarWatcher/vim-nerdfont'
 
 call s:LocalOption("fern.vim", "LunarWatcher/fern.vim")
-call s:LocalOption("vim-fern-renderer-nerdfont", "LunarWatcher/vim-fern-renderer-nerdfont")
 Plug 'LunarWatcher/vim-fern-hijack'
 
 Plug 'LunarWatcher/vim-glyph-palette'
@@ -754,7 +753,7 @@ nnoremap <F5> :exec ":FernDo normal \<F5> -stay"<cr>
 fun FernMaps()
 
     nmap <buffer><expr> <Plug>(fern-cr)
-        \ fern#smart#leaf(
+        \ fern#smart#Leaf(
             \ "<Plug>(fern-action-open)",
             \ "<Plug>(fern-action-expand:stay)",
             \ "<Plug>(fern-action-collapse)",

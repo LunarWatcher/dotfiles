@@ -1,10 +1,3 @@
-# Defaults {{{
-alias ls="command ls --color"
-alias history="fc -l -D -t '%d-%m-%Y %H:%M:%S' 0 | less +G"
-alias history_np="fc -l -D -t '%d-%m-%Y %H:%M:%S' 0"
-alias history_last="fc -l -D -t '%d-%m-%Y %H:%M:%S'"
-alias grep="command grep --color"
-# }}}
 # Globals {{{
 local loc=$(readlink ~/.zshrc)
 export DOTFILES_HOME=$(dirname $loc)

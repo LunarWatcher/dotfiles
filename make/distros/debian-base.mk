@@ -72,9 +72,7 @@ debian-core:
 	sudo apt install -y zip 7zip
 
 zsh-deps: debian-base-update
-	sudo mkdir -p /opt/powerlevel10k
-	sudo chown $$USER /opt/powerlevel10k
-	-git clone https://github.com/romkatv/powerlevel10k.git /opt/powerlevel10k
+	git clone https://codeberg.org/LunarWatcher/amethyst ~/.config/amethyst
 
 upm:
 	-sudo bash -c "$$(wget -O- https://raw.githubusercontent.com/LunarWatcher/upm/master/tools/install.sh)"
