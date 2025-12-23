@@ -6,6 +6,14 @@ Once something makes it to this list, it is not removed regardless of later back
 
 ## Abandoned software
 
+### Hugo (gohugo)
+
+Abandoned: 2025-12-23
+
+* https://github.com/gohugoio/hugo/blob/master/CONTRIBUTING.md#ai-assistance-notice
+
+Also includes an AI slop machine in code review, though its current function (aside advertising Google's slop bot Gemini) is unclear. The risk is still unacceptably high. No tagged commits are included on main, but because they squash commits, it's extra hard to tell if that's the case. 
+
 ### Nvm
 
 Abandoned: 2025-12-23
