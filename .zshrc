@@ -139,11 +139,7 @@ export PATH="$PATH:$HOME/.rvm/bin"
 [[ "$__LIVI_WSL__" == "1" ]] && source $DOTFILES_HOME/windows/wsl/run.zsh
 
 [[ -s "$HOME/.local/share/pnpm" ]] && source $DOTFILES_HOME/zsh/pnpm.zsh
-[[ -s "$HOME/.nvm" ]] && source $DOTFILES_HOME/zsh/nvm.zsh
 
 amethyst-plugin auto 'https://github.com/zsh-users/zsh-syntax-highlighting'
 [[ -f ~/.p10k.zsh ]] && source ~/.p10k.zsh
 amethyst-plugin theme 'https://github.com/romkatv/powerlevel10k'
-
-# Prevents p10k from reporting errors after boot because of nvm missing
-true
