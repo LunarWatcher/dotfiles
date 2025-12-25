@@ -14,6 +14,10 @@ Abandoned: 2025-12-23
 
 Also includes an AI slop machine in code review, though its current function (aside advertising Google's slop bot Gemini) is unclear. The risk is still unacceptably high. No tagged commits are included on main, but because they squash commits, it's extra hard to tell if that's the case. 
 
+Initially planned replacement was [Zola](https://github.com/getzola/zola), but a second (unplanned) AI sweep found that [the templating engine Zola uses has an upcoming v2 with AI slop](https://github.com/Keats/tera2/pull/86), so that plan was abandoned. Website shut down on 2025-12-24 since there are no alternatives that meet all the criteria without massive amounts of refactoring for all the non-standard crap being used, since there are no standards.
+
+Might create a replacement myself at some point after I fuck around with web servers, but this is a future me problem tentatively on the roadmap for 2026/2027.
+
 ### Nvm
 
 Abandoned: 2025-12-23
@@ -60,4 +64,4 @@ fnm has several open PRs that would introduce AI slop (all currently by one auth
 
 These do not appear to be made by anyone on the core project, but any of them being merged would introduce AI slop. Could go either way at the time of writing. Unfortunately, the author of fnm leans towards AI slop, so the risk is far higher than I initially estimated in #31: https://github.com/Schniz/home-automation-cluster/blob/main/AGENTS.md
 
-These are also extremely textbook slop, and were created by someone claiming to work for google, at least partly using Google's slop machine. Great sales pitch, Google.
+These PRs to fnm are also extremely textbook slop, and were created by someone claiming to work for google, at least partly using Google's slop machine. Great sales pitch, Google.
