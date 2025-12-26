@@ -1,6 +1,6 @@
 /install.sh
 
-/secrets
+/secrets/
 
 vim
 nerd-fonts

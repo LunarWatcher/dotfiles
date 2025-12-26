@@ -18,7 +18,7 @@ In addition, in my local install, `secrets/` exists. This is a remote git repo s
 
 > [!warning]
 >
-> You should not run any of the automation scripts without fully understand what they do first. They install a lot of opinionated stuff, and make decisions that I can only guarantee make sense with my specific setup. If you're interested in joinking my dotfiles, do so manually. If you're interested in the automation suite, [I wrote a blog post about it](https://lunarwatcher.github.io/posts/2024/01/06/how-to-set-up-a-makefile-for-managing-dotfiles-and-system-configurations.html). You can also just read the code and manually port over the parts you want. 
+> You should not run any of the automation scripts without fully understand what they do first. They install a lot of opinionated stuff, and make decisions that I can only guarantee make sense with my specific setup. If you're interested in joinking my dotfiles, do so manually.
 >
 > However, running it as-is, unless you're me, is likely a bad idea, and will likely have unexpected consequences. You have been warned.
 

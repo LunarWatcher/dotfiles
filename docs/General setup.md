@@ -103,10 +103,10 @@ Things to update:
 
 I love Firefox, but holy fuck is the sync process messy. Things that need manual fixing (and that aren't obvious):
 
+* Copy `user.js`; see Firefox.md for more info
 * **DO NOT ENABLE SYNC FOR CONTAINER TABS!** Make sure it's explicitly disabled. Sync is completely borked and will screw over other devices. Set them up manually instead.
 * The theme is usually never synced, and occasionally clears the theme from all other devices. The theme needs to be reset, possibly on all devices. I'm not sure why this happens
 * Plugins need to be re-pinned, and bloatware needs to be unpinned
-* The search engine needs to be switched from DDG back to Kagi, because the DDG plugin *forcibly* changes the search engine away from Kagi when it eventually syncs. Fuck you, DDG; I just want the email aliases, not the search engine.
 * uBlock, Kagi, and possibly one other plugin I'm forgetting right now needs to be manually enabled in incognito tabs
 * Non-standard uBlock blocklists need to be enabled. The following non-included filter lists need to be added:
     ```
@@ -121,23 +121,6 @@ I love Firefox, but holy fuck is the sync process messy. Things that need manual
 * Set the colourscheme to light mode
     * In newer versions, Gnome ships its own terminal scheme that seems to work fine. No need ot manually install papercolour anymore
 * Disable the menubar (Gnome: Settings -> General -> Show menubar by default in new terminals)
-
-### Syncthing
-
-> [!WARNING]
-> Before proceeding, make sure you change the default folder to `~/Documents/Syncthing/`, and `mkdir ~/Documents/Syncthing`
-
-First, auto-startup:
-```
-systemctl enable syncthing@olivia.service
-systemctl start syncthing@olivia.service
-```
-
-> [!TIP]
->
-> If syncthing was started outside systemd, it needs to be shut down before taking the above steps. Otherwise, `start` will fail. This is a one-time problem, however.
-
-On secure machines: folders need to be shared. Adding nova as an introducer should automatically get everything up and running. Note that some folders on `nova` have passwords that are stored in Bitwarden.
 
 ### Git 
 

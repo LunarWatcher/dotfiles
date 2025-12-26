@@ -1,6 +1,6 @@
 # Additional Firefox config
 
-A bunch of FF config isn't exported via account sync, and needs to be configured manually. These are stored in the `firefox/user.js` file, which is dropped into the profile folder. For now, it's not installed automatically, as the profile names vary.
+A bunch of FF config isn't exported via account sync, and needs to be configured manually. These are stored in the `firefox/user.js` file in this repo, which is dropped into the root of the profile folder. For now, it's not installed automatically, as the profile names vary, and no scriptable alternatives have been identified.
 
 The profile folder can be found in:
 
@@ -8,6 +8,6 @@ The profile folder can be found in:
     * ... except for Ubuntu/Snap installs, where it's at `~/snap/firefox/common/.mozilla/firefox` instead. Fuck you, Ubuntu
 * **Windows:** `%APPDATA%\Mozilla\Firefox`
 
-`.default-release` seems to generally be the right folder to use
+`.default-release` seems to generally be the right folder to use. `about:profiles` lists which profile is currently in use. Scriptable replacements have not been identified yet. This also applies per FF install, so if FF beta/nightly is installed, it needs user.js copied separately.
 
 **WARNING:** `user.js` cannot be a symbolic link. It _can_ be a link, but _not_ a symbolic link. `ln ~/programming/dotfiles/firefox/user.js {target}`. If `-s` is used, FF does not read the file.

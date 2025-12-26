@@ -4,7 +4,7 @@ debian-build-deps:
 		libjansson-dev libtool libtool-bin cmake pkg-config \
 		git wget curl libcurlpp-dev libssl-dev cargo xclip nano python3-pkg-resources \
 		libncurses-dev libgtk-3-dev libxt-dev libpython3-dev \
-		apt-transport-https
+		apt-transport-https meson
 	@echo "Done."
 
 debian-base-update:
