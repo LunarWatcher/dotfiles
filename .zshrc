@@ -140,6 +140,7 @@ export PATH="$PATH:$HOME/.rvm/bin"
 
 [[ -s "$HOME/.local/share/pnpm" ]] && source $DOTFILES_HOME/zsh/pnpm.zsh
 
+amethyst-plugin auto 'https://github.com/LunarWatcher/wd'
 amethyst-plugin auto 'https://github.com/zsh-users/zsh-syntax-highlighting'
 [[ -f ~/.p10k.zsh ]] && source ~/.p10k.zsh
 amethyst-plugin theme 'https://github.com/romkatv/powerlevel10k'
