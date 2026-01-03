@@ -138,6 +138,7 @@ Plug 'rhysd/conflict-marker.vim'
 " Language highlighting {{{
 " Speed up load
 let g:loaded_sensible = 1
+let g:polyglot_disabled = [ 'markdown' ]
 Plug 'sheerun/vim-polyglot'
 
 Plug 'bfrg/vim-c-cpp-modern', {'for': 'cpp'}
