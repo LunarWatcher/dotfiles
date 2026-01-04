@@ -24,7 +24,9 @@ Also, [lol](https://github.com/louislam/uptime-kuma/issues/6549#issuecomment-370
 
 ### Hugo (gohugo)
 
-Abandoned: 2025-12-23
+**Abandoned**: 2025-12-23
+
+**Replacement**: Plain git repo, a proper replacement is a possible future project
 
 * https://github.com/gohugoio/hugo/blob/master/CONTRIBUTING.md#ai-assistance-notice
 
@@ -36,7 +38,9 @@ Might create a replacement myself at some point after I fuck around with web ser
 
 ### Nvm
 
-Abandoned: 2025-12-23
+**Abandoned**: 2025-12-23
+
+**Replacement:** upm
 
 * https://github.com/nvm-sh/nvm/commit/9602f4f959a9f64515fc13af2904a87dc03de685
 * https://github.com/nvm-sh/nvm/commit/0215ef820352ec0a649f71ef3a1e32c21c16229f
@@ -45,7 +49,9 @@ The first commit of these contains a copilot instructions file, and is considere
 
 ### Ohmyzsh
 
-Abandoned: 2025-11-29
+**Abandoned**: 2025-11-29
+
+**Replacement**: https://github.com/LunarWatcher/amethyst + more custom config
 
 * https://github.com/ohmyzsh/ohmyzsh/commit/b52dd1a425e9ed9f844ba46cd27ff94a3b4949dc
 * https://github.com/ohmyzsh/ohmyzsh/commit/8c5a60644a2a93fb6b7d76ec7a5598f99b426cf0
@@ -56,7 +62,9 @@ Plus confirmation that this will continue on discord. Initially abandoned outrig
 
 ### reflectcpp
 
-Abandoned: 2025-10-29
+**Abandoned**: 2025-10-29
+
+**Replacement:** nlohmann/json (most applications), yyjson (performance-sensitive applications). Future project (C++26 reflection wrapper of yyjson) will eventually replace both
 
 Uses AI slop for reviews: https://github.com/getml/reflect-cpp/pull/563#issuecomment-3682824946
 
