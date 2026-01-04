@@ -66,6 +66,16 @@ The library is still in use in a few things with the version pinned. Migration t
 
 This list contains confirmed AI slop software I cannot get rid of for various reasons (largely due to there being no alternatives, or the risk being acceptable or otherwise mitigated). Upgrading these is significantly more risky than other software, both from the security perspective, and from general upgrade risks.
 
+### ntfy
+
+* https://github.com/binwiederhier/ntfy-android/pull/149
+* https://github.com/binwiederhier/ntfy/pull/727#discussion_r1193239268
+* https://github.com/binwiederhier/ntfy/issues/1456#issuecomment-3707035246 (explicit admission)
+
+Comparatively low-risk, largely due to the admission in the last one. Still not a fan, and still a risk, but there are no other comparable options, and Android absolutely _is_ a pain in the ass and blocks any attempts I'd have to make a comparable system (I'm unwilling to sacrifice that much time and effort on a platform that makes itself difficult to develop for).
+
+For now, sloppified ntfy is forced to stay.
+
 ## At risk
 
 ### fnm
