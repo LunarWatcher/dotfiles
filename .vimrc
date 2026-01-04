@@ -35,6 +35,8 @@ augroup END
 augroup config
     au!
     autocmd FileType markdown setlocal conceallevel=0
+    " Prevent the buggy and annoying builtin HTML omnifunc from taking effect
+    autocmd FileType markdown setlocal complete=FCompletePath,t,.,w,b
 augroup END
 augroup SpecialFiles
     au!
