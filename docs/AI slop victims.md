@@ -6,6 +6,22 @@ Once something makes it to this list, it is not removed regardless of later back
 
 ## Abandoned software
 
+### Uptime-kuma
+
+**Abandoned**: 2026-01-04
+
+**Replacement:** None
+
+* https://github.com/louislam/uptime-kuma/commit/9fb4263427f3f0216457a920d19565e31f7eb610
+
+Also seems to correspond with a drastic spike in activity:
+
+![Image showing uptime-kuma's pulse thing on GitHub spiking drastically some time after the introduction of the AI slop machine](.github/images/uptime-kuma-slop.png)
+
+This seems to be caused by approving Copilot reviews directly, with some of the PRs I checked having as much as 11 commits just from Copilot's review, all default-titled by GitHub for max slop uselessness. The threat from this is high enough that uptime-kuma is dropped immediately without a replacement prepared. I was already planning to replace it, but hadn't looked into any replacements yet. It's fully JS-based, and so ridiculously heavy to run, and it's now sloppified and insecure on top of that, and therefore goes from a removal timeline of some time in 2026 to right the fuck now.
+
+Also, [lol](https://github.com/louislam/uptime-kuma/issues/6549#issuecomment-3703357112), sure you do.
+
 ### Hugo (gohugo)
 
 Abandoned: 2025-12-23
