@@ -144,3 +144,7 @@ amethyst-plugin auto 'https://github.com/LunarWatcher/wd'
 amethyst-plugin auto 'https://github.com/zsh-users/zsh-syntax-highlighting'
 [[ -f ~/.p10k.zsh ]] && source ~/.p10k.zsh
 amethyst-plugin theme 'https://github.com/romkatv/powerlevel10k'
+
+# Plugin keybinds {{{
+bindkey ${FZF_WD_BINDKEY:-'^B'} wd_browse_widget
+# }}}
