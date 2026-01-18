@@ -70,6 +70,28 @@ Uses AI slop for reviews: https://github.com/getml/reflect-cpp/pull/563#issuecom
 
 The library is still in use in a few things with the version pinned. Migration targets are nlohmann/json (most applications) and yyjson (performance-sensitive applications)
 
+### spdlog
+
+**Fall date:** 2026-01-04
+
+**Replacement:** Custom tiny extra info wrapper question mark?
+
+* https://github.com/gabime/spdlog/commit/b656d1ceecac83e969faaf8b35f8a5edb964b0e0 
+* ... plus several PR reviews with copilot requests by the author: https://github.com/search?q=repo%3Agabime%2Fspdlog+copilot&type=pullrequests (archived: https://web.archive.org/web/20260118043822/https://github.com/search?q=repo%3Agabime%2Fspdlog+copilot&type=pullrequests)
+
+I don't know what to do here. My instinct says to abandon, but the number of decent logging libraries is also very low. Log4Shell, a _very_ severe log4j vulnerability [considered to be one of the most severe vulnerabilities, _period_](https://en.wikipedia.org/wiki/Log4Shell), was in a logging library. Logging libraries can potentially take a lot of user input, so the risk of security problems is significantly higher.  C++ apps are becoming less and less common, so the large-scale impact obviously won't be as big, but if the AI slop machine introduces a comparable vulnerability, I have a huge fucking problem.
+
+Some possible alternatives: 
+
+* https://github.com/kala13x/slog - fairly pretty output, might be possible to get output comparable to loguru. The author uses an AI slop image on Stack Overflow. No hits on AI slop code
+* https://github.com/SergiusTheBest/plog - author has hits on AI slop in other repos
+* https://github.com/emilk/loguru - abandoned :( 
+* https://github.com/jgaa/logfault - author has hits on AI slop in that repo (unmerged) and other repos 
+* https://github.com/odygrd/quill - also has AI slop, but is established and has more of a team around it
+* https://github.com/choll/xtr - one of the better candidates, but not particularly widely used
+
+Though in retrospect, the author's single open-source repo being a widely used logging library is suspicious. Given other factors that came up during research, I should've started avoiding spdlog ages ago. Migration out will take A While:tm: unfortunately.
+
 ## Confirmed, but unabandonable
 
 This list contains confirmed AI slop software I cannot get rid of for various reasons (largely due to there being no alternatives, or the risk being acceptable or otherwise mitigated). Upgrading these is significantly more risky than other software, both from the security perspective, and from general upgrade risks.
@@ -83,6 +105,7 @@ This list contains confirmed AI slop software I cannot get rid of for various re
 Comparatively low-risk, largely due to the admission in the last one. Still not a fan, and still a risk, but there are no other comparable options, and Android absolutely _is_ a pain in the ass and blocks any attempts I'd have to make a comparable system (I'm unwilling to sacrifice that much time and effort on a platform that makes itself difficult to develop for).
 
 For now, sloppified ntfy is forced to stay.
+
 
 ## At risk
 
