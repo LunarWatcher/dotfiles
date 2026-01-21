@@ -481,7 +481,7 @@ fun! LoadYegappanLsp()
     " TODO: ccls support is blocked until https://github.com/MaskRay/ccls/issues/530 is resolved
     let lsps = [
         \ modules#lsp#Location("clangd"),
-        \ modules#lsp#Location("pyright"),
+        \ modules#lsp#Location("ty"),
         \ modules#lsp#Location("luals"),
     \ ]
 
@@ -507,6 +507,7 @@ fun! LoadYegappanLsp()
         \ codeAction: v:true,
         \ completionMatcher: 'fuzzy',
         \ diagVirtualTextAlign: 'below',
+        \ diagVirtualTextWrap: 'truncate',
         \ omniComplete: v:true,
         \ omniCompleteAllowBare: v:true,
         \ noNewlineInCompletion: v:true,
