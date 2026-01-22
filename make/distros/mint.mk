@@ -13,7 +13,6 @@ mint-home-packages:
 	sudo apt remove -y gnome-calendar
 
 	flatpak install -y flathub org.libreoffice.LibreOffice
-	flatpak install -y flathub com.uploadedlobster.peek
 	flatpak install -y flathub com.bitwarden.desktop
 	flatpak install -y flathub org.kde.krita
 	
