@@ -175,7 +175,7 @@ Plug 'chrisbra/matchit'
 
 let UseJSShit = 0
 if UseJSShit == 0
-    Plug 'yegappan/lsp'
+    call s:LocalOption('lsp', 'yegappan/lsp')
 else
     Plug 'neoclide/coc.nvim', {'branch': 'release'}
 endif
@@ -508,6 +508,7 @@ fun! LoadYegappanLsp()
         \ completionMatcher: 'fuzzy',
         \ diagVirtualTextAlign: 'below',
         \ diagVirtualTextWrap: 'truncate',
+        \ diagNoOverrideSyntaxHighlighting: v:true,
         \ omniComplete: v:true,
         \ omniCompleteAllowBare: v:true,
         \ noNewlineInCompletion: v:true,
