@@ -74,6 +74,11 @@ $(info -- Loading ubuntu-specific stuff)
 include make/distros/ubuntu.mk
 endif # ubuntu
 
+ifeq ($(currDist),arch)
+$(info -- Loading arch-specific stuff)
+include make/distros/arch.mk
+endif #arch
+
 endif # linux
 
 ifeq ($(currOs),win)
