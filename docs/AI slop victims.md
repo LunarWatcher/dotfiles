@@ -60,6 +60,17 @@ Plus confirmation that this will continue on discord. Initially abandoned outrig
 
 ## Abandoned libraries
 
+### sqlitecpp
+
+**Fall date:** 2026-01-24
+
+**Replacement:** PSQL my beloved, and rawdogging the SQLite C API. Probably worth making a bare minimum RAII wrapper for it at some point, especially since the C API is so small that it really would not take much effort.
+
+**Note:** Existing uses of SQLiteCpp are version-pinned. 3.3.3 and older are good, and the AI slop future has not yet got a versioned release, and the risk is effectively 0 in the places I use it.
+
+* https://github.com/SRombauts/SQLiteCpp/commit/9986f570bef00ca1029a2c19e4ce8fcbf206f775
+* ... plus two more follow-up commits I'm not going to dignify with a link
+
 ### reflectcpp
 
 **Abandoned**: 2025-10-29
