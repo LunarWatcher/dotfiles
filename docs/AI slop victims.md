@@ -138,6 +138,7 @@ These PRs to fnm are also extremely textbook slop, and were created by someone c
 
 This list contains AI slop repos I've stumbled over while looking for things. For the most part, this is things that I'd strongly consider using otherwise.
 
-The paths are repos, the part before the `:` refers to a Git forge. `gh:` is GitHub (so `gh:example/example` is `github.com/example/example`), and `cb:` is Codeberg.
+The paths are repos, the part before the `:` refers to a Git forge. `gh:` is GitHub (so `gh:example/example` is `github.com/example/example`), and `cb:` is Codeberg. The sort method is currently undefined because there's too few entries to see what's useful.
 
 * `gh:cheat/cheat`: sloppified 2026-02-15
+* `gh:tldr-pages/tldr`: sloppfied 2026-02-26
