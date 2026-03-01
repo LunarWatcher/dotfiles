@@ -133,3 +133,11 @@ fnm has several open PRs that would introduce AI slop (all currently by one auth
 These do not appear to be made by anyone on the core project, but any of them being merged would introduce AI slop. Could go either way at the time of writing. Unfortunately, the author of fnm leans towards AI slop, so the risk is far higher than I initially estimated in #31: https://github.com/Schniz/home-automation-cluster/blob/main/AGENTS.md
 
 These PRs to fnm are also extremely textbook slop, and were created by someone claiming to work for google, at least partly using Google's slop machine. Great sales pitch, Google.
+
+## Everything else
+
+This list contains AI slop repos I've stumbled over while looking for things. For the most part, this is things that I'd strongly consider using otherwise.
+
+The paths are repos, the part before the `:` refers to a Git forge. `gh:` is GitHub (so `gh:example/example` is `github.com/example/example`), and `cb:` is Codeberg.
+
+* `gh:cheat/cheat`: sloppified 2026-02-15
