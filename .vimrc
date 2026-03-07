@@ -1047,6 +1047,25 @@ if has("linux")
     "
     " Thank you Christian Brandt: https://vi.stackexchange.com/a/5034/21251
     let g:netrw_browsex_viewer = "setsid xdg-open"
+    " Required for vim9 (gx has been moved out of netrw)
+    let g:Openprg = "setsid xdg-open"
+
+    " https://github.com/vim/vim/issues/19594
+    let g:nogx = 1
+
+    " Test links: 
+    " Plain: https://codidact.org
+    " Markdown: [Test](https://kagi.com)
+    " Params https://youtube.com/watch?v=sW9PM9eO-s4&unused=yes
+    fun! XdgOpen(...)
+        let url = get(a:, 1, matchstr(expand('<cWORD>'), 
+            \ '\%(\%(http\|ftp\|irc\)s\?\|file\)://\S\{-}\ze[^A-Za-z0-9/&?]*$'))
+        " echom url
+        exec "silent :!" g:Openprg shellescape(url->trim())
+    endfun
+
+    nnoremap gx <cmd>call XdgOpen()<cr>
+    vnoremap gx <cmd>call XdgOpen(getregion(getpos("v"), getpos("."))->join(''))<cr>
 endif
 " }}}
 " Colorcolumn {{{
