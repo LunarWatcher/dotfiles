@@ -241,6 +241,7 @@
                         'c-tempo-tags
 )
 
+(evil-define-key 'insert 'global (kbd "C-t") #'tempo-complete-tag)
 ;; }}}
 ;; Diagnostics {{{
 (flymake-mode t)
