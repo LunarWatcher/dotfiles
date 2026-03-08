@@ -272,7 +272,6 @@
   (setq c-basic-offset 4)
   (setq c-indent-level 4)
 
-  (set-tempo)
   (tempo-use-tag-list 'c-tempo-tags)
   ;; TODO: move to a separate C++ hook
   (tempo-use-tag-list 'c++-tempo-tags)
