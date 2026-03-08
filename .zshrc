@@ -148,3 +148,6 @@ amethyst-plugin theme 'https://github.com/romkatv/powerlevel10k'
 # Plugin keybinds {{{
 bindkey ${FZF_WD_BINDKEY:-'^B'} wd_browse_widget
 # }}}
+
+export LSP_HOME="$HOME/.local/share/lsp"
+export PATH="$LSP_HOME/clangd/bin:$LSP_HOME/kotlin-lsp:$LSP_HOME/node_modules/.bin:$LSP_HOME/luals/bin:$PATH"
