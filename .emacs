@@ -223,7 +223,6 @@
 ;; Hide startup shit
 (setq inhibit-startup-screen t)
 (setq initial-scratch-message nil)
-(setq initial-buffer-choice t)
 
 (setq-default indent-tabs-mode nil)
 (setq-default tab-always-indent nil)
