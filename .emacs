@@ -111,6 +111,9 @@
   (add-hook 'c++-mode-hook 'eglot-ensure)
   (add-hook 'c-mode-hook 'eglot-ensure)
   (add-hook 'lua-mode-hook 'eglot-ensure)
+
+  ;; TODO: how do I make this a popup isntead of minibuffer shit?
+  (evil-define-key 'normal 'global (kbd "M-q") #'eglot-code-actions)
 )
 (use-package treesit-auto
   :ensure t
@@ -119,10 +122,16 @@
 )
 (use-package corfu
   :ensure t
+  :custom
+  (corfu-auto t)
   :config
-  (setq corfu-auto t)
   (global-corfu-mode)
+  (corfu-popupinfo-mode)
+
 )
+(use-package eldoc-box
+  :ensure t
+  :hook (eldoc-mode . eldoc-box-hover-at-point-mode))
 
 (use-package nerd-icons
   :ensure t
@@ -165,8 +174,28 @@
 ;; }}}
 ;; Load builtins {{{
 (require 'treesit)
+(require 'tempo)
 ;; }}}
 ;; Configure shit {{{
+;; Tempo {{{
+(setq tempo-interactive t)
+
+(defvar c-tempo-tags nil
+  "Tempo tags for C mode")
+
+(defvar c++-tempo-tags nil
+  "Tempo tags for C++ mode")
+
+(tempo-define-template "c-ifwin"
+                        '("#if defined(WIN32) || defined(_WIN32) || defined(__WIN32__) || defined(__NT__)" n>
+                        p n>
+                        "#endif" n>)
+                        "ifwin"
+                        "Insert a Windows macro check"
+                        'c-tempo-tags
+)
+
+;; }}}
 ;; Evil mode et. al {{{
 (evil-mode 1)
 (evil-collection-init)
@@ -194,7 +223,7 @@
 (setq initial-buffer-choice t)
 
 (setq-default indent-tabs-mode nil)
-(setq-default tab-always-indent 'complete)
+(setq-default tab-always-indent nil)
 (setq-default tab-width 4)
 (setq-default tab-stop-list '(4 8 12 16 20 24 28 32 36 40 44 48 52 56 60))
 (setq-default indent-line-function 'insert-tab)
@@ -223,6 +252,10 @@
   (setq c++-tab-always-indent 'complete)
   (setq c-basic-offset 4)
   (setq c-indent-level 4)
+
+  (set-tempo)
+  (tempo-use-tag-list 'c-tempo-tags)
+  (tempo-use-tag-list 'c++-tempo-tags))))
 )
 
 (add-hook 'c-mode-common-hook 'my-c-mode-common-hook)
