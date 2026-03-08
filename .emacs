@@ -33,16 +33,26 @@
 
 (use-package evil
   :ensure t
+  :hook
+  ('prog-mode . #'hs-minor-mode)
   :init
   (setq evil-want-keybinding nil)
+  (setq evil-want-integration t)
   :config
   (evil-mode)
+  (evil-set-undo-system 'undo-redo)
 )
-(use-package evil-nerd-commenter
+(use-package evil-surround
   :ensure t
+  :config
+  (global-evil-surround-mode)
 )
 (use-package evil-collection
   :ensure t
+  :init
+  (setq evil-collection-key-blacklist '("C-y"))
+  :config
+  (evil-collection-init)
 )
 (use-package evil-commentary
   :ensure t
@@ -102,6 +112,10 @@
   :ensure t)
 (use-package lua-mode
   :ensure t)
+(use-package yaml-mode
+  :ensure t)
+(use-package json-mode
+  :ensure t)
 
 ; TODO: do I need this? Looks like eglot is built-in as of emacs 29, but not
 ; sure if this is the right way to load it
@@ -127,10 +141,17 @@
   :ensure t
   :custom
   (corfu-auto t)
+  ;; I don't entirely understand what this does, but this half seems to be required to be able to select the first entry?
+  ;; I still now need ctrl-n ctrl-y to select the first result. I can probably just add a key that does c-n c-y
+  (corfu-preselect 'prompt)
   :config
   (global-corfu-mode)
   (corfu-popupinfo-mode)
 
+  ;; TODO: this does not work
+  (define-key corfu-map (kbd "RET") nil)
+  (define-key corfu-map (kbd "C-y") #'corfu-send)
+  (global-set-key (kbd "C-SPC") #'completion-at-point)
 )
 (use-package eldoc-box
   :ensure t
@@ -199,16 +220,8 @@
 )
 
 ;; }}}
-;; Evil mode et. al {{{
-(evil-mode 1)
-(evil-collection-init)
-(evil-set-undo-system 'undo-redo)
-;; }}}
-;; Autocomplete {{{
+;; Diagnostics {{{
 (flymake-mode t)
-
-(define-key corfu-map (kbd "C-y") #'corfu-insert)
-(global-set-key (kbd "C-SPC") #'completion-at-point)
 ;; }}}
 ;; }}}
 ;; Configure emacs standards {{{
@@ -224,7 +237,7 @@
 (setq inhibit-startup-screen t)
 (setq initial-scratch-message nil)
 
-(setq-default indent-tabs-mode nil)
+(setq-default indent-tabs-mode nil) ; use tabs instead of spaces
 (setq-default tab-always-indent nil)
 (setq-default tab-width 4)
 (setq-default tab-stop-list '(4 8 12 16 20 24 28 32 36 40 44 48 52 56 60))
@@ -247,20 +260,31 @@
 (global-tab-line-mode) ; Buffer tabs
 
 ;; C mode {{{
-(defun my-c-mode-common-hook ()
+(defun livi-c-mode-hook()
   ;; https://www.gnu.org/software/emacs//manual/html_node/efaq/Customizing-C-and-C_002b_002b-indentation.html
   (c-set-offset 'substatement-open 0)
   (c-set-offset 'innamespace 0)
-  (setq c++-tab-always-indent 'complete)
+  (c-set-offset 'arglist-intro '+)
+  (c-set-offset 'arglist-close 0)
+  (c-set-offset 'arglist-cont-nonempty '+)
+  (add-to-list 'c-offsets-alist '(arglist-close . c-lineup-close-paren))
+  ;; (setq c++-tab-always-indent 'complete)
   (setq c-basic-offset 4)
   (setq c-indent-level 4)
 
   (set-tempo)
   (tempo-use-tag-list 'c-tempo-tags)
+  ;; TODO: move to a separate C++ hook
   (tempo-use-tag-list 'c++-tempo-tags)
 )
 
-(add-hook 'c-mode-common-hook 'my-c-mode-common-hook)
+(add-hook 'c-mode-common-hook 'livi-c-mode-hook)
+;; }}}
+;; YAML mode {{{
+(defun livi-yaml-mode-hook()
+  (setq yaml-basic-offset 2)
+)
+(add-hook 'yaml-mode-common-hook 'livi-yaml-mode-hook)
 ;; }}}
 
 ;; disable soft wrap
