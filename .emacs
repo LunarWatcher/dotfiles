@@ -258,7 +258,7 @@
 
   (set-tempo)
   (tempo-use-tag-list 'c-tempo-tags)
-  (tempo-use-tag-list 'c++-tempo-tags))))
+  (tempo-use-tag-list 'c++-tempo-tags)
 )
 
 (add-hook 'c-mode-common-hook 'my-c-mode-common-hook)
@@ -269,9 +269,17 @@
                             (visual-line-mode -1)
                             (toggle-truncate-lines 1)))
 
+
+;; Dump autofiles elsewhere
+(setf make-backup-files nil)
+(setq auto-save-file-name-transforms
+  `((".*" "~/.emacs-saves/" t)))
+(setq lock-file-name-transforms
+   '(("\\`/.*/\\([^/]+\\)\\'" "/tmp/\\1" t)))
+
 ;; disable scroll acceleration
-(setq mouse-wheel-scroll-amount '(0.07))
-(setq mouse-wheel-progressive-speed nil)
+(setq-default mouse-wheel-scroll-amount '(0.07))
+(setq-default mouse-wheel-progressive-speed nil)
 
 ;; no jumping on scroll
 (setq scroll-step 1)
