@@ -50,7 +50,7 @@
 (use-package evil-collection
   :ensure t
   :init
-  (setq evil-collection-key-blacklist '("C-y"))
+  (setq evil-collection-key-blacklist '("C-y" "C-m"))
   :config
   (evil-collection-init)
 )
@@ -148,11 +148,24 @@
   (global-corfu-mode)
   (corfu-popupinfo-mode)
 
-  ;; TODO: this does not work
   (define-key corfu-map (kbd "RET") nil)
-  (define-key corfu-map (kbd "C-y") #'corfu-send)
+  ;; I cannot for the life of me map ctrl-y
+  ;; It's taken by an evil mode motion keybind that results in characters being added
+  ;; Alt-y is also mapped, but it is respected for some reason?
+  ;; Evil mode is fucking weird
+  (define-key corfu-map (kbd "M-y") #'corfu-insert)
   (global-set-key (kbd "C-SPC") #'completion-at-point)
 )
+(use-package cape
+  :ensure t
+  ;; TODO: it's supposed to be possible to get this into the standard completion at point function, but can't figure out how.
+  ;; It's really unclear what does and doesn't work. Some leads for later:
+  ;; * https://github.com/minad/cape/discussions/160
+  ;; * https://github.com/minad/cape/discussions/154 (implies the corfu wiki is wrong about stuff)
+  ;; Once I do figure it out though, it should be really nice
+  :bind (("C-c f" . cape-file))
+)
+
 (use-package eldoc-box
   :ensure t
   :hook (eldoc-mode . eldoc-box-hover-at-point-mode))
