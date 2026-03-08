@@ -111,6 +111,9 @@
   (add-hook 'c++-mode-hook 'eglot-ensure)
   (add-hook 'c-mode-hook 'eglot-ensure)
   (add-hook 'lua-mode-hook 'eglot-ensure)
+  (add-hook 'javascript-mode-hook 'eglot-ensure)
+  (add-hook 'typescript-mode-hook 'eglot-ensure)
+  (add-hook 'python-mode-hook 'eglot-ensure)
 
   ;; TODO: how do I make this a popup isntead of minibuffer shit?
   (evil-define-key 'normal 'global (kbd "M-q") #'eglot-code-actions)
