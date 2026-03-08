@@ -16,7 +16,7 @@
  ;; If there is more than one, they won't work right.
  '(custom-safe-themes
    '("5c8a1b64431e03387348270f50470f64e28dfae0084d33108c33a81c1e126ad6" default))
- '(package-selected-packages '(doom-modeline goto-chg evil doom-themes)))
+ '(package-selected-packages '(git-gutter magit doom-modeline goto-chg evil doom-themes)))
 ;; }}}
 ;; Initialise packages {{{
 (require 'package)
@@ -207,6 +207,15 @@
   (setq doom-modeline-percent-position '(-3 "%p"))
   (setq doom-modeline-position-column-format '("C%c"))
   (setq doom-modeline-modal-icon t)
+)
+
+(use-package magit
+  :ensure t
+)
+(use-package git-gutter
+  :ensure t
+  :config
+  (global-git-gutter-mode)
 )
 ;; }}}
 ;; Load builtins {{{
