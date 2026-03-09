@@ -16,6 +16,7 @@
  ;; If there is more than one, they won't work right.
  '(custom-safe-themes
    '("5c8a1b64431e03387348270f50470f64e28dfae0084d33108c33a81c1e126ad6" default))
+ '(helm-minibuffer-history-key "M-p")
  '(package-selected-packages '(git-gutter magit doom-modeline goto-chg evil doom-themes)))
 ;; }}}
 ;; Initialise packages {{{
@@ -81,18 +82,47 @@
   :custom
   (completion-styles '(orderless basic))
   (completion-category-defaults nil)
+  (orderless-matching-styles '(orderless-literal orderless-flex orderless-regexp))
   (completion-category-overrides
    '((file (styles partial-completion)))))
 
 (use-package consult
   :ensure t
+)
+
+;; Note to self: do not install helm. It's fast, but it hijacks everything and works awfully with evil mode
+(use-package affe
+  :ensure t
   :config
-  (setq consult-fd-args '("fdfind" "--hidden"))
-  (setq consult-ripgrep-args '("rg --null --line-buffered --color=never --max-columns=1000 --smart-case --no-heading --with-filename --line-number --hidden"))
+  (setq affe-find-command "rg --glob \"!.git\" --hidden --color=never --files")
+  (setq affe-grep-command "rg --glob \"!.git\" --hidden --null --color=never --max-columns=1000 --no-heading --line-number -v ^$")
 
-  (evil-define-key 'normal 'global (kbd "\\ z x") #'consult-fd)
-  (evil-define-key 'normal 'global (kbd "\\ z c") #'consult-ripgrep)
+  ;; Not a huge fan of how most emacs fuzzy finders use spaces to separate tokens, but affe at least uses spaces and not #, which is
+  ;; marginally better. I think this is as close to fzf as I get
+  (evil-define-key 'normal 'global (kbd "\\ z x") #'affe-find)
+  (evil-define-key 'normal 'global (kbd "\\ z c") #'affe-grep)
 
+  ;; No, actually applying orderless here changes the previous comment. It now searches much more like fzf.
+  ;; Not sure if it's worth trying to add it to consult as well, largely because consult is still really sluggish, whereas this has the fzf-tiers
+  ;; of responsiveness I'd want. (shame fzf also uses AI slop, but it's whatever at this point)
+  ;; Need to fuck around with the orderless-matching-styles. struggling to get it to work the way I want
+  ;; That said, the style dispatchers might make up for this. `=dotfiles .zsh' more closely enforces what to match.
+  ;; The default dotfiles/.zsh works fine when the dotfiles repo is the cwd, but partially matches paths in `Documents/` for some fucking reason
+  ;; TODO: does orderless have a way to order things, such that consecutive chars outweigh non-consecutive chars? Pretty sure that would be the
+  ;; last bit required for as close to fzf-like completions as possible
+  ;;
+  ;; Also, the preview feature in affe-grep is such a nice feature. Seeing the entire context is really practical
+  (defun affe-orderless-regexp-compiler (input _type _ignorecase)
+    (setq input (cdr (orderless-compile input)))
+    (cons input (apply-partially #'orderless--highlight input t)))
+  (setq affe-regexp-compiler #'affe-orderless-regexp-compiler)
+)
+
+(use-package projectile
+  :ensure t
+  :config
+  ;; TODO, at least for the C/C++ header/source switching
+  (projectile-mode)
 )
 
 (use-package savehist
@@ -106,6 +136,7 @@
   (breadcrumb-mode)
 )
 
+;; TODO: this is getting ridiculous
 (use-package cmake-mode
   :ensure t)
 (use-package typescript-mode
@@ -115,6 +146,10 @@
 (use-package yaml-mode
   :ensure t)
 (use-package json-mode
+  :ensure t)
+(use-package kotlin-mode
+  :ensure t)
+(use-package rust-mode
   :ensure t)
 
 ; TODO: do I need this? Looks like eglot is built-in as of emacs 29, but not
@@ -172,10 +207,6 @@
 
 (use-package nerd-icons
   :ensure t
-)
-(use-package projectile
-  :ensure t
-  :config
 )
 (use-package neotree
   :ensure t
