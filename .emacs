@@ -94,13 +94,55 @@
 (use-package affe
   :ensure t
   :config
+  (defun livi-grep()
+    "affe-grep with hidden files excluded"
+    (interactive)
+    (let (
+      (affe-grep-command "rg --glob \"!.git\" --hidden --null --color=never --max-columns=1000 --no-heading --line-number -v ^$")
+    )
+      (affe-grep)
+    )
+  )
+  (defun livi-grep-nogitignore()
+    "affe-grep with hidden files excluded"
+    (interactive)
+    (let (
+      (affe-grep-command "rg --glob \"!.git\" --hidden --null --color=never --max-columns=1000 --no-heading --line-number --no-ignore-vcs -v ^$")
+    )
+      (affe-grep)
+    )
+  )
+
+  (defun livi-find()
+    "affe-find with hidden files excluded"
+    (interactive)
+    (let (
+      (affe-find-command "rg --glob \"!.git\" --hidden --color=never --files")
+    )
+      (affe-find)
+    )
+  )
+  (defun livi-find-nogitignore()
+    "affe-find with hidden files excluded"
+    (interactive)
+    (let (
+      (affe-find-command "rg --glob \"!.git\" --hidden --color=never --files --no-ignore-vcs")
+    )
+      (affe-find)
+    )
+  )
+
   (setq affe-find-command "rg --glob \"!.git\" --hidden --color=never --files")
   (setq affe-grep-command "rg --glob \"!.git\" --hidden --null --color=never --max-columns=1000 --no-heading --line-number -v ^$")
+  (setq affe-count 1000)
 
   ;; Not a huge fan of how most emacs fuzzy finders use spaces to separate tokens, but affe at least uses spaces and not #, which is
   ;; marginally better. I think this is as close to fzf as I get
-  (evil-define-key 'normal 'global (kbd "\\ z x") #'affe-find)
-  (evil-define-key 'normal 'global (kbd "\\ z c") #'affe-grep)
+  (evil-define-key 'normal 'global (kbd "\\ z x") #'livi-find)
+  (evil-define-key 'normal 'global (kbd "\\ z X") #'livi-find-nogitignore)
+
+  (evil-define-key 'normal 'global (kbd "\\ z c") #'livi-grep)
+  (evil-define-key 'normal 'global (kbd "\\ z C") #'livi-grep-nogitignore)
 
   ;; No, actually applying orderless here changes the previous comment. It now searches much more like fzf.
   ;; Not sure if it's worth trying to add it to consult as well, largely because consult is still really sluggish, whereas this has the fzf-tiers
