@@ -200,6 +200,8 @@
   :ensure t)
 (use-package rust-mode
   :ensure t)
+(use-package markdown-mode
+  :ensure t)
 
 ; TODO: do I need this? Looks like eglot is built-in as of emacs 29, but not
 ; sure if this is the right way to load it

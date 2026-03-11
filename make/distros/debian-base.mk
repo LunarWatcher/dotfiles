@@ -49,17 +49,17 @@ debian-core:
 	sudo mv "Sauce Code Pro Nerd Font Complete.ttf" /usr/local/share/fonts
 	sudo mv "Sauce Code Pro Nerd Font Complete Mono.ttf" /usr/local/share/fonts
 	sudo fc-cache -f
-	
+
 	sudo apt install -y plocate
 	# Mainly used for mobile wireguard on my server, but it does have some interesting general applications
 	sudo apt install -y qrencode
-	
+
 	-[ ! -d "$${HOME}/.pyenv" ] && curl -L https://github.com/pyenv/pyenv-installer/raw/master/bin/pyenv-installer | bash
-	
+
 	# Neofetch has been archived, fastfetch is not available by default
 	# TODO when I can be bothered, add the fastfetch ppa
 	# sudo apt install -y fastfetch
-	
+
 	sudo apt install -y python3-venv
 	sudo apt install -y extrepo
 
@@ -77,9 +77,6 @@ zsh-deps: debian-base-update
 upm:
 	-sudo bash -c "$$(wget -O- https://raw.githubusercontent.com/LunarWatcher/upm/master/tools/install.sh)"
 
-vim: upm
-	sudo upm install vim 
-
 node: upm
 	sudo upm install nodejs
 
@@ -89,5 +86,5 @@ dev-support: debian-core
 
 DEPENDENCY_TARGETS += debian-base-update debian-build-deps zsh-deps debian-dotfile-software
 DOTFILE_TARGETS += debian-base-dotfiles
-SOFTWARE_TARGETS += debian-core vim node dev-support
+SOFTWARE_TARGETS += debian-core node dev-support
 HOME_TARGETS += debian-home-packages

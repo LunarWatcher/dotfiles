@@ -27,8 +27,10 @@ In addition, in my local install, `secrets/` exists. This is a remote git repo s
 From nothing, it's assumed that:
 
 * You have an SSH key for GitHub set up
-* If using the `secrets` target, you must additionally be me, and have an SSH key to forgejo as well. 
+* If using the `secrets` target, you must additionally be me, and have an SSH key to forgejo as well.
 * You have cloned the repo, and have Git installed.
+
+TODO: replace some of the above with [`pass-cli`](https://protonpass.github.io/pass-cli/)
 
 ## Running the automation systems
 
@@ -45,7 +47,7 @@ In addition, the following non-bundled  targets exist:
 
 There's also `common`, which runs everything except the configuration-specific targets
 
-## License 
+## License
 
-See the LICENSE file for the full details. The project is licensed under the Unlicense. 
+See the LICENSE file for the full details. The project is licensed under the Unlicense.
 

@@ -56,7 +56,7 @@ fi
 
 # Config
 if [[ "$SSH_TTY" == "" ]]; then
-    export EDITOR='gvim -f'
+    export EDITOR='emacs'
 else
     export EDITOR='vim'
 fi

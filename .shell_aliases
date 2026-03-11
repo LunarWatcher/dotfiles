@@ -1,3 +1,4 @@
+# -*- mode: shell-script -*-
 # Globals {{{
 local loc=$(readlink ~/.zshrc)
 export DOTFILES_HOME=$(dirname $loc)
@@ -5,7 +6,6 @@ export PATH=$DOTFILES_HOME/scripts:$PATH
 # }}}
 # Builtins {{{
 # ls without colors for dipshit 777 disks
-# The colorscheme makes 777 folders literally unreadable
 alias lsn="ls --color=no"
 
 alias open="xdg-open"
@@ -67,14 +67,6 @@ alias fix-bluetooth="pactl unload-module module-bluetooth-discover && pactl load
 # }}}
 # Pyenv {{{
 alias newpyenv="virtualenv env && source ./env/bin/activate"
-# }}}
-# Vim {{{
-# Hack for gvim: source the pyenv so gvim can access it.
-# Workaround in my current dotfiles: :SetVEnv in gvim
-# All output is then piped into good 'ol /dev/null because it
-# usually spews out bullshit anyway
-alias pygvim="source ./env/bin/activate && gvim . > /dev/null 2>&1"
-alias pyenv="source ./env/bin/activate"
 # }}}
 # System {{{
 alias sysupdate="sudo apt update && sudo apt upgrade && flatpak update"

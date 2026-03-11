@@ -88,14 +88,7 @@ endif
 
 -include make/hosts/$(host).mk
 
-vim-plug:
-	curl -fLo ${HOME}/.vim/autoload/plug.vim --create-dirs \
-		https://raw.githubusercontent.com/junegunn/vim-plug/master/plug.vim
-
-
-common-dotfiles: vim-plug
-	mkdir -p ${HOME}/.vim
-	ln -sf ${PWD}/.vimrc ${HOME}/.vimrc
+common-dotfiles:
 	ln -sf ${PWD}/.emacs ${HOME}/.emacs
 	ln -sf ${PWD}/.condarc ${HOME}/.condarc
 	mkdir -p ~/.config/zellij
