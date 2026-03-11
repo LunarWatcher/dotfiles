@@ -39,9 +39,16 @@
   :init
   (setq evil-want-keybinding nil)
   (setq evil-want-integration t)
+  ;; Not sure why this needs to be run before evil mode is started, but whatever
+  (setq select-enable-clipboard nil)
   :config
   (evil-mode)
   (evil-set-undo-system 'undo-redo)
+
+  ;; Emacs maps S-ins and C-ins by default, but these maps use the kill ring, which no longer is linked to the
+  ;; system clipboard (select-enable-clipboard), so they need to be overridden to use the system clipboard
+  (evil-define-key 'normal 'global (kbd "S-<insert>") #'clipboard-yank)
+  (evil-define-key 'visual 'global (kbd "C-<insert>") #'clipboard-kill-ring-save)
 )
 (use-package evil-surround
   :ensure t
