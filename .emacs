@@ -17,7 +17,8 @@
  '(custom-safe-themes
    '("5c8a1b64431e03387348270f50470f64e28dfae0084d33108c33a81c1e126ad6" default))
  '(helm-minibuffer-history-key "M-p")
- '(package-selected-packages '(git-gutter magit doom-modeline goto-chg evil doom-themes)))
+ '(package-selected-packages
+   '(git-modes git-gutter magit doom-modeline goto-chg evil doom-themes)))
 ;; }}}
 ;; Initialise packages {{{
 (require 'package)
@@ -41,14 +42,33 @@
   (setq evil-want-integration t)
   ;; Not sure why this needs to be run before evil mode is started, but whatever
   (setq select-enable-clipboard nil)
+  (setq kill-whole-line 1)
   :config
   (evil-mode)
   (evil-set-undo-system 'undo-redo)
+  (setq evil-respect-visual-line-mode 1)
 
   ;; Emacs maps S-ins and C-ins by default, but these maps use the kill ring, which no longer is linked to the
   ;; system clipboard (select-enable-clipboard), so they need to be overridden to use the system clipboard
-  (evil-define-key 'normal 'global (kbd "S-<insert>") #'clipboard-yank)
-  (evil-define-key 'visual 'global (kbd "C-<insert>") #'clipboard-kill-ring-save)
+  (evil-define-key 'normal 'global (kbd "S-<insert>") (lambda() (interactive) (evil-paste-from-register ?+)))
+  ;; this is so stupid, but looks forced. evil-copy-from-register is
+  ;; simply not a thing
+  (evil-define-key 'visual 'evil-visual-state-map (kbd "C-<insert>")
+    (lambda()
+      (interactive)
+      (let ((beg (region-beginning))
+            (end (region-end))
+            (type (evil-visual-type)))
+        (if (eq type 'block)
+            (evil-yank-rectangle beg end ?+)
+          (if (eq type 'line)
+            (evil-yank-lines beg end ?+)
+            (evil-yank beg end type ?+)
+          )
+        )
+      )
+    )
+  )
 )
 (use-package evil-surround
   :ensure t
@@ -288,12 +308,20 @@
   (setq doom-modeline-lsp-icon t)
   (setq doom-modeline-percent-position '(-3 "%p"))
   (setq doom-modeline-position-column-format '("C%c"))
+  (setq doom-modeline-enable-buffer-position t)
+
+  (setq doom-modeline-total-line-number t)
+
   (setq doom-modeline-modal-icon t)
+  (setq doom-modeline-enable-word-count t)
+  (setq doom-modeline-continuous-word-count-modes '(markdown-mode text-mode))
 )
 
 (use-package magit
   :ensure t
 )
+(use-package git-modes
+  :ensure t)
 (use-package git-gutter
   :ensure t
   :config
@@ -372,6 +400,11 @@
   (c-set-offset 'arglist-intro '+)
   (c-set-offset 'arglist-close 0)
   (c-set-offset 'arglist-cont-nonempty '+)
+
+  ;; Fucking why
+  ;; https://emacs.stackexchange.com/a/19316
+  (setq c-ignore-auto-fill '(string))
+
   (add-to-list 'c-offsets-alist '(arglist-close . c-lineup-close-paren))
   ;; (setq c++-tab-always-indent 'complete)
   (setq c-basic-offset 4)
@@ -391,11 +424,38 @@
 (add-hook 'yaml-mode-common-hook 'livi-yaml-mode-hook)
 ;; }}}
 
-;; disable soft wrap
+(setq-default fill-column 120)
+;; Required to display fill-column
+(global-display-fill-column-indicator-mode)
+;; disable soft wrap in code
 (add-hook 'prog-mode-hook (lambda ()
-                            (visual-line-mode -1)
-                            (toggle-truncate-lines 1)))
+  (visual-line-mode -1)
+  (auto-fill-mode 1)
+  (toggle-truncate-lines 1)
+))
+;; enable word wrap in text files
+(add-hook 'text-mode-hook (lambda ()
+  (visual-line-mode 1)
+  (auto-fill-mode -1)
+  (setq fill-column 999999999)
+  (display-fill-column-indicator-mode -1)
 
+  ;; required to get indents to fuck off
+  (electric-indent-mode -1)
+  (setq evil-auto-indent nil)
+))
+
+(add-hook
+  'git-commit-mode-hook
+  (lambda()
+    (visual-line-mode -1)
+    (auto-fill-mode 1)
+    ;; the first line is at 50, but can't have two wrap points
+    (setq fill-column 72)
+
+    (display-fill-column-indicator-mode 1)
+  )
+)
 
 ;; Dump autofiles elsewhere
 (setf make-backup-files nil)
@@ -412,3 +472,6 @@
 (setq scroll-step 1)
 ;; scrolloff
 (setq scroll-margin 5)
+
+;; Misc. minor modes
+(column-number-mode)
