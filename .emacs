@@ -1,5 +1,6 @@
 ;; Custom shit (whatever that is) {{{
 ;; This needs to be first, or the load-theme command won't shut up
+
 (custom-set-faces
  ;; custom-set-faces was added by Custom.
  ;; If you edit it by hand, you could mess it up, so be careful.
@@ -18,7 +19,7 @@
    '("5c8a1b64431e03387348270f50470f64e28dfae0084d33108c33a81c1e126ad6" default))
  '(helm-minibuffer-history-key "M-p")
  '(package-selected-packages
-   '(git-modes git-gutter magit doom-modeline goto-chg evil doom-themes)))
+   '(highlight-indent-guides git-modes git-gutter magit doom-modeline goto-chg evil doom-themes)))
 ;; }}}
 ;; Initialise packages {{{
 (require 'package)
@@ -30,6 +31,11 @@
 
 ;; }}}
 ;; Install packages {{{
+(use-package emacs
+  :custom
+  (require-final-newline t)
+)
+
 (use-package goto-chg
   :ensure t)
 
@@ -349,6 +355,12 @@ installed, then defaulting to the name of the LSP for a fallback"
   :config
   (global-git-gutter-mode)
 )
+
+(use-package highlight-indent-guides
+  :ensure t
+  :config
+  (setq highlight-indent-guides-method 'character)
+)
 ;; }}}
 ;; Load builtins {{{
 (require 'treesit)
@@ -395,8 +407,9 @@ installed, then defaulting to the name of the LSP for a fallback"
 (setq-default indent-tabs-mode nil) ; use tabs instead of spaces
 (setq-default tab-always-indent nil)
 (setq-default tab-width 4)
-(setq-default tab-stop-list '(4 8 12 16 20 24 28 32 36 40 44 48 52 56 60))
 (setq-default indent-line-function 'insert-tab)
+;; I am no longer fucking asking
+(global-set-key (kbd "TAB") 'tab-to-tab-stop)
 
 (setq-default whitespace-style '(face tabs spaces space-mark tab-mark newline-mark trailing))
 (setq-default whitespace-display-mappings
@@ -404,7 +417,9 @@ installed, then defaulting to the name of the LSP for a fallback"
         ;; carriage return (Windows) -> ¶ else #
         (newline-mark ?\r [182] [35])
         ;; tabs -> » else >
-        (tab-mark ?\t [187 ?\t] [62 ?\t])))
+        (tab-mark ?\t [187 ?\t] [62 ?\t])
+        )
+      )
 (global-whitespace-mode 1)
 ;; }}}
 ;; Disable built-in toolbar
@@ -428,22 +443,26 @@ installed, then defaulting to the name of the LSP for a fallback"
   (setq c-ignore-auto-fill '(string))
 
   (add-to-list 'c-offsets-alist '(arglist-close . c-lineup-close-paren))
-  ;; (setq c++-tab-always-indent 'complete)
+  (setq c-tab-always-indent nil)
   (setq c-basic-offset 4)
   (setq c-indent-level 4)
 
   (tempo-use-tag-list 'c-tempo-tags)
   ;; TODO: move to a separate C++ hook
   (tempo-use-tag-list 'c++-tempo-tags)
+
+  (local-set-key (kbd "TAB") 'tab-to-tab-stop)
 )
 
 (add-hook 'c-mode-common-hook 'livi-c-mode-hook)
 ;; }}}
 ;; YAML mode {{{
 (defun livi-yaml-mode-hook()
-  (setq yaml-basic-offset 2)
+  (setq-local tab-width 2)
+  ;; Yaml counts as text, which disables all the nice features
+  (livi-code-mode)
 )
-(add-hook 'yaml-mode-common-hook 'livi-yaml-mode-hook)
+(add-hook 'yaml-mode-hook 'livi-yaml-mode-hook)
 ;; }}}
 ;; Python mode
 (add-hook
@@ -456,14 +475,18 @@ installed, then defaulting to the name of the LSP for a fallback"
 (setq-default fill-column 120)
 ;; Required to display fill-column
 (global-display-fill-column-indicator-mode)
-;; disable soft wrap in code
-(add-hook 'prog-mode-hook (lambda ()
+
+(defun livi-code-mode()
+  "Pseudo-mode used for things used in code, to allow for use in filetypes that don't count as code."
   (visual-line-mode -1)
   (auto-fill-mode 1)
   (toggle-truncate-lines 1)
   (electric-indent-mode 1)
   (setq evil-auto-indent 1)
-))
+  (highlight-indent-guides-mode 1)
+)
+;; disable soft wrap in code
+(add-hook 'prog-mode-hook 'livi-code-mode)
 ;; enable word wrap in text files
 (add-hook 'text-mode-hook (lambda ()
   (visual-line-mode 1)
