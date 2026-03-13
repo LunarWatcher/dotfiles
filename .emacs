@@ -445,6 +445,13 @@ installed, then defaulting to the name of the LSP for a fallback"
 )
 (add-hook 'yaml-mode-common-hook 'livi-yaml-mode-hook)
 ;; }}}
+;; Python mode
+(add-hook
+ 'python-mode-hook
+ (lambda()
+   (setq fill-column 79) ; per pep-whatever
+ )
+)
 
 (setq-default fill-column 120)
 ;; Required to display fill-column
@@ -454,6 +461,7 @@ installed, then defaulting to the name of the LSP for a fallback"
   (visual-line-mode -1)
   (auto-fill-mode 1)
   (toggle-truncate-lines 1)
+  (electric-indent-mode 1)
 ))
 ;; enable word wrap in text files
 (add-hook 'text-mode-hook (lambda ()
