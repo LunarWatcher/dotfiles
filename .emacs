@@ -237,6 +237,23 @@
 
   ;; TODO: how do I make this a popup isntead of minibuffer shit?
   (evil-define-key 'normal 'global (kbd "M-q") #'eglot-code-actions)
+
+  (defun livi-find-lsp(lsp-name)
+    "Returns the path to an LSP. Returns lspinstaller location if
+installed, then defaulting to the name of the LSP for a fallback"
+    (let
+        ((path (shell-command-to-string (concat "lspinstaller find " lsp-name))))
+      (if (string-equal path "")
+          lsp-name
+        (substring path 0 -1)
+        )
+      )
+  )
+
+  (add-to-list
+   'eglot-server-programs
+   `(python-mode ,(livi-find-lsp "ty") "server")
+   )
 )
 (use-package treesit-auto
   :ensure t
