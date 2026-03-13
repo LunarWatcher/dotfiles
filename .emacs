@@ -223,8 +223,6 @@
 (use-package markdown-mode
   :ensure t)
 
-; TODO: do I need this? Looks like eglot is built-in as of emacs 29, but not
-; sure if this is the right way to load it
 (use-package eglot
   :ensure t
   :config
@@ -254,6 +252,16 @@ installed, then defaulting to the name of the LSP for a fallback"
    'eglot-server-programs
    `(python-mode ,(livi-find-lsp "ty") "server")
    )
+
+  (setq project-vc-extra-root-markers
+        '(
+          ".venv/"
+          "pyproject.toml"
+          "requirements.txt"
+          "CMakeLists.txt"
+          "settings.gradle.kts"
+          ))
+
 )
 (use-package treesit-auto
   :ensure t
