@@ -187,13 +187,6 @@
   (setq affe-regexp-compiler #'affe-orderless-regexp-compiler)
 )
 
-(use-package projectile
-  :ensure t
-  :config
-  ;; TODO, at least for the C/C++ header/source switching
-  (projectile-mode)
-)
-
 (use-package savehist
   :ensure t
   :init
@@ -224,7 +217,9 @@
   :ensure t)
 
 (use-package project
-  :ensure t)
+  :ensure t
+  :config
+)
 
 (use-package eglot
   :ensure t
@@ -503,3 +498,5 @@ installed, then defaulting to the name of the LSP for a fallback"
 
 ;; Misc. minor modes
 (column-number-mode)
+
+(setq find-program "fdfind")
