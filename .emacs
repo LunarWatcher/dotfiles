@@ -15,11 +15,13 @@
  ;; If you edit it by hand, you could mess it up, so be careful.
  ;; Your init file should contain only one such instance.
  ;; If there is more than one, they won't work right.
+ '(catppuccin-dark-line-numbers-background t)
+ '(catppuccin-flavor 'latte)
  '(custom-safe-themes
-   '("5c8a1b64431e03387348270f50470f64e28dfae0084d33108c33a81c1e126ad6" default))
+   '("5c7720c63b729140ed88cf35413f36c728ab7c70f8cd8422d9ee1cedeb618de5" "b99ff6bfa13f0273ff8d0d0fd17cc44fab71dfdc293c7a8528280e690f084ef0" "5c8a1b64431e03387348270f50470f64e28dfae0084d33108c33a81c1e126ad6" default))
  '(helm-minibuffer-history-key "M-p")
  '(package-selected-packages
-   '(highlight-indent-guides git-modes git-gutter magit doom-modeline goto-chg evil doom-themes)))
+   '(catppuccin-theme git-modes git-gutter magit doom-modeline goto-chg evil)))
 ;; }}}
 ;; Initialise packages {{{
 (require 'package)
@@ -318,10 +320,13 @@ installed, then defaulting to the name of the LSP for a fallback"
   (define-key neotree-mode-map (kbd "<return>") #'neotree-enter)
 )
 
-(use-package doom-themes
+(use-package catppuccin-theme
   :ensure t
+  :config
+  (load-theme 'catppuccin :no-confirm)
 )
-(load-theme 'doom-tomorrow-day)
+
+
 (use-package doom-modeline
   :ensure t
   :config
@@ -411,7 +416,7 @@ installed, then defaulting to the name of the LSP for a fallback"
 ;; I am no longer fucking asking
 (global-set-key (kbd "TAB") 'tab-to-tab-stop)
 
-(setq-default whitespace-style '(face tabs spaces space-mark tab-mark newline-mark trailing))
+(setq-default whitespace-style '(face tab-mark newline-mark trailing))
 (setq-default whitespace-display-mappings
       '(
         ;; carriage return (Windows) -> ¶ else #
