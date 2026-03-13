@@ -462,6 +462,7 @@ installed, then defaulting to the name of the LSP for a fallback"
   (auto-fill-mode 1)
   (toggle-truncate-lines 1)
   (electric-indent-mode 1)
+  (setq evil-auto-indent 1)
 ))
 ;; enable word wrap in text files
 (add-hook 'text-mode-hook (lambda ()
