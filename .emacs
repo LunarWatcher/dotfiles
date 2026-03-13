@@ -307,7 +307,6 @@ installed, then defaulting to the name of the LSP for a fallback"
   :config
   (setq neo-theme (if (display-graphic-p) 'nerd-icons 'arrow))
   (setq neo-show-hidden-files t)
-  (setq neo-autorefresh t)
 
   (global-set-key [f2] 'neotree-toggle)
   (define-key neotree-mode-map (kbd "<return>") #'neotree-enter)
