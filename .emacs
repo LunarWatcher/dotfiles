@@ -6,22 +6,15 @@
  ;; If you edit it by hand, you could mess it up, so be careful.
  ;; Your init file should contain only one such instance.
  ;; If there is more than one, they won't work right.
- '(markdown-header-face-1 ((t (:inherit markdown-header-face :foreground "deep pink" :height 2.0))))
- '(markdown-header-face-2 ((t (:inherit markdown-header-face :foreground "medium purple" :height 1.7))))
- '(markdown-header-face-3 ((t (:inherit markdown-header-face :foreground "dark orange" :height 1.5))))
- '(markdown-header-face-4 ((t (:inherit markdown-header-face :foreground "dark cyan" :height 1.3)))))
+ )
 (custom-set-variables
  ;; custom-set-variables was added by Custom.
  ;; If you edit it by hand, you could mess it up, so be careful.
  ;; Your init file should contain only one such instance.
  ;; If there is more than one, they won't work right.
- '(catppuccin-dark-line-numbers-background t)
- '(catppuccin-flavor 'latte)
- '(custom-safe-themes
-   '("5c7720c63b729140ed88cf35413f36c728ab7c70f8cd8422d9ee1cedeb618de5" "b99ff6bfa13f0273ff8d0d0fd17cc44fab71dfdc293c7a8528280e690f084ef0" "5c8a1b64431e03387348270f50470f64e28dfae0084d33108c33a81c1e126ad6" default))
- '(helm-minibuffer-history-key "M-p")
- '(package-selected-packages
-   '(catppuccin-theme git-modes git-gutter magit doom-modeline goto-chg evil)))
+ '(package-selected-packages nil)
+ '(package-vc-selected-packages
+   '((catgirl-theme :url "https://codeberg.org/LunarWatcher/catgirl.el.git"))))
 ;; }}}
 ;; Initialise packages {{{
 (require 'package)
@@ -51,14 +44,19 @@
   ;; Not sure why this needs to be run before evil mode is started, but whatever
   (setq select-enable-clipboard nil)
   (setq kill-whole-line 1)
+  (setq evil-ex-search-vim-style-regexp t)
+
   :config
   (evil-mode)
   (evil-set-undo-system 'undo-redo)
-  (setq evil-respect-visual-line-mode 1)
 
+  (evil-select-search-module 'evil-search-module 'evil-search)
+
+  ;; TODO: maybe worth considering nuking these?
   ;; Emacs maps S-ins and C-ins by default, but these maps use the kill ring, which no longer is linked to the
   ;; system clipboard (select-enable-clipboard), so they need to be overridden to use the system clipboard
   (evil-define-key 'normal 'global (kbd "S-<insert>") (lambda() (interactive) (evil-paste-from-register ?+)))
+  (evil-define-key 'insert 'global (kbd "S-<insert>") (lambda() (interactive) (evil-paste-from-register ?+)))
   ;; this is so stupid, but looks forced. evil-copy-from-register is
   ;; simply not a thing
   (evil-define-key 'visual 'evil-visual-state-map (kbd "C-<insert>")
@@ -77,6 +75,13 @@
       )
     )
   )
+)
+;; I forgot I installed this in my vim setup and never realised the ability to jump between if clauses was a plugin
+;; It's a really nice feature though :3
+(use-package evil-matchit
+  :ensure t
+  :config
+  (global-evil-matchit-mode 1)
 )
 (use-package evil-surround
   :ensure t
@@ -99,7 +104,8 @@
   :ensure t
   :config
   (global-set-key (kbd "C-a") 'evil-numbers/inc-at-pt)
-  (global-set-key (kbd "C-x") 'evil-numbers/dec-at-pt)
+  ;; C-x is so heavily used my emacs that it can't really be mapped. C-S-a is a decent substitute
+  (global-set-key (kbd "C-S-a") 'evil-numbers/dec-at-pt)
 )
 
 (use-package vertico
@@ -274,6 +280,8 @@ installed, then defaulting to the name of the LSP for a fallback"
   :config
   (global-treesit-auto-mode)
 )
+(use-package rainbow-mode
+  :ensure t)
 (use-package corfu
   :ensure t
   :custom
@@ -315,17 +323,26 @@ installed, then defaulting to the name of the LSP for a fallback"
   :config
   (setq neo-theme (if (display-graphic-p) 'nerd-icons 'arrow))
   (setq neo-show-hidden-files t)
+  (setq neo-confirm-create-file 'off-p)
+  (setq neo-confirm-create-directory 'off-p)
+  (setq neo-confirm-delete-file 'y-or-n-p)
+  (setq neo-confirm-delete-directory-recursively 'y-or-n-p)
+  (setq neo-confirm-kill-buffers-for-files-in-directory 'off-p)
+
+  (setq neo-show-hidden-files t)
+  (setq neo-theme 'nerd-icons)
 
   (global-set-key [f2] 'neotree-toggle)
   (define-key neotree-mode-map (kbd "<return>") #'neotree-enter)
 )
-
-(use-package catppuccin-theme
+(use-package catgirl-theme
+  :vc (:url "https://codeberg.org/LunarWatcher/catgirl.el.git"
+            :rev :newest)
   :ensure t
-  :config
-  (load-theme 'catppuccin :no-confirm)
 )
 
+;; (load-file "/home/olivia/programming/emacs/catgirl.el/catgirl-theme.el")
+(load-theme 'catgirl :no-confirm)
 
 (use-package doom-modeline
   :ensure t
@@ -400,6 +417,12 @@ installed, then defaulting to the name of the LSP for a fallback"
 (setq warning-minimum-level :error) ;; prevent emacs from whining about evil
 (set-frame-font "SauceCodePro Nerd Font 12" nil t)
 
+(setq display-line-numbers-grow-only t) ; Prevent shrinking when the number of lines decreases
+;; Note; this option does nothing for neotree, because neotree is at least partly lazy-loaded, so it doesn't know the
+;; number of lines up front (as far as I can tell)
+;; the previous option is used to compensate
+(setq display-line-numbers-width-start t) ; Keep the column count fixed
+
 (global-display-line-numbers-mode 1) ;; set number
 (global-hl-line-mode 1) ;; set cursorline
 
@@ -429,10 +452,17 @@ installed, then defaulting to the name of the LSP for a fallback"
 ;; }}}
 ;; Disable built-in toolbar
 (tool-bar-mode -1)
+;; (menu-bar-mode -1)
 
 ;; Tab bar
-(tab-bar-mode) ; Proper tabs
+;; (tab-bar-mode) ; Proper tabs
+(setq tab-bar-tab-hints t) ; proper tabs get numbered
+(setq tab-bar-show 1)
+(setq tab-bar-separator "│")
+
 (global-tab-line-mode) ; Buffer tabs
+(setq tab-line-separator "│")
+
 
 ;; C mode {{{
 (defun livi-c-mode-hook()
@@ -536,3 +566,4 @@ installed, then defaulting to the name of the LSP for a fallback"
 (column-number-mode)
 
 (setq find-program "fdfind")
+
