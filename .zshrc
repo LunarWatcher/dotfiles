@@ -71,13 +71,6 @@ fi
 
 source $AMETHYST_LOCATION/modules/everything.zsh
 
-# Direnv {{{
-if (( $+commands[direnv] )); then
-    eval "$(direnv hook zsh)"
-fi
-# }}}
-
-
 # Aliases
 source ~/.shell_aliases
 
