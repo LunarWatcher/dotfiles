@@ -12,7 +12,7 @@
  ;; If you edit it by hand, you could mess it up, so be careful.
  ;; Your init file should contain only one such instance.
  ;; If there is more than one, they won't work right.
- '(package-selected-packages nil)
+ '(package-selected-packages '(catgirl-theme))
  '(package-vc-selected-packages
    '((catgirl-theme :url "https://codeberg.org/LunarWatcher/catgirl.el.git"))))
 ;; }}}
@@ -398,6 +398,8 @@ installed, then defaulting to the name of the LSP for a fallback"
 (defvar c++-tempo-tags nil
   "Tempo tags for C++ mode")
 
+;; TODO: should probably separate the templates out into their own file, but this will require refactoring into a
+;; .emacs.d folder. Or I could do what I did with catgirl and set up a plugin
 (tempo-define-template "c-ifwin"
                         '("#if defined(WIN32) || defined(_WIN32) || defined(__WIN32__) || defined(__NT__)" n>
                         p n>
@@ -565,5 +567,9 @@ installed, then defaulting to the name of the LSP for a fallback"
 ;; Misc. minor modes
 (column-number-mode)
 
+;; Override find with fdfind
+;; Largely only used because, as far as I can tell, certain functionality will spawn this to try to find a project root,
+;; which then freezes emacs and eats a full CPU core, because find is obnoxiously slow.
+;; I have been unable to reproduce that since though, so not entirely sure why that happened in the first place
 (setq find-program "fdfind")
 

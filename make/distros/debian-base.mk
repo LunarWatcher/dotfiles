@@ -44,9 +44,13 @@ debian-home-packages:
 
 debian-core:
 	wget https://github.com/ryanoasis/nerd-fonts/raw/master/patched-fonts/SourceCodePro/SauceCodeProNerdFont-Regular.ttf -O "Sauce Code Pro Nerd Font Complete.ttf"
-	# Needed for gnome terminal because reasons
+	wget https://github.com/ryanoasis/nerd-fonts/raw/master/patched-fonts/SourceCodePro/SauceCodeProNerdFont-Bold.ttf -O "Sauce Code Pro Nerd Font Complete Bold.ttf"
+	wget https://github.com/ryanoasis/nerd-fonts/raw/master/patched-fonts/SourceCodePro/SauceCodeProNerdFont-Italic.ttf -O "Sauce Code Pro Nerd Font Complete Italic.ttf"
+	# Needed for gnome terminal because reasons (TODO: not anymore?)
 	wget https://github.com/ryanoasis/nerd-fonts/raw/master/patched-fonts/SourceCodePro/SauceCodeProNerdFontMono-Regular.ttf -O "Sauce Code Pro Nerd Font Complete Mono.ttf"
 	sudo mv "Sauce Code Pro Nerd Font Complete.ttf" /usr/local/share/fonts
+	sudo mv "Sauce Code Pro Nerd Font Complete Bold.ttf" /usr/local/share/fonts
+	sudo mv "Sauce Code Pro Nerd Font Complete Italic.ttf" /usr/local/share/fonts
 	sudo mv "Sauce Code Pro Nerd Font Complete Mono.ttf" /usr/local/share/fonts
 	sudo fc-cache -f
 
