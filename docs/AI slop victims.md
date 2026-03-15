@@ -87,21 +87,32 @@ The library is still in use in a few things with the version pinned. Migration t
 
 **Replacement:** Custom tiny extra info wrapper question mark?
 
-* https://github.com/gabime/spdlog/commit/b656d1ceecac83e969faaf8b35f8a5edb964b0e0 
+* https://github.com/gabime/spdlog/commit/b656d1ceecac83e969faaf8b35f8a5edb964b0e0
 * ... plus several PR reviews with copilot requests by the author: https://github.com/search?q=repo%3Agabime%2Fspdlog+copilot&type=pullrequests (archived: https://web.archive.org/web/20260118043822/https://github.com/search?q=repo%3Agabime%2Fspdlog+copilot&type=pullrequests)
 
 I don't know what to do here. My instinct says to abandon, but the number of decent logging libraries is also very low. Log4Shell, a _very_ severe log4j vulnerability [considered to be one of the most severe vulnerabilities, _period_](https://en.wikipedia.org/wiki/Log4Shell), was in a logging library. Logging libraries can potentially take a lot of user input, so the risk of security problems is significantly higher.  C++ apps are becoming less and less common, so the large-scale impact obviously won't be as big, but if the AI slop machine introduces a comparable vulnerability, I have a huge fucking problem.
 
-Some possible alternatives: 
+Some possible alternatives:
 
 * https://github.com/kala13x/slog - fairly pretty output, might be possible to get output comparable to loguru. The author uses an AI slop image on Stack Overflow. No hits on AI slop code
 * https://github.com/SergiusTheBest/plog - author has hits on AI slop in other repos
-* https://github.com/emilk/loguru - abandoned :( 
-* https://github.com/jgaa/logfault - author has hits on AI slop in that repo (unmerged) and other repos 
+* https://github.com/emilk/loguru - abandoned :(
+* https://github.com/jgaa/logfault - author has hits on AI slop in that repo (unmerged) and other repos
 * https://github.com/odygrd/quill - also has AI slop, but is established and has more of a team around it
 * https://github.com/choll/xtr - one of the better candidates, but not particularly widely used
 
 Though in retrospect, the author's single open-source repo being a widely used logging library is suspicious. Given other factors that came up during research, I should've started avoiding spdlog ages ago. Migration out will take A While:tm: unfortunately.
+
+### Vim
+
+**Fall date:** 2026-03-04[^1]
+
+**Replacement:** emacs with evil mode. Migration mostly completed by 2026-03-15.
+
+* https://hachyderm.io/@AndrewRadev/116175986749599825
+* https://github.com/search?q=repo%3Avim%2Fvim+claude+author%3Achrisbra&type=pullrequests&s=created&o=desc
+
+Not sure yet what I'll do for terminal editing. Reducing the amount of features I use (read: nuking my vimrc from my setup) will likely be sufficient to keep vim vaguely safe-ish, but it's still not particularly great. Emacs may be workable in the terminal too with a fair bit of pull help from `sudoedit`, but that won't help over SSH. There's always nano, I guess. Better strategy TBA, but it only really affects config editing, so it's fine if it isn't optimal. Might also consider gitops-ing my setup so I can edit locally, push, pull, and `cp`. Not as nice for the work flow, but definitely better for recoverability and redeployments once the arch migration starts.
 
 ## Confirmed, but unabandonable
 
@@ -142,3 +153,6 @@ The paths are repos, the part before the `:` refers to a Git forge. `gh:` is Git
 
 * `gh:cheat/cheat`: sloppified 2026-02-15
 * `gh:tldr-pages/tldr`: sloppfied 2026-02-26
+* `gh:neovim/neovim`: sloppfied, unknown exact start date. Sloppified through vim, with independent slop endorsed by the neovim project. 
+
+[^1]: technically earlier, but this was the triggering event. AI slop reviews have been used prior, and some third parties have used AI slop machines for code sloppification previously, but the lead maintainer is now actively pushing out agent slop to main. There was also an AI slop sponsorship a few months prior that I also ignored, because the alternative just is not fun.
