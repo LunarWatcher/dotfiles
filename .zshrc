@@ -142,3 +142,4 @@ amethyst-plugin theme 'https://github.com/romkatv/powerlevel10k'
 bindkey ${FZF_WD_BINDKEY:-'^B'} wd_browse_widget
 # }}}
 
+export SSH_AUTH_SOCK="$HOME/.ssh/proton-pass-agent.sock"

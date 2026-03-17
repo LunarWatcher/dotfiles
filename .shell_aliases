@@ -230,7 +230,7 @@ function ssh-fixperms() {
 
 function o-ssh-keygen() {
     if [[ "$1" == "" || "$2" == "" ]]; then
-        echo "Usage: o-ssh-keygen [email] [file name]" 
+        echo "Usage: o-ssh-keygen [email] [file name]"
         return -1
     fi
 
@@ -239,6 +239,10 @@ function o-ssh-keygen() {
     echo "Copy this line to whereever you need access:"
     cat ~/.ssh/$2.pub
 }
+# }}}
+# Pass-cli {{{
+alias work-agent="pass-cli ssh-agent start --vault-name Work"
+alias ssh-agent="pass-cli ssh-agent start --vault-name 'SSH Keys'"
 # }}}
 # Project utilities {{{
 alias open-doxygen="open ./html/index.html"
@@ -277,4 +281,3 @@ alias gw='$(groot)/gradlew'
 if [ -f "${DOTFILES_HOME}/scripts/homelab.zsh" ]; then
     source "${DOTFILES_HOME}/scripts/homelab.zsh"
 fi
-# vim:ft=zsh
