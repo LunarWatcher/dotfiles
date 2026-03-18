@@ -57,8 +57,8 @@
   ;; system clipboard (select-enable-clipboard), so they need to be overridden to use the system clipboard
   (evil-define-key 'normal 'global (kbd "S-<insert>") (lambda() (interactive) (evil-paste-from-register ?+)))
   (evil-define-key 'insert 'global (kbd "S-<insert>") (lambda() (interactive) (evil-paste-from-register ?+)))
-  ;; this is so stupid, but looks forced. evil-copy-from-register is
-  ;; simply not a thing
+;;   ;; this is so stupid, but looks forced. evil-copy-from-register is
+;;   ;; simply not a thing
   (evil-define-key 'visual 'evil-visual-state-map (kbd "C-<insert>")
     (lambda()
       (interactive)
@@ -68,13 +68,13 @@
         (if (eq type 'block)
             (evil-yank-rectangle beg end ?+)
           (if (eq type 'line)
-            (evil-yank-lines beg end ?+)
+              (evil-yank-lines beg end ?+)
             (evil-yank beg end type ?+)
+            )
           )
         )
       )
     )
-  )
 )
 ;; I forgot I installed this in my vim setup and never realised the ability to jump between if clauses was a plugin
 ;; It's a really nice feature though :3
@@ -387,6 +387,10 @@ installed, then defaulting to the name of the LSP for a fallback"
 ;; Load builtins {{{
 (require 'treesit)
 (require 'tempo)
+(require 'editorconfig)
+
+(global-treesit-auto-mode)
+(editorconfig-mode)
 ;; }}}
 ;; Configure shit {{{
 ;; Tempo {{{
@@ -416,7 +420,7 @@ installed, then defaulting to the name of the LSP for a fallback"
 ;; }}}
 ;; }}}
 ;; Configure emacs standards {{{
-(setq warning-minimum-level :error) ;; prevent emacs from whining about evil
+;; (setq warning-minimum-level :error) ;; prevent emacs from whining about evil
 (set-frame-font "SauceCodePro Nerd Font 12" nil t)
 
 (setq display-line-numbers-grow-only t) ; Prevent shrinking when the number of lines decreases
@@ -454,6 +458,7 @@ installed, then defaulting to the name of the LSP for a fallback"
 ;; }}}
 ;; Disable built-in toolbar
 (tool-bar-mode -1)
+;; Not entirely ready to use this yet.
 ;; (menu-bar-mode -1)
 
 ;; Tab bar
@@ -464,7 +469,6 @@ installed, then defaulting to the name of the LSP for a fallback"
 
 (global-tab-line-mode) ; Buffer tabs
 (setq tab-line-separator "│")
-
 
 ;; C mode {{{
 (defun livi-c-mode-hook()
@@ -483,6 +487,10 @@ installed, then defaulting to the name of the LSP for a fallback"
   (setq c-tab-always-indent nil)
   (setq c-basic-offset 4)
   (setq c-indent-level 4)
+
+  ;; At least clangd does not provide an acceptable indentexpr. it completely fucks up C indent, and handles arguments
+  ;; weirdly in C++.
+  (setopt eglot-ignored-server-capabilities (list :documentOnTypeFormattingProvider))
 
   (tempo-use-tag-list 'c-tempo-tags)
   ;; TODO: move to a separate C++ hook
