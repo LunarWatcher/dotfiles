@@ -1,3 +1,4 @@
+;; -*- lexical-binding: t; -*-
 ;; Custom shit (whatever that is) {{{
 ;; This needs to be first, or the load-theme command won't shut up
 
@@ -470,6 +471,11 @@ installed, then defaulting to the name of the LSP for a fallback"
 (global-tab-line-mode) ; Buffer tabs
 (setq tab-line-separator "│")
 
+
+;; At least clangd does not provide an acceptable indentexpr. it completely fucks up C indent, and handles arguments
+;; weirdly in C++. Looks like ty might be getting screwed over too?
+(setopt eglot-ignored-server-capabilities (list :documentOnTypeFormattingProvider))
+
 ;; C mode {{{
 (defun livi-c-mode-hook()
   ;; https://www.gnu.org/software/emacs//manual/html_node/efaq/Customizing-C-and-C_002b_002b-indentation.html
@@ -487,10 +493,6 @@ installed, then defaulting to the name of the LSP for a fallback"
   (setq c-tab-always-indent nil)
   (setq c-basic-offset 4)
   (setq c-indent-level 4)
-
-  ;; At least clangd does not provide an acceptable indentexpr. it completely fucks up C indent, and handles arguments
-  ;; weirdly in C++.
-  (setopt eglot-ignored-server-capabilities (list :documentOnTypeFormattingProvider))
 
   (tempo-use-tag-list 'c-tempo-tags)
   ;; TODO: move to a separate C++ hook
