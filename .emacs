@@ -516,6 +516,8 @@ installed, then defaulting to the name of the LSP for a fallback"
  'python-mode-hook
  (lambda()
    (setq fill-column 79) ; per pep-whatever
+   (setq tab-width 4)
+   (setq python-indent-offset 4)
  )
 )
 
