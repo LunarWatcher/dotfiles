@@ -52,30 +52,6 @@
   (evil-set-undo-system 'undo-redo)
 
   (evil-select-search-module 'evil-search-module 'evil-search)
-
-  ;; TODO: maybe worth considering nuking these?
-  ;; Emacs maps S-ins and C-ins by default, but these maps use the kill ring, which no longer is linked to the
-  ;; system clipboard (select-enable-clipboard), so they need to be overridden to use the system clipboard
-  (evil-define-key 'normal 'global (kbd "S-<insert>") (lambda() (interactive) (evil-paste-from-register ?+)))
-  (evil-define-key 'insert 'global (kbd "S-<insert>") (lambda() (interactive) (evil-paste-from-register ?+)))
-;;   ;; this is so stupid, but looks forced. evil-copy-from-register is
-;;   ;; simply not a thing
-  (evil-define-key 'visual 'evil-visual-state-map (kbd "C-<insert>")
-    (lambda()
-      (interactive)
-      (let ((beg (region-beginning))
-            (end (region-end))
-            (type (evil-visual-type)))
-        (if (eq type 'block)
-            (evil-yank-rectangle beg end ?+)
-          (if (eq type 'line)
-              (evil-yank-lines beg end ?+)
-            (evil-yank beg end type ?+)
-            )
-          )
-        )
-      )
-    )
 )
 ;; I forgot I installed this in my vim setup and never realised the ability to jump between if clauses was a plugin
 ;; It's a really nice feature though :3
