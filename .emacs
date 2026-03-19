@@ -599,7 +599,7 @@ installed, then defaulting to the name of the LSP for a fallback"
 ;; Largely only used because, as far as I can tell, certain functionality will spawn this to try to find a project root,
 ;; which then freezes emacs and eats a full CPU core, because find is obnoxiously slow.
 ;; I have been unable to reproduce that since though, so not entirely sure why that happened in the first place
-(setq find-program "fdfind")
+;; (setq find-program "fdfind")
 
 (defun find-lsp()
   (interactive)
