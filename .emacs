@@ -246,7 +246,7 @@
   (add-hook 'typescript-mode-hook 'eglot-ensure)
   (add-hook 'python-mode-hook 'eglot-ensure)
 
-  ;; TODO: how do I make this a popup isntead of minibuffer shit?
+  ;; TODO: how do I make this a popup instead of minibuffer shit?
   (evil-define-key 'normal 'global (kbd "M-q") #'eglot-code-actions)
 
   (defun livi-find-lsp(lsp-name)
@@ -263,7 +263,29 @@ installed, then defaulting to the name of the LSP for a fallback"
 
   (add-to-list
    'eglot-server-programs
+   `((c-mode c++-mode c++-ts-mode c-ts-mode) ,(livi-find-lsp "clangd"))
+   )
+
+  (add-to-list
+   'eglot-server-programs
+   `(lua-mode ,(livi-find-lsp "luals"))
+   )
+
+  (add-to-list
+   'eglot-server-programs
    `(python-mode ,(livi-find-lsp "ty") "server")
+   )
+
+  (add-to-list
+   'eglot-server-programs
+   `((typescript-mode js-mode js-jsx-mode tsx-ts-mode)
+     . ,(eglot-alternatives
+       `(
+         (,(livi-find-lsp "tsserver") "--stdio")
+         ("deno" "lsp")
+         )
+       )
+     )
    )
 
   (setq project-vc-extra-root-markers
@@ -273,6 +295,8 @@ installed, then defaulting to the name of the LSP for a fallback"
           "requirements.txt"
           "CMakeLists.txt"
           "settings.gradle.kts"
+          "pnpm-lock.yaml"
+          "deno.json"
           ))
 
 )
@@ -515,12 +539,28 @@ installed, then defaulting to the name of the LSP for a fallback"
 (add-hook
  'python-mode-hook
  (lambda()
-   (setq fill-column 79) ; per pep-whatever
+   (setq-local fill-column 79) ; per pep-whatever
    (setq tab-width 4)
    (setq python-indent-offset 4)
  )
 )
+;; JS/TS
+(add-hook
+ 'js-mode-hook
+ (lambda()
+   (setq tab-width 2)
+   (setq-local javascript-indent-offset 2)
+ )
+)
+(add-hook
+ 'typescript-mode-hook
+ (lambda()
+   (setq tab-width 2)
+   (setq-local typescript-indent-offset 2)
+ )
+)
 
+;; Standards
 (setq-default fill-column 120)
 ;; Required to display fill-column
 (global-display-fill-column-indicator-mode)
@@ -585,3 +625,7 @@ installed, then defaulting to the name of the LSP for a fallback"
 ;; I have been unable to reproduce that since though, so not entirely sure why that happened in the first place
 (setq find-program "fdfind")
 
+(defun find-lsp()
+  (interactive)
+  (evil-echo "{}" (process-command (jsonrpc--process (eglot-current-server))))
+)
