@@ -275,6 +275,26 @@ installed, then defaulting to the name of the LSP for a fallback"
           "deno.json"
           ))
 
+
+  ;; At least clangd does not provide an acceptable indentexpr. it completely fucks up C indent, and handles arguments
+  ;; weirdly in C++. Looks like ty might be getting screwed over too?
+  (setopt eglot-ignored-server-capabilities (list :documentOnTypeFormattingProvider))
+  (defun find-lsp()
+    (interactive)
+    (evil-echo "%s" (process-command (jsonrpc--process (eglot-current-server))))
+  )
+)
+(use-package flymake
+  :ensure t
+  :config
+  (flymake-mode t)
+  ;; Virtual text diagnostics
+  ;; Would massively prefer under the current line, but that doesn't appear to be an option :(
+  ;; There's a plugin that does it (flyover)), but it has all the signs of AI slop.
+  ;; pretty neat that the core functionality is built-in though. `sideline' has something equivalent,
+  ;; which I nearly used until I found that there were built-ins for it
+  ;; need to add some styling to it I think, I might be able to sneak in icons or something in one of the faces.
+  (setq flymake-show-diagnostics-at-end-of-line t)
 )
 (use-package treesit-auto
   :ensure t
@@ -416,9 +436,6 @@ installed, then defaulting to the name of the LSP for a fallback"
 
 (evil-define-key 'insert 'global (kbd "C-t") #'tempo-complete-tag)
 ;; }}}
-;; Diagnostics {{{
-(flymake-mode t)
-;; }}}
 ;; }}}
 ;; Configure emacs standards {{{
 ;; (setq warning-minimum-level :error) ;; prevent emacs from whining about evil
@@ -470,11 +487,6 @@ installed, then defaulting to the name of the LSP for a fallback"
 
 (global-tab-line-mode) ; Buffer tabs
 (setq tab-line-separator "│")
-
-
-;; At least clangd does not provide an acceptable indentexpr. it completely fucks up C indent, and handles arguments
-;; weirdly in C++. Looks like ty might be getting screwed over too?
-(setopt eglot-ignored-server-capabilities (list :documentOnTypeFormattingProvider))
 
 ;; C mode {{{
 (defun livi-c-mode-hook()
@@ -605,8 +617,3 @@ installed, then defaulting to the name of the LSP for a fallback"
 ;; which then freezes emacs and eats a full CPU core, because find is obnoxiously slow.
 ;; I have been unable to reproduce that since though, so not entirely sure why that happened in the first place
 ;; (setq find-program "fdfind")
-
-(defun find-lsp()
-  (interactive)
-  (evil-echo "%s" (process-command (jsonrpc--process (eglot-current-server))))
-)
