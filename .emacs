@@ -603,5 +603,6 @@ installed, then defaulting to the name of the LSP for a fallback"
 
 (defun find-lsp()
   (interactive)
-  (evil-echo "{}" (process-command (jsonrpc--process (eglot-current-server))))
+  (evil-echo "%s" (process-command (jsonrpc--process (eglot-current-server))))
+
 )
