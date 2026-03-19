@@ -559,6 +559,10 @@ installed, then defaulting to the name of the LSP for a fallback"
   (setq fill-column 999999999)
   (display-fill-column-indicator-mode -1)
 
+  ;; Prevents indented paragraph continuations on hard wrap
+  (setq adaptive-fill-mode nil
+        fill-prefix "")
+
   ;; required to get indents to fuck off
   (electric-indent-mode -1)
   (setq evil-auto-indent nil)
@@ -567,6 +571,7 @@ installed, then defaulting to the name of the LSP for a fallback"
 (add-hook
   'git-commit-mode-hook
   (lambda()
+
     (visual-line-mode -1)
     (auto-fill-mode 1)
     ;; the first line is at 50, but can't have two wrap points
