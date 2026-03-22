@@ -13,7 +13,7 @@
  ;; If you edit it by hand, you could mess it up, so be careful.
  ;; Your init file should contain only one such instance.
  ;; If there is more than one, they won't work right.
- '(package-selected-packages nil)
+ '(package-selected-packages '(catgirl-theme))
  '(package-vc-selected-packages
    '((catgirl-theme :url "https://codeberg.org/LunarWatcher/catgirl.el.git"))))
 ;; }}}
@@ -339,6 +339,11 @@ installed, then defaulting to the name of the LSP for a fallback"
 (use-package nerd-icons
   :ensure t
 )
+;; TODO: neotree is awful to work with. It scrolls constantly and makes it a pain in the ass to un-scroll
+;; It also doesn't seem to be able to rename files with open buffers, which is so dumb. It renames the buffer,
+;; then errors because a buffer with the same name is already open :facepaw:
+;; dired seems to have the same warning in those cases, but it can be overridden, whereas neotree just fails.
+;; Need to replace this with something else, but not sure what. the other commonly cited tree is treemacs
 (use-package neotree
   :ensure t
   :config
@@ -349,6 +354,7 @@ installed, then defaulting to the name of the LSP for a fallback"
   (setq neo-confirm-delete-file 'y-or-n-p)
   (setq neo-confirm-delete-directory-recursively 'y-or-n-p)
   (setq neo-confirm-kill-buffers-for-files-in-directory 'off-p)
+  (setq neo-window-fixed-size nil)
 
   (setq neo-show-hidden-files t)
   (setq neo-theme 'nerd-icons)
