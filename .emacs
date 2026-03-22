@@ -296,11 +296,11 @@ installed, then defaulting to the name of the LSP for a fallback"
   ;; need to add some styling to it I think, I might be able to sneak in icons or something in one of the faces.
   (setq flymake-show-diagnostics-at-end-of-line t)
 )
-(use-package treesit-auto
-  :ensure t
-  :config
-  (global-treesit-auto-mode)
-)
+;; (use-package treesit-auto
+;;   :ensure t
+;;   :config
+;;   (global-treesit-auto-mode)
+;; )
 (use-package rainbow-mode
   :ensure t)
 (use-package corfu
@@ -412,11 +412,10 @@ installed, then defaulting to the name of the LSP for a fallback"
 )
 ;; }}}
 ;; Load builtins {{{
-(require 'treesit)
+;; (require 'treesit)
 (require 'tempo)
 (require 'editorconfig)
 
-(global-treesit-auto-mode)
 (editorconfig-mode)
 ;; }}}
 ;; Configure shit {{{
