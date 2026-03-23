@@ -52,6 +52,14 @@
   (evil-set-undo-system 'undo-redo)
 
   (evil-select-search-module 'evil-search-module 'evil-search)
+
+  (defun livi-cr()
+    (interactive)
+    (default-indent-new-line)
+  )
+
+  (evil-define-key 'normal 'global (kbd "g o") 'ff-find-other-file)
+  (evil-define-key 'insert 'global (kbd "RET") #'livi-cr)
 )
 ;; I forgot I installed this in my vim setup and never realised the ability to jump between if clauses was a plugin
 ;; It's a really nice feature though :3
@@ -622,3 +630,34 @@ installed, then defaulting to the name of the LSP for a fallback"
 ;; which then freezes emacs and eats a full CPU core, because find is obnoxiously slow.
 ;; I have been unable to reproduce that since though, so not entirely sure why that happened in the first place
 ;; (setq find-program "fdfind")
+
+(defun livi-expand-c-comment-block(orig-fun &rest args)
+  "Conditionally expands C syle comment blocks.
+If the next line contains a *, the expansion is skipped. Otherwise, /* and /** are
+expanded into a full
+```cpp
+/**
+ *
+ */
+```
+form. The continuation of such comments is managed by an insert override of <CR> in the evil mode :config block"
+  (let* ((first-comment-line (looking-back "/\\*\\*?\\s-*.*"))
+         (next-line (looking-at "\\s-*\n.*\\*"))
+         (star-col-num (when (and first-comment-line (not next-line))
+                         (save-excursion
+                           (re-search-backward "/\\*")
+                           (1+ (current-column))))))
+    (apply orig-fun args)
+    (when (and first-comment-line (not next-line))
+      (save-excursion
+        (newline)
+        (dotimes (cnt star-col-num)
+          (insert " "))
+        (move-to-column star-col-num)
+        (insert "*/"))
+      (move-to-column star-col-num)
+      (insert "*")
+     ))
+  (when (not (looking-back " "))
+    (insert " ")))
+(advice-add 'c-indent-new-comment-line :around #'livi-expand-c-comment-block)
