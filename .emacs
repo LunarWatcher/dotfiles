@@ -53,13 +53,16 @@
 
   (evil-select-search-module 'evil-search-module 'evil-search)
 
-  (defun livi-cr()
+  (defun livi-adaptive-cr()
     (interactive)
-    (default-indent-new-line)
-  )
+    (if (save-excursion (comment-beginning))
+        ;; if in comment, continue comment
+        (default-indent-new-line)
+      ;; extra args required to pretend to be interactive
+      (newline 1 "\n")))
 
   (evil-define-key 'normal 'global (kbd "g o") 'ff-find-other-file)
-  (evil-define-key 'insert 'global (kbd "RET") #'livi-cr)
+  (evil-define-key 'insert 'global (kbd "RET") #'livi-adaptive-cr)
 )
 ;; I forgot I installed this in my vim setup and never realised the ability to jump between if clauses was a plugin
 ;; It's a really nice feature though :3
