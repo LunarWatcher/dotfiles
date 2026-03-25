@@ -4,6 +4,8 @@ This list contains a list of tools I've been forced to abandon due to AI slop, a
 
 Once something makes it to this list, it is not removed regardless of later backtracking. The loss of trust caused by introducing a security vulnerability-creating machine cannot be recovered even if the projects backtrack later.
 
+See also https://codeberg.org/small-hack/open-slopware
+
 ## Abandoned software
 
 ### Uptime-kuma

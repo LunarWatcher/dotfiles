@@ -256,6 +256,7 @@ plugins {
     plugin-manager location="zellij:plugin-manager"
     session-manager location="zellij:session-manager"
     status-bar location="zellij:status-bar"
+    layout-manager location="zellij:layout-manager"
     strider location="zellij:strider"
     tab-bar location="zellij:tab-bar"
     welcome-screen location="zellij:session-manager" {
@@ -268,10 +269,10 @@ load_plugins {
 web_client {
     font "monospace"
 }
- 
+
 theme "dayfox"
 mouse_mode true
- 
+
 pane_frames true
 
 // TODO: zellij uses OSC 52 by default, which gnome-terminal does not support. This is forced, but not portable.
@@ -287,14 +288,14 @@ copy_command "xclip -selection clipboard" // x11
 copy_on_select true
 
 attach_to_session true
- 
+
 // Toggle between having Zellij lay out panes according to a predefined set of layouts whenever possible
 // Options:
 //   - true (default)
 //   - false
-// 
+//
 // auto_layout false
- 
+
 session_serialization false
 show_startup_tips false
 // TODO: not a fan of hard-coding this, but I think it's forced.

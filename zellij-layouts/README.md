@@ -2,7 +2,7 @@
 
 This folder contains standard layouts for [zellij](https://zellij.dev). In my workflow, they're used with projects that manage to follow various conventions, and just don't need anything special to run. These also serve as templates for more specific implementations.
 
-## Notes to self 
+## Notes to self
 
 > Zellij layout files can include any configuration that can be defined in a Zellij configuration file. - https://zellij.dev/documentation/layouts-with-config.html
 

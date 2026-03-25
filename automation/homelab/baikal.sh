@@ -1,8 +1,6 @@
 #!/usr/bin/bash
 # This file is based on https://github.com/JsBergbau/BaikalAnleitung?tab=readme-ov-file#einleitung,
 # with the obligatory modifications required for automation purposes.
-#
-# Aside scaffolding changes and flttening 
 
 if [ -d /opt/baikal ]; then
     echo "Baikal already installed; updating instead"
