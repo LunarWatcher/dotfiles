@@ -189,6 +189,19 @@
   (setq affe-regexp-compiler #'affe-orderless-regexp-compiler)
 )
 
+(use-package web-mode
+  :ensure t
+  :config
+  (add-to-list 'auto-mode-alist '("\\.erb\\'" . web-mode))
+  (add-to-list 'auto-mode-alist '("\\.mustache\\'" . web-mode))
+  (add-to-list 'auto-mode-alist '("\\.inja\\'" . web-mode))
+  (setq web-mode-engines-alist
+        '(
+          ("jinja"    . "\\.inja\\'")
+        )
+  )
+)
+
 (use-package savehist
   :ensure t
   :init
@@ -372,6 +385,14 @@ installed, then defaulting to the name of the LSP for a fallback"
 
   (global-set-key [f2] 'neotree-toggle)
   (define-key neotree-mode-map (kbd "<return>") #'neotree-enter)
+
+  (add-hook
+    'neotree-mode-hook
+    (lambda()
+      (evil-define-key 'normal 'local (kbd "v") #'neotree-enter-vertical-split)
+      (evil-define-key 'normal 'local (kbd "s") #'neotree-enter-horizontal-split)
+    )
+  )
 )
 (use-package catgirl-theme
   :vc (:url "https://codeberg.org/LunarWatcher/catgirl.el.git"
