@@ -130,6 +130,21 @@ Comparatively low-risk, largely due to the admission in the last one. Still not 
 
 For now, sloppified ntfy is forced to stay.
 
+## Confirmed, but undecided
+
+This list contains confirmed AI slop that I have not decided if I want to get rid of.
+
+### zlib-ng
+
+**Fall date:** 2026-02-17
+
+* https://github.com/zlib-ng/zlib-ng/commit/927c5a46a72cf058043a4b792ff20d8b50a9f1ab
+* https://github.com/zlib-ng/zlib-ng/commit/061f0e4fa8b266f643a7070befe8d7a0b412ef31
+* https://github.com/zlib-ng/zlib-ng/commit/a7e15da75f8ec00b392a467675617a9112948d00
+* God fucking damn coderabbit slop AI "reviews": https://github.com/zlib-ng/zlib-ng/pull/2239#issuecomment-4148386548 (I fucking _hate_ coderabbit; they're contributing so much crap to FOSS)
+
+Might be possible to revert to standard zlib and tank the performance penalty from that, or abandon it outright and ignore HTTP compression.
+
 
 ## At risk
 
