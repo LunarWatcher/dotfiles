@@ -55,11 +55,16 @@
 
   (defun livi-adaptive-cr()
     (interactive)
-    (if (save-excursion (comment-beginning))
-        ;; if in comment, continue comment
-        (default-indent-new-line)
-      ;; extra args required to pretend to be interactive
-      (newline 1 "\n")))
+    ;; TODO: if this keeps growing with exceptions, consider using a `cond` instead.
+    (if (string= major-mode "org-mode")
+        (org-return-and-maybe-indent)
+      (if (save-excursion (comment-beginning))
+          ;; if in comment, continue comment
+          (default-indent-new-line)
+        ;; extra args required to pretend to be interactive
+        (newline 1 "\n"))
+      )
+    )
 
   (evil-define-key 'normal 'global (kbd "g o") 'ff-find-other-file)
   (evil-define-key 'insert 'global (kbd "RET") #'livi-adaptive-cr)
@@ -403,6 +408,15 @@ installed, then defaulting to the name of the LSP for a fallback"
 
 ;; (load-file "/home/olivia/programming/emacs/catgirl.el/catgirl-theme.el")
 (load-theme 'catgirl :no-confirm)
+
+(use-package org
+  :config
+  (progn (org-remove-from-invisibility-spec '(org-link))
+         (org-restart-font-lock)
+         (setq org-descriptive-links nil)
+         (setq org-adapt-indentation t)
+  )
+)
 
 (use-package doom-modeline
   :ensure t
