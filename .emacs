@@ -13,7 +13,7 @@
  ;; If you edit it by hand, you could mess it up, so be careful.
  ;; Your init file should contain only one such instance.
  ;; If there is more than one, they won't work right.
- '(package-selected-packages '(catgirl-theme))
+ '(package-selected-packages nil)
  '(package-vc-selected-packages
    '((catgirl-theme :url "https://codeberg.org/LunarWatcher/catgirl.el.git"))))
 ;; }}}
@@ -596,7 +596,7 @@ installed, then defaulting to the name of the LSP for a fallback"
  'typescript-mode-hook
  (lambda()
    (setq tab-width 2)
-   (setq-local typescript-indent-offset 2)
+   (setq-local typescript-indent-level 2)
  )
 )
 
