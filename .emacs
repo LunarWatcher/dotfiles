@@ -55,16 +55,20 @@
 
   (defun livi-adaptive-cr()
     (interactive)
-    ;; TODO: if this keeps growing with exceptions, consider using a `cond` instead.
-    (if (string= major-mode "org-mode")
-        (org-return-and-maybe-indent)
-      (if (save-excursion (comment-beginning))
-          ;; if in comment, continue comment
-          (default-indent-new-line)
-        ;; extra args required to pretend to be interactive
-        (newline 1 "\n"))
-      )
+    (cond
+     ((string= major-mode "org-mode")               (org-return-and-maybe-indent))
+     ;; Something is deeply wrong with the ts-mode implementation of default-indent-new-line that causes it to close and
+     ;; immediately start a new comment block, so need to override it here.
+     ;; JS mode, though slightly fucky, does not exhibit the same problematic behaviour. I suspect that's just the
+     ;; semi-dumb indent function needing a better implementation. ts-mode, however, likely uses a non-standard command,
+     ;; and I can't be bothered finding it right now.
+     ((string= major-mode "typescript-mode")        (newline 1 "\n"))
+     ;; if in a comment in a non-exception language, indent and continue comment
+     ((save-excursion (comment-beginning))          (default-indent-new-line))
+     ;; default
+     (t                                             (newline 1 "\n"))
     )
+  )
 
   (evil-define-key 'normal 'global (kbd "g o") 'ff-find-other-file)
   (evil-define-key 'insert 'global (kbd "RET") #'livi-adaptive-cr)
