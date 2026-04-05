@@ -133,38 +133,42 @@
   :ensure t
   :config
   (defun livi-grep()
-    "affe-grep with hidden files excluded"
+    "affe-grep with hidden files excluded and cwd forced to git root if available"
     (interactive)
     (let (
       (affe-grep-command "rg --glob \"!.git\" --hidden --null --color=never --max-columns=1000 --no-heading --line-number -v ^$")
+      (default-directory (or (vc-root-dir) default-directory))
     )
       (affe-grep)
     )
   )
   (defun livi-grep-nogitignore()
-    "affe-grep with hidden files excluded"
+    "affe-grep with hidden files excluded and cwd forced to git root if available"
     (interactive)
     (let (
       (affe-grep-command "rg --glob \"!.git\" --hidden --null --color=never --max-columns=1000 --no-heading --line-number --no-ignore-vcs -v ^$")
+      (default-directory (or (vc-root-dir) default-directory))
     )
       (affe-grep)
     )
   )
 
   (defun livi-find()
-    "affe-find with hidden files excluded"
+    "affe-find with hidden files excluded and cwd forced to git root if available"
     (interactive)
     (let (
       (affe-find-command "rg --glob \"!.git\" --hidden --color=never --files")
+      (default-directory (or (vc-root-dir) default-directory))
     )
       (affe-find)
     )
   )
   (defun livi-find-nogitignore()
-    "affe-find with hidden files excluded"
+    "affe-find with hidden files excluded and cwd forced to git root if available"
     (interactive)
     (let (
       (affe-find-command "rg --glob \"!.git\" --hidden --color=never --files --no-ignore-vcs")
+      (default-directory (or (vc-root-dir) default-directory))
     )
       (affe-find)
     )
