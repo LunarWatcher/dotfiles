@@ -13,7 +13,7 @@
  ;; If you edit it by hand, you could mess it up, so be careful.
  ;; Your init file should contain only one such instance.
  ;; If there is more than one, they won't work right.
- '(package-selected-packages '(catgirl-theme))
+ '(package-selected-packages nil)
  '(package-vc-selected-packages
    '((catgirl-theme :url "https://codeberg.org/LunarWatcher/catgirl.el.git"))))
 ;; }}}
@@ -55,16 +55,20 @@
 
   (defun livi-adaptive-cr()
     (interactive)
-    ;; TODO: if this keeps growing with exceptions, consider using a `cond` instead.
-    (if (string= major-mode "org-mode")
-        (org-return-and-maybe-indent)
-      (if (save-excursion (comment-beginning))
-          ;; if in comment, continue comment
-          (default-indent-new-line)
-        ;; extra args required to pretend to be interactive
-        (newline 1 "\n"))
-      )
+    (cond
+     ((string= major-mode "org-mode")               (org-return-and-maybe-indent))
+     ;; Something is deeply wrong with the ts-mode implementation of default-indent-new-line that causes it to close and
+     ;; immediately start a new comment block, so need to override it here.
+     ;; JS mode, though slightly fucky, does not exhibit the same problematic behaviour. I suspect that's just the
+     ;; semi-dumb indent function needing a better implementation. ts-mode, however, likely uses a non-standard command,
+     ;; and I can't be bothered finding it right now.
+     ((string= major-mode "typescript-mode")        (newline 1 "\n"))
+     ;; if in a comment in a non-exception language, indent and continue comment
+     ((save-excursion (comment-beginning))          (default-indent-new-line))
+     ;; default
+     (t                                             (newline 1 "\n"))
     )
+  )
 
   (evil-define-key 'normal 'global (kbd "g o") 'ff-find-other-file)
   (evil-define-key 'insert 'global (kbd "RET") #'livi-adaptive-cr)
@@ -129,38 +133,42 @@
   :ensure t
   :config
   (defun livi-grep()
-    "affe-grep with hidden files excluded"
+    "affe-grep with hidden files excluded and cwd forced to git root if available"
     (interactive)
     (let (
       (affe-grep-command "rg --glob \"!.git\" --hidden --null --color=never --max-columns=1000 --no-heading --line-number -v ^$")
+      (default-directory (or (vc-root-dir) default-directory))
     )
       (affe-grep)
     )
   )
   (defun livi-grep-nogitignore()
-    "affe-grep with hidden files excluded"
+    "affe-grep with hidden files excluded and cwd forced to git root if available"
     (interactive)
     (let (
       (affe-grep-command "rg --glob \"!.git\" --hidden --null --color=never --max-columns=1000 --no-heading --line-number --no-ignore-vcs -v ^$")
+      (default-directory (or (vc-root-dir) default-directory))
     )
       (affe-grep)
     )
   )
 
   (defun livi-find()
-    "affe-find with hidden files excluded"
+    "affe-find with hidden files excluded and cwd forced to git root if available"
     (interactive)
     (let (
       (affe-find-command "rg --glob \"!.git\" --hidden --color=never --files")
+      (default-directory (or (vc-root-dir) default-directory))
     )
       (affe-find)
     )
   )
   (defun livi-find-nogitignore()
-    "affe-find with hidden files excluded"
+    "affe-find with hidden files excluded and cwd forced to git root if available"
     (interactive)
     (let (
       (affe-find-command "rg --glob \"!.git\" --hidden --color=never --files --no-ignore-vcs")
+      (default-directory (or (vc-root-dir) default-directory))
     )
       (affe-find)
     )
@@ -596,7 +604,7 @@ installed, then defaulting to the name of the LSP for a fallback"
  'typescript-mode-hook
  (lambda()
    (setq tab-width 2)
-   (setq-local typescript-indent-offset 2)
+   (setq-local typescript-indent-level 2)
  )
 )
 
