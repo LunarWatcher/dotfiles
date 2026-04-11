@@ -610,7 +610,7 @@ installed, then defaulting to the name of the LSP for a fallback"
   (visual-line-mode -1)
   (auto-fill-mode 1)
   (toggle-truncate-lines 1)
-  (electric-indent-mode 1)
+  (electric-indent-local-mode 1)
   (setq evil-auto-indent 1)
   (highlight-indent-guides-mode 1)
 )
@@ -628,7 +628,7 @@ installed, then defaulting to the name of the LSP for a fallback"
         fill-prefix "")
 
   ;; required to get indents to fuck off
-  (electric-indent-mode -1)
+  (electric-indent-local-mode -1)
   (setq evil-auto-indent nil)
 ))
 
