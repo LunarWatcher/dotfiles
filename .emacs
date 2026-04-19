@@ -402,8 +402,8 @@ installed, then defaulting to the name of the LSP for a fallback"
   (add-hook
     'neotree-mode-hook
     (lambda()
-      (evil-define-key 'normal 'local (kbd "v") #'neotree-enter-vertical-split)
-      (evil-define-key 'normal 'local (kbd "s") #'neotree-enter-horizontal-split)
+      (evil-define-key 'normal 'local (kbd "v") #'neotree-enter-horizontal-split)
+      (evil-define-key 'normal 'local (kbd "s") #'neotree-enter-vertical-split)
       (evil-define-key 'normal 'local (kbd "<f5>") #'neotree-refresh)
     )
   )
