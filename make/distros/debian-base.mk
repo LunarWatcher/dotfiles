@@ -88,7 +88,14 @@ dev-support: debian-core
 	sudo apt install -y direnv
 	bash -c "$$(wget -O- https://raw.githubusercontent.com/LunarWatcher/umbra/master/scripts/install.sh)"
 
-DEPENDENCY_TARGETS += debian-base-update debian-build-deps zsh-deps debian-dotfile-software
+debian-lua:
+	sudo apt install lua5.4 liblua5.4-dev
+	-git clone https://codeberg.org/LunarWatcher/moonbeam /tmp/moonbeam
+	cd /tmp/moonbeam && mkdir -p build && cd build && cmake .. -DCMAKE_BUILD_TYPE=Release && make -j $(nproc) \
+		&& sudo make install
+
+
+DEPENDENCY_TARGETS += debian-base-update debian-build-deps zsh-deps debian-dotfile-software debian-lua
 DOTFILE_TARGETS += debian-base-dotfiles
 SOFTWARE_TARGETS += debian-core node dev-support
 HOME_TARGETS += debian-home-packages
