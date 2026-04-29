@@ -331,7 +331,8 @@ installed, then defaulting to the name of the LSP for a fallback"
   ;; pretty neat that the core functionality is built-in though. `sideline' has something equivalent,
   ;; which I nearly used until I found that there were built-ins for it
   ;; need to add some styling to it I think, I might be able to sneak in icons or something in one of the faces.
-  (setq flymake-show-diagnostics-at-end-of-line t)
+  ;; Edit: never mind, it makes emacs completely shit itself if the diagnostics list is long
+  (setq flymake-show-diagnostics-at-end-of-line nil)
 )
 ;; (use-package treesit-auto
 ;;   :ensure t
@@ -367,6 +368,8 @@ installed, then defaulting to the name of the LSP for a fallback"
   ;; * https://github.com/minad/cape/discussions/154 (implies the corfu wiki is wrong about stuff)
   ;; Once I do figure it out though, it should be really nice
   :bind (("C-c f" . cape-file))
+  :config
+  (advice-add 'eglot-completion-at-point :around #'cape-wrap-buster) (advice-add 'eglot-completion-at-point :around #'cape-wrap-noninterruptible) 
 )
 
 (use-package eldoc-box
@@ -522,6 +525,9 @@ installed, then defaulting to the name of the LSP for a fallback"
 (setq-default indent-line-function 'insert-tab)
 ;; I am no longer fucking asking
 (global-set-key (kbd "TAB") 'tab-to-tab-stop)
+
+(setq cmake-tab-width 4)
+(setq lua-indent-level 4)
 
 (setq-default whitespace-style '(face tab-mark newline-mark trailing))
 (setq-default whitespace-display-mappings

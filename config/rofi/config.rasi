@@ -11,7 +11,6 @@ configuration{
     // TODO: Fix
     display-filebrowser: "UwU x3";
     sidebar-mode: false;
-
 }
 
 @theme "catppuccin-latte"
