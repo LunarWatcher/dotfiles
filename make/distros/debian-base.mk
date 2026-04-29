@@ -91,7 +91,10 @@ dev-support: debian-core
 debian-lua:
 	sudo apt install lua5.4 liblua5.4-dev
 	-git clone https://codeberg.org/LunarWatcher/moonbeam /tmp/moonbeam
-	cd /tmp/moonbeam && mkdir -p build && cd build && cmake .. -DCMAKE_BUILD_TYPE=Release && make -j $(nproc) \
+	cd /tmp/moonbeam && git pull \
+		&& mkdir -p build && cd build \
+		&& cmake .. -DCMAKE_BUILD_TYPE=Release \
+		&& make -j $(nproc) \
 		&& sudo make install
 
 
