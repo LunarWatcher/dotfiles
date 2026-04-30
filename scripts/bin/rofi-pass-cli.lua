@@ -2,6 +2,17 @@
 
 local moonsys = require("moonbeam.system");
 local moonjson = require("moonbeam.json");
+local moonfs = require("moonbeam.fs");
+
+local searchPath = {}
+for i in string.gmatch(os.getenv("PATH"), "[^:]+") do
+    searchPath[#searchPath + 1] = i
+end
+
+assert(
+    #searchPath > 0,
+    "Failed to parse PATH"
+)
 
 local function copy(data)
     local xclip = moonsys.process({
@@ -25,14 +36,13 @@ end
 
 
 local function locateProtonPass()
-    local proc = moonsys.process({
-            "/usr/bin/bash", "-c", "which pass-cli"
-    })
-    if proc:block() ~= 0 then
-        print("Failed to resolve proton pass path")
-        os.exit(1);
-    end
-    return proc:readStdout():gsub("\n", "")
+    return assert(
+        moonfs.findInPath(
+            searchPath,
+            "pass-cli"
+        ),
+        "Failed to find pass-cli in PATH"
+    )
 end
 
 local function testLogin(protonPass)
