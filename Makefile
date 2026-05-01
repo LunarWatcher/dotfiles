@@ -1,6 +1,3 @@
-# If you have no idea what you're looking at, 
-# https://lunarwatcher.github.io/posts/2024/01/06/how-to-set-up-a-makefile-for-managing-dotfiles-and-system-configurations.html
-# might help
 help:
 	@echo "Supported targets:"
 	@echo "dotfiles - install dotfiles only"
@@ -88,14 +85,14 @@ endif
 
 -include make/hosts/$(host).mk
 
-common-dotfiles:
-	ln -sf ${PWD}/.emacs ${HOME}/.emacs
-	ln -sf ${PWD}/.condarc ${HOME}/.condarc
-	mkdir -p ~/.config/zellij
-	ln -sf ${PWD}/config/zellij/config.kdl ${HOME}/.config/zellij/config.kdl
+include make/dotfiles/common.mk
+ifeq ($(isWSL),NO)
+$(info -- Loading KDE extensions)
+include make/dotfiles/kde.mk
+endif
 
 dependencies: $(DEPENDENCY_TARGETS);
-dotfiles: common-dotfiles $(DOTFILE_TARGETS);
+dotfiles: $(DOTFILE_TARGETS);
 software: $(SOFTWARE_TARGETS);
 cleanup: $(CLEANUP_TARGETS);
 

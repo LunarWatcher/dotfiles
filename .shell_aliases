@@ -56,9 +56,6 @@ function git-apply-clipboard() {
     xclip -selection clipboard -o | git apply
 }
 # }}}
-# Exposing various binaries {{{
-alias themis="~/.vim/plugged/vim-themis/bin/themis"
-# }}}
 # Hardware {{{
 alias noiturbo="echo '1' | sudo tee /sys/devices/system/cpu/intel_pstate/no_turbo"
 alias iturbo="echo '0' | sudo tee /sys/devices/system/cpu/intel_pstate/no_turbo"
@@ -66,50 +63,12 @@ alias pulsenodio="pulseaudio -k && sudo alsa force-reload"
 alias pipenodio="systemctl --user restart pipewire"
 alias fix-bluetooth="pactl unload-module module-bluetooth-discover && pactl load-module module-bluetooth-discover"
 # }}}
-# Pyenv {{{
-alias newpyenv="virtualenv env && source ./env/bin/activate"
-# }}}
-# System {{{
-alias sysupdate="sudo apt update && sudo apt upgrade && flatpak update"
-
-# Updates various packages that aren't managed by apt or flatpak.
-# This can include stuff _completely_ excluded from other package managers,
-# package managers for different programs, or second-class package managers
-# (like pip).
-function updatePackages() {
-    set -x
-    go install -v -u github.com/boyter/scc/
-    git -C ${ZSH_CUSTOM:-$HOME/.oh-my-zsh/custom}/themes/powerlevel10k pull
-    # Not quitting afterwards in the event something goes wrong
-    gvim +PlugUpdate
-    set +x
-}
-# }}}
 # Tmux {{{
 # **tmux n**ame
 alias tmuxn="tmux new-session -t"
 # }}}
 # Zellij {{{
 alias zn="zellij --session "
-# }}}
-# Docker {{{
-# Start and stop the service
-alias rdocker="sudo systemctl start docker"
-alias sdocker="sudo systemctl stop docker"
-
-# Temporary docker container (deletes itself)
-alias dockertmp="docker run --rm -ti"
-
-# Permanent, named docker container without disconnect
-alias dockern="docker run -di --name"
-
-# Shortcut to interactive session
-alias dex="docker exec -ti"
-alias dstart="docker start"
-alias dstop="docker stop"
-alias drm="docker rm"
-
-alias powershelldocker="docker run -ti --rm mcr.microsoft.com/powershell:latest"
 # }}}
 # ffmpeg {{{
 # convert standalone MP3s to spotify-compatible audio levels
@@ -134,7 +93,6 @@ function asciinemaProfile() {
 }
 # }}}
 # sshd aliases {{{
-alias breach-attempts="sudo fail2ban-client status sshd"
 alias sshd-auths="cat /var/log/auth.log | grep sshd"
 
 # Stats on usernames

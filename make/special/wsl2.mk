@@ -2,10 +2,10 @@ wsl-update:
 	sudo apt update -y
 
 wsl-packages: wsl-update
-	# Fonts
+# Fonts
 	sudo apt install -y fonts-noto-color-emoji fonts-freefont-otf fonts-freefont-ttf \
 		fonts-ubuntu fonts-ubuntu-console fonts-dejavu-core fonts-opensymbol fonts-noto-cjk
-	# Theming
+# Theming
 	sudo apt install -y gnome-tweaks 
 
 wsl-unfuck-unicode: wsl-update

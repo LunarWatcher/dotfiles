@@ -11,7 +11,7 @@ debian-base-update:
 	sudo apt update && sudo apt upgrade -y
 
 debian-vim-deps:
-	# TODO: This should really be an OS distro thing
+# TODO: This should really be an OS distro thing
 	sudo apt install -y universal-ctags
 
 
@@ -30,10 +30,10 @@ debian-base-dotfiles: config
 	ln -sf ${PWD}/.tmux.conf ${HOME}/.tmux.conf
 
 debian-home-packages:
-	# Installs Steam
+# Steam
 	wget https://steamcdn-a.akamaihd.net/client/installer/steam.deb && sudo apt install -y ./steam.deb
 
-	# Spotify
+# Spotify
 	curl -sS https://download.spotify.com/debian/pubkey_6224F9941A8AA6D1.gpg | sudo gpg --dearmor --yes -o /etc/apt/trusted.gpg.d/spotify.gpg
 	echo "deb http://repository.spotify.com stable non-free" | sudo tee /etc/apt/sources.list.d/spotify.list
 	sudo apt-get update && sudo apt-get install -y spotify-client
@@ -46,7 +46,7 @@ debian-core:
 	wget https://github.com/ryanoasis/nerd-fonts/raw/master/patched-fonts/SourceCodePro/SauceCodeProNerdFont-Regular.ttf -O "Sauce Code Pro Nerd Font Complete.ttf"
 	wget https://github.com/ryanoasis/nerd-fonts/raw/master/patched-fonts/SourceCodePro/SauceCodeProNerdFont-Bold.ttf -O "Sauce Code Pro Nerd Font Complete Bold.ttf"
 	wget https://github.com/ryanoasis/nerd-fonts/raw/master/patched-fonts/SourceCodePro/SauceCodeProNerdFont-Italic.ttf -O "Sauce Code Pro Nerd Font Complete Italic.ttf"
-	# Needed for gnome terminal because reasons (TODO: not anymore?)
+# Needed for gnome terminal because reasons (TODO: not anymore?)
 	wget https://github.com/ryanoasis/nerd-fonts/raw/master/patched-fonts/SourceCodePro/SauceCodeProNerdFontMono-Regular.ttf -O "Sauce Code Pro Nerd Font Complete Mono.ttf"
 	sudo mv "Sauce Code Pro Nerd Font Complete.ttf" /usr/local/share/fonts
 	sudo mv "Sauce Code Pro Nerd Font Complete Bold.ttf" /usr/local/share/fonts
@@ -55,24 +55,22 @@ debian-core:
 	sudo fc-cache -f
 
 	sudo apt install -y plocate
-	# Mainly used for mobile wireguard on my server, but it does have some interesting general applications
+# Mainly used for mobile wireguard on my server, but it does have some interesting general applications
 	sudo apt install -y qrencode
 
-	-[ ! -d "$${HOME}/.pyenv" ] && curl -L https://github.com/pyenv/pyenv-installer/raw/master/bin/pyenv-installer | bash
-
-	# Neofetch has been archived, fastfetch is not available by default
-	# TODO when I can be bothered, add the fastfetch ppa
-	# sudo apt install -y fastfetch
+# Neofetch has been archived, fastfetch is not available by default
+# TODO when I can be bothered, add the fastfetch ppa
+# sudo apt install -y fastfetch
 
 	sudo apt install -y python3-venv
 	sudo apt install -y extrepo
 
-	# Only used by certain tools
-	# TODO: install with all defaults without requiring interaction
+# Only used by certain tools
+# TODO: install with all defaults without requiring interaction
 	curl --proto '=https' --tlsv1.2 -sSf https://sh.rustup.rs | RUSTUP_INIT_SKIP_PATH_CHECK=yes sh
 	$${HOME}/.cargo/bin/cargo install zellij
 
-	# Largely used by stripped-down distros
+# Largely used by stripped-down distros
 	sudo apt install -y zip 7zip
 
 zsh-deps: debian-base-update
@@ -96,7 +94,6 @@ debian-lua:
 		&& cmake .. -DCMAKE_BUILD_TYPE=Release \
 		&& make -j $(nproc) \
 		&& sudo make install
-
 
 DEPENDENCY_TARGETS += debian-base-update debian-build-deps zsh-deps debian-dotfile-software debian-lua
 DOTFILE_TARGETS += debian-base-dotfiles
