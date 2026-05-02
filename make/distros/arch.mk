@@ -2,14 +2,14 @@
 
 
 arch-core:
-	pacman -Syu docker
+	sudo pacman -Syu docker
 
 arch-headed-core:
-	pacman -Syu rofi remmina libreoffice-fresh flameshot obs-studio renderdoc firefox
+	sudo pacman -Syu rofi remmina libreoffice-fresh flameshot obs-studio renderdoc firefox
 
 arch-home:
-	pacman -Syu steam
-	pacman -Syu discord
+	sudo pacman -Syu steam
+	sudo pacman -Syu discord
 
 
 HOME_TARGETS += arch-home
