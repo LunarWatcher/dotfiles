@@ -1,0 +1,117 @@
+{
+    "app_config": {
+        "audio_config": {
+            "audio": "pipewire"
+        },
+        "bluetooth_config": {
+            "enabled": true
+        },
+        "firewall_config": {
+            "firewall": "ufw"
+        },
+        "print_service_config": {
+            "enabled": false
+        }
+    },
+    "archinstall-language": "English",
+    "auth_config": {},
+    "bootloader_config": {
+        "bootloader": "Grub",
+        "removable": false,
+        "uki": false
+    },
+    "custom_commands": [],
+    "disk_config": {},
+    "hostname": "FIXME",
+    "kernels": [
+        "linux"
+    ],
+    "locale_config": {
+        "kb_layout": "no",
+        "sys_enc": "UTF-8",
+        "sys_lang": "en_GB.UTF-8"
+    },
+    "mirror_config": {
+        "custom_repositories": [],
+        "custom_servers": [],
+        "mirror_regions": {
+            "Norway": [
+                "http://mirror.archlinux.no/$repo/os/$arch",
+                "https://mirror.archlinux.no/$repo/os/$arch",
+                "http://archlinux.uib.no/$repo/os/$arch",
+                "http://mirror.neuf.no/archlinux/$repo/os/$arch",
+                "https://mirror.neuf.no/archlinux/$repo/os/$arch",
+                "https://archlinux.lysakermoen.com/$repo/os/$arch",
+                "http://no.mirror.cx/archlinux/$repo/os/$arch",
+                "https://no.mirror.cx/archlinux/$repo/os/$arch"
+            ]
+        },
+        "optional_repositories": [
+            "multilib"
+        ]
+    },
+    "network_config": {
+        "type": "nm"
+    },
+    "ntp": true,
+    "packages": [
+        "emacs-wayland",
+        "gcc",
+        "openssh",
+        "plocate",
+        "qrencode",
+        "sshfs",
+        "ttf-sourcecodepro-nerd",
+        "rustup",
+        "zip",
+        "7zip",
+        "unzip",
+        "zsh",
+        "git",
+        "obsidian",
+        "konsole",
+        "make",
+        "cmake",
+        "firefox",
+        "jq",
+        "fzf",
+        "ripgrep",
+        "node",
+        "zellij",
+        "wl-clipboard",
+        "lua-language-server",
+        "clang",
+        "obs-studio",
+        "flameshot",
+        "kde-accessibility-meta",
+        "kde-system-meta",
+        "kde-utilities-meta",
+    ],
+    "pacman_config": {
+        "color": true,
+        "parallel_downloads": 5
+    },
+    "profile_config": {
+        "gfx_driver": "Nvidia (open kernel module for newer GPUs, Turing+)",
+        "greeter": "plasma-login-manager",
+        "profile": {
+            "custom_settings": {
+                "KDE Plasma": {
+                    "plasma_flavor": "plasma-meta"
+                }
+            },
+            "details": [
+                "KDE Plasma"
+            ],
+            "main": "Desktop"
+        }
+    },
+    "script": null,
+    "services": [],
+    "swap": {
+        "algorithm": "zstd",
+        "enabled": true
+    },
+    "timezone": "Europe/Oslo",
+    "version": "4.3"
+}

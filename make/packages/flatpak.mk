@@ -12,6 +12,8 @@ flatpak-packages-home:
 # their AI slop machine use: https://github.com/lutris/lutris/discussions/6530#discussion-9617375
 	flatpak install flathub com.usebottles.bottles
 
+	flatpak install com.spotify.Client
+
 flatpak-packages-work:
 	-flatpak install flathub io.dbeaver.DBeaverCommunity
 
