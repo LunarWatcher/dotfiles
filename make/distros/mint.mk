@@ -42,12 +42,6 @@ mint-debloat:
 mint-rofi:
 	sudo apt install -y rofi
 
-	mkdir -p ${HOME}/.config/rofi
-	mkdir -p ${HOME}/.config/rofi/themes
-
-	ln -sf ${PWD}/config/rofi/config.rasi ${HOME}/.config/rofi/config.rasi
-	ln -sf ${PWD}/config/rofi/themes/catppuccin-latte.rasi ${HOME}/.config/rofi/themes/catppuccin-latte.rasi
-
 mint-keybinds:
 	dconf load /org/cinnamon/desktop/keybindings/ < cinnamon/keybinds
 
