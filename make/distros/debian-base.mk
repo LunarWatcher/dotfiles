@@ -16,18 +16,9 @@ debian-vim-deps:
 
 
 debian-dotfile-software: debian-vim-deps
-	sudo apt -y install tmux zsh silversearcher-ag ripgrep jq golang
+	sudo apt -y install zsh silversearcher-ag ripgrep jq golang
 
 	curl -fsSL https://deno.land/install.sh | sh
-
-config:
-	rsync -av --progress config/ ~/.config/
-
-debian-base-dotfiles: config
-	ln -sf ${PWD}/.zshrc ${HOME}/.zshrc
-	ln -sf ${PWD}/.shell_aliases ${HOME}/.shell_aliases
-	ln -sf ${PWD}/.p10k.zsh ${HOME}/.p10k.zsh
-	ln -sf ${PWD}/.tmux.conf ${HOME}/.tmux.conf
 
 debian-home-packages:
 # Steam

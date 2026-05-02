@@ -12,7 +12,12 @@ rofi:
 	ln -sf ${PWD}/config/rofi/config.rasi ${HOME}/.config/rofi/config.rasi
 	ln -sf ${PWD}/config/rofi/themes/catppuccin-latte.rasi ${HOME}/.config/rofi/themes/catppuccin-latte.rasi
 
+config:
+	rsync -av --progress config/ ~/.config/
 
-common-dotfiles: emacs rofi zellij
+common-dotfiles: config emacs rofi zellij
+	ln -sf ${PWD}/.zshrc ${HOME}/.zshrc
+	ln -sf ${PWD}/.shell_aliases ${HOME}/.shell_aliases
+	ln -sf ${PWD}/.p10k.zsh ${HOME}/.p10k.zsh
 
 DOTFILE_TARGETS += common-dotfiles

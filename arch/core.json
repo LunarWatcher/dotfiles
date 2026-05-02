@@ -86,6 +86,12 @@
         "kde-accessibility-meta",
         "kde-system-meta",
         "kde-utilities-meta",
+        "lua54",
+        "python",
+        "python-pip",
+        "curl",
+        "wget",
+        "fastfetch"
     ],
     "pacman_config": {
         "color": true,
