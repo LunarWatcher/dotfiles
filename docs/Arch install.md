@@ -19,7 +19,17 @@ Modify:
 
 Then install.
 
+
 ## Postinstall steps
+
+This must be done before rebooting.
+
+AMD: `/etc/default/grub`:
+```
+GRUB_CMDLINE_LINUX_DEFAULT="quiet splash amd_pstate=passive amd_pstate.shared_mem=1"
+```
+
+## Post-postinstall steps
 
 ### Keyboard
 
