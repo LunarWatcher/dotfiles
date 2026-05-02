@@ -4,6 +4,9 @@ local loc=$(readlink ~/.zshrc)
 export DOTFILES_HOME=$(dirname $loc)
 export PATH=$DOTFILES_HOME/scripts:$PATH
 # }}}
+# Convenience {{{
+alias update-grub="sudo grub-mkconfig -o /boot/grub/grub.cfg"
+# }}}
 # Builtins {{{
 # ls without colors for dipshit 777 disks
 alias lsn="ls --color=no"

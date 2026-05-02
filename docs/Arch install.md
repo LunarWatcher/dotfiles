@@ -22,14 +22,27 @@ Then install.
 
 ## Postinstall steps
 
-This must be done before rebooting.
-
-AMD: `/etc/default/grub`:
+### Grub
+`/etc/default/grub`:
 ```
-GRUB_CMDLINE_LINUX_DEFAULT="quiet splash amd_pstate=passive amd_pstate.shared_mem=1"
+GRUB_CMDLINE_LINUX_DEFAULT="quiet splash"
 ```
 
-## Post-postinstall steps
+#### All the speed 
+
+Add
+```
+cpufreq.default_governor=performance
+```
+
+#### Amd pstate
+
+Add:
+```
+amd_pstate=passive amd_pstate.shared_mem=1
+```
+
+Note that on new machines, additional steps may be required to actually have it be enabled. Using `amd_pstate=active` may or may not be better
 
 ### Keyboard
 

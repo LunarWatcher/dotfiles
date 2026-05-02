@@ -91,7 +91,8 @@
         "python-pip",
         "curl",
         "wget",
-        "fastfetch"
+        "fastfetch",
+        "base-devel"
     ],
     "pacman_config": {
         "color": true,

@@ -1,0 +1,6 @@
+[Custom Commands][net.local.zsh.desktop]
+Exec=/usr/bin/zsh -c "source ~/.shell_aliases && nasmountall"
+Name=Mount remote disks
+
+[net.local.zsh.desktop][Global Shortcuts]
+_launch=Meta+F1

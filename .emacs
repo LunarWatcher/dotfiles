@@ -502,7 +502,7 @@ installed, then defaulting to the name of the LSP for a fallback"
 ;; }}}
 ;; Configure emacs standards {{{
 ;; (setq warning-minimum-level :error) ;; prevent emacs from whining about evil
-(set-frame-font "SauceCodePro Nerd Font 12" nil t)
+(set-frame-font "SauceCodePro Nerd Font 11" nil t)
 
 (setq display-line-numbers-grow-only t) ; Prevent shrinking when the number of lines decreases
 ;; Note; this option does nothing for neotree, because neotree is at least partly lazy-loaded, so it doesn't know the
