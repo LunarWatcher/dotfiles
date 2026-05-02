@@ -1,8 +1,10 @@
 [ActivityManager][Global Shortcuts]
+switch-to-activity-2531cd6a-e8fc-4fbe-95af-4e9f73df835b=
 switch-to-activity-a1fe6133-9934-467a-8f8a-1a1f7a0f956b=
 
 [KDE Keyboard Layout Switcher][Global Shortcuts]
 Switch keyboard layout to Norwegian (no dead keys)=
+Switch to Last-Used Keyboard Layout=Meta+Alt+L
 Switch to Next Keyboard Layout=Meta+Alt+K
 
 [StandardShortcuts]
@@ -12,7 +14,7 @@ Activate Next Tab=Ctrl+PgDown; Ctrl+]
 Activate Previous Tab=Ctrl+PgUp; Ctrl+[
 ActualSize=Ctrl+0
 AddBookmark=Ctrl+B
-Back=Alt+Left; Back
+Back=Back; Alt+Left
 BackwardWord=Ctrl+Left
 Begin=Ctrl+Home
 BeginningOfLine=Home
@@ -39,7 +41,7 @@ FindPrev=Shift+F3
 FitToHeight=
 FitToPage=
 FitToWidth=
-Forward=Alt+Right; Forward
+Forward=Forward; Alt+Right
 ForwardWord=Ctrl+Right
 FullScreen=Ctrl+Shift+F
 Goto=
@@ -54,8 +56,10 @@ New=Ctrl+N
 Next=PgDown
 NextCompletion=Ctrl+Down
 Open=Ctrl+O
+OpenContextMenu=Shift+F10; Menu
+OpenMainMenu=F10
 OpenRecent=
-Paste=Shift+Ins; Ctrl+V
+Paste=Ctrl+V; Shift+Ins
 Paste Selection=Ctrl+Shift+Ins
 Preferences=Ctrl+Shift+,
 PrevCompletion=Ctrl+Up
@@ -75,7 +79,7 @@ Save=Ctrl+S
 SaveAs=Ctrl+Shift+S
 SaveOptions=
 SelectAll=Ctrl+A
-ShowHideHiddenFiles=Ctrl+H; Alt+.
+ShowHideHiddenFiles=Alt+.; Ctrl+H
 ShowMenubar=Ctrl+M
 ShowStatusbar=
 ShowToolbar=
@@ -106,28 +110,37 @@ display=Display; Meta+P
 [kmix][Global Shortcuts]
 decrease_microphone_volume=Microphone Volume Down
 decrease_volume=Volume Down
+decrease_volume_small=Shift+Volume Down
 increase_microphone_volume=Microphone Volume Up
 increase_volume=Volume Up
+increase_volume_small=Shift+Volume Up
 mic_mute=Microphone Mute; Meta+Volume Mute; Ctrl+Alt+Shift+E
 mute=Volume Mute
 
 [ksmserver][Global Shortcuts]
 Halt Without Confirmation=
-Lock Session=Screensaver; Meta+L
+Lock Session=Meta+L; Screensaver
 Log Out=Ctrl+Alt+Del
 Log Out Without Confirmation=
+LogOut=
+Reboot=
 Reboot Without Confirmation=
+Shut Down=
 
 [kwin][Global Shortcuts]
 Activate Window Demanding Attention=Meta+Ctrl+A
+Cycle Overview=
+Cycle Overview Opposite=
 Decrease Opacity=
 Edit Tiles=Meta+T
 Expose=Ctrl+F9
 ExposeAll=Launch (C); Ctrl+F10
 ExposeClass=Ctrl+F7
 ExposeClassCurrentDesktop=
+Grid View=Meta+G
 Increase Opacity=
 Kill Window=Meta+Ctrl+Esc
+Move Tablet to Next LogicalOutput=
 MoveMouseToCenter=Meta+F6
 MoveMouseToFocus=Meta+F5
 MoveZoomDown=
@@ -160,6 +173,11 @@ Switch to Desktop 18=
 Switch to Desktop 19=
 Switch to Desktop 2=Ctrl+F2
 Switch to Desktop 20=
+Switch to Desktop 21=
+Switch to Desktop 22=
+Switch to Desktop 23=
+Switch to Desktop 24=
+Switch to Desktop 25=
 Switch to Desktop 3=Ctrl+F3
 Switch to Desktop 4=Ctrl+F4
 Switch to Desktop 5=
@@ -200,11 +218,15 @@ Walk Through Windows of Current Application Alternative (Reverse)=
 Window Above Other Windows=
 Window Below Other Windows=
 Window Close=Alt+F4
+Window Custom Quick Tile Bottom=
+Window Custom Quick Tile Left=
+Window Custom Quick Tile Right=
+Window Custom Quick Tile Top=
 Window Fullscreen=
 Window Grow Horizontal=
 Window Grow Vertical=
 Window Lower=
-Window Maximize=Meta+PgUp
+Window Maximize=Meta+Up; Meta+PgUp
 Window Maximize Horizontal=
 Window Maximize Vertical=
 Window Minimize=Meta+PgDown
@@ -230,7 +252,7 @@ Window Quick Tile Bottom Left=
 Window Quick Tile Bottom Right=
 Window Quick Tile Left=Meta+Left
 Window Quick Tile Right=Meta+Right
-Window Quick Tile Top=Meta+Up
+Window Quick Tile Top=
 Window Quick Tile Top Left=
 Window Quick Tile Top Right=
 Window Raise=
@@ -251,6 +273,11 @@ Window to Desktop 18=
 Window to Desktop 19=
 Window to Desktop 2=
 Window to Desktop 20=
+Window to Desktop 21=
+Window to Desktop 22=
+Window to Desktop 23=
+Window to Desktop 24=
+Window to Desktop 25=
 Window to Desktop 3=
 Window to Desktop 4=
 Window to Desktop 5=
@@ -270,6 +297,7 @@ Window to Screen 4=
 Window to Screen 5=
 Window to Screen 6=
 Window to Screen 7=
+disableInputCapture=Meta+Shift+Esc
 view_actual_size=
 view_zoom_in=Meta++; Meta+=
 view_zoom_out=Meta+-
@@ -277,15 +305,22 @@ view_zoom_out=Meta+-
 [mediacontrol][Global Shortcuts]
 mediavolumedown=
 mediavolumeup=
-nextmedia=Media Next; Ctrl+Volume Up
+nextmedia=Ctrl+Volume Up; Media Next
 pausemedia=Media Pause
 playmedia=
-playpausemedia=Media Play; Ctrl+Volume Mute
-previousmedia=Media Previous; Ctrl+Volume Down
+playpausemedia=Ctrl+Volume Mute; Media Play
+previousmedia=Ctrl+Volume Down; Media Previous
+seekbackwardmedia=Media Rewind
+seekbackwardmedialong=
+seekforwardmedia=Media Fast Forward
+seekforwardmedialong=
 stopmedia=Media Stop
 
 [org.kde.dolphin.desktop][Global Shortcuts]
 _launch=Meta+E
+
+[org.kde.kcalc.desktop][Global Shortcuts]
+_launch=Calculator
 
 [org.kde.konsole.desktop][Global Shortcuts]
 NewTab=
@@ -294,24 +329,52 @@ _launch=Ctrl+Alt+T
 
 [org.kde.krunner.desktop][Global Shortcuts]
 RunClipboard=Alt+Shift+F2
-_launch=Alt+F2; Alt+Space; Search
+_launch=Search; Alt+Space; Alt+F2
+
+[org.kde.kscreen.desktop][Global Shortcuts]
+ShowOSD=Display; Meta+P
+
+[org.kde.plasma-systemmonitor.desktop][Global Shortcuts]
+_launch=Meta+Esc
 
 [org.kde.plasma.emojier.desktop][Global Shortcuts]
-_launch=Meta+Ctrl+Alt+Shift+Space; Meta+.
+_launch=Meta+.; Meta+Ctrl+Alt+Shift+Space
+
+[org.kde.spectacle.desktop][Global Shortcuts]
+ActiveWindowScreenShot=Meta+Print
+CurrentMonitorScreenShot=
+FullScreenScreenShot=Shift+Print
+OpenWithoutScreenshot=
+RecordRegion=Meta+R; Meta+Shift+R
+RecordScreen=Meta+Alt+R
+RecordWindow=Meta+Ctrl+R
+RectangularRegionScreenShot=Meta+Shift+Print
+WindowUnderCursorScreenShot=Meta+Ctrl+Print
+_launch=Print; Meta+Shift+S
+
+[org.kde.touchpadshortcuts.desktop][Global Shortcuts]
+DisableTouchpad=Touchpad Off
+EnableTouchpad=Touchpad On
+ToggleTouchpad=Touchpad Toggle; Meta+Ctrl+Touchpad Toggle; Meta+Ctrl+Zenkaku Hankaku
 
 [org_kde_powerdevil][Global Shortcuts]
 Decrease Keyboard Brightness=Keyboard Brightness Down
 Decrease Screen Brightness=Monitor Brightness Down
+Decrease Screen Brightness Small=Shift+Monitor Brightness Down
 Hibernate=Hibernate
 Increase Keyboard Brightness=Keyboard Brightness Up
 Increase Screen Brightness=Monitor Brightness Up
+Increase Screen Brightness Small=Shift+Monitor Brightness Up
 PowerDown=Power Down
 PowerOff=Power Off
 Sleep=Sleep
 Toggle Keyboard Backlight=Keyboard Light On/Off
 Turn Off Screen=
+powerProfile=Battery; Meta+B
 
 [plasmashell][Global Shortcuts]
+Slideshow Wallpaper Next Image=
+activate application launcher=Meta; Alt+F1
 activate task manager entry 1=Meta+1
 activate task manager entry 10=Meta+0
 activate task manager entry 2=Meta+2
@@ -345,6 +408,8 @@ toggle do not disturb=
 _launch=Tools
 kcm-kscreen=
 kcm-lookandfeel=
+kcm-powerdevilprofilesconfig=
+kcm-screenlocker=
 kcm-users=
 powerdevilprofilesconfig=
 screenlocker=
