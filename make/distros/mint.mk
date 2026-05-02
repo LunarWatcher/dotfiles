@@ -49,6 +49,6 @@ mint-export:
 	dconf dump /org/cinnamon/desktop/keybindings/ > cinnamon/keybinds
 
 HOME_TARGETS += mint-home-packages
-SOFTWARE_TARGETS += mint-tweaks mint-core mint-tweaks docker mint-autokey mint-rofi mint-keybinds
+SOFTWARE_TARGETS += mint-tweaks mint-core mint-tweaks docker mint-rofi mint-keybinds
 CLEANUP_TARGETS += mint-debloat
 EXPORT_TARGETS += mint-export
