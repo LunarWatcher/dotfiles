@@ -11,7 +11,9 @@ arch-home:
 	sudo pacman -Syu steam
 	sudo pacman -Syu discord
 
+arch-yay:
+	cd /tmp && git clone https://aur.archlinux.org/yay.git && cd yay && makepkg -si
 
 HOME_TARGETS += arch-home
-SOFTWARE_TARGETS += arch-core
+SOFTWARE_TARGETS += arch-core arch-yay
 NON_SERVER_TARGETS += arch-headed-core
