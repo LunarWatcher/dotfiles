@@ -39,11 +39,6 @@ docker:
 mint-debloat:
 	sudo apt remove -y hexchat hypnotix transmission-gtk simple-scan
 
-mint-autokey:
-	sudo apt install -y autokey-gtk
-	mkdir -p ~/.config/autokey
-	DOTFILES_CWD=$$(pwd) envsubst < config/autokey/autokey.json > ~/.config/autokey/autokey.json
-
 mint-rofi:
 	sudo apt install -y rofi
 
@@ -59,18 +54,7 @@ mint-keybinds:
 mint-export:
 	dconf dump /org/cinnamon/desktop/keybindings/ > cinnamon/keybinds
 
-steam-ext:
-# World of Warcraft needs wine-staging-tkg to boot. Not sure why, but it's apparently
-# a recurring bug.
-# It's trivial to install through ProtonPlus, and it seems to work fine even though
-# it's in a sandbox
-	flatpak install flathub com.vysp3r.ProtonPlus
-
-mint-work-ext:
-	-flatpak install flathub io.dbeaver.DBeaverCommunity
-
-WORK_TARGETS += mint-work-ext
-HOME_TARGETS += mint-home-packages steam-ext
+HOME_TARGETS += mint-home-packages
 SOFTWARE_TARGETS += mint-tweaks mint-core mint-tweaks docker mint-autokey mint-rofi mint-keybinds
 CLEANUP_TARGETS += mint-debloat
 EXPORT_TARGETS += mint-export

@@ -60,6 +60,16 @@ The first commit of these contains a copilot instructions file, and is considere
 
 Plus confirmation that this will continue on discord. Initially abandoned outright in favour of replacement config, then the new replacement config was sourced out into a separate project: https://github.com/LunarWatcher/amethyst
 
+### lutris
+
+**Abandoned:** 2026-05-02
+
+**Replacement**: https://github.com/bottlesdevs/Bottles
+
+* https://github.com/lutris/lutris/discussions/6530#discussion-9617375
+
+Probably the most outright malicious behaviour from maintainers on this list. If not for the intentional deceit, I would've dumped this into the unabandonable category. Special thanks to the [open-slopware](https://codeberg.org/small-hack/open-slopware) list for making me aware bottles exists
+
 ## Abandoned libraries
 
 ### sqlitecpp

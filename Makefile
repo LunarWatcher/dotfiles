@@ -74,6 +74,7 @@ endif # ubuntu
 ifeq ($(currDist),arch)
 $(info -- Loading arch-specific stuff)
 include make/distros/arch.mk
+include make/packages/flatpak.mk
 endif #arch
 
 endif # linux
