@@ -266,7 +266,7 @@
     "Returns the path to an LSP. Returns lspinstaller location if
 installed, then defaulting to the name of the LSP for a fallback"
     (let
-        ((path (shell-command-to-string (concat "lspinstaller find " lsp-name))))
+        ((path (shell-command-to-string (concat (getenv "HOME") "/.local/bin/lspinstaller find " lsp-name))))
       (if (string-equal path "")
           lsp-name
         (substring path 0 -1)
