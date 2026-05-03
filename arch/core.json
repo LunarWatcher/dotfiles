@@ -93,7 +93,8 @@
         "wget",
         "fastfetch",
         "base-devel",
-        "fakeroot"
+        "fakeroot",
+        "vlc"
     ],
     "pacman_config": {
         "color": true,
