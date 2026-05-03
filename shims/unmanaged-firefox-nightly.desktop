@@ -1,0 +1,6 @@
+[Desktop Entry]
+Name=Firefox nightly
+Exec=/home/olivia/.local/livi-unmanaged/firefox/firefox-bin
+Terminal=false
+Type=Application
+Icon=/home/olivia/.local/livi-unmanaged/firefox/browser/chrome/icons/default/default128.png

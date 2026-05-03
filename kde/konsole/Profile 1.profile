@@ -13,6 +13,10 @@ Name=Profile 1
 Parent=FALLBACK/
 RemoteTabTitleFormat=(%u) %H %w
 
+[Scrolling]
+HistorySize=10000
+
+
 [Terminal Features]
 BellMode=3
 BlinkingCursorEnabled=true

@@ -92,7 +92,8 @@
         "curl",
         "wget",
         "fastfetch",
-        "base-devel"
+        "base-devel",
+        "fakeroot"
     ],
     "pacman_config": {
         "color": true,

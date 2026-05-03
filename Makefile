@@ -75,6 +75,7 @@ ifeq ($(currDist),arch)
 $(info -- Loading arch-specific stuff)
 include make/distros/arch.mk
 include make/packages/flatpak.mk
+include make/packages/unmanaged-binary.mk
 endif #arch
 
 endif # linux

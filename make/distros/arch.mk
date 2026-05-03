@@ -1,6 +1,5 @@
 # TODO: would plain package installs be better suited as a modification of archinstall?
 
-
 arch-core:
 	sudo pacman -Syu docker
 

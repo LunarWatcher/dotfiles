@@ -1,6 +1,8 @@
 emacs:
 	ln -sf ${PWD}/.emacs ${HOME}/.emacs
 
+	mkdir ${HOME}/.emacs-saves
+
 zellij:
 	mkdir -p ~/.config/zellij
 	ln -sf ${PWD}/config/zellij/config.kdl ${HOME}/.config/zellij/config.kdl
