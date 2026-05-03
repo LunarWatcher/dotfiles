@@ -10,16 +10,16 @@ Switch to Next Keyboard Layout=Meta+Alt+K
 [StandardShortcuts]
 AboutApp=
 AboutKDE=
-Activate Next Tab=Ctrl+PgDown; Ctrl+]
+Activate Next Tab=Ctrl+]; Ctrl+PgDown
 Activate Previous Tab=Ctrl+PgUp; Ctrl+[
 ActualSize=Ctrl+0
 AddBookmark=Ctrl+B
-Back=Back; Alt+Left
+Back=Alt+Left; Back
 BackwardWord=Ctrl+Left
 Begin=Ctrl+Home
 BeginningOfLine=Home
 Clear=
-Close=Ctrl+W; Ctrl+Esc
+Close=Ctrl+Esc; Ctrl+W
 ConfigureNotifications=
 ConfigureToolbars=
 Copy=Ctrl+C; Ctrl+Ins
@@ -68,7 +68,7 @@ PrintPreview=
 Prior=PgUp
 Quit=Ctrl+Q
 Redo=Ctrl+Shift+Z
-Reload=Refresh; F5
+Reload=F5; Refresh
 RenameFile=F2
 Replace=Ctrl+R
 ReportBug=
@@ -79,7 +79,7 @@ Save=Ctrl+S
 SaveAs=Ctrl+Shift+S
 SaveOptions=
 SelectAll=Ctrl+A
-ShowHideHiddenFiles=Alt+.; Ctrl+H
+ShowHideHiddenFiles=Ctrl+H; Alt+.
 ShowMenubar=Ctrl+M
 ShowStatusbar=
 ShowToolbar=
@@ -114,7 +114,7 @@ decrease_volume_small=Shift+Volume Down
 increase_microphone_volume=Microphone Volume Up
 increase_volume=Volume Up
 increase_volume_small=Shift+Volume Up
-mic_mute=Microphone Mute; Meta+Volume Mute; Ctrl+Alt+Shift+E
+mic_mute=Microphone Mute; Ctrl+Alt+Shift+E; Meta+Volume Mute
 mute=Volume Mute
 
 [ksmserver][Global Shortcuts]
@@ -299,7 +299,7 @@ Window to Screen 6=
 Window to Screen 7=
 disableInputCapture=Meta+Shift+Esc
 view_actual_size=
-view_zoom_in=Meta++; Meta+=
+view_zoom_in=Meta+=; Meta++
 view_zoom_out=Meta+-
 
 [mediacontrol][Global Shortcuts]
@@ -308,7 +308,7 @@ mediavolumeup=
 nextmedia=Ctrl+Volume Up; Media Next
 pausemedia=Media Pause
 playmedia=
-playpausemedia=Ctrl+Volume Mute; Media Play
+playpausemedia=Media Play; Ctrl+Volume Mute
 previousmedia=Ctrl+Volume Down; Media Previous
 seekbackwardmedia=Media Rewind
 seekbackwardmedialong=
@@ -329,7 +329,7 @@ _launch=Ctrl+Alt+T
 
 [org.kde.krunner.desktop][Global Shortcuts]
 RunClipboard=Alt+Shift+F2
-_launch=Search; Alt+Space; Alt+F2
+_launch=Alt+F2; Alt+Space; Search
 
 [org.kde.kscreen.desktop][Global Shortcuts]
 ShowOSD=Display; Meta+P
@@ -341,7 +341,7 @@ _launch=Meta+Esc
 _launch=Meta+.; Meta+Ctrl+Alt+Shift+Space
 
 [org.kde.spectacle.desktop][Global Shortcuts]
-ActiveWindowScreenShot=Meta+Print
+ActiveWindowScreenShot=Meta+Print; Alt+Print
 CurrentMonitorScreenShot=
 FullScreenScreenShot=Shift+Print
 OpenWithoutScreenshot=
@@ -355,7 +355,7 @@ _launch=Print; Meta+Shift+S
 [org.kde.touchpadshortcuts.desktop][Global Shortcuts]
 DisableTouchpad=Touchpad Off
 EnableTouchpad=Touchpad On
-ToggleTouchpad=Touchpad Toggle; Meta+Ctrl+Touchpad Toggle; Meta+Ctrl+Zenkaku Hankaku
+ToggleTouchpad=Meta+Ctrl+Zenkaku Hankaku; Touchpad Toggle; Meta+Ctrl+Touchpad Toggle
 
 [org_kde_powerdevil][Global Shortcuts]
 Decrease Keyboard Brightness=Keyboard Brightness Down
@@ -374,7 +374,7 @@ powerProfile=Battery; Meta+B
 
 [plasmashell][Global Shortcuts]
 Slideshow Wallpaper Next Image=
-activate application launcher=Meta; Alt+F1
+activate application launcher=Alt+F1; Meta
 activate task manager entry 1=Meta+1
 activate task manager entry 10=Meta+0
 activate task manager entry 2=Meta+2
@@ -395,7 +395,7 @@ edit_clipboard=
 manage activities=Meta+Q
 next activity=Meta+Tab
 previous activity=Meta+Shift+Tab
-repeat_action=Meta+Ctrl+R
+repeat_action=
 show dashboard=Ctrl+F12
 show-barcode=
 show-on-mouse-pos=Meta+V
