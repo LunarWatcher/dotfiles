@@ -94,7 +94,9 @@
         "fastfetch",
         "base-devel",
         "fakeroot",
-        "vlc"
+        "vlc",
+        "man-db",
+        "man-pages"
     ],
     "pacman_config": {
         "color": true,
