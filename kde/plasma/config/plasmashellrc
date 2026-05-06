@@ -1,0 +1,10 @@
+[General]
+Number of Actions=0
+
+[PlasmaViews][Panel 3]
+floating=0
+panelOpacity=1
+panelVisibility=0
+
+[PlasmaViews][Panel 3][Defaults]
+thickness=46
