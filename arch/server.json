@@ -55,21 +55,16 @@
     },
     "ntp": true,
     "packages": [
-        "emacs-wayland",
         "gcc",
         "openssh",
         "plocate",
         "qrencode",
-        "sshfs",
-        "ttf-sourcecodepro-nerd",
         "rustup",
         "zip",
         "7zip",
         "unzip",
         "zsh",
         "git",
-        "obsidian",
-        "konsole",
         "make",
         "cmake",
         "firefox",
@@ -78,15 +73,9 @@
         "ripgrep",
         "node",
         "zellij",
-        "wl-clipboard",
         "lua-language-server",
         "clang",
-        "obs-studio",
-        "flameshot",
-        "kde-accessibility-meta",
-        "kde-system-meta",
-        "kde-utilities-meta",
-        "lua54",
+        "lua",
         "python",
         "python-pip",
         "curl",
@@ -94,7 +83,6 @@
         "fastfetch",
         "base-devel",
         "fakeroot",
-        "vlc",
         "man-db",
         "man-pages",
         "yt-dlp"
@@ -103,21 +91,7 @@
         "color": true,
         "parallel_downloads": 5
     },
-    "profile_config": {
-        "gfx_driver": "Nvidia (open kernel module for newer GPUs, Turing+)",
-        "greeter": "plasma-login-manager",
-        "profile": {
-            "custom_settings": {
-                "KDE Plasma": {
-                    "plasma_flavor": "plasma-meta"
-                }
-            },
-            "details": [
-                "KDE Plasma"
-            ],
-            "main": "Desktop"
-        }
-    },
+    "profile_config": {},
     "script": null,
     "services": [],
     "swap": {
