@@ -17,6 +17,8 @@ alias yay="CC= CXX= command yay"
 alias lsn="ls --color=no"
 
 alias open="xdg-open"
+alias igrep="grep -i"
+alias lsg="ls -la | grep -i"
 # }}}
 # Git {{{
 alias gi="git init"
