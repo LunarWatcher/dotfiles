@@ -13,7 +13,11 @@
  ;; If you edit it by hand, you could mess it up, so be careful.
  ;; Your init file should contain only one such instance.
  ;; If there is more than one, they won't work right.
- '(package-selected-packages nil)
+ '(package-selected-packages
+   '(affe breadcrumb cape catgirl-theme cmake-mode corfu doom-modeline eldoc-box evil-collection evil-commentary
+          evil-matchit evil-numbers evil-surround git-gutter git-modes highlight-indent-guides json-mode kotlin-mode
+          lua-mode magit marginalia markdown-mode neotree orderless rainbow-mode rust-mode typescript-mode vertico
+          web-mode yaml-mode))
  '(package-vc-selected-packages
    '((catgirl-theme :url "https://codeberg.org/LunarWatcher/catgirl.el.git"))))
 ;; }}}
@@ -213,6 +217,25 @@
           ("jinja"    . "\\.inja\\'")
         )
   )
+  (setq web-mode-enable-front-matter-block t)
+
+  ;; web-mode interferes with electric-pairs, and results in {{<space> -> {{ }}}}, which is just
+  ;; infuriating. auto-closing deals with html tags, and it's also pretty shit. Need to find a better plugin to deal
+  ;; with HTML tags.
+  (setq web-mode-enable-auto-closing nil)
+  (setq web-mode-enable-auto-pairing nil)
+)
+
+(use-package elec-pair
+  :config
+  (electric-pair-mode) ;; enable electric-pair by default
+
+  ;; TODO: having used this for a while, it can certainly be useful, but the defaults for it are far too aggressive to
+  ;; be usable. Maybe there's an advice that could make it less rabid?
+  (setq electric-pair-delete-adjacent-pairs nil)
+  ;; FAR too aggressive, and makes it impossible to insert particularly strings without first inserting a bogus
+  ;; character to make electric-pair-mode happy. I don't think this is salvageable. It's also not something I ever need.
+  (setq electric-pair-skip-whitespace nil)
 )
 
 (use-package savehist
@@ -512,8 +535,6 @@ installed, then defaulting to the name of the LSP for a fallback"
 
 (global-display-line-numbers-mode 1) ;; set number
 (global-hl-line-mode 1) ;; set cursorline
-
-(electric-pair-mode) ;; enable electric-pair by default
 
 ;; Hide startup shit
 (setq inhibit-startup-screen t)
