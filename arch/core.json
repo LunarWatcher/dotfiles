@@ -97,7 +97,13 @@
         "vlc",
         "man-db",
         "man-pages",
-        "yt-dlp"
+        "yt-dlp",
+        "virt-manager",
+        "libvirt",
+        "qemu-full",
+        "dnsmasq",
+        "qemu-img",
+        "nftables"
     ],
     "pacman_config": {
         "color": true,
