@@ -92,7 +92,7 @@ else
     export CC=gcc
 fi
 
-[ -f ~/.fzf.zsh ] && source ~/.fzf.zsh
+(( $+commands[fzf] )) && source <(fzf --zsh)
 [ -f ~/.zshrc.local ] && source ~/.zshrc.local
 # WARNING: sourced from the secrets repo on the self-hosted forgejo instance.
 # DO NOT USE for anything else. System-local secrets go in .zshrc.local
