@@ -1,0 +1,1 @@
+* TODO alias for ~systemctl restart --user plasma-plasmashell.service~
