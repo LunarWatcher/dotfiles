@@ -22,6 +22,9 @@ currDist := $(shell cat /etc/os-release | sed -n 's/^ID=\(.*\)$$/\1/p')
 isWSL := $(shell uname -r | grep -q "WSL2" && echo "WSL2" || echo "NO")
 
 $(info -- WSL detected? $(isWSL))
+
+$(info -- Sourcing portable Linux extensions)
+include make/special/linux.mk
 endif
 ifeq ($(UNAME_S),Darwin)
 currOs := macos

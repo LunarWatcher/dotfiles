@@ -67,15 +67,11 @@ debian-core:
 zsh-deps: debian-base-update
 	git clone https://codeberg.org/LunarWatcher/amethyst ~/.config/amethyst
 
-upm:
-	-sudo bash -c "$$(wget -O- https://raw.githubusercontent.com/LunarWatcher/upm/master/tools/install.sh)"
-
 node: upm
 	sudo upm install nodejs
 
 dev-support: debian-core
 	sudo apt install -y direnv
-	bash -c "$$(wget -O- https://raw.githubusercontent.com/LunarWatcher/umbra/master/scripts/install.sh)"
 
 debian-lua:
 	sudo apt install lua5.4 liblua5.4-dev
