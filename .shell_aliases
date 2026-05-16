@@ -261,12 +261,9 @@ alias ytmp3="yt-dlp -x --audio-format mp3 "
 # alias gdb="gdb --tui "
 # }}}
 # Gradle {{{
-# Exists because gradle spews out so much fucking shit that my terminal
-# physically cannot contain its output. Redirecting to a file is the only
-# way to see exactly what goes wrong. 
-# Fuck you gradle. With a cactus
-alias gwb='$(groot)/gradlew build > /tmp/gradle-build.txt 2>&1'
-alias gw='$(groot)/gradlew'
+function gw() {
+    umbra pty -- ./gradlew "$@" | less -r
+}
 # }}}
 if [ -f "${DOTFILES_HOME}/scripts/homelab.zsh" ]; then
     source "${DOTFILES_HOME}/scripts/homelab.zsh"
