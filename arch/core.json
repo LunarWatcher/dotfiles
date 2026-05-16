@@ -103,8 +103,7 @@
         "qemu-full",
         "dnsmasq",
         "qemu-img",
-        "nftables",
-        "wacomtablet"
+        "nftables"
     ],
     "pacman_config": {
         "color": true,
