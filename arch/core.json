@@ -95,6 +95,7 @@
         "base-devel",
         "fakeroot",
         "vlc",
+        "vlc-plugins-all",
         "man-db",
         "man-pages",
         "yt-dlp",
