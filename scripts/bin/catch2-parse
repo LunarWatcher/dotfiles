@@ -1,0 +1,62 @@
+#!/usr/bin/bash
+
+send_notif() {
+    notify-send --app-name "Test Helper" \
+                --icon="${DOTFILES_HOME:-/home/olivia/programming/dotfiles}/assets/eepyfox.png" \
+                "$1" "$2"
+}
+
+parse_make() {
+    make_content=$(cat /dev/stdin)
+
+    # ===============================================================================
+    # Failed:
+    # test cases:  24 |  23 passed | 1 failed
+    # assertions: 108 | 107 passed | 1 failed
+    # Failed (with skip):
+    # test cases:  24 |  23 passed | 1 failed
+    # assertions: 108 | 107 passed | 1 failed
+    # test cases:  25 |  23 passed | 1 failed | 1 skipped
+    # assertions: 108 | 107 passed | 1 failed
+    # Success:
+    # All tests passed (108 assertions in 24 test cases)
+    # Success (with skipped):
+    # test cases:  24 |  23 passed | 1 skipped
+    # assertions: 107 | 107 passed
+    #
+    # Tests are accompanied by a
+    # [100%] Built target test
+    # That can be used as a fallback identifier
+
+    end=$(echo "$make_content" | tail -n 10)
+
+    if [[ "$end" =~ "test cases:" ]]; then
+        test_cases=$(echo -E "$end" | grep -E 'test cases:' | sed -r "s/\x1B\[([0-9]{1,3}(;[0-9]{1,2};?)?)?[mGK]//g")
+        assertions=$(echo -E "$end" | grep -E 'assertions:' | sed -r "s/\x1B\[([0-9]{1,3}(;[0-9]{1,2};?)?)?[mGK]//g")
+        
+        echo "$test_cases"
+        if echo "$test_cases" | grep 'failed'; then
+            title="Tests failed"
+        else
+            title="Tests passed"
+        fi
+        send_notif "$title" "<b>Details</b>:\n$test_cases\n$assertions"
+
+        exit 0
+    elif [[ "$end" =~ "All tests passed" ]]; then
+        tests=$(echo "$end" | grep 'All tests passed' | sed -r "s/\x1B\[([0-9]{1,3}(;[0-9]{1,2};?)?)?[mGK]//g")
+        send_notif "Tests passed" "<b>Details</b>:\n$tests"
+        exit 0
+    fi
+
+    final_line=$(echo "$make_content" | tail -n 1)
+    if [[ "$final_line" =~ "Built target test" ]]; then
+        send_notif "Tests passed (parse failed)"
+        exit 0
+    fi
+
+    send_notif "Compilation error!" "See terminal for logs"
+}
+
+umbra pty -- make -j $(nproc) test | tee >(parse_make)
+exit $?
