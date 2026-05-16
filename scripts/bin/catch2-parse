@@ -1,4 +1,16 @@
 #!/usr/bin/bash
+# This is a utility script that converts catch2[^1] test output to notifications. It's primarily intended for use with
+# my CMake setup, where I have a `test` task that runs catch2-based tests.
+#
+# This script is set up to not capture stdout, so it can be used in parallel with manual use. However, it's only going
+# to be actually useful to send notifications if you have it running with
+# ```bash
+# umbra watch -c "catch2-parse" -- [paths omitted]
+# ```
+# so it can run make automagically. See `testmake` in `.shell_aliases` for the implementation with my default CMake
+# setup.
+#
+# [^1]: https://github.com/catchorg/Catch2
 
 send_notif() {
     notify-send --app-name "Test Helper" \
@@ -9,6 +21,7 @@ send_notif() {
 parse_make() {
     make_content=$(cat /dev/stdin)
 
+    # Output reference:
     # ===============================================================================
     # Failed:
     # test cases:  24 |  23 passed | 1 failed
@@ -57,6 +70,8 @@ parse_make() {
 
     send_notif "Compilation error!" "See terminal for logs"
 }
+
+set -o pipefail
 
 umbra pty -- make -j $(nproc) test | tee >(parse_make)
 exit $?
