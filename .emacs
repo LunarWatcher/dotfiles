@@ -7,7 +7,7 @@
  ;; If you edit it by hand, you could mess it up, so be careful.
  ;; Your init file should contain only one such instance.
  ;; If there is more than one, they won't work right.
- )
+)
 (custom-set-variables
  ;; custom-set-variables was added by Custom.
  ;; If you edit it by hand, you could mess it up, so be careful.
@@ -526,6 +526,9 @@ installed, then defaulting to the name of the LSP for a fallback"
 ;; Configure emacs standards {{{
 ;; (setq warning-minimum-level :error) ;; prevent emacs from whining about evil
 (set-frame-font "SauceCodePro Nerd Font 11" nil t)
+;; Sigh
+(set-face-font 'fixed-pitch "SauceCodePro Nerd Font 11")
+(set-face-font 'fixed-pitch-serif "SauceCodePro Nerd Font 11")
 
 (setq display-line-numbers-grow-only t) ; Prevent shrinking when the number of lines decreases
 ;; Note; this option does nothing for neotree, because neotree is at least partly lazy-loaded, so it doesn't know the
