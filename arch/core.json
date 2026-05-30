@@ -104,7 +104,9 @@
         "qemu-full",
         "dnsmasq",
         "qemu-img",
-        "nftables"
+        "nftables",
+        "aspell-en",
+        "aspell-nb"
     ],
     "pacman_config": {
         "color": true,
