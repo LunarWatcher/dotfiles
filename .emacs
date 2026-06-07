@@ -7,17 +7,13 @@
  ;; If you edit it by hand, you could mess it up, so be careful.
  ;; Your init file should contain only one such instance.
  ;; If there is more than one, they won't work right.
-)
+ )
 (custom-set-variables
  ;; custom-set-variables was added by Custom.
  ;; If you edit it by hand, you could mess it up, so be careful.
  ;; Your init file should contain only one such instance.
  ;; If there is more than one, they won't work right.
- '(package-selected-packages
-   '(affe breadcrumb cape catgirl-theme cmake-mode corfu doom-modeline eldoc-box evil-collection evil-commentary
-          evil-matchit evil-numbers evil-surround git-gutter git-modes highlight-indent-guides json-mode kotlin-mode
-          lua-mode magit marginalia markdown-mode neotree orderless rainbow-mode rust-mode typescript-mode vertico
-          web-mode yaml-mode))
+ '(package-selected-packages nil)
  '(package-vc-selected-packages
    '((catgirl-theme :url "https://codeberg.org/LunarWatcher/catgirl.el.git"))))
 ;; }}}
@@ -30,6 +26,7 @@
   (package-refresh-contents))
 
 ;; }}}
+(defvar livi-project-dir)
 ;; Install packages {{{
 (use-package emacs
   :custom
@@ -141,7 +138,10 @@
     (interactive)
     (let (
       (affe-grep-command "rg --glob \"!.git\" --hidden --null --color=never --max-columns=1000 --no-heading --line-number -v ^$")
-      (default-directory (or (vc-root-dir) default-directory))
+      (default-directory (cond
+                          ((boundp 'livi-project-dir)   livi-project-dir)
+                          (t                            default-directory))
+      )
     )
       (affe-grep)
     )
@@ -151,7 +151,10 @@
     (interactive)
     (let (
       (affe-grep-command "rg --glob \"!.git\" --hidden --null --color=never --max-columns=1000 --no-heading --line-number --no-ignore-vcs -v ^$")
-      (default-directory (or (vc-root-dir) default-directory))
+      (default-directory (cond
+                          ((boundp 'livi-project-dir)   livi-project-dir)
+                          (t                            default-directory))
+      )
     )
       (affe-grep)
     )
@@ -162,7 +165,10 @@
     (interactive)
     (let (
       (affe-find-command "rg --glob \"!.git\" --hidden --color=never --files")
-      (default-directory (or (vc-root-dir) default-directory))
+      (default-directory (cond
+                          ((boundp 'livi-project-dir)   livi-project-dir)
+                          (t                            default-directory))
+      )
     )
       (affe-find)
     )
@@ -172,7 +178,10 @@
     (interactive)
     (let (
       (affe-find-command "rg --glob \"!.git\" --hidden --color=never --files --no-ignore-vcs")
-      (default-directory (or (vc-root-dir) default-directory))
+      (default-directory (cond
+                          ((boundp 'livi-project-dir)   livi-project-dir)
+                          (t                            default-directory))
+      )
     )
       (affe-find)
     )
@@ -759,6 +768,7 @@ form. The continuation of such comments is managed by an insert override of <CR>
     (when (and (use-region-p) (not (evil-visual-state-p)))
       (setq beg (region-beginning)
             end (region-end)))
+    ;; This is not the best solution, but yq is AI slop
     (shell-command-on-region beg end
                              (concat
                               "python3 -c 'import sys, yaml, json; print(json.dumps(yaml.safe_load(sys.stdin), "
@@ -774,3 +784,40 @@ form. The continuation of such comments is managed by an insert override of <CR>
   )
 )
 
+(defun ccd(dir)
+  "Custom cd function for sane project management.
+This function:
+* Invokes `cd'
+* Invokes `neotree-dir'
+* Sets livi-project-dir
+)"
+  (interactive
+   (list
+    (minibuffer-with-setup-hook
+        (lambda ()
+          (setq-local minibuffer-completion-table
+		      (apply-partially #'locate-file-completion-table
+				       cd-path nil))
+          (setq-local minibuffer-completion-predicate
+		      (lambda (dir)
+			(locate-file dir cd-path nil
+				     (lambda (f) (and (file-directory-p f) 'dir-ok))))))
+      (setq cd-path (list "./"))
+      (read-directory-name "Change default directory: "
+                           default-directory default-directory
+                           t))))
+
+  (setq cd-path (list "./"))
+  (setq livi-project-dir
+   (or
+    (and (file-remote-p (expand-file-name dir))
+         (file-accessible-directory-p (expand-file-name dir))
+         (expand-file-name dir))
+    (locate-file dir cd-path nil
+                 (lambda (f) (and (file-directory-p f) 'dir-ok)))
+   )
+  )
+
+  (cd-absolute livi-project-dir)
+  (neotree-dir livi-project-dir)
+)
