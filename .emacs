@@ -738,3 +738,39 @@ form. The continuation of such comments is managed by an insert override of <CR>
   (when (not (looking-back " "))
     (insert " ")))
 (advice-add 'c-indent-new-comment-line :around #'livi-expand-c-comment-block)
+
+;; Utilities
+(defun yaml2json()
+  "yaml2json (ugly print). For pretty print, use yaml2jsonp"
+  (interactive)
+  (livi-internal-yaml2jsonp nil)
+)
+(defun yaml2jsonp()
+  "yaml2json (pretty print). Converts to JSON with an indent of 4. For other indents, reindent retroactively"
+  (interactive)
+  (livi-internal-yaml2jsonp 4)
+)
+(defun livi-internal-yaml2jsonp(indent)
+  (let ((beg (point-min))
+        (end (point-max)))
+    (when (and (evil-visual-state-p) evil-visual-beginning evil-visual-end)
+      (setq beg evil-visual-beginning
+            end evil-visual-end))
+    (when (and (use-region-p) (not (evil-visual-state-p)))
+      (setq beg (region-beginning)
+            end (region-end)))
+    (shell-command-on-region beg end
+                             (concat
+                              "python3 -c 'import sys, yaml, json; print(json.dumps(yaml.safe_load(sys.stdin), "
+                              (when (integerp indent)
+                                (format "indent=%d" indent)
+                              )
+                              "))'"
+                             )
+                             t
+                             "*yaml2json-output*"
+                             nil
+                             t)
+  )
+)
+
