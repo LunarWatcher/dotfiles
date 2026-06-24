@@ -15,7 +15,8 @@
  ;; If there is more than one, they won't work right.
  '(package-selected-packages nil)
  '(package-vc-selected-packages
-   '((catgirl-theme :url "https://codeberg.org/LunarWatcher/catgirl.el.git"))))
+   '((emacs-snippets :url "https://codeberg.org/LunarWatcher/emacs-snippets.git")
+     (catgirl-theme :url "https://codeberg.org/LunarWatcher/catgirl.el.git"))))
 ;; }}}
 ;; Initialise packages {{{
 (require 'package)
@@ -373,6 +374,7 @@ installed, then defaulting to the name of the LSP for a fallback"
 ;; )
 (use-package rainbow-mode
   :ensure t)
+
 (use-package corfu
   :ensure t
   :custom
@@ -385,23 +387,21 @@ installed, then defaulting to the name of the LSP for a fallback"
   (corfu-popupinfo-mode)
 
   (define-key corfu-map (kbd "RET") nil)
-  ;; I cannot for the life of me map ctrl-y
-  ;; It's taken by an evil mode motion keybind that results in characters being added
-  ;; Alt-y is also mapped, but it is respected for some reason?
-  ;; Evil mode is fucking weird
-  (define-key corfu-map (kbd "M-y") #'corfu-insert)
   (global-set-key (kbd "C-SPC") #'completion-at-point)
+  (evil-define-key 'insert 'global (kbd "C-y") #'corfu-insert)
+  ;; ispell-word-completion does not work for whatever reason. It requires /usr/share/dict/words, which only works with
+  ;; english, so the popup is useless
+  (setq text-mode-ispell-word-completion nil)
 )
+
 (use-package cape
   :ensure t
-  ;; TODO: it's supposed to be possible to get this into the standard completion at point function, but can't figure out how.
-  ;; It's really unclear what does and doesn't work. Some leads for later:
-  ;; * https://github.com/minad/cape/discussions/160
-  ;; * https://github.com/minad/cape/discussions/154 (implies the corfu wiki is wrong about stuff)
-  ;; Once I do figure it out though, it should be really nice
-  :bind (("C-c f" . cape-file))
+  :bind (
+       ("C-c C-f" . cape-file)
+  )
   :config
-  (advice-add 'eglot-completion-at-point :around #'cape-wrap-buster) (advice-add 'eglot-completion-at-point :around #'cape-wrap-noninterruptible) 
+  (advice-add 'eglot-completion-at-point :around #'cape-wrap-buster)
+  (advice-add 'eglot-completion-at-point :around #'cape-wrap-noninterruptible)
 )
 
 (use-package eldoc-box
@@ -447,10 +447,10 @@ installed, then defaulting to the name of the LSP for a fallback"
   :vc (:url "https://codeberg.org/LunarWatcher/catgirl.el.git"
             :rev :newest)
   :ensure t
+  :config
+  (load-theme 'catgirl :no-confirm)
 )
-
 ;; (load-file "/home/olivia/programming/emacs/catgirl.el/catgirl-theme.el")
-(load-theme 'catgirl :no-confirm)
 
 (use-package org
   :config
@@ -500,37 +500,29 @@ installed, then defaulting to the name of the LSP for a fallback"
   :config
   (setq highlight-indent-guides-method 'character)
 )
-;; }}}
-;; Load builtins {{{
-;; (require 'treesit)
-(require 'tempo)
-(require 'editorconfig)
 
-(editorconfig-mode)
-;; }}}
-;; Configure shit {{{
-;; Tempo {{{
-(setq tempo-interactive t)
+(use-package tempel
+  :ensure t
+  :config
 
-(defvar c-tempo-tags nil
-  "Tempo tags for C mode")
-
-(defvar c++-tempo-tags nil
-  "Tempo tags for C++ mode")
-
-;; TODO: should probably separate the templates out into their own file, but this will require refactoring into a
-;; .emacs.d folder. Or I could do what I did with catgirl and set up a plugin
-(tempo-define-template "c-ifwin"
-                        '("#if defined(WIN32) || defined(_WIN32) || defined(__WIN32__) || defined(__NT__)" n>
-                        p n>
-                        "#endif" n>)
-                        "ifwin"
-                        "Insert a Windows macro check"
-                        'c-tempo-tags
+  (evil-define-key 'insert 'global (kbd "C-t") #'tempel-complete)
+)
+(use-package eglot-tempel
+  :ensure t
+  :config
+  (eglot-tempel-mode t)
 )
 
-(evil-define-key 'insert 'global (kbd "C-t") #'tempo-complete-tag)
-;; }}}
+(use-package emacs-snippets
+  :vc (:url "https://codeberg.org/LunarWatcher/emacs-snippets.git"
+            :rev :newest)
+  :ensure t
+)
+;; (load-file "/home/olivia/programming/emacs/emacs-snippets/emacs-snippets.el")
+(use-package editorconfig
+  :config
+  (editorconfig-mode)
+)
 ;; }}}
 ;; Configure emacs standards {{{
 ;; (setq warning-minimum-level :error) ;; prevent emacs from whining about evil
@@ -605,10 +597,6 @@ installed, then defaulting to the name of the LSP for a fallback"
   (setq c-basic-offset 4)
   (setq c-indent-level 4)
 
-  (tempo-use-tag-list 'c-tempo-tags)
-  ;; TODO: move to a separate C++ hook
-  (tempo-use-tag-list 'c++-tempo-tags)
-
   (local-set-key (kbd "TAB") 'tab-to-tab-stop)
 )
 
@@ -677,6 +665,8 @@ installed, then defaulting to the name of the LSP for a fallback"
   ;; required to get indents to fuck off
   (electric-indent-local-mode -1)
   (setq evil-auto-indent nil)
+  ;; Doesn't work, relies on /usr/share/dict/words (what the fuck is the point of aspell if nothing uses it??)
+  ;; (add-to-list 'completion-at-point-functions #'cape-dict)
 ))
 
 (add-hook
