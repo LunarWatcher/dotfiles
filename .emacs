@@ -265,8 +265,12 @@
   ;; be available, but I don't want the image preview to be the default.
   ;; There's probably a config option for it (maybe?), but haven't bothered checking. This is already an improvement
   ;; over raw fundamental mode, and switching to nxml-mode is still trivial
-  (add-to-list `auto-mode-alist
-               '("\\.svg\\'" . image-mode))
+  (add-to-list `auto-mode-alist '("\\.svg\\'" . image-mode))
+)
+(use-package nxml-mode
+  :config
+  (add-to-list `auto-mode-alist '("\\.atom\\'" . nxml-mode))
+  (add-to-list `auto-mode-alist '("\\.rss\\'" . nxml-mode))
 )
 (use-package web-mode
   :ensure t
