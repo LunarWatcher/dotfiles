@@ -276,6 +276,18 @@
   :ensure t)
 (use-package markdown-mode
   :ensure t)
+(use-package image-mode
+  :config
+  ;; I have mixed feelings about this. image-mode makes it easier to preview svgs, since emacs apparently can render
+  ;; them, which is great since svg as a format is much easier to write by hand than I remembered, but this also means
+  ;; svgs open in image-mode _by default_, rather than in nxml-mode goverened by image-mode. image-mode provides C-c C-c
+  ;; to toggle between image and nxml-mode, but if nxml-mode is the default, this is not present. I want the keybind to
+  ;; be available, but I don't want the image preview to be the default.
+  ;; There's probably a config option for it (maybe?), but haven't bothered checking. This is already an improvement
+  ;; over raw fundamental mode, and switching to nxml-mode is still trivial
+  (add-to-list `auto-mode-alist
+               '("\\.svg\\'" . image-mode))
+)
 
 (use-package project
   :ensure t
