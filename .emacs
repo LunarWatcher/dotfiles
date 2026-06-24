@@ -216,26 +216,6 @@
   (setq affe-regexp-compiler #'affe-orderless-regexp-compiler)
 )
 
-(use-package web-mode
-  :ensure t
-  :config
-  (add-to-list 'auto-mode-alist '("\\.erb\\'" . web-mode))
-  (add-to-list 'auto-mode-alist '("\\.mustache\\'" . web-mode))
-  (add-to-list 'auto-mode-alist '("\\.inja\\'" . web-mode))
-  (setq web-mode-engines-alist
-        '(
-          ("jinja"    . "\\.inja\\'")
-        )
-  )
-  (setq web-mode-enable-front-matter-block t)
-
-  ;; web-mode interferes with electric-pairs, and results in {{<space> -> {{ }}}}, which is just
-  ;; infuriating. auto-closing deals with html tags, and it's also pretty shit. Need to find a better plugin to deal
-  ;; with HTML tags.
-  (setq web-mode-enable-auto-closing nil)
-  (setq web-mode-enable-auto-pairing nil)
-)
-
 (use-package elec-pair
   :config
   (electric-pair-mode) ;; enable electric-pair by default
@@ -288,6 +268,26 @@
   (add-to-list `auto-mode-alist
                '("\\.svg\\'" . image-mode))
 )
+(use-package web-mode
+  :ensure t
+  :config
+  (add-to-list 'auto-mode-alist '("\\.erb\\'" . web-mode))
+  (add-to-list 'auto-mode-alist '("\\.mustache\\'" . web-mode))
+  (add-to-list 'auto-mode-alist '("\\.inja\\'" . web-mode))
+  (setq web-mode-engines-alist
+        '(
+          ("jinja"    . "\\.inja\\'")
+        )
+  )
+  (setq web-mode-enable-front-matter-block t)
+
+  ;; web-mode interferes with electric-pairs, and results in {{<space> -> {{ }}}}, which is just
+  ;; infuriating. auto-closing deals with html tags, and it's also pretty shit. Need to find a better plugin to deal
+  ;; with HTML tags.
+  (setq web-mode-enable-auto-closing nil)
+  (setq web-mode-enable-auto-pairing nil)
+)
+
 
 (use-package project
   :ensure t
