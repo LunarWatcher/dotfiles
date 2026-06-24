@@ -304,7 +304,6 @@
   (add-hook 'typescript-mode-hook 'eglot-ensure)
   (add-hook 'python-mode-hook 'eglot-ensure)
 
-  ;; TODO: how do I make this a popup instead of minibuffer shit?
   (evil-define-key 'normal 'global (kbd "M-q") #'eglot-code-actions)
 
   (defun livi-find-lsp(lsp-name)
