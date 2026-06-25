@@ -131,7 +131,7 @@ function cleanmk() {
 # }}}
 # Utility {{{
 function notify-me() {
-    "$@"
+    umbra pty -- "$@"
     if [[ $? == 0 ]]; then
         notify-send "Done"
     else
