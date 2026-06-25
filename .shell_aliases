@@ -129,6 +129,16 @@ function cleanmk() {
     fi
 }
 # }}}
+# Utility {{{
+function notify-me() {
+    "$@"
+    if [[ $? == 0 ]]; then
+        notify-send "Done"
+    else
+        notify-send "Failed!"
+    fi
+}
+# }}}
 # CMake/make {{{
 alias cmaker="echo Deprecated: use 'ccmake Release'"
 alias cmaked="echo Deprecated: use 'ccmake'"
