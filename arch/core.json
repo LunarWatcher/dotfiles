@@ -86,6 +86,7 @@
         "kde-accessibility-meta",
         "kde-system-meta",
         "kde-utilities-meta",
+        "gwenview",
         "lua54",
         "python",
         "python-pip",
