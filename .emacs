@@ -528,12 +528,12 @@ installed, then defaulting to the name of the LSP for a fallback"
   (eglot-tempel-mode t)
 )
 
-(use-package emacs-snippets
-  :vc (:url "https://codeberg.org/LunarWatcher/emacs-snippets.git"
-            :rev :newest)
-  :ensure t
-)
-;; (load-file "/home/olivia/programming/emacs/emacs-snippets/emacs-snippets.el")
+;; (use-package emacs-snippets
+;;   :vc (:url "https://codeberg.org/LunarWatcher/emacs-snippets.git"
+;;             :rev :newest)
+;;   :ensure t
+;; )
+(load-file "/home/olivia/programming/emacs/emacs-snippets/emacs-snippets.el")
 (use-package editorconfig
   :config
   (editorconfig-mode)
