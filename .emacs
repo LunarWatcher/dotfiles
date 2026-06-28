@@ -13,7 +13,7 @@
  ;; If you edit it by hand, you could mess it up, so be careful.
  ;; Your init file should contain only one such instance.
  ;; If there is more than one, they won't work right.
- '(package-selected-packages nil)
+ '(package-selected-packages '(emacs-snippets))
  '(package-vc-selected-packages
    '((emacs-snippets :url "https://codeberg.org/LunarWatcher/emacs-snippets.git")
      (catgirl-theme :url "https://codeberg.org/LunarWatcher/catgirl.el.git"))))
@@ -426,39 +426,37 @@ installed, then defaulting to the name of the LSP for a fallback"
 (use-package nerd-icons
   :ensure t
 )
-;; TODO: neotree is awful to work with. It scrolls constantly and makes it a pain in the ass to un-scroll
-;; It also doesn't seem to be able to rename files with open buffers, which is so dumb. It renames the buffer,
-;; then errors because a buffer with the same name is already open :facepaw:
-;; dired seems to have the same warning in those cases, but it can be overridden, whereas neotree just fails.
-;; Need to replace this with something else, but not sure what. the other commonly cited tree is treemacs
-(use-package neotree
+(use-package nyaatree
+  :vc (:url "https://codeberg.org/LunarWatcher/emacs-nyaatree.git"
+            :rev :newest)
   :ensure t
+  ;; :load-path "/home/olivia/programming/emacs/emacs-nyaatree/"
   :config
-  (setq neo-theme (if (display-graphic-p) 'nerd-icons 'arrow))
-  (setq neo-show-hidden-files t)
-  (setq neo-confirm-create-file 'off-p)
-  (setq neo-confirm-create-directory 'off-p)
-  (setq neo-confirm-delete-file 'y-or-n-p)
-  (setq neo-confirm-delete-directory-recursively 'y-or-n-p)
-  (setq neo-confirm-kill-buffers-for-files-in-directory 'off-p)
-  (setq neo-window-fixed-size nil)
+  (setq nyaatree-theme (if (display-graphic-p) 'nerd-icons 'arrow))
+  (setq nyaatree-show-hidden-files t)
+  (setq nyaatree-confirm-create-file 'off-p)
+  (setq nyaatree-confirm-create-directory 'off-p)
+  (setq nyaatree-confirm-delete-file 'y-or-n-p)
+  (setq nyaatree-confirm-delete-directory-recursively 'y-or-n-p)
+  (setq nyaatree-confirm-kill-buffers-for-files-in-directory 'off-p)
+  (setq nyaatree-window-fixed-size nil)
 
-  (setq neo-show-hidden-files t)
-  (setq neo-theme 'nerd-icons)
+  (setq nyaatree-show-hidden-files t)
+  (setq nyaatree-theme 'nerd-icons)
 
-  (global-set-key [f2] 'neotree-toggle)
-  (define-key neotree-mode-map (kbd "<return>") #'neotree-enter)
+  (global-set-key [f2] 'nyaatree-toggle)
+  (define-key nyaatree-mode-map (kbd "<return>") #'nyaatree-enter)
 
   (add-hook
-    'neotree-mode-hook
+    'nyaatree-mode-hook
     (lambda()
-      (evil-define-key 'normal 'local (kbd "v") #'neotree-enter-horizontal-split)
-      (evil-define-key 'normal 'local (kbd "s") #'neotree-enter-vertical-split)
-      (evil-define-key 'normal 'local (kbd "<f5>") #'neotree-refresh)
+      (evil-define-key 'normal 'local (kbd "v") #'nyaatree-enter-horizontal-split)
+      (evil-define-key 'normal 'local (kbd "s") #'nyaatree-enter-vertical-split)
+      (evil-define-key 'normal 'local (kbd "<f5>") #'nyaatree-refresh)
     )
   )
 
-  (evil-define-key 'normal 'global (kbd "\\ f s") #'neotree-find)
+  (evil-define-key 'normal 'global (kbd "\\ f s") #'nyaatree-find)
 )
 (use-package catgirl-theme
   :vc (:url "https://codeberg.org/LunarWatcher/catgirl.el.git"
@@ -549,9 +547,6 @@ installed, then defaulting to the name of the LSP for a fallback"
 (set-face-font 'fixed-pitch-serif "SauceCodePro Nerd Font 11")
 
 (setq display-line-numbers-grow-only t) ; Prevent shrinking when the number of lines decreases
-;; Note; this option does nothing for neotree, because neotree is at least partly lazy-loaded, so it doesn't know the
-;; number of lines up front (as far as I can tell)
-;; the previous option is used to compensate
 (setq display-line-numbers-width-start t) ; Keep the column count fixed
 
 (global-display-line-numbers-mode 1) ;; set number
@@ -795,7 +790,7 @@ form. The continuation of such comments is managed by an insert override of <CR>
   "Custom cd function for sane project management.
 This function:
 * Invokes `cd'
-* Invokes `neotree-dir'
+* Invokes `nyaatree-dir'
 * Sets livi-project-dir
 )"
   (interactive
@@ -826,5 +821,5 @@ This function:
   )
 
   (cd-absolute livi-project-dir)
-  (neotree-dir livi-project-dir)
+  (nyaatree-dir livi-project-dir)
 )
