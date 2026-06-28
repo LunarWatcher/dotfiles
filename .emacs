@@ -457,6 +457,8 @@ installed, then defaulting to the name of the LSP for a fallback"
       (evil-define-key 'normal 'local (kbd "<f5>") #'neotree-refresh)
     )
   )
+
+  (evil-define-key 'normal 'global (kbd "\\ f s") #'neotree-find)
 )
 (use-package catgirl-theme
   :vc (:url "https://codeberg.org/LunarWatcher/catgirl.el.git"
