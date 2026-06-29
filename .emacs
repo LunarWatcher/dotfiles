@@ -457,6 +457,8 @@ installed, then defaulting to the name of the LSP for a fallback"
       (evil-define-key 'normal 'local (kbd "v") #'nyaatree-enter-horizontal-split)
       (evil-define-key 'normal 'local (kbd "s") #'nyaatree-enter-vertical-split)
       (evil-define-key 'normal 'local (kbd "<f5>") #'nyaatree-refresh)
+      ; Need to port the keybinds that usually come from evil-collection after the fork
+      (evil-define-key 'normal 'local (kbd "dd") #'nyaatree-delete-node)
     )
   )
 
