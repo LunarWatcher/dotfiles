@@ -148,22 +148,6 @@ function testmake() {
     # I am so fucking happy about this
     umbra watch -c "catch2-parse" -- ../src ../tests ../CMakeLists.txt
 }
-
-function ccmake() {
-    # TODO: this isn't great, but parseopts or whatever is so infuriating to work with. Maybe rewrite as a lua util?
-    # Will require moonbeam changes
-    build_type="${1:-Debug}"
-    if [[ "$2" != "off" ]]; then
-        clang_tidy_opts="-DCMAKE_CXX_CLANG_TIDY='clang-tidy;--use-color;--config-file=$(git rev-parse --show-toplevel)/.clang-tidy'"
-        clang_tidy_opts="${clang_tidy_opts} -DCMAKE_C_CLANG_TIDY='clang-tidy;--use-color;--config-file=$(git rev-parse --show-toplevel)/.clang-tidy'"
-    fi
-
-    echo "Configuration:"
-    echo "Type: ${build_type}"
-    echo "Clang-tidy: ${clang_tidy_opts:-Disabled}"
-    echo "User-provided extras: $@"
-    command cmake .. -DCMAKE_EXPORT_COMPILE_COMMANDS=1 -DCMAKE_BUILD_TYPE="${build_type}" ${clang_tidy_opts} "$@"
-}
 # }}}
 # Network fuckery {{{
 # Only enabled on pihole-enabled devices or my devices in general, because this is aimed at my home network only,

@@ -1,0 +1,129 @@
+#!/usr/bin/env lua
+
+-- ROI go <insert moonbeam noises> <insert AOE damage noises> <insert dying noises>
+local moonlang = require("moonbeam.lang");
+local mooncli = require("moonbeam.cli");
+local moonsys = require("moonbeam.system");
+local moonfs = require("moonbeam.fs");
+
+local function getGitRoot()
+    local proc = moonsys.process({
+            "/usr/bin/env", "git", "rev-parse", "--show-toplevel"
+    })
+    if proc:block() ~= 0 then
+        print(
+            string.format(
+                "Failed to get git root (%s). Using pwd/..",
+                proc:readStderr():gsub("\n", "")
+            )
+        )
+        return moonfs.cwd() .. "/.."
+    end
+    return proc:readStdout():gsub("\n", "")
+end
+
+local opts = {
+    withLocalInstall = moonlang:newBoolBox(),
+    withClangTidy = moonlang:newBoolBox(),
+    isDebug = moonlang:newBoolBox(),
+    passthrough = moonlang:newStringVecBox(),
+}
+
+local app = mooncli.createApp(
+    "ccmake",
+    "Utility script for setting up cmake with standard args"
+)
+app:addFlag(
+    "-l,--local-install",
+    opts.withLocalInstall,
+    "Whether or not to set the install prefix to ~/.local."
+)
+    :default(false)
+app:addFlag(
+    "-c,--clang-tidy",
+    opts.withClangTidy,
+    "Whether or not to enable clang-tidy using non-project settings."
+    .. "To use project settings, pass the args in after a `--`."
+)
+    :default(true)
+app:addFlag(
+    "-d,--debug[true],!-r,--release[false]",
+    opts.isDebug,
+    "Toggles between the debug and release build modules"
+)
+    :default(true)
+app:addOption(
+    "cmake-passthrough",
+    opts.passthrough,
+    "The remaining arguments are passed through to CMake"
+)
+
+app:parse(arg)
+
+local command = {
+    "/usr/bin/env",
+    "cmake",
+    table.unpack(opts.passthrough:unwrap())
+}
+
+print("--------------------------------------")
+print("Config:")
+print("Local install: ", opts.withLocalInstall:unwrap())
+print("Clang tidy: ", opts.withClangTidy:unwrap())
+print("Is debug: ", opts.isDebug:unwrap())
+print("Passthrough args: ")
+for _, a in pairs(opts.passthrough:unwrap()) do
+    print("", a)
+end
+print("--------------------------------------")
+-- Insert non-passthrough args
+-- We insert at pos = 3 to let passthrough args override these if applicable
+table.insert(
+    command,
+    3,
+    string.format("-CMAKE_BUILD_TYPE=%s", opts.isDebug:unwrap() and "Debug" or "Release")
+)
+
+
+if opts.withClangTidy:unwrap() then
+    local gitRoot = getGitRoot()
+    table.insert(
+        command,
+        3,
+        string.format(
+            "-DCMAKE_CXX_CLANG_TIDY='clang-tidy;--use-color;--config-file=%s/.clang-tidy'",
+            gitRoot
+        )
+    )
+    table.insert(
+        command,
+        3,
+        string.format(
+            "-DCMAKE_C_CLANG_TIDY='clang-tidy;--use-color;--config-file=%s/.clang-tidy'",
+            gitRoot
+        )
+    )
+end
+table.insert(
+    command,
+    3,
+    string.format(
+        "-DCMAKE_INSTALL_PREFIX=%s",
+        opts.withLocalInstall:unwrap() and "~/.local" or "/usr/local"
+    )
+)
+
+table.insert(command, 3, "..")
+
+print("Command: ")
+for _, v in pairs(command) do
+    print("", v)
+end
+
+io.stdout:setvbuf("no")
+io.stderr:setvbuf("no")
+
+local cmakeProc = moonsys.nonCaptureProcess(command)
+local result = cmakeProc:block()
+
+os.exit(result)
