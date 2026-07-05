@@ -6,6 +6,21 @@ export PATH=$DOTFILES_HOME/scripts:$PATH
 # }}}
 # Convenience {{{
 alias update-grub="sudo grub-mkconfig -o /boot/grub/grub.cfg"
+function edit() {
+    what=${1:-.}
+    if [ -d "$what" ]; then
+        # `ccd` is a custom function/command that I made to make sure nyaatree and my custom affe commands actually run
+        # in the actual project root, and not the root according to emacs' neat but infuriatingly shit root detection
+        # system. It fails to deal with projects that have multiple roots (and that should have multiple roots for the
+        # sake of LSPs), but that still needs to allow for a single, user-selected root for navigation and similar.
+        emacs --eval="(ccd \"$what\")" & disown
+    else
+        # We still run `ccd` if a file (or something that doesn't exist) is specified with the cwd set to ., so nyaatree
+        # pops up automagically
+        emacs --eval="(ccd \".\")" "$what" & disown
+    fi
+}
+
 # }}}
 # Arch {{{
 # Yay does not handle CC and CXX being set
