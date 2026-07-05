@@ -10,9 +10,13 @@ arch-home:
 	sudo pacman -Syu steam
 	sudo pacman -Syu discord
 
-arch-yay:
-	cd /tmp && git clone https://aur.archlinux.org/yay.git && cd yay && makepkg -si
+arch-lua:
+	cd /tmp/moonbeam && git pull \
+		&& mkdir -p build && cd build \
+		&& cmake .. -DCMAKE_BUILD_TYPE=Release \
+		&& make -j $(nproc) \
+		&& sudo make install
 
 HOME_TARGETS += arch-home
-SOFTWARE_TARGETS += arch-core arch-yay
+SOFTWARE_TARGETS += arch-core arch-lua
 NON_SERVER_TARGETS += arch-headed-core
