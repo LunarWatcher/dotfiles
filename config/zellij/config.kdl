@@ -281,8 +281,8 @@ pane_frames true
 // OSC 52 would solve one of my greatest annoyances with tmux
 // Unfortunately, the issue requesting it was opened in 2018: https://gitlab.gnome.org/GNOME/vte/-/issues/2495
 // and still not implemented. There's active discussion though, so there's at least  that
-copy_command "xclip -selection clipboard" // x11
-// copy_command "wl-copy"                    // wayland
+// copy_command "xclip -selection clipboard" // x11
+copy_command "wl-copy"                    // wayland
 
 // TODO: can't find a copy keybind, so this is forced for now, but I hate autocopying
 copy_on_select true
