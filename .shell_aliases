@@ -78,10 +78,11 @@ function git-mirror-config-gh-source() {
 }
 
 function git-apply-clipboard() {
-    wl-paste | git apply
-}
-function git-apply-clipboard-x11() {
-    xclip -selection clipboard -o | git apply
+    if [[ "$XDG_SESSION_TYPE" == "wayland" ]]; then
+        wl-paste | git apply
+    else
+        xclip -selection clipboard -o | git apply
+    fi
 }
 # }}}
 # Hardware {{{
