@@ -78,6 +78,9 @@ function git-mirror-config-gh-source() {
 }
 
 function git-apply-clipboard() {
+    wl-paste | git apply
+}
+function git-apply-clipboard-x11() {
     xclip -selection clipboard -o | git apply
 }
 # }}}

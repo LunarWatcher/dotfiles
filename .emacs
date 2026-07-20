@@ -296,7 +296,6 @@
   (setq web-mode-enable-auto-pairing nil)
 )
 
-
 (use-package project
   :ensure t
   :config
@@ -304,6 +303,13 @@
 
 (use-package eglot
   :ensure t
+  :init
+  (setq read-process-output-max (* 1024 1024))
+  (setq gc-cons-threshold 100000000)
+  ;; kill logging (appears to be very slow, especially with typescript's sloppily built LSP).
+  ;; Not sure if this actually needs to be in :init, but it's used to create eglot-events-buffer-config which is set on
+  ;; load, so I assume it needs to be in :init
+  (setq eglot-events-buffer-size 0)
   :config
   (add-hook 'c++-mode-hook 'eglot-ensure)
   (add-hook 'c-mode-hook 'eglot-ensure)
