@@ -1,4 +1,4 @@
-#!/usr/bin/lua5.4
+#!/usr/bin/lua
 
 local moonsys = require("moonbeam.system");
 local moonjson = require("moonbeam.json");
@@ -15,20 +15,36 @@ assert(
 )
 
 local function copy(data)
-    local xclip = moonsys.process({
-            "/usr/bin/xclip",
-            "-selection", "clipboard",
-            "-rmlastnl",
-            "-in"
-    });
+    if os.getenv("XDG_SESSION_TYPE") == "wayland" then
+        local wlCopy = moonsys.process({
+                "/usr/bin/wl-copy",
+        });
 
-    xclip:write(data)
-    xclip:closeStdin();
-    if xclip:block() ~= 0 then
-        print("No item selected. Aborting")
-        print("stdout:\n" .. xclip:readStdout())
-        print("stderr:\n" .. xclip:readStderr())
-        os.exit(1)
+        wlCopy:write(data)
+        wlCopy:closeStdin();
+        if wlCopy:block() ~= 0 then
+            print("Copy failed")
+            print("stdout:\n" .. wlCopy:readStdout())
+            print("stderr:\n" .. wlCopy:readStderr())
+            os.exit(1)
+        end
+
+    else
+        local xclip = moonsys.process({
+                "/usr/bin/xclip",
+                "-selection", "clipboard",
+                "-rmlastnl",
+                "-in"
+        });
+
+        xclip:write(data)
+        xclip:closeStdin();
+        if xclip:block() ~= 0 then
+            print("Copy failed")
+            print("stdout:\n" .. xclip:readStdout())
+            print("stderr:\n" .. xclip:readStderr())
+            os.exit(1)
+        end
     end
     print("Copied to clipboard!")
     -- print("data: " .. data)
@@ -68,7 +84,8 @@ local function getVaultContent(protonPass, vaultName)
             "list",
             vaultName,
             "--output", "json",
-            "--filter-state", "active"
+            "--filter-state", "active",
+            "--show-secrets"
     });
     if vaultContentsProc:block() ~= 0 then
         print("Failed to read contents")
