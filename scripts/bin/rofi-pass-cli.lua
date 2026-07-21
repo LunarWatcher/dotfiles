@@ -5,7 +5,7 @@ local moonjson = require("moonbeam.json");
 local moonfs = require("moonbeam.fs");
 
 local searchPath = {}
-for i in string.gmatch(os.getenv("PATH"), "[^:]+") do
+for i in string.gmatch(os.getenv("PATH") or "", "[^:]+") do
     searchPath[#searchPath + 1] = i
 end
 
