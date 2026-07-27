@@ -13,14 +13,11 @@
  ;; If you edit it by hand, you could mess it up, so be careful.
  ;; Your init file should contain only one such instance.
  ;; If there is more than one, they won't work right.
- '(package-selected-packages '(emacs-snippets nyaatree))
+ '(package-selected-packages nil)
  '(package-vc-selected-packages
-   '((nyaatree :url
-	       "https://codeberg.org/LunarWatcher/emacs-nyaatree.git")
-     (emacs-snippets :url
-		     "https://codeberg.org/LunarWatcher/emacs-snippets.git")
-     (catgirl-theme :url
-		    "https://codeberg.org/LunarWatcher/catgirl.el.git"))))
+   '((nyaatree :url "https://codeberg.org/LunarWatcher/emacs-nyaatree.git")
+     (emacs-snippets :url "https://codeberg.org/LunarWatcher/emacs-snippets.git")
+     (catgirl-theme :url "https://codeberg.org/LunarWatcher/catgirl.el.git"))))
 ;; }}}
 ;; Initialise packages {{{
 (require 'package)
@@ -245,7 +242,13 @@
 
 ;; TODO: this is getting ridiculous
 (use-package cmake-mode
-  :ensure t)
+  :ensure t
+  :config
+  (add-hook 'cmake-mode-hook
+            (lambda()
+              (livi-indent-width 4)
+              ))
+)
 (use-package typescript-mode
   :ensure t)
 (use-package lua-mode
@@ -399,6 +402,30 @@ installed, then defaulting to the name of the LSP for a fallback"
 ;; )
 (use-package rainbow-mode
   :ensure t)
+
+(use-package treesit
+  :config
+  (if (>= emacs-major-version 31)
+    (progn
+        (add-to-list 'auto-mode-alist '("\\.yaml\\'" . yaml-ts-mode))
+        ;; According to an mail list thread, js-ts-mode includes jsx support
+        ;; tsx/jsx seems to be a clusterfuck in terms of support though. js-jsx-mode doesn't seem to work well with
+        ;; autocomplete.
+        ;; Arch is still on 30.x unfortunately.
+        ;; For context, 31.x seems to add proper auto-install of the ts modes. On my mint work machine where I built
+        ;; emacs from source,tsx-ts-mode just works. On my personal arch machine, this would require a lot of extra
+        ;; setup. I do, however, not voluntarily use react et. al because they're ass and consume the resources of like
+        ;; hundreds of instances of my own webserver while idling, so I don't care.
+        ;; I only use this at work and for testing. Losing yaml-ts-mode is more annoying, because it at least makes the
+        ;; highlights decent. The yaml defs by default are wonky.
+        (add-to-list 'auto-mode-alist '("\\.jsx\\'" . js-ts-mode))
+        (add-to-list 'auto-mode-alist '("\\.tsx\\'" . tsx-ts-mode))
+        )
+    (progn
+        (add-to-list 'auto-mode-alist '("\\.jsx\\'" . js-jsx-mode))
+      )
+    )
+  )
 
 (use-package corfu
   :ensure t
@@ -603,8 +630,31 @@ installed, then defaulting to the name of the LSP for a fallback"
 (global-tab-line-mode) ; Buffer tabs
 (setq tab-line-separator "│")
 
+(defun livi-indent-width(size)
+  "Utility for setting the indent width.
+This function wraps all the portable options for standard emacs and evil mode,
+and additionally sets the indent spec for every single language I use.
+This will likely waste a few bytes of RAM per buffer, but it makes
+my life a lot easier.
+
+This function could be avoided if there just was a single fucking setting for
+defining the indent width rather than like 8001"
+  (setq-local tab-width size)
+  (setq-local evil-shift-width size)
+
+  (setq-local c-basic-offset size)
+  (setq-local c-indent-level size)
+  (setq-local cmake-tab-width size)
+  (setq-local js-indent-level size)
+  (setq-local lua-indent-level size)
+  (setq-local python-indent-offset size)
+  (setq-local typescript-indent-level size)
+  (setq-local yaml-indent-offset size)
+)
+
 ;; C mode {{{
 (defun livi-c-mode-hook()
+  (livi-indent-width 4)
   ;; https://www.gnu.org/software/emacs//manual/html_node/efaq/Customizing-C-and-C_002b_002b-indentation.html
   (c-set-offset 'substatement-open 0)
   (c-set-offset 'innamespace 0)
@@ -618,8 +668,6 @@ installed, then defaulting to the name of the LSP for a fallback"
 
   (add-to-list 'c-offsets-alist '(arglist-close . c-lineup-close-paren))
   (setq c-tab-always-indent nil)
-  (setq c-basic-offset 4)
-  (setq c-indent-level 4)
 
   (local-set-key (kbd "TAB") 'tab-to-tab-stop)
 )
@@ -628,34 +676,31 @@ installed, then defaulting to the name of the LSP for a fallback"
 ;; }}}
 ;; YAML mode {{{
 (defun livi-yaml-mode-hook()
-  (setq-local tab-width 2)
+  (livi-indent-width 2)
   ;; Yaml counts as text, which disables all the nice features
   (livi-code-mode)
 )
-(add-hook 'yaml-mode-hook 'livi-yaml-mode-hook)
+(add-hook 'yaml-ts-mode-hook 'livi-yaml-mode-hook)
 ;; }}}
 ;; Python mode
 (add-hook
  'python-mode-hook
  (lambda()
    (setq-local fill-column 79) ; per pep-whatever
-   (setq tab-width 4)
-   (setq python-indent-offset 4)
+   (livi-indent-width 4)
  )
 )
 ;; JS/TS
 (add-hook
  'js-mode-hook
  (lambda()
-   (setq tab-width 2)
-   (setq-local javascript-indent-offset 2)
+   (livi-indent-width 2)
  )
 )
 (add-hook
  'typescript-mode-hook
  (lambda()
-   (setq tab-width 2)
-   (setq-local typescript-indent-level 2)
+   (livi-indent-width 2)
  )
 )
 
@@ -835,3 +880,22 @@ This function:
   (cd-absolute livi-project-dir)
   (nyaatree-dir livi-project-dir)
 )
+
+(defun reload()
+  "Utility command for reloading the config file"
+  (interactive)
+  (load-file "~/.emacs")
+)
+
+(evil-define-command livi-evil-shiftwidth(width)
+  "Utility command for setting the shiftwidth.
+You should use `:shiftwidth 1234' rather than calling this function directly."
+  (interactive "<a>")
+  (let (
+        (target-indent (cl-parse-integer width))
+  )
+    (livi-indent-width target-indent)
+    )
+  )
+
+(evil-ex-define-cmd "shiftwidth" #'livi-evil-shiftwidth)
