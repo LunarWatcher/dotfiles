@@ -51,3 +51,17 @@ As far as I can tell, there's no way to specify nodeadkeys with `loadkeys`. This
 ### Dotfiles
 
 The rest of the automation suite is available as-is
+
+### Nuke `gnu-free-fonts`
+
+```
+sudo pacman -Rs gnu-free-fonts
+```
+
+A font in this package acts as a fallback font that takes precedence over nicer fonts, and the font completely breaks braille. For whatever reason, specific saucecodepro fonts end up with different fallbacks? I don't understand why - maybe because the `Regular` variant doesn't directly have an equivalent in DejaVu?
+
+There's probably a fontconfig solution here as well, but the config looks cursed and I don't really care if I can just nuke the font and have it work.
+
+Also, note to self, the font viewer is the only reliable tool for previewing fonts. Every other input field has fallbacks, which gives the impression taht a font has characters it doesn't.
+
+Useful forum thread: https://bbs.archlinux.org/viewtopic.php?id=284774
