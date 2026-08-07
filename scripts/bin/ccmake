@@ -81,7 +81,7 @@ print("--------------------------------------")
 table.insert(
     command,
     3,
-    string.format("-CMAKE_BUILD_TYPE=%s", opts.isDebug:unwrap() and "Debug" or "Release")
+    string.format("-DCMAKE_BUILD_TYPE=%s", opts.isDebug:unwrap() and "Debug" or "Release")
 )
 
 
