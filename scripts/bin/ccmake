@@ -63,6 +63,7 @@ app:parse(arg)
 local command = {
     "/usr/bin/env",
     "cmake",
+    "-DCMAKE_EXPORT_COMPILE_COMMANDS=ON",
     table.unpack(opts.passthrough:unwrap())
 }
 
