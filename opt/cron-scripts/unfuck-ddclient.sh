@@ -11,7 +11,7 @@ check_ip() {
 
 if ! check_ip; then
     echo "unfucking ddclient"
-    sudo ddclient -force
+    ddclient -force
 
     # Done purely for logging, I don't know what's useful to have here. If ddclient fucks the IP, and I'm not at home,
     # the ntfy server (currently; still need to get it replaced now that ntfy is AI slop) cannot be reached, so I would
