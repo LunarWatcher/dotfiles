@@ -13,7 +13,11 @@
  ;; If you edit it by hand, you could mess it up, so be careful.
  ;; Your init file should contain only one such instance.
  ;; If there is more than one, they won't work right.
- '(package-selected-packages nil)
+ '(package-selected-packages
+   '(affe annalist breadcrumb cape catgirl-theme cmake-mode company corfu eglot-tempel eldoc-box emacs-snippets
+          evil-collection evil-commentary evil-matchit evil-numbers evil-surround git-gutter git-modes
+          highlight-indent-guides json-mode kotlin-mode lua-mode magit marginalia markdown-mode nyaatree orderless
+          perspective rainbow-mode rust-mode typescript-mode vertico web-mode yaml-mode))
  '(package-vc-selected-packages
    '((nyaatree :url "https://codeberg.org/LunarWatcher/emacs-nyaatree.git")
      (emacs-snippets :url "https://codeberg.org/LunarWatcher/emacs-snippets.git")
@@ -515,28 +519,29 @@ installed, then defaulting to the name of the LSP for a fallback"
   )
 )
 
-(use-package doom-modeline
-  :ensure t
-  :config
-  (doom-modeline-mode 1)
-  ;; Not sure what half of this does; pretty sure it's all the defaults.
-  (setq doom-modeline-icon t)
-  (setq doom-modeline-major-mode-icon t)
-  (setq doom-modeline-major-mode-color-icon t)
-  (setq doom-modeline-buffer-state-icon t)
-  (setq doom-modeline-buffer-modification-icon t)
-  (setq doom-modeline-buffer-name t)
-  (setq doom-modeline-lsp-icon t)
-  (setq doom-modeline-percent-position '(-3 "%p"))
-  (setq doom-modeline-position-column-format '("C%c"))
-  (setq doom-modeline-enable-buffer-position t)
+;; Upstream doom-modeline is AI slop now.
+;; (use-package doom-modeline
+;;   :ensure t
+;;   :config
+;;   (doom-modeline-mode 1)
+;;   ;; Not sure what half of this does; pretty sure it's all the defaults.
+;;   (setq doom-modeline-icon t)
+;;   (setq doom-modeline-major-mode-icon t)
+;;   (setq doom-modeline-major-mode-color-icon t)
+;;   (setq doom-modeline-buffer-state-icon t)
+;;   (setq doom-modeline-buffer-modification-icon t)
+;;   (setq doom-modeline-buffer-name t)
+;;   (setq doom-modeline-lsp-icon t)
+;;   (setq doom-modeline-percent-position '(-3 "%p"))
+;;   (setq doom-modeline-position-column-format '("C%c"))
+;;   (setq doom-modeline-enable-buffer-position t)
 
-  (setq doom-modeline-total-line-number t)
+;;   (setq doom-modeline-total-line-number t)
 
-  (setq doom-modeline-modal-icon t)
-  (setq doom-modeline-enable-word-count t)
-  (setq doom-modeline-continuous-word-count-modes '(markdown-mode text-mode))
-)
+;;   (setq doom-modeline-modal-icon t)
+;;   (setq doom-modeline-enable-word-count t)
+;;   (setq doom-modeline-continuous-word-count-modes '(markdown-mode text-mode))
+;; )
 
 (use-package magit
   :ensure t
