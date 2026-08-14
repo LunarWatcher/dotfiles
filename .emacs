@@ -543,11 +543,13 @@ installed, then defaulting to the name of the LSP for a fallback"
 ;;   (setq doom-modeline-continuous-word-count-modes '(markdown-mode text-mode))
 ;; )
 
+;; 2026-08-14: AI slop appears to be banned: https://github.com/magit/magit/pull/5458
 (use-package magit
   :ensure t
 )
 (use-package git-modes
   :ensure t)
+;; TODO: consider replacing or forking, upstream is archived: https://github.com/emacsorphanage/git-gutter
 (use-package git-gutter
   :ensure t
   :config
@@ -566,6 +568,7 @@ installed, then defaulting to the name of the LSP for a fallback"
 
   (evil-define-key 'insert 'global (kbd "C-t") #'tempel-complete)
 )
+;; TODO: stale, fork for good measure
 (use-package eglot-tempel
   :ensure t
   :config
