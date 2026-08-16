@@ -907,3 +907,12 @@ You should use `:shiftwidth 1234' rather than calling this function directly."
   )
 
 (evil-ex-define-cmd "shiftwidth" #'livi-evil-shiftwidth)
+
+(defun livi-update()
+  (interactive)
+  ;; required for package-upgrade-all to work properly, because package-upgrade-all can some
+  ;; times end up being stale, and result in upgrade errors
+  (package-refresh-contents)
+  (package-upgrade-all)
+  (package-vc-upgrade-all)
+)
