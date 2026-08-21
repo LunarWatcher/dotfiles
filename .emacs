@@ -13,11 +13,7 @@
  ;; If you edit it by hand, you could mess it up, so be careful.
  ;; Your init file should contain only one such instance.
  ;; If there is more than one, they won't work right.
- '(package-selected-packages
-   '(affe annalist breadcrumb cape catgirl-theme cmake-mode company corfu eglot-tempel eldoc-box emacs-snippets
-          evil-collection evil-commentary evil-matchit evil-numbers evil-surround git-gutter git-modes
-          highlight-indent-guides json-mode kotlin-mode lua-mode magit marginalia markdown-mode nyaatree orderless
-          perspective rainbow-mode rust-mode typescript-mode vertico web-mode yaml-mode))
+ '(package-selected-packages nil)
  '(package-vc-selected-packages
    '((nyaatree :url "https://codeberg.org/LunarWatcher/emacs-nyaatree.git")
      (emacs-snippets :url "https://codeberg.org/LunarWatcher/emacs-snippets.git")
