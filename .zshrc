@@ -133,8 +133,10 @@ export PATH="$PATH:$HOME/.rvm/bin"
 
 [[ -s "$HOME/.local/share/pnpm" ]] && source $DOTFILES_HOME/zsh/pnpm.zsh
 
+# All plugins are hard version pinned to avoid problems.
+# TODO: move all three to codeberg (fuck github)
 amethyst-plugin auto 'https://github.com/LunarWatcher/wd'
-amethyst-plugin auto 'https://github.com/zsh-users/zsh-syntax-highlighting'
+amethyst-plugin auto 'https://github.com/LunarWatcher/zsh-syntax-highlighting'
 [[ -f ~/.p10k.zsh ]] && source ~/.p10k.zsh
 amethyst-plugin theme 'https://github.com/LunarWatcher/powerlevel10k'
 
