@@ -783,6 +783,9 @@ defining the indent width rather than like 8001"
 ;; scrolloff
 (setq scroll-margin 5)
 
+;; Stop asking whether or not to follow symlinks
+(setq vc-follow-symlinks t)
+
 ;; Misc. minor modes
 (column-number-mode)
 
