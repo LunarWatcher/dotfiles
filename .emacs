@@ -76,14 +76,15 @@
 
   (evil-define-key 'normal 'global (kbd "g o") 'ff-find-other-file)
   ;; Replacement for :b#, which infuriatingly hasn't been added. evil-ex-define-command doesn't seem to work here, so
-  ;; mapping bt for consistency with gt/gT (though no bT because it's a toggle)
-  (evil-define-key 'normal 'global (kbd "b t") #'evil-switch-to-windows-last-buffer)
+  ;; mapping gy. This was initially bt (consistent with gt), but I fucking forgot about the b motion, so respeced into
+  ;; g as the root. Considered using <leader>, but this felt really fucking bad
+  (evil-define-key 'normal 'global (kbd "g y") #'evil-switch-to-windows-last-buffer)
   ;; Alternate ctrl-page{up,down}, because maybe it makes more sense to do it this way. Also more consisteny with hjkl,
   ;; which I really should use more
-  (evil-define-key 'normal 'global (kbd "b l") #'next-buffer)
-  (evil-define-key 'normal 'global (kbd "b h") #'previous-buffer)
+  (evil-define-key 'normal 'global (kbd "g l") #'next-buffer)
+  (evil-define-key 'normal 'global (kbd "g h") #'previous-buffer)
   ;; we have \zx at home (also bt alternate with bb<cr>)
-  (evil-define-key 'normal 'global (kbd "b b") #'switch-to-buffer)
+  (evil-define-key 'normal 'global (kbd "g b") #'switch-to-buffer)
 
   (evil-define-key 'insert 'global (kbd "RET") #'livi-adaptive-cr)
 )
