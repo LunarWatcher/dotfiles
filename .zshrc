@@ -112,7 +112,7 @@ fi
 # be last or everything will break, because that would make literally all the version managers
 # incompatible with each other - and I mean specifically for version managers doing different things.
 # Sdkman will never conflict with rvm and vice versa, and there's no consequence to them being
-# in different orders. 
+# in different orders.
 #
 # Why do they both still whine about being last? Fuck knows. Might be a poorly formulated way of
 # trying to avoid incompatible conflicts or something that effect.
@@ -120,13 +120,13 @@ fi
 # Generated comment follows:
 # Add RVM to PATH for scripting. Make sure this is the last PATH variable change.
 export PATH="$PATH:$HOME/.rvm/bin"
-[[ -s "$HOME/.rvm/scripts/rvm" ]] && . "$HOME/.rvm/scripts/rvm" 
+[[ -s "$HOME/.rvm/scripts/rvm" ]] && . "$HOME/.rvm/scripts/rvm"
 
 [[ -s "$HOME/.sdkman/bin/sdkman-init.sh" ]] && source "$HOME/.sdkman/bin/sdkman-init.sh"
 
 # Fun fact: steam has tools, and some of these tools even have CLI support.
 # steam.zsh adds these to the path, if they're found locally.
-# The script itself does not check if steam is installed, so this is done 
+# The script itself does not check if steam is installed, so this is done
 # separately
 [ -d $HOME/.steam ] && source $DOTFILES_HOME/zsh/steam.zsh
 [[ "$__LIVI_WSL__" == "1" ]] && source $DOTFILES_HOME/windows/wsl/run.zsh

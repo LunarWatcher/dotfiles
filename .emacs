@@ -65,6 +65,7 @@
      ;; JS mode, though slightly fucky, does not exhibit the same problematic behaviour. I suspect that's just the
      ;; semi-dumb indent function needing a better implementation. ts-mode, however, likely uses a non-standard command,
      ;; and I can't be bothered finding it right now.
+     ;; TODO: does this affect tsx-ts-mode too?
      ((string= major-mode "typescript-mode")        (newline 1 "\n"))
      ;; if in a comment in a non-exception language, indent and continue comment
      ((save-excursion (comment-beginning))          (default-indent-new-line))
@@ -74,6 +75,16 @@
   )
 
   (evil-define-key 'normal 'global (kbd "g o") 'ff-find-other-file)
+  ;; Replacement for :b#, which infuriatingly hasn't been added. evil-ex-define-command doesn't seem to work here, so
+  ;; mapping bt for consistency with gt/gT (though no bT because it's a toggle)
+  (evil-define-key 'normal 'global (kbd "b t") #'evil-switch-to-windows-last-buffer)
+  ;; Alternate ctrl-page{up,down}, because maybe it makes more sense to do it this way. Also more consisteny with hjkl,
+  ;; which I really should use more
+  (evil-define-key 'normal 'global (kbd "b l") #'next-buffer)
+  (evil-define-key 'normal 'global (kbd "b h") #'previous-buffer)
+  ;; we have \zx at home (also bt alternate with bb<cr>)
+  (evil-define-key 'normal 'global (kbd "b b") #'switch-to-buffer)
+
   (evil-define-key 'insert 'global (kbd "RET") #'livi-adaptive-cr)
 )
 ;; I forgot I installed this in my vim setup and never realised the ability to jump between if clauses was a plugin
@@ -903,6 +914,19 @@ You should use `:shiftwidth 1234' rather than calling this function directly."
   )
 
 (evil-ex-define-cmd "shiftwidth" #'livi-evil-shiftwidth)
+
+;; TODO: consider tweaking values. 5 feels fine, but maybe a bit weird?
+(defun livi-scroll-right() (interactive) (scroll-right 5))
+(defun livi-scroll-left() (interactive) (scroll-left 5))
+
+(bind-key (kbd "C-<prior>")         #'previous-buffer) ;; PageUp
+(bind-key (kbd "C-<next>")          #'next-buffer) ;; PageDown
+
+;; Enable scroll-left (disabled by default because it's "confusing", though I think this is mostly just because the
+;; keybind for it is utter dogshit)
+(put 'scroll-left 'disabled nil)
+(bind-key (kbd "S-<wheel-up>")      #'livi-scroll-right)
+(bind-key (kbd "S-<wheel-down>")    #'livi-scroll-left)
 
 (defun livi-update()
   (interactive)
