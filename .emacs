@@ -473,9 +473,9 @@ installed, then defaulting to the name of the LSP for a fallback"
   (advice-add 'eglot-completion-at-point :around #'cape-wrap-noninterruptible)
 )
 
-(use-package eldoc-box
-  :ensure t
-  :hook (eldoc-mode . eldoc-box-hover-at-point-mode))
+;; (use-package eldoc-box
+;;   :ensure t
+;;   :hook (eldoc-mode . eldoc-box-hover-at-point-mode))
 
 (use-package nerd-icons
   :ensure t
