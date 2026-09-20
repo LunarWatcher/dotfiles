@@ -582,11 +582,14 @@ installed, then defaulting to the name of the LSP for a fallback"
   (evil-define-key 'insert 'global (kbd "C-t") #'tempel-complete)
 )
 ;; TODO: stale, fork for good measure
-(use-package eglot-tempel
-  :ensure t
-  :config
-  (eglot-tempel-mode t)
-)
+;; TODO: this is just completely and utterly fucked with LSPs, but I still want the snippets to show up in corfu. I am
+;; actually not entirely sure if they ever reliably did though, so I suspect I'll just have to get used to
+;; :tempel-complete or :tempel-insert
+;; (use-package eglot-tempel
+;;   :ensure t
+;;   :config
+;;   (eglot-tempel-mode t)
+;; )
 
 (use-package emacs-snippets
   :vc (:url "https://codeberg.org/LunarWatcher/emacs-snippets.git"
