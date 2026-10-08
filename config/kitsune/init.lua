@@ -19,6 +19,6 @@ config.setTermColours(
         0x2a7bde,
         0xc061cb,
         0x33c7de,
-        0x000000,
+        0xffffff,
 })
 config.setTermFont("SauceCodePro Nerd Font 11")
