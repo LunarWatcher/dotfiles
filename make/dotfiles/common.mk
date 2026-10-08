@@ -14,6 +14,7 @@ config:
 	mkdir -p ~/.config/rofi
 	mkdir -p ~/.config/rofi/themes
 	mkdir -p ~/.config/zellij
+	mkdir -p ~/.config/kitsune
 
 	cp config/kcalcrc ~/.config
 
@@ -21,6 +22,7 @@ config:
 	ln -sf ${PWD}/config/rofi/themes/catppuccin-latte.rasi ${HOME}/.config/rofi/themes/catppuccin-latte.rasi
 
 	ln -sf ${PWD}/config/zellij/config.kdl ${HOME}/.config/zellij/config.kdl
+	ln -sf ${PWD}/config/kitsune/init.lua ${HOME}/.config/kitsune/init.lua
 
 common-dotfiles: config emacs zsh-deps
 	ln -sf ${PWD}/.zshrc ${HOME}/.zshrc
