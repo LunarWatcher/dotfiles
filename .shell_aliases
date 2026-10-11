@@ -281,3 +281,18 @@ function gw() {
 if [ -f "${DOTFILES_HOME}/scripts/homelab.zsh" ]; then
     source "${DOTFILES_HOME}/scripts/homelab.zsh"
 fi
+
+function download-se-dump() {
+    url="$1"
+    out="$2"
+    if [[ "$url" == "" || "$out" == "" ]]; then
+        echo "usage: download-se-dump url outfile.7z"
+        exit 1
+    fi
+
+    while ! wget -c -O "$out" "$url"; do
+        notify-send "Failed to download $out; resuming"
+    done
+
+    notify-send "Finished downloading $out"
+}
