@@ -1,6 +1,9 @@
 init-livi-unmanaged:
 	mkdir -p ${HOME}/.local
 	mkdir -p ${HOME}/.local/livi-unmanaged
+	# Not present by default for some fucking reason
+	mkdir -p ${HOME}/.local/share
+	mkdir -p ${HOME}/.local/share/applications
 
 unmanaged-firefox-nightly: init-livi-unmanaged
 	cd /tmp && curl -L 'https://download.mozilla.org/?product=firefox-nightly-latest-l10n-ssl&os=linux64&lang=en-GB' -o firefox.tar.xz \
