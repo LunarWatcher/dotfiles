@@ -75,7 +75,7 @@
         "cmake",
         "firefox",
         "fzf",
-        "node",
+        "nodejs",
         "zellij",
         "wl-clipboard",
         "clang",
