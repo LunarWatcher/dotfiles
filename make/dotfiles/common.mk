@@ -1,7 +1,7 @@
 emacs:
 	ln -sf ${PWD}/.emacs ${HOME}/.emacs
 
-	mkdir ${HOME}/.emacs-saves
+	mkdir -p ${HOME}/.emacs-saves
 
 zsh-deps:
 	-git clone https://codeberg.org/LunarWatcher/amethyst ~/.config/amethyst

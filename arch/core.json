@@ -62,7 +62,7 @@
         "qrencode",
         "sshfs",
         "ttf-sourcecodepro-nerd",
-        "ttf-dejavu"
+        "ttf-dejavu",
         "rustup",
         "zip",
         "7zip",
@@ -75,7 +75,7 @@
         "cmake",
         "firefox",
         "fzf",
-        "node",
+        "nodejs",
         "zellij",
         "wl-clipboard",
         "clang",

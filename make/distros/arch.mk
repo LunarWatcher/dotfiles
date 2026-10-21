@@ -11,6 +11,7 @@ arch-home:
 	sudo pacman -Syu discord
 
 arch-lua:
+	-git clone https://codeberg.org/LunarWatcher/moonbeam /tmp/moonbeam
 	cd /tmp/moonbeam && git pull \
 		&& mkdir -p build && cd build \
 		&& cmake .. -DCMAKE_BUILD_TYPE=Release \
