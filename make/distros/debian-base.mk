@@ -18,8 +18,6 @@ debian-vim-deps:
 debian-dotfile-software: debian-vim-deps
 	sudo apt -y install zsh silversearcher-ag ripgrep jq golang
 
-	curl -fsSL https://deno.land/install.sh | sh
-
 debian-home-packages:
 # Steam
 	wget https://steamcdn-a.akamaihd.net/client/installer/steam.deb && sudo apt install -y ./steam.deb

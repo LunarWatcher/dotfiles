@@ -373,7 +373,6 @@ installed, then defaulting to the name of the LSP for a fallback"
      . ,(eglot-alternatives
        `(
          (,(livi-find-lsp "tsserver") "--stdio")
-         ("deno" "lsp")
          )
        )
      )
@@ -387,7 +386,6 @@ installed, then defaulting to the name of the LSP for a fallback"
           "CMakeLists.txt"
           "settings.gradle.kts"
           "pnpm-lock.yaml"
-          "deno.json"
           ))
 
 
