@@ -35,13 +35,10 @@ function cleanup() {
 # Docker services {{{
 updateDockerCompose "QBitTorrent" /home/olivia/docker/qbittorrent
 # QBT needs to be hit over the head a second time after the restart 
-docker restart gluetun
-docker restart qbittorrent
-updateDockerCompose "Wekan" /opt/wekan
+sudo docker restart gluetun
+sudo docker restart qbittorrent
 # }}}
 # Non-docker, externally scripted services {{{
-scriptedUpdate "Baikal" baikal.sh
-scriptedUpdate "Uptime Kuma" uptime-kuma.sh
 externalScriptedUpdate "Hazel" /opt/hazel/scripts/update.sh
 
 # }}}
