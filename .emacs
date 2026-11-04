@@ -13,7 +13,7 @@
  ;; If you edit it by hand, you could mess it up, so be careful.
  ;; Your init file should contain only one such instance.
  ;; If there is more than one, they won't work right.
- '(package-selected-packages nil)
+ '(package-selected-packages '(catgirl-theme emacs-snippets nyaatree))
  '(package-vc-selected-packages
    '((nyaatree :url "https://codeberg.org/LunarWatcher/emacs-nyaatree.git")
      (emacs-snippets :url "https://codeberg.org/LunarWatcher/emacs-snippets.git")
@@ -296,10 +296,10 @@
   :config
   (add-to-list 'auto-mode-alist '("\\.erb\\'" . web-mode))
   (add-to-list 'auto-mode-alist '("\\.mustache\\'" . web-mode))
-  (add-to-list 'auto-mode-alist '("\\.inja\\'" . web-mode))
+  (add-to-list 'auto-mode-alist '("\\.iris\\'" . web-mode))
   (setq web-mode-engines-alist
         '(
-          ("jinja"    . "\\.inja\\'")
+          ("jinja"    . "\\.iris\\'")
         )
   )
   (setq web-mode-enable-front-matter-block t)
@@ -918,6 +918,7 @@ You should use `:shiftwidth 1234' rather than calling this function directly."
   )
 
 (evil-ex-define-cmd "shiftwidth" #'livi-evil-shiftwidth)
+(evil-ex-define-cmd "W" #'evil-write)
 
 ;; TODO: consider tweaking values. 5 feels fine, but maybe a bit weird?
 (defun livi-scroll-right() (interactive) (scroll-right 5))
