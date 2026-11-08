@@ -22,11 +22,6 @@ function edit() {
 }
 
 # }}}
-# Arch {{{
-# Yay does not handle CC and CXX being set
-# if CC and CXX are set, firefox-nightly breaks
-alias yay="CC= CXX= command yay"
-# }}}
 # Builtins {{{
 # ls without colors for dipshit 777 disks
 alias lsn="ls --color=no"
