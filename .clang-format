@@ -1,0 +1,66 @@
+---
+BasedOnStyle: Mozilla
+IndentWidth: 4
+ContinuationIndentWidth: 4
+---
+Language: Cpp
+ColumnLimit: 120
+
+PointerAlignment: Left
+ReferenceAlignment: Left
+ReflowComments: Never
+
+AlignArrayOfStructures: None
+AlignAfterOpenBracket: false
+AllowAllArgumentsOnNextLine: true
+BreakBeforeConceptDeclarations: true
+BreakBeforeReturnType: None
+BreakBeforeTernaryOperators: true
+BreakConstructorInitializers: BeforeColon
+BreakBeforeBinaryOperators: All
+BreakBeforeBraces: WebKit
+IndentAccessModifiers: false
+AccessModifierOffset: -4
+IndentCaseBlocks: false
+IndentCaseLabels: false
+IndentExportBlock: true
+IndentExternBlock: false
+IndentGotoLabels: false
+IndentPPDirectives: Leave
+IndentRequiresClause: false
+IndentWrappedFunctionNames: false
+InsertBraces: true
+BinPackLongBracedList: false
+
+# These do not work yet. https://github.com/llvm/llvm-project/issues/181293
+BreakAfterOpenBracketIf: true
+BreakBeforeCloseBracketIf: true
+BreakAfterOpenBracketLoop: true
+BreakBeforeCloseBracketLoop: true
+BreakAfterOpenBracketSwitch: true
+BreakBeforeCloseBracketSwitch: true
+BreakAfterOpenBracketBracedList: true
+BreakBeforeCloseBracketBracedList: true
+BreakAfterOpenBracketFunction: true
+BreakBeforeCloseBracketFunction: true
+
+ConstructorInitializerIndentWidth: 4
+
+AllowShortBlocksOnASingleLine: Never
+AllowShortCaseLabelsOnASingleLine: false
+AllowShortFunctionsOnASingleLine: None
+AllowShortIfStatementsOnASingleLine: Never
+AllowShortLoopsOnASingleLine: false
+AllowShortLambdasOnASingleLine: None
+AllowShortEnumsOnASingleLine: false
+
+PackArguments:
+  BinPack: OnePerLine
+
+PackConstructorInitializers: NextLine
+PackParameters:
+  BinPack: OnePerLine
+
+
+NamespaceIndentation: All
+

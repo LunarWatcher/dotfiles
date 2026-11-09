@@ -28,5 +28,6 @@ common-dotfiles: config emacs zsh-deps
 	ln -sf ${PWD}/.zshrc ${HOME}/.zshrc
 	ln -sf ${PWD}/.shell_aliases ${HOME}/.shell_aliases
 	ln -sf ${PWD}/.p10k.zsh ${HOME}/.p10k.zsh
+	ln -sf ${PWD}/.clang-format ${HOME}/.clang-format
 
 DOTFILE_TARGETS += common-dotfiles
