@@ -61,6 +61,9 @@ PackConstructorInitializers: NextLine
 PackParameters:
   BinPack: OnePerLine
 
+# None is deprecated because, idk, fuck convenience?
+BreakAfterReturnType: Automatic
+PenaltyReturnTypeOnItsOwnLine: 69696969
 
 NamespaceIndentation: Inner
 
