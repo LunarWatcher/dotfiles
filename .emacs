@@ -666,6 +666,7 @@ defining the indent width rather than like 8001"
 
   (setq-local c-basic-offset size)
   (setq-local c-indent-level size)
+  (setq-local c-ts-indent-offset size)
   (setq-local cmake-tab-width size)
   (setq-local js-indent-level size)
   (setq-local lua-indent-level size)
