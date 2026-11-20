@@ -143,3 +143,9 @@ bindkey ${FZF_WD_BINDKEY:-'^B'} wd_browse_widget
 # }}}
 
 export SSH_AUTH_SOCK="$HOME/.ssh/proton-pass-agent.sock"
+
+# Disable "pretty" builds in docker (makes reading logs fucking impossible)
+export BUILDKIT_PROGRESS=plain
+
+source "$DOTFILES_HOME/zsh/disable-telemetry.zsh"
+
