@@ -13,7 +13,8 @@
  ;; If you edit it by hand, you could mess it up, so be careful.
  ;; Your init file should contain only one such instance.
  ;; If there is more than one, they won't work right.
- '(package-selected-packages '(catgirl-theme emacs-snippets nyaatree))
+ '(package-selected-packages
+   '(catgirl-theme emacs-snippets git-gutter git-modes highlight-indent-guides magit nyaatree))
  '(package-vc-selected-packages
    '((nyaatree :url "https://codeberg.org/LunarWatcher/emacs-nyaatree.git")
      (emacs-snippets :url "https://codeberg.org/LunarWatcher/emacs-snippets.git")
@@ -100,13 +101,18 @@
   :config
   (global-evil-surround-mode)
 )
-(use-package evil-collection
-  :ensure t
-  :init
-  (setq evil-collection-key-blacklist '("C-y" "C-m"))
-  :config
-  (evil-collection-init)
-)
+;; Again a good idea, but dogshit execution
+;; The keybinds make no sense; they're designed to be more vim-inspired, but many of the mode maps forget that the
+;; builtin maps often make sense, especially when the mode in question is a menu or a file tree or similar. Why
+;; _shouldn't_ enter open a folder, or a file, or an xref entry? 
+;; (use-package evil-collection
+;;   :ensure t
+;;   :init
+;;   (setq evil-collection-key-blacklist '("C-y" "C-m"))
+;;   :config
+;;   (setq evil-collection-mode-list (delq 'xref evil-collection-mode-list))
+;;   (evil-collection-init)
+;; )
 (use-package evil-commentary
   :ensure t
   :config
@@ -129,15 +135,6 @@
   :ensure t
   :init
   (marginalia-mode))
-
-(use-package orderless
-  :ensure t
-  :custom
-  (completion-styles '(orderless basic))
-  (completion-category-defaults nil)
-  (orderless-matching-styles '(orderless-literal orderless-flex orderless-regexp))
-  (completion-category-overrides
-   '((file (styles partial-completion)))))
 
 (use-package consult
   :ensure t
@@ -212,21 +209,6 @@
 
   (evil-define-key 'normal 'global (kbd "\\ z c") #'livi-grep)
   (evil-define-key 'normal 'global (kbd "\\ z C") #'livi-grep-nogitignore)
-
-  ;; No, actually applying orderless here changes the previous comment. It now searches much more like fzf.
-  ;; Not sure if it's worth trying to add it to consult as well, largely because consult is still really sluggish, whereas this has the fzf-tiers
-  ;; of responsiveness I'd want. (shame fzf also uses AI slop, but it's whatever at this point)
-  ;; Need to fuck around with the orderless-matching-styles. struggling to get it to work the way I want
-  ;; That said, the style dispatchers might make up for this. `=dotfiles .zsh' more closely enforces what to match.
-  ;; The default dotfiles/.zsh works fine when the dotfiles repo is the cwd, but partially matches paths in `Documents/` for some fucking reason
-  ;; TODO: does orderless have a way to order things, such that consecutive chars outweigh non-consecutive chars? Pretty sure that would be the
-  ;; last bit required for as close to fzf-like completions as possible
-  ;;
-  ;; Also, the preview feature in affe-grep is such a nice feature. Seeing the entire context is really practical
-  (defun affe-orderless-regexp-compiler (input _type _ignorecase)
-    (setq input (cdr (orderless-compile input)))
-    (cons input (apply-partially #'orderless--highlight input t)))
-  (setq affe-regexp-compiler #'affe-orderless-regexp-compiler)
 )
 
 (use-package elec-pair
@@ -396,7 +378,20 @@ installed, then defaulting to the name of the LSP for a fallback"
     (interactive)
     (evil-echo "%s" (process-command (jsonrpc--process (eglot-current-server))))
   )
+  ;; not really useful
+  (setq eglot-code-action-indications nil)
+  (add-hook 'eglot-managed-mode-hook
+            (lambda () (setq eldoc-documentation-functions
+                             '(flymake-eldoc-function
+                               eglot-signature-eldoc-function
+                               eglot-hover-eldoc-function))))
+  )
+
+(use-package eldoc
+  :config
+  (evil-define-key 'normal 'global (kbd "K") #'eldoc)
 )
+
 (use-package flymake
   :ensure t
   :config
@@ -408,7 +403,7 @@ installed, then defaulting to the name of the LSP for a fallback"
   ;; which I nearly used until I found that there were built-ins for it
   ;; need to add some styling to it I think, I might be able to sneak in icons or something in one of the faces.
   ;; Edit: never mind, it makes emacs completely shit itself if the diagnostics list is long
-  (setq flymake-show-diagnostics-at-end-of-line nil)
+  (setq flymake-show-diagnostics-at-end-of-line t)
 )
 ;; (use-package treesit-auto
 ;;   :ensure t
@@ -418,47 +413,67 @@ installed, then defaulting to the name of the LSP for a fallback"
 (use-package rainbow-mode
   :ensure t)
 
+(use-package markdown-ts-mode)
 (use-package treesit
   :config
-  (if (>= emacs-major-version 31)
-    (progn
-        (add-to-list 'auto-mode-alist '("\\.yaml\\'" . yaml-ts-mode))
-        ;; According to an mail list thread, js-ts-mode includes jsx support
-        ;; tsx/jsx seems to be a clusterfuck in terms of support though. js-jsx-mode doesn't seem to work well with
-        ;; autocomplete.
-        ;; Arch is still on 30.x unfortunately.
-        ;; For context, 31.x seems to add proper auto-install of the ts modes. On my mint work machine where I built
-        ;; emacs from source,tsx-ts-mode just works. On my personal arch machine, this would require a lot of extra
-        ;; setup. I do, however, not voluntarily use react et. al because they're ass and consume the resources of like
-        ;; hundreds of instances of my own webserver while idling, so I don't care.
-        ;; I only use this at work and for testing. Losing yaml-ts-mode is more annoying, because it at least makes the
-        ;; highlights decent. The yaml defs by default are wonky.
-        (add-to-list 'auto-mode-alist '("\\.jsx\\'" . js-ts-mode))
-        (add-to-list 'auto-mode-alist '("\\.tsx\\'" . tsx-ts-mode))
-        )
-    (progn
-        (add-to-list 'auto-mode-alist '("\\.jsx\\'" . js-jsx-mode))
-      )
-    )
+  (add-to-list 'auto-mode-alist '("\\.yaml\\'" . yaml-ts-mode))
+  ;; According to an mail list thread, js-ts-mode includes jsx support
+  ;; tsx/jsx seems to be a clusterfuck in terms of support though. js-jsx-mode doesn't seem to work well with
+  ;; autocomplete.
+  ;; Arch is still on 30.x unfortunately.
+  ;; For context, 31.x seems to add proper auto-install of the ts modes. On my mint work machine where I built
+  ;; emacs from source,tsx-ts-mode just works. On my personal arch machine, this would require a lot of extra
+  ;; setup. I do, however, not voluntarily use react et. al because they're ass and consume the resources of like
+  ;; hundreds of instances of my own webserver while idling, so I don't care.
+  ;; I only use this at work and for testing. Losing yaml-ts-mode is more annoying, because it at least makes the
+  ;; highlights decent. The yaml defs by default are wonky.
+  (add-to-list 'auto-mode-alist '("\\.jsx\\'" . js-ts-mode))
+  (add-to-list 'auto-mode-alist '("\\.tsx\\'" . tsx-ts-mode))
+  (add-to-list 'auto-mode-alist '("\\.md\\'" . markdown-ts-mode))
+
+  (setq treesit-auto-install-grammar 'always)
   )
 
-(use-package corfu
-  :ensure t
-  :custom
-  (corfu-auto t)
-  ;; I don't entirely understand what this does, but this half seems to be required to be able to select the first entry?
-  ;; I still now need ctrl-n ctrl-y to select the first result. I can probably just add a key that does c-n c-y
-  (corfu-preselect 'prompt)
-  :config
-  (global-corfu-mode)
-  (corfu-popupinfo-mode)
+;; I like the principle behind corfu, but it has several severe issues. Notably, it ends up going under the scrollbar,
+;; and when completing, it ends up causing scroll and then subsequently breaking its own display if the resulting match
+;; is long enough that scroll happens. This seems to have been made much worse by emacs 31 (maybe 30, I skipped from 29
+;; to 31 due to debian's stable packaging crap)
+;; (use-package corfu
+;;   :ensure t
+;;   :custom
+;;   (corfu-auto t)
+;;   ;; I don't entirely understand what this does, but this half seems to be required to be able to select the first entry?
+;;   ;; I still now need ctrl-n ctrl-y to select the first result. I can probably just add a key that does c-n c-y
+;;   (corfu-preselect 'prompt)
+;;   :config
+;;   (global-corfu-mode)
+;;   (corfu-popupinfo-mode)
 
-  (define-key corfu-map (kbd "RET") nil)
-  (global-set-key (kbd "C-SPC") #'completion-at-point)
-  (evil-define-key 'insert 'global (kbd "C-y") #'corfu-insert)
-  ;; ispell-word-completion does not work for whatever reason. It requires /usr/share/dict/words, which only works with
-  ;; english, so the popup is useless
-  (setq text-mode-ispell-word-completion nil)
+;;   (define-key corfu-map (kbd "RET") nil)
+;;   (global-set-key (kbd "C-SPC") #'completion-at-point)
+;;   (evil-define-key 'insert 'global (kbd "C-y") #'corfu-insert)
+;;   ;; ispell-word-completion does not work for whatever reason. It requires /usr/share/dict/words, which only works with
+;;   ;; english, so the popup is useless
+;;   (setq text-mode-ispell-word-completion nil)
+;; )
+
+(use-package company
+  :ensure t
+  :bind(
+    :map company-active-map
+         ("<return>" . nil)
+         ("RET" . nil)
+  )
+  :config
+  (global-company-mode)
+
+  (global-set-key (kbd "C-SPC") #'company-complete)
+  (evil-define-key 'insert 'global (kbd "C-y") #'company-complete-selection)
+
+  ;; doesn't really go here but whatever; config for the builtin completions buffer, that takes over parts of what corfu
+  ;; used to do (notably tempel completions)
+  (setq completion-eager-update t)
+  (setq completion-eager-display 'auto)
 )
 
 (use-package cape
@@ -479,6 +494,14 @@ installed, then defaulting to the name of the LSP for a fallback"
   :ensure t
 )
 (use-package nyaatree
+  ;; TODO: emacs' builtin speedbar appears to be fairly capable now and amy replace nyaatree at some point, but failed
+  ;; to configure it on the first go:
+  ;; * It's not a window, so can't navigate to it in the same way
+  ;; * evil-collection _really_ fucks up the keybinds; evil-collection needs to be disabled on speedbar and the keybinds
+  ;;   rebuilt from scratch with sane standards
+  ;; * I suspect it'll struggle a lot with the root, which may eliminate it entirely even if it is otherwise suitable;
+  ;; if the root always foolows the vc root, it will not work regardless. I have not attempted to verify this at this
+  ;; time, because I cannot be bothered.
   :vc (:url "https://codeberg.org/LunarWatcher/emacs-nyaatree.git"
             :rev :newest)
   :ensure t
@@ -512,6 +535,7 @@ installed, then defaulting to the name of the LSP for a fallback"
 
   (evil-define-key 'normal 'global (kbd "\\ f s") #'nyaatree-find)
 )
+
 (use-package catgirl-theme
   :vc (:url "https://codeberg.org/LunarWatcher/catgirl.el.git"
             :rev :newest)
@@ -579,15 +603,6 @@ installed, then defaulting to the name of the LSP for a fallback"
 
   (evil-define-key 'insert 'global (kbd "C-t") #'tempel-complete)
 )
-;; TODO: stale, fork for good measure
-;; TODO: this is just completely and utterly fucked with LSPs, but I still want the snippets to show up in corfu. I am
-;; actually not entirely sure if they ever reliably did though, so I suspect I'll just have to get used to
-;; :tempel-complete or :tempel-insert
-;; (use-package eglot-tempel
-;;   :ensure t
-;;   :config
-;;   (eglot-tempel-mode t)
-;; )
 
 (use-package emacs-snippets
   :vc (:url "https://codeberg.org/LunarWatcher/emacs-snippets.git"
@@ -598,7 +613,18 @@ installed, then defaulting to the name of the LSP for a fallback"
 (use-package editorconfig
   :config
   (editorconfig-mode)
+  )
+
+(use-package xref
+  :config
+  ;; Unfuck functionality that evil-mode takes away
+  (add-hook 'xref--xref-buffer-mode-hook
+    (lambda()
+        (evil-define-key 'normal 'local (kbd "e") #'xref-change-to-xref-edit-mode)
+        (evil-define-key 'normal 'local (kbd "RET") #'xref-goto-xref)
+    ))
 )
+
 ;; }}}
 ;; Configure emacs standards {{{
 ;; (setq warning-minimum-level :error) ;; prevent emacs from whining about evil
