@@ -474,6 +474,9 @@ installed, then defaulting to the name of the LSP for a fallback"
   ;; used to do (notably tempel completions)
   (setq completion-eager-update t)
   (setq completion-eager-display 'auto)
+  ;; M-up is inoperable while the keys that trigger the command are on C-t, so it's a lot of modifier switching and I
+  ;; get confused
+  (setq minibuffer-visible-completions 'up-down)
 )
 
 (use-package cape
