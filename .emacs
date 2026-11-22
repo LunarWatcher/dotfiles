@@ -384,6 +384,8 @@
                                eglot-signature-eldoc-function
                                eglot-hover-eldoc-function)))
             )
+  (setq eldoc-echo-area-use-multiline-p t)
+
   (evil-define-key 'normal 'global (kbd "g d") 'xref-find-definitions)
   (evil-define-key 'normal 'global (kbd "g r") 'xref-find-references)
   )
@@ -465,12 +467,12 @@
          ("<return>" . nil)
          ("RET" . nil)
          ("<escape>" . #'company-abort)
+         ("C-y" . #'company-complete-selection)
   )
   :config
   (global-company-mode)
 
   (global-set-key (kbd "C-SPC") #'company-complete)
-  (evil-define-key 'insert 'global (kbd "C-y") #'company-complete-selection)
 
   ;; doesn't really go here but whatever; config for the builtin completions buffer, that takes over parts of what corfu
   ;; used to do (notably tempel completions)
