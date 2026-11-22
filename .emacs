@@ -327,31 +327,23 @@
 
   (evil-define-key 'normal 'global (kbd "M-q") #'eglot-code-actions)
 
-  (defun livi-find-lsp(lsp-name)
-    "Returns the path to an LSP. Returns lspinstaller location if
-installed, then defaulting to the name of the LSP for a fallback"
-    (let
-        ((path (shell-command-to-string (concat (getenv "HOME") "/.local/bin/lspinstaller find " lsp-name))))
-      (if (string-equal path "")
-          lsp-name
-        (substring path 0 -1)
-        )
-      )
-  )
-
   (add-to-list
    'eglot-server-programs
-   `((c-mode c++-mode c++-ts-mode c-ts-mode) ,(livi-find-lsp "clangd"))
+   `((c-mode c++-mode c++-ts-mode c-ts-mode) "clangd" "--background-index" )
    )
 
   (add-to-list
    'eglot-server-programs
-   `(lua-mode ,(livi-find-lsp "luals"))
+   `(lua-mode "luals")
    )
 
   (add-to-list
    'eglot-server-programs
-   `(python-mode ,(livi-find-lsp "ty") "server")
+   `(python-mode "ty")
+   )
+  (add-to-list
+   'eglot-server-programs
+   `(kotlin-mode "intellij-server" "--stdio")
    )
 
   (add-to-list
@@ -359,7 +351,7 @@ installed, then defaulting to the name of the LSP for a fallback"
    `((typescript-mode js-mode js-jsx-mode tsx-ts-mode)
      . ,(eglot-alternatives
        `(
-         (,(livi-find-lsp "tsserver") "--stdio")
+         ("tsserver" "--stdio")
          )
        )
      )
@@ -386,10 +378,14 @@ installed, then defaulting to the name of the LSP for a fallback"
   ;; not really useful
   (setq eglot-code-action-indications nil)
   (add-hook 'eglot-managed-mode-hook
-            (lambda () (setq eldoc-documentation-functions
+            (lambda ()
+              (setq eldoc-documentation-functions
                              '(flymake-eldoc-function
                                eglot-signature-eldoc-function
-                               eglot-hover-eldoc-function))))
+                               eglot-hover-eldoc-function)))
+            )
+  (evil-define-key 'normal 'global (kbd "g d") 'xref-find-definitions)
+  (evil-define-key 'normal 'global (kbd "g r") 'xref-find-references)
   )
 
 (use-package eldoc
