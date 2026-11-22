@@ -464,6 +464,7 @@
     :map company-active-map
          ("<return>" . nil)
          ("RET" . nil)
+         ("<escape>" . #'company-abort)
   )
   :config
   (global-company-mode)
