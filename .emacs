@@ -129,7 +129,12 @@
 (use-package vertico
   :ensure t
   :init
-  (vertico-mode))
+  (vertico-mode)
+  :bind (
+    :map vertico-map
+         ("<escape>" . abort-recursive-edit)
+  )
+)
 
 (use-package marginalia
   :ensure t
