@@ -384,7 +384,7 @@
                                eglot-signature-eldoc-function
                                eglot-hover-eldoc-function)))
             )
-  (setq eldoc-echo-area-use-multiline-p t)
+  (setq eldoc-echo-area-use-multiline-p 10)
 
   (evil-define-key 'normal 'global (kbd "g d") 'xref-find-definitions)
   (evil-define-key 'normal 'global (kbd "g r") 'xref-find-references)
