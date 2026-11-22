@@ -403,7 +403,7 @@ installed, then defaulting to the name of the LSP for a fallback"
   ;; which I nearly used until I found that there were built-ins for it
   ;; need to add some styling to it I think, I might be able to sneak in icons or something in one of the faces.
   ;; Edit: never mind, it makes emacs completely shit itself if the diagnostics list is long
-  (setq flymake-show-diagnostics-at-end-of-line t)
+  (setq flymake-show-diagnostics-at-end-of-line nil)
 )
 ;; (use-package treesit-auto
 ;;   :ensure t
