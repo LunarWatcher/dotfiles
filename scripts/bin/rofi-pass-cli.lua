@@ -64,7 +64,7 @@ end
 local function testLogin(protonPass)
     local protonTest = moonsys.process({
             protonPass,
-            "test"
+            "info"
     })
 
     if protonTest:block() ~= 0 then
