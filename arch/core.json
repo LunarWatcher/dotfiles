@@ -105,7 +105,9 @@
         "qemu-img",
         "nftables",
         "aspell-en",
-        "aspell-nb"
+        "aspell-nb",
+        "noto-fonts",
+        "noto-fonts-cjk"
     ],
     "pacman_config": {
         "color": true,
