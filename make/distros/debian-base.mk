@@ -63,7 +63,7 @@ debian-core:
 	sudo apt install -y zip 7zip
 
 zsh-deps: debian-base-update
-	git clone https://codeberg.org/LunarWatcher/amethyst ~/.config/amethyst
+	-git clone https://codeberg.org/LunarWatcher/amethyst ~/.config/amethyst
 
 node: upm
 	sudo upm install nodejs

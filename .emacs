@@ -588,6 +588,10 @@
 ;; 2026-08-14: AI slop appears to be banned: https://github.com/magit/magit/pull/5458
 (use-package magit
   :ensure t
+  :config
+  (evil-ex-define-cmd "blame" #'magit-blame-addition)
+  (evil-ex-define-cmd "commit" #'magit-blame-commit)
+  (evil-make-overriding-map magit-blame-read-only-mode-map 'normal)
 )
 (use-package git-modes
   :ensure t)
