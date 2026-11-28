@@ -89,6 +89,10 @@
   (evil-define-key 'normal 'global (kbd "g b") #'switch-to-buffer)
 
   (evil-define-key 'insert 'global (kbd "RET") #'livi-adaptive-cr)
+
+  ;; knew I hadn't completely lost it, this is non-standard and I did set it like 7 years ago without remembering:
+  ;; https://github.com/LunarWatcher/dotfiles/blob/a4592caf36ed4708d75769242ca29fcd9ee2b6b5/.vimrc#L849
+  (setq evil-vsplit-window-right t)
 )
 ;; I forgot I installed this in my vim setup and never realised the ability to jump between if clauses was a plugin
 ;; It's a really nice feature though :3
@@ -655,7 +659,7 @@
         (evil-define-key 'normal 'local (kbd "e") #'xref-change-to-xref-edit-mode)
         (evil-define-key 'normal 'local (kbd "RET") #'xref-goto-xref)
     ))
-)
+  )
 
 ;; }}}
 ;; Configure emacs standards {{{
@@ -694,7 +698,13 @@
         (tab-mark ?\t [187 ?\t] [62 ?\t])
         )
       )
+
 (global-whitespace-mode 1)
+(setq nobreak-char-display t)
+(set-char-table-range glyphless-char-display
+                      (char-from-name "ZERO WIDTH SPACE") 'hex-code)
+(set-char-table-range glyphless-char-display
+                      (char-from-name "ZERO WIDTH NO-BREAK SPACE") 'hex-code)
 ;; }}}
 ;; Disable built-in toolbar
 (tool-bar-mode -1)
