@@ -598,7 +598,7 @@
 ;; 2026-08-14: AI slop appears to be banned: https://github.com/magit/magit/pull/5458
 (use-package magit
   :ensure t
-  :defer nil
+  :demand t
   :bind (
     :map magit-blame-read-only-mode-map
          ("b" . magit-blame-addition)
