@@ -8,6 +8,7 @@
  ;; Your init file should contain only one such instance.
  ;; If there is more than one, they won't work right.
  )
+
 (custom-set-variables
  ;; custom-set-variables was added by Custom.
  ;; If you edit it by hand, you could mess it up, so be careful.
@@ -460,14 +461,21 @@
 ;;   (setq text-mode-ispell-word-completion nil)
 ;; )
 
+(defun livi-company-abort()
+  "Used to allow <esc> in company mode to both abort company and switch to normal mode"
+  (interactive)
+  (company-abort)
+  (evil-normal-state)
+)
 (use-package company
   :ensure t
   :bind(
     :map company-active-map
          ("<return>" . nil)
          ("RET" . nil)
-         ("<escape>" . #'company-abort)
+         ("<escape>" . #'livi-company-abort)
          ("C-y" . #'company-complete-selection)
+         ("C-q" . #'company-abort)
   )
   :config
   (global-company-mode)
@@ -481,6 +489,8 @@
   ;; M-up is inoperable while the keys that trigger the command are on C-t, so it's a lot of modifier switching and I
   ;; get confused
   (setq minibuffer-visible-completions 'up-down)
+
+  (evil-declare-change-repeat 'company-complete)
 )
 
 (use-package cape
@@ -588,11 +598,21 @@
 ;; 2026-08-14: AI slop appears to be banned: https://github.com/magit/magit/pull/5458
 (use-package magit
   :ensure t
-  :config
+  :bind (
+    :map magit-blame-read-only-mode-map
+         ("b" . magit-blame-addition)
+  )
+  :init
   (evil-ex-define-cmd "blame" #'magit-blame-addition)
   (evil-ex-define-cmd "commit" #'magit-blame-commit)
+  :config
+  ;; TODO: do these need to be :config, or can they be merged into :init? I just cannot understand the difference
   (evil-make-overriding-map magit-blame-read-only-mode-map 'normal)
+
+  ;; https://github.com/noctuid/evil-guide#why-dont-keys-defined-with-evil-define-key-work-immediately
+  (add-hook 'magit-blame-read-only-mode-hook #'evil-normalize-keymaps)
 )
+
 (use-package git-modes
   :ensure t)
 ;; TODO: consider replacing or forking, upstream is archived: https://github.com/emacsorphanage/git-gutter
